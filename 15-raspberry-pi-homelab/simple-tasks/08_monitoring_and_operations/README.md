@@ -1,4 +1,4 @@
-# Simple Task 05 - Monitoring And Operations
+# Simple Task 08 - Monitoring And Operations
 
 ## Goal
 
@@ -12,11 +12,11 @@ Ready answer with concrete steps and commands:
 
 - CPU and memory checks
 - disk usage checks
-- container status inspection
+- systemd or container status inspection
 - reading logs
 - restarting failed services
 
 ## Definition Of Done
 
-- you can identify whether a problem is CPU, memory, disk, or container related
+- you can identify whether a problem is CPU, memory, disk, or service related
 - you can inspect and restart a service safely

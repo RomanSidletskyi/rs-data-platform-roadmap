@@ -1,26 +1,26 @@
-# Keep Current SSD OS And Clean Runtime
+# Keep Current SSD OS And Build A Clean Baseline
 
 This note is for the case where:
 
 - Raspberry Pi already boots from SSD
 - you do not want to reinstall the OS right now
-- you do want a clean baseline for Docker and repository runtime state
+- you do want a clean baseline for the machine and repository runtime state
 
 This is not a full operating system reset.
 
-It is a controlled cleanup of old Docker/runtime state while keeping the current SSD-based system.
+It is a controlled reset of the working environment while keeping the current SSD-based system.
 
 ## When This Path Is Correct
 
 Choose this path when:
 
 - boot is already confirmed on SSD
-- old containers and images are not needed
+- old workloads are not needed
 - you want to start fresh with this repository without re-imaging the disk
 
 ## What Your Current State Means
 
-From your current output:
+From your current checks:
 
 - containers: `0`
 - images: `0`
@@ -28,6 +28,10 @@ From your current output:
 - only default Docker networks remain
 
 This means Docker is already almost perfectly clean.
+
+So Docker cleanup is no longer the main task.
+
+The real task is to prepare a clean host-level baseline.
 
 The default Docker networks are normal:
 
@@ -43,40 +47,40 @@ Do not remove them.
 
 Do not reinstall the OS.
 
-The system is already booting from SSD and there is no sign of old Docker workloads that matter.
+The system is already booting from SSD and there is no sign of old runtime state that justifies a full reinstall.
 
-### 2. Run The Cleanup Script Anyway
+### 2. Update The OS And Install Baseline Tools
 
-Even though Docker already looks clean, use the script as a baseline step:
+Run the host baseline script from the repository after cloning it to the Pi:
 
 ```bash
-cd /srv/rs-data-platform/repo/rs-data-platform-roadmap
-bash shared/scripts/setup/raspberry-pi/cleanup-docker-runtime.sh
+sudo bash shared/scripts/setup/raspberry-pi/bootstrap-host-baseline.sh
 ```
 
 What it does:
 
-- prints the current Docker state
-- removes Portainer if present
-- removes leftover containers if present
-- prunes old images and volumes
+- updates package lists
+- runs a full system upgrade
+- installs baseline tools like `git`, `curl`, `tmux`, `htop`, `tree`, `ncdu`, `jq`, and `rsync`
+- runs `rpi-eeprom-update -a` if available
 - creates `/srv/rs-data-platform/` layout
 
-### 3. Update The System
+If the repository is not cloned on the Pi yet, you can run the commands manually:
 
 ```bash
 sudo apt update
 sudo apt full-upgrade -y
+sudo apt install -y git curl wget tmux htop tree ncdu jq unzip ca-certificates gnupg lsb-release rsync
 sudo rpi-eeprom-update -a
 ```
 
-### 4. Reboot
+### 3. Reboot
 
 ```bash
 sudo reboot
 ```
 
-### 5. Create The New Baseline Workflow
+### 4. Create The New Baseline Workflow
 
 After reboot:
 
@@ -84,7 +88,16 @@ After reboot:
 - keep using `pi5.local`
 - clone or update the repo under `/srv/rs-data-platform/repo`
 - store host-local secrets under `/srv/rs-data-platform/configs`
-- start only the new documented stacks
+- start only the tools and services you really need
+
+### 5. Create The Runtime Layout Manually If Needed
+
+If you want to do it without the script:
+
+```bash
+sudo mkdir -p /srv/rs-data-platform/{repo,runtime,data,logs,backups,configs/shared}
+sudo chown -R "$USER":"$USER" /srv/rs-data-platform
+```
 
 ## Expected Runtime Layout
 
@@ -106,13 +119,15 @@ Verify with:
 ls -la /srv/rs-data-platform
 ```
 
-## Recommended Next Step After Cleanup
+## Recommended Next Step After Baseline Setup
 
 After the baseline is ready:
 
 1. clone the repository under `/srv/rs-data-platform/repo`
-2. create `/srv/rs-data-platform/configs/shared/airflow-minio-postgres.env`
-3. start the stack from:
+2. set up SSH keys for passwordless access
+3. decide which tool to install next as a host service or isolated process
+4. if later needed, create `/srv/rs-data-platform/configs/shared/airflow-minio-postgres.env`
+5. only then start the stack from:
 
 ```text
 shared/docker/compose/raspberry-pi/airflow-minio-postgres/
@@ -125,7 +140,8 @@ Your Docker state is already basically clean.
 So your real work is now:
 
 - keep the SSD OS
-- run the cleanup/baseline script once
+- run the host baseline script once
 - update the OS
 - reboot
+- create `/srv/rs-data-platform`
 - move into the new repo-driven setup

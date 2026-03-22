@@ -1,4 +1,4 @@
-# Simple Task 02 - Static IP And Remote Access
+# Simple Task 04 - Static IP And Remote Access
 
 ## Goal
 
@@ -8,22 +8,23 @@ Ready answer with concrete steps and commands:
 
 - [solution.md](solution.md)
 
-Start with the quickstart guide if you have not completed first login and SSH key setup yet:
+Start with these materials first if you have not completed SSH key setup yet:
 
-- [quickstart from first boot to Docker](../../learning-materials/00_quickstart_first_boot_to_docker.md)
+- [SSH access cheatsheet](../../learning-materials/11_ssh_access_cheatsheet.md)
+- [VS Code Remote SSH](../../learning-materials/13_vscode_remote_ssh.md)
 
 ## What To Practice
 
 - DHCP reservation or static IP
-- SSH key setup
-- SSH host alias configuration
+- stable hostname usage
+- SSH reconnect verification after IP stabilization
 - optional VS Code Remote SSH workflow
 
 ## Suggested Workflow
 
 1. connect once by current IP
 2. configure SSH key authentication
-3. add `rpi-lab` style SSH alias on the laptop
+3. add `pi5` style SSH alias on the laptop
 4. configure DHCP reservation or static IP
 5. verify that reconnect works with the stable host alias
 
@@ -36,7 +37,7 @@ Start with the quickstart guide if you have not completed first login and SSH ke
 ## Useful Verification Commands
 
 ```bash
-ssh rpi-lab
-ping rpi-lab.local
-ssh -T rpi-lab
+ssh pi5
+ping pi5.local
+ssh -T pi5
 ```

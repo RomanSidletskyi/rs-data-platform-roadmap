@@ -4,6 +4,15 @@
 
 Run a lightweight Airflow setup on Raspberry Pi for orchestration practice.
 
+## Why This Project Comes Second
+
+This project builds on everything before it:
+
+- SSH and remote workflow
+- storage layout
+- host-level service understanding
+- Docker basics
+
 ## Scope
 
 - Airflow with persistent metadata database

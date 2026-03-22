@@ -48,33 +48,48 @@ Raspberry Pi gives you a small always-on environment where you can learn:
 
 ### Learning Materials
 
-- quickstart from first boot to Docker
-- commands cheatsheet
-- recovering access from old notes
-- clean SSD-first rebuild from an existing Raspberry Pi
-- keep current SSD OS and clean old Docker/runtime state
-- shared secrets management rules
-- shared local env files workflow
-- Raspberry Pi fundamentals and hardware choices
-- OS installation and first boot
-- SSH, networking, and remote access
-- Docker and service management on ARM
-- storage, file layout, and backups
-- monitoring, security, and operations
+Recommended order for a new Raspberry Pi user:
+
+1. [Raspberry Pi fundamentals and hardware choices](learning-materials/01_raspberry_pi_role_in_data_platform_lab.md)
+2. [OS installation and first boot](learning-materials/02_installation_and_first_boot.md)
+3. [First 15 minutes on Pi after boot](learning-materials/01_first_15_minutes_on_pi.md)
+4. [Quickstart from first boot to working SSH and Docker](learning-materials/00_quickstart_first_boot_to_docker.md)
+5. [SSH, networking, and remote access](learning-materials/03_ssh_networking_and_remote_access.md)
+6. [SSH access cheatsheet](learning-materials/11_ssh_access_cheatsheet.md)
+7. [SCP and rsync cheatsheet](learning-materials/12_scp_and_rsync_cheatsheet.md)
+8. [VS Code Remote SSH](learning-materials/13_vscode_remote_ssh.md)
+9. [Shared secrets management rules](learning-materials/08_secrets_management.md)
+10. [Shared local env files workflow](../shared/environments/local-env-files-workflow.md)
+11. [Keep current SSD OS and build a clean baseline](learning-materials/10_keep_current_ssd_os_and_clean_runtime.md)
+12. [Clean SSD-first rebuild from an existing Raspberry Pi](learning-materials/09_clean_ssd_first_rebuild.md)
+13. [Docker and service management on ARM](learning-materials/04_docker_services_and_runtime_layout.md)
+14. [Storage, file layout, and backups](learning-materials/05_storage_backups_and_file_management.md)
+15. [Monitoring, security, and operations](learning-materials/06_monitoring_security_and_operations.md)
+16. [Commands cheatsheet](learning-materials/commands-cheatsheet.md)
+17. [Systemd Python service cheatsheet](learning-materials/14_systemd_python_service_cheatsheet.md)
+18. [Recovering access from old notes](learning-materials/07_recovering_access_from_old_notes.md)
 
 ### Simple Tasks
 
-- first boot and SSH login
-- static IP and remote access setup
-- Docker installation and first service
-- storage layout and backup basics
-- monitoring and service operations
+Recommended task order:
+
+1. [First boot and SSH login](simple-tasks/01_first_boot_and_ssh/README.md)
+2. [First session Linux basics](simple-tasks/02_first_session_linux_basics/README.md)
+3. [SSH keys and SSH config](simple-tasks/03_ssh_keys_and_config/README.md)
+4. [Static IP and remote access setup](simple-tasks/04_static_ip_and_remote_access/README.md)
+5. [File transfer and remote editing](simple-tasks/05_file_transfer_and_remote_editing/README.md)
+6. [Docker installation and first service](simple-tasks/06_install_docker_and_run_services/README.md)
+7. [Storage layout and backup basics](simple-tasks/07_storage_layout_and_backups/README.md)
+8. [Monitoring and service operations](simple-tasks/08_monitoring_and_operations/README.md)
+9. [Optional systemd Python service](simple-tasks/09_systemd_python_service/README.md)
 
 ### Pet Projects
 
-- remote Docker lab node
-- Airflow on Raspberry Pi
-- small data platform helper node
+Recommended pet project order:
+
+1. [Remote Docker lab](pet-projects/01_remote_docker_lab/README.md)
+2. [Airflow on Raspberry Pi](pet-projects/02_airflow_on_raspberry_pi/README.md)
+3. [Optional Python ETL service on Pi](pet-projects/03_python_etl_service_on_pi/README.md)
 
 ## Related Modules
 

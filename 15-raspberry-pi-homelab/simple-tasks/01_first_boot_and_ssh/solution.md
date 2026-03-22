@@ -6,8 +6,8 @@ This is a practical answer for macOS as the main machine and Raspberry Pi OS Lit
 
 Use Raspberry Pi Imager and set these options during imaging:
 
-- hostname: `rpi-lab`
-- username: `piuser`
+- hostname: `pi5`
+- username: `rsidletskyi`
 - enable SSH: yes
 - locale and timezone: set them immediately
 - Wi-Fi: configure only if you do not use Ethernet
@@ -25,17 +25,17 @@ Wait 1 to 3 minutes.
 On your Mac:
 
 ```bash
-ping rpi-lab.local
-ssh piuser@rpi-lab.local
+ping pi5.local
+ssh rsidletskyi@pi5.local
 ```
 
 If that does not work, find the IP in your router and connect like this:
 
 ```bash
-ssh piuser@192.168.1.50
+ssh rsidletskyi@192.168.1.110
 ```
 
-Replace `192.168.1.50` with the real Raspberry Pi IP.
+Replace `192.168.1.110` with the real Raspberry Pi IP.
 
 ## 4. Run First Inspection Commands
 
@@ -52,8 +52,8 @@ uname -a
 
 Expected result:
 
-- hostname is `rpi-lab`
-- current user is `piuser`
+- hostname is `pi5`
+- current user is `rsidletskyi`
 - you can see the active IP address
 - disk and memory look normal
 
@@ -70,7 +70,7 @@ sudo reboot
 Reconnect after reboot:
 
 ```bash
-ssh piuser@rpi-lab.local
+ssh rsidletskyi@pi5.local
 ```
 
 ## 6. Definition Of Done Check

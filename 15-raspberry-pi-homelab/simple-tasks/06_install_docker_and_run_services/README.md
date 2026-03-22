@@ -1,4 +1,4 @@
-# Simple Task 03 - Install Docker And Run Services
+# Simple Task 06 - Install Docker And Run Services
 
 ## Goal
 
@@ -8,9 +8,10 @@ Ready answer with concrete steps and commands:
 
 - [solution.md](solution.md)
 
-If Docker is not installed yet, follow:
+If Docker is not installed yet, follow after finishing the earlier SSH and host-basics tasks:
 
-- [quickstart from first boot to Docker](../../learning-materials/00_quickstart_first_boot_to_docker.md)
+- [quickstart from first boot to working SSH and Docker](../../learning-materials/00_quickstart_first_boot_to_docker.md)
+- [Docker and service management on ARM](../../learning-materials/04_docker_services_and_runtime_layout.md)
 
 ## What To Practice
 

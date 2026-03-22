@@ -8,50 +8,179 @@ Use the other learning materials when you need explanation and context.
 
 ## Assumptions Used In Examples
 
-- SSH host alias: `rpi-lab`
-- Raspberry Pi user: `piuser`
-- Raspberry Pi IP example: `192.168.1.50`
+- SSH host alias: `pi5`
+- Raspberry Pi user: `rsidletskyi`
+- Raspberry Pi hostname: `pi5.local`
+- Raspberry Pi IP example: `192.168.1.110`
 - repo root on Raspberry Pi: `/srv/rs-data-platform/repo/rs-data-platform-roadmap`
 
 Adjust those values to your real setup.
 
-## SSH And Remote Access
+## First Login And Basic Host Checks
 
-Connect with SSH alias:
-
-```bash
-ssh rpi-lab
-```
-
-Connect directly by IP:
+Connect by SSH alias:
 
 ```bash
-ssh piuser@192.168.1.50
+ssh pi5
 ```
 
-Copy SSH key to Raspberry Pi:
-
-```bash
-ssh-copy-id piuser@192.168.1.50
-```
-
-Test hostname resolution:
-
-```bash
-ping rpi-lab.local
-```
-
-Show loaded SSH config for the host:
-
-```bash
-ssh -G rpi-lab
-```
-
-Try older known login patterns if you are recovering access:
+Connect by hostname directly:
 
 ```bash
 ssh rsidletskyi@pi5.local
-ssh rsidletskyi@192.168.0.108
+```
+
+Connect by IP directly:
+
+```bash
+ssh rsidletskyi@192.168.1.110
+```
+
+Basic checks after login:
+
+```bash
+whoami
+hostname
+hostname -I
+pwd
+ls -lah
+df -h
+free -h
+uname -a
+cat /etc/os-release
+```
+
+Exit session:
+
+```bash
+exit
+```
+
+## Filesystem Navigation And Basic File Actions
+
+Show current folder:
+
+```bash
+pwd
+```
+
+List files:
+
+```bash
+ls
+ls -lah
+```
+
+Go home:
+
+```bash
+cd
+```
+
+Go to repo runtime base:
+
+```bash
+cd /srv/rs-data-platform
+```
+
+Go one level up:
+
+```bash
+cd ..
+```
+
+Go to previous directory:
+
+```bash
+cd -
+```
+
+Create folder:
+
+```bash
+mkdir test-dir
+mkdir -p /srv/rs-data-platform/{repo,runtime,data,logs,backups,configs/shared}
+```
+
+Create file:
+
+```bash
+touch notes.txt
+```
+
+Read file:
+
+```bash
+cat /etc/hostname
+less /etc/ssh/sshd_config
+```
+
+Edit file:
+
+```bash
+nano ~/.ssh/config
+```
+
+## SSH Keys And SSH Config
+
+Generate a dedicated key on Mac:
+
+```bash
+ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_pi5 -C "rsidletskyi@pi5.local" -N ""
+```
+
+Copy public key to Raspberry Pi:
+
+```bash
+cat ~/.ssh/id_ed25519_pi5.pub | ssh rsidletskyi@pi5.local 'mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys'
+```
+
+Test key login:
+
+```bash
+ssh -i ~/.ssh/id_ed25519_pi5 rsidletskyi@pi5.local
+```
+
+Create local SSH config:
+
+```bash
+touch ~/.ssh/config
+chmod 600 ~/.ssh/config
+nano ~/.ssh/config
+```
+
+Example SSH config:
+
+```sshconfig
+Host pi5
+    HostName pi5.local
+    User rsidletskyi
+    IdentityFile ~/.ssh/id_ed25519_pi5
+    IdentitiesOnly yes
+```
+
+Show effective SSH config:
+
+```bash
+ssh -G pi5 | egrep '^(hostname|user|identityfile) '
+```
+
+## Find IP And Check Connectivity
+
+On Raspberry Pi:
+
+```bash
+hostname -I
+ip a
+ip addr show eth0
+ip addr show wlan0
+```
+
+From Mac:
+
+```bash
+ping -c 2 pi5.local
+arp -a | grep pi5
 ```
 
 ## File Copy And Sync
@@ -59,64 +188,31 @@ ssh rsidletskyi@192.168.0.108
 Copy one file to Raspberry Pi:
 
 ```bash
-scp ./local-file.txt rpi-lab:/srv/rs-data-platform/configs/
+scp ./local-file.txt pi5:/tmp/
 ```
 
-Copy one folder from Mac to Raspberry Pi:
+Copy one file from Raspberry Pi to Mac:
 
 ```bash
-rsync -av ./local-folder/ rpi-lab:/srv/rs-data-platform/repo/
+scp pi5:/etc/hostname ./hostname-from-pi.txt
 ```
 
-Copy one folder from Raspberry Pi to Mac:
+Sync one folder to Raspberry Pi:
 
 ```bash
-rsync -av rpi-lab:/srv/rs-data-platform/logs/ ./rpi-logs/
+rsync -avz ./my-project/ pi5:/srv/rs-data-platform/runtime/my-project/
 ```
 
-## Basic Host Checks
-
-Who am I:
+Sync logs back to Mac:
 
 ```bash
-whoami
+rsync -avz pi5:/srv/rs-data-platform/logs/ ./logs-from-pi/
 ```
 
-Hostname:
+Verify remote files:
 
 ```bash
-hostname
-```
-
-Show IP addresses:
-
-```bash
-ip addr
-```
-
-Show uptime:
-
-```bash
-uptime
-```
-
-Show memory usage:
-
-```bash
-free -h
-```
-
-Show disk usage:
-
-```bash
-df -h
-```
-
-Show kernel and OS info:
-
-```bash
-uname -a
-cat /etc/os-release
+ssh pi5 'ls -lah /srv/rs-data-platform'
 ```
 
 ## Package And System Update
@@ -136,7 +232,7 @@ sudo apt full-upgrade -y
 Install useful tools:
 
 ```bash
-sudo apt install -y git curl htop tmux tree ncdu
+sudo apt install -y git curl wget tmux htop tree ncdu jq unzip ca-certificates gnupg lsb-release rsync
 ```
 
 Reboot:
@@ -145,22 +241,10 @@ Reboot:
 sudo reboot
 ```
 
-Open Raspberry Pi configuration tool:
-
-```bash
-sudo raspi-config
-```
-
 Power off:
 
 ```bash
 sudo poweroff
-```
-
-Schedule shutdown:
-
-```bash
-sudo shutdown -h 21:00
 ```
 
 Update Raspberry Pi EEPROM:
@@ -169,32 +253,26 @@ Update Raspberry Pi EEPROM:
 sudo rpi-eeprom-update -a
 ```
 
-## Directory Layout
+Open Raspberry Pi configuration tool:
+
+```bash
+sudo raspi-config
+```
+
+## Host Directory Layout
 
 Create base directories:
 
 ```bash
 sudo mkdir -p /srv/rs-data-platform/{repo,runtime,data,logs,backups,configs}
 sudo chown -R $USER:$USER /srv/rs-data-platform
+mkdir -p /srv/rs-data-platform/configs/shared
 ```
 
-Create common runtime subdirectories:
-
-```bash
-mkdir -p /srv/rs-data-platform/runtime/{airflow,postgres,minio,shared}
-mkdir -p /srv/rs-data-platform/data/{raw,bronze,silver,gold,generated}
-mkdir -p /srv/rs-data-platform/logs/{airflow,docker,python-jobs}
-```
-
-Inspect directory sizes:
+Inspect sizes:
 
 ```bash
 du -sh /srv/rs-data-platform/*
-```
-
-Inspect interactively:
-
-```bash
 ncdu /srv/rs-data-platform
 ```
 
@@ -219,21 +297,65 @@ Pull the latest changes:
 git pull
 ```
 
-Check git status:
+Check status:
 
 ```bash
 git status
+git branch --show-current
 ```
 
-Show current branch:
+## Systemd Python Services
+
+Create service directory:
 
 ```bash
-git branch --show-current
+mkdir -p /srv/rs-data-platform/runtime/my-python-service
+cd /srv/rs-data-platform/runtime/my-python-service
+```
+
+Create virtual environment:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
+```
+
+Reload units and start service:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable my-python-service
+sudo systemctl start my-python-service
+```
+
+Check service status:
+
+```bash
+systemctl status my-python-service
+```
+
+Follow logs:
+
+```bash
+journalctl -u my-python-service -f
+```
+
+Show recent logs:
+
+```bash
+journalctl -u my-python-service --no-pager -n 100
+```
+
+Restart service:
+
+```bash
+sudo systemctl restart my-python-service
 ```
 
 ## Docker Install And Verification
 
-Install Docker with the convenience script:
+Install Docker:
 
 ```bash
 curl -fsSL https://get.docker.com | sh
@@ -245,11 +367,6 @@ Check Docker version:
 
 ```bash
 docker --version
-```
-
-Run a test container:
-
-```bash
 docker run --rm hello-world
 ```
 
@@ -259,126 +376,38 @@ Show running containers:
 
 ```bash
 docker ps
-```
-
-Show all containers:
-
-```bash
 docker ps -a
 ```
 
-Show container logs:
+Show logs:
 
 ```bash
 docker logs <container-name>
 ```
 
-Restart a container:
+Restart or stop:
 
 ```bash
 docker restart <container-name>
-```
-
-Stop a container:
-
-```bash
 docker stop <container-name>
-```
-
-Remove a container:
-
-```bash
 docker rm <container-name>
 ```
 
-Remove an image:
-
-```bash
-docker rmi <image-name>
-```
-
-Show live container resource usage once:
+Resource usage:
 
 ```bash
 docker stats --no-stream
 ```
 
-## Quick Test Containers
+## Docker Compose And Airflow Stack
 
-Run Nginx on port 8080:
-
-```bash
-docker run -d --name rpi-nginx -p 8080:80 nginx:alpine
-```
-
-Test from the laptop:
-
-```bash
-curl http://192.168.1.50:8080
-```
-
-Run MinIO:
-
-```bash
-mkdir -p /srv/rs-data-platform/runtime/minio/data
-
-docker run -d \
-  --name minio \
-  -p 9000:9000 \
-  -p 9001:9001 \
-  -e MINIO_ROOT_USER=replace_me_locally \
-  -e MINIO_ROOT_PASSWORD=replace_me_locally \
-  -v /srv/rs-data-platform/runtime/minio/data:/data \
-  quay.io/minio/minio server /data --console-address ":9001"
-```
-
-## Docker Compose
-
-Start services in the background:
-
-```bash
-docker compose up -d
-```
-
-See service status:
-
-```bash
-docker compose ps
-```
-
-See logs:
-
-```bash
-docker compose logs
-```
-
-Restart services:
-
-```bash
-docker compose restart
-```
-
-Stop and remove the stack:
-
-```bash
-docker compose down
-```
-
-## Airflow On Raspberry Pi
-
-Go to the Raspberry Pi compose stack:
+Go to the stack directory:
 
 ```bash
 cd /srv/rs-data-platform/repo/rs-data-platform-roadmap/shared/docker/compose/raspberry-pi/airflow-minio-postgres
 ```
 
-Copy the example environment file:
-
-```bash
-cp .env.example .env
-```
-
-Prepare the host-local runtime secret file:
+Prepare runtime config:
 
 ```bash
 mkdir -p /srv/rs-data-platform/configs/shared
@@ -386,7 +415,7 @@ cp /srv/rs-data-platform/repo/rs-data-platform-roadmap/shared/configs/templates/
 nano /srv/rs-data-platform/configs/shared/airflow-minio-postgres.env
 ```
 
-Create host directories before first start:
+Create host directories:
 
 ```bash
 mkdir -p /srv/rs-data-platform/runtime/airflow/{dags,logs,plugins}
@@ -394,74 +423,18 @@ mkdir -p /srv/rs-data-platform/runtime/postgres/data
 mkdir -p /srv/rs-data-platform/runtime/minio/data
 ```
 
-Start the stack:
+Start stack:
 
 ```bash
 docker compose up -d
+docker compose ps
+docker compose logs
 ```
 
-See Airflow-related logs:
-
-```bash
-docker compose logs airflow-init
-docker compose logs airflow-webserver
-docker compose logs airflow-scheduler
-```
-
-Open Airflow UI:
-
-```bash
-curl http://192.168.1.50:8088
-```
-
-Open MinIO console:
-
-```bash
-curl http://192.168.1.50:9001
-```
-
-Stop the stack:
+Stop stack:
 
 ```bash
 docker compose down
-```
-
-Restart only Airflow webserver:
-
-```bash
-docker compose restart airflow-webserver
-```
-
-## PostgreSQL And MinIO Quick Commands
-
-Connect to PostgreSQL container shell:
-
-```bash
-docker exec -it rpi-postgres psql -U airflow -d airflow
-```
-
-See PostgreSQL logs:
-
-```bash
-docker logs rpi-postgres
-```
-
-See MinIO logs:
-
-```bash
-docker logs rpi-minio
-```
-
-Check MinIO data path usage:
-
-```bash
-du -sh /srv/rs-data-platform/runtime/minio/data
-```
-
-Check Postgres data path usage:
-
-```bash
-du -sh /srv/rs-data-platform/runtime/postgres/data
 ```
 
 ## Monitoring And Troubleshooting
@@ -472,31 +445,31 @@ Interactive process view:
 htop
 ```
 
-Memory usage:
+CPU and memory:
 
 ```bash
+uptime
 free -h
 ```
 
-Disk usage:
+Disk:
 
 ```bash
 df -h
-```
-
-Largest directories in the lab path:
-
-```bash
 du -sh /srv/rs-data-platform/*
 ```
 
-Find failed systemd services:
+Failed services:
 
 ```bash
 systemctl --failed
 ```
 
-Inspect recent system problems:
+Recent system problems:
+
+```bash
+journalctl -xe --no-pager | tail -n 50
+```
 
 ```bash
 journalctl -xe --no-pager | tail -n 50

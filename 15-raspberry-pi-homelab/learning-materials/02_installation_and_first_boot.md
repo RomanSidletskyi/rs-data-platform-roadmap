@@ -28,10 +28,23 @@ Why:
 2. enable SSH during imaging if the tool supports it
 3. set hostname and username during imaging if possible
 4. boot the device
-5. find its IP address
-6. connect with SSH
-7. update packages
-8. configure timezone, locale, and host basics
+5. complete the first login
+6. find its IP address
+7. connect with SSH
+8. update packages
+9. configure timezone, locale, and host basics
+
+## Recommended Reading Order After First Boot
+
+After the OS boots successfully, continue with:
+
+1. `01_first_15_minutes_on_pi.md`
+2. `03_ssh_networking_and_remote_access.md`
+3. `11_ssh_access_cheatsheet.md`
+4. `12_scp_and_rsync_cheatsheet.md`
+5. `13_vscode_remote_ssh.md`
+
+Only after that move to Docker, storage, backup, and monitoring topics.
 
 ## First Commands After Login
 
@@ -71,7 +84,8 @@ Start with:
 
 - SSH access
 - system updates
-- Docker
-- one small service
+- host basics and filesystem navigation
+- file transfer workflow
+- only then Docker or a small host service
 
 This keeps debugging simple.

@@ -16,7 +16,7 @@ By the end of this quickstart, you should have:
 - Raspberry Pi booted and reachable on the network
 - SSH login working from your laptop
 - SSH key authentication configured
-- a stable host alias such as `rpi-lab`
+- a stable host alias such as `pi5`
 - Docker installed and verified
 - a basic runtime directory layout ready for services
 
@@ -27,7 +27,7 @@ Use Raspberry Pi Imager.
 Recommended settings during imaging:
 
 - OS: Raspberry Pi OS Lite
-- set hostname: `rpi-lab`
+- set hostname: `pi5`
 - enable SSH
 - create your user
 - configure Wi-Fi only if Ethernet is not available
@@ -48,8 +48,8 @@ From your laptop, try to find it with one of these approaches:
 Typical checks from macOS terminal:
 
 ```bash
-ping rpi-lab.local
-ssh <your-user>@rpi-lab.local
+ping pi5.local
+ssh <your-user>@pi5.local
 ```
 
 If hostname access does not work, connect by IP address.
@@ -90,7 +90,7 @@ Reconnect after reboot.
 On your laptop, if you do not already have an SSH key:
 
 ```bash
-ssh-keygen -t ed25519 -C "rpi-lab"
+ssh-keygen -t ed25519 -C "pi5"
 ```
 
 Copy the key to the Raspberry Pi:
@@ -112,8 +112,8 @@ The goal is to log in without typing the password every time.
 Edit your laptop SSH config in `~/.ssh/config` and add an entry like:
 
 ```sshconfig
-Host rpi-lab
-    HostName <raspberry-pi-ip>
+Host pi5
+    HostName pi5.local
     User <your-user>
     IdentityFile ~/.ssh/id_ed25519
 ```
@@ -121,7 +121,7 @@ Host rpi-lab
 Now your login command becomes:
 
 ```bash
-ssh rpi-lab
+ssh pi5
 ```
 
 This also makes `scp`, `rsync`, and VS Code Remote SSH easier.
@@ -198,7 +198,7 @@ If the repo already exists remotely and you work mainly from the laptop, your st
 4. pull changes
 5. run services
 
-## Step 12 - Verify One Small Container Workflow
+## Step 12 - Container Smoke Test
 
 Run a simple test container:
 
@@ -244,11 +244,12 @@ This is the operational baseline before you start larger services.
 
 After this quickstart, continue with:
 
-1. [02_installation_and_first_boot.md](02_installation_and_first_boot.md)
+1. [01_first_15_minutes_on_pi.md](01_first_15_minutes_on_pi.md)
 2. [03_ssh_networking_and_remote_access.md](03_ssh_networking_and_remote_access.md)
-3. [04_docker_services_and_runtime_layout.md](04_docker_services_and_runtime_layout.md)
-4. [simple task 02](../simple-tasks/02_static_ip_and_remote_access/README.md)
-5. [simple task 03](../simple-tasks/03_install_docker_and_run_services/README.md)
+3. [11_ssh_access_cheatsheet.md](11_ssh_access_cheatsheet.md)
+4. [12_scp_and_rsync_cheatsheet.md](12_scp_and_rsync_cheatsheet.md)
+5. [13_vscode_remote_ssh.md](13_vscode_remote_ssh.md)
+6. [04_docker_services_and_runtime_layout.md](04_docker_services_and_runtime_layout.md)
 
 ## Common Early Problems
 

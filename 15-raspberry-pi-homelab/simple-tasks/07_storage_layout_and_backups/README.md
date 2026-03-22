@@ -1,4 +1,4 @@
-# Simple Task 04 - Storage Layout And Backups
+# Simple Task 07 - Storage Layout And Backups
 
 ## Goal
 

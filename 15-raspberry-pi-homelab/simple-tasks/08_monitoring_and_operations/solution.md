@@ -1,6 +1,6 @@
 # Solution - Monitoring And Operations
 
-This solution gives you a basic operational checklist without adding a full monitoring stack yet.
+This solution gives you a basic operational checklist for both host services and container-based services.
 
 ## 1. Install Basic Tools
 
@@ -50,15 +50,25 @@ journalctl -xe --no-pager | tail -n 50
 
 When something looks wrong, check in this order:
 
-1. `docker ps`
-2. `docker logs <container-name>`
-3. `free -h`
-4. `df -h`
-5. `journalctl -xe --no-pager | tail -n 50`
+1. `systemctl --failed`
+2. `journalctl -xe --no-pager | tail -n 50`
+3. `docker ps`
+4. `docker logs <container-name>`
+5. `free -h`
+6. `df -h`
 
 This usually tells you whether the problem is container-level, memory-level, or disk-level.
 
-## 4. Restart A Failing Container
+## 4. Restart A Failing Service
+
+If it is a `systemd` service:
+
+```bash
+sudo systemctl restart my-python-service
+systemctl status my-python-service
+```
+
+If it is a container:
 
 ```bash
 docker restart <container-name>
@@ -88,6 +98,6 @@ docker ps >> /srv/rs-data-platform/logs/health-check.log
 This task is complete if:
 
 - you know how to inspect CPU, memory, and disk usage
-- you can read Docker logs
+- you can read service logs with `journalctl` or Docker logs
 - you can restart a broken service
 - you have a small repeatable health-check flow

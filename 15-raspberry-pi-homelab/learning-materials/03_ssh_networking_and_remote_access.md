@@ -36,7 +36,7 @@ Preferred model:
 
 A practical pattern is to define a host alias such as:
 
-- `rpi-lab`
+- `pi5`
 
 Then your workflow becomes:
 

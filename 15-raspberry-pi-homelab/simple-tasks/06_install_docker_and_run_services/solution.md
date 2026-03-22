@@ -1,6 +1,6 @@
 # Solution - Install Docker And Run Services
 
-This solution installs Docker on Raspberry Pi and runs one small ARM-friendly service.
+This solution installs Docker on Raspberry Pi after the host basics and SSH workflow are already in place, and treats Docker as the main service runtime path.
 
 ## 1. Install Basic Utilities
 
