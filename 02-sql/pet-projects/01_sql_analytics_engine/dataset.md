@@ -1,86 +1,39 @@
-# Dataset
 
-## Recommended Tables
+cat <<'EOF' > "$MODULE/pet-projects/01_sql_analytics_engine/requirements.md" <<'EOF'
+# Requirements
 
-### users
+## Functional Requirements
 
-Suggested columns:
+- write correct and readable SQL
+- support KPI outputs
+- support customer analytics
+- support product analytics
+- support funnel analysis
+- support retention analysis
+- document assumptions
 
-- user_id
-- email
-- country
-- signup_date
-- user_status
+## Non-Functional Requirements
 
-### orders
+- readable query structure
+- stable grain definitions
+- deterministic deduplication logic
+- reusable naming conventions
+- outputs that are easy to validate
 
-Suggested columns:
+## Engineering Standards
 
-- order_id
-- user_id
-- order_date
-- status
-- amount
-- currency
+Recommended practices:
 
-### order_items
+- use CTEs for readability
+- define filters explicitly
+- separate intermediate logic from final outputs
+- comment non-obvious business rules
+- make output column names stable and meaningful
 
-Suggested columns:
+## Validation Expectations
 
-- order_item_id
-- order_id
-- product_id
-- quantity
-- item_price
+Each analytical output should be easy to verify with:
 
-### products
-
-Suggested columns:
-
-- product_id
-- category_id
-- product_name
-- category_name
-
-### payments
-
-Suggested columns:
-
-- payment_id
-- order_id
-- payment_date
-- payment_status
-- paid_amount
-
-### events
-
-Suggested columns:
-
-- event_id
-- user_id
-- session_id
-- event_name
-- event_time
-- page_url
-- device_type
-
-## Data Quality Notes
-
-When preparing the project, think about:
-
-- duplicate orders
-- invalid statuses
-- refunded orders
-- missing timestamps
-- test users
-- inconsistent category naming
-
-## Recommendation
-
-Use realistic enough data to support:
-
-- order analytics
-- customer analytics
-- funnel analysis
-- retention analysis
-- cohort analysis
+- sample row checks
+- aggregate reconciliation
+- business definition review

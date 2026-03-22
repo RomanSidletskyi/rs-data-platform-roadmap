@@ -1,51 +1,39 @@
-# Funnel Analysis Pattern
+
+cat <<'EOF' > "$MODULE/learning-materials/01_sql_analytics_patterns/retention_analysis.md" <<'EOF'
+# Retention Analysis Pattern
 
 ## Goal
 
-Measure how users move through sequential steps.
+Measure whether users return after acquisition or first activity.
 
-Example funnel:
-
-- view_product
-- add_to_cart
-- checkout
-- payment_success
-
-## Simple Funnel Counts
+## Example: Day 1 retention
 
 ```sql
-SELECT event_name,
-       COUNT(DISTINCT user_id) AS users
-FROM events
-WHERE event_name IN ('view_product', 'add_to_cart', 'checkout', 'payment_success')
-GROUP BY event_name;
-```
-
-## Ordered Step Funnel
-
-```sql
-WITH base AS (
+WITH first_seen AS (
     SELECT user_id,
-           MIN(CASE WHEN event_name = 'view_product' THEN event_time END) AS view_time,
-           MIN(CASE WHEN event_name = 'add_to_cart' THEN event_time END) AS cart_time,
-           MIN(CASE WHEN event_name = 'checkout' THEN event_time END) AS checkout_time,
-           MIN(CASE WHEN event_name = 'payment_success' THEN event_time END) AS payment_time
+           MIN(DATE(event_time)) AS first_day
     FROM events
     GROUP BY user_id
+),
+activity AS (
+    SELECT DISTINCT user_id,
+           DATE(event_time) AS activity_day
+    FROM events
 )
-SELECT COUNT(*) AS total_users,
-       COUNT(view_time) AS viewed,
-       COUNT(cart_time) AS carted,
-       COUNT(checkout_time) AS checked_out,
-       COUNT(payment_time) AS paid
-FROM base;
+SELECT f.first_day,
+       COUNT(DISTINCT f.user_id) AS cohort_size,
+       COUNT(DISTINCT a.user_id) AS retained_users
+FROM first_seen f
+LEFT JOIN activity a
+    ON f.user_id = a.user_id
+   AND a.activity_day = f.first_day + INTERVAL '1 day'
+GROUP BY f.first_day
+ORDER BY f.first_day;
 ```
 
-## Notes
+## Use Cases
 
-A strong funnel design must define:
-
-- event order
-- same-session rule or not
-- time window
-- unique user logic
+- product analytics
+- user engagement measurement
+- cohort health
+- marketing quality analysis

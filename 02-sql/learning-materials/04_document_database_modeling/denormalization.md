@@ -1,19 +1,19 @@
-# Denormalization
 
-Denormalization is not a mistake in document systems. It is often intentional.
+cat <<'EOF' > "$MODULE/learning-materials/04_document_database_modeling/schema_design.md" <<'EOF'
+# Schema Design
 
-## Benefits
+## Main Questions
 
-- fewer joins
-- faster reads
-- simpler document retrieval
+- what is the document boundary
+- what grows unbounded
+- which fields are queried often
+- which fields need indexes
+- which fields define partition placement
 
-## Risks
+## Example
 
-- duplicated data
-- update fan-out
-- inconsistency if not managed well
+For an order document:
 
-## Good Practice
-
-Duplicate only what is needed for high-value reads.
+- embed order items
+- maybe embed payment summary
+- reference very large audit history

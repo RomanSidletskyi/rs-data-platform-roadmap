@@ -1,35 +1,50 @@
-# 01 SQL Analytics Patterns
 
-This section contains practical SQL patterns used in analytics and data engineering.
+cat <<'EOF' > "$MODULE/learning-materials/01_sql_analytics_patterns/top_n.md" <<'EOF'
+# Top N Pattern
 
-## Why This Matters
+## Goal
 
-Strong SQL syntax knowledge is not enough for data platform work. Real projects require reusable patterns for:
+Find highest-ranking entities by some metric.
 
-- deduplication
-- top-N analysis
-- retention
-- funnels
-- running totals
-- cohort analysis
-- slowly changing dimensions
-- anomaly investigation
+## Example: Top 10 products by revenue
 
-## What You Need to Learn
+```sql
+SELECT product_id,
+       SUM(amount) AS revenue
+FROM order_items
+GROUP BY product_id
+ORDER BY revenue DESC
+LIMIT 10;
+```
 
-- how to structure analytics queries
-- how to use window functions effectively
-- how to build reusable patterns
-- how to translate business questions into query templates
+## Example: Top 3 products per category
 
-## Files
+```sql
+WITH ranked AS (
+    SELECT category_id,
+           product_id,
+           SUM(amount) AS revenue,
+           ROW_NUMBER() OVER (
+               PARTITION BY category_id
+               ORDER BY SUM(amount) DESC
+           ) AS rn
+    FROM order_items
+    GROUP BY category_id, product_id
+)
+SELECT *
+FROM ranked
+WHERE rn <= 3;
+```
 
-- top_n.md
-- deduplication.md
-- sessionization.md
-- funnel_analysis.md
-- retention_analysis.md
-- running_totals.md
-- cohort_analysis.md
-- scd_type2.md
-- practice_queries.md
+## Use Cases
+
+- leaderboard analytics
+- most valuable customers
+- best-selling products
+- top campaigns
+
+## Common Mistakes
+
+- using LIMIT globally when partitioned ranking is needed
+- forgetting ties behavior
+- not choosing ROW_NUMBER vs RANK vs DENSE_RANK intentionally

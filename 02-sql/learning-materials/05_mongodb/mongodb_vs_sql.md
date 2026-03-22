@@ -1,15 +1,16 @@
-# MongoDB vs SQL
 
-| Feature | SQL | MongoDB |
-|---|---|---|
-| Model | tables | documents |
-| Schema | fixed | flexible |
-| Joins | natural | possible but not primary |
-| Transactions | strong relational model | supported but not the main design focus |
-| Best strength | relational workloads | document workloads |
+cat <<'EOF' > "$MODULE/learning-materials/06_dynamodb/README.md" <<'EOF'
+# 06 DynamoDB
 
-## Main Mindset Shift
+This section covers DynamoDB from an access-pattern and architecture perspective.
 
-In SQL, start from relationships.
+## Main Topics
 
-In MongoDB, start from document boundaries and read patterns.
+- architecture
+- query patterns
+- data modeling
+- hot partition problem
+- secondary indexes
+- scaling behavior
+
+DynamoDB should be learned here as a distributed key-value system where schema follows access patterns.

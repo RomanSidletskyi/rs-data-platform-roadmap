@@ -1,31 +1,46 @@
-# Source Model
 
-## Relational Tables
+cat <<'EOF' > "$MODULE/pet-projects/03_relational_to_document_migration/target_model.md" <<'EOF'
+# Target Model
 
-- users
-- orders
-- order_items
-- products
-- payments
+## Example Order Document
 
-## Characteristics
+```json
+{
+  "order_id": 101,
+  "user_id": 10,
+  "order_date": "2025-01-10T12:00:00Z",
+  "status": "paid",
+  "amount": 450,
+  "items": [
+    {
+      "product_id": 1001,
+      "product_name": "Laptop",
+      "quantity": 1,
+      "item_price": 400
+    }
+  ],
+  "payment": {
+    "method": "card",
+    "status": "captured"
+  }
+}
+```
 
-- normalized
-- join-heavy access
-- strong relational integrity
-- easy structured reporting
-- clear table-level ownership of attributes
+## Main Design Choices
 
-## Typical Access Patterns
+- embed order items
+- embed small payment summary
+- duplicate selected product/customer attributes where read value is high
+- reference huge reusable entities only when independence matters
 
-- order with items
-- customer order history
-- product sales summary
-- payment status per order
+## Main Benefits
 
-## Strengths
+- fewer joins
+- natural order-level reads
+- application-friendly response shape
 
-- easy consistency reasoning
-- natural joins
-- clear constraints
-- excellent fit for transactional business systems
+## Main Risks
+
+- duplicated data
+- update fan-out
+- document growth if model is not bounded

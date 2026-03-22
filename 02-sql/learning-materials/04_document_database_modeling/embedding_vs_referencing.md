@@ -1,32 +1,18 @@
-# Embedding vs Referencing
 
-## Embedding
+cat <<'EOF' > "$MODULE/learning-materials/04_document_database_modeling/access_patterns.md" <<'EOF'
+# Access Patterns
 
-Use embedding when:
+Document schema design should start with access patterns.
 
-- child data is read together with parent
-- child data is bounded in size
-- updates happen together
-- document growth is predictable
+## Examples
 
-### Example
+- get order by order_id
+- get all recent orders for customer
+- get product details
+- get latest session events for user
 
-Order with order items embedded.
+## Main Rule
 
-## Referencing
+Model around what the application reads and writes most often.
 
-Use referencing when:
-
-- child data is large or unbounded
-- child data is reused by many parents
-- update frequency differs
-- independent lifecycle matters
-
-### Example
-
-Product catalog referenced from order items.
-
-## Rule of Thumb
-
-Embed for locality.
-Reference for independence.
+Not around a normalized ER diagram.

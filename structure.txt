@@ -1,3 +1,625 @@
-/path/to/catalog  [error opening dir]
-
-0 directories, 0 files
+├── 01-python
+│   ├── README.md
+│   ├── learning-materials
+│   │   ├── api-work
+│   │   ├── data-engineering-focus
+│   │   ├── files-and-json
+│   │   ├── fundamentals
+│   │   ├── packaging-and-env
+│   │   └── testing-and-logging
+│   ├── pet-projects
+│   │   ├── 01_api_to_csv_pipeline
+│   │   │   ├── IA_REDMY.md
+│   │   │   ├── README.md
+│   │   │   ├── config
+│   │   │   │   └── config.yaml
+│   │   │   ├── data
+│   │   │   │   ├── processed
+│   │   │   │   └── raw
+│   │   │   ├── docker
+│   │   │   ├── logs
+│   │   │   ├── requirements.txt
+│   │   │   ├── src
+│   │   │   │   ├── api_client.py
+│   │   │   │   ├── config_loader.py
+│   │   │   │   ├── main.py
+│   │   │   │   ├── processor.py
+│   │   │   │   └── writer.py
+│   │   │   └── tests
+│   │   ├── 02_json_normalizer
+│   │   │   └── README.md
+│   │   ├── 03_log_parser_pipeline
+│   │   │   └── README.md
+│   │   ├── 04_data_quality_checker
+│   │   │   └── README.md
+│   │   └── 05_incremental_ingestion_simulator
+│   │       └── README.md
+│   └── simple-tasks
+│       ├── 01_variables_conditions_loops
+│       │   └── README.md
+│       ├── 02_functions_modules
+│       │   └── README.md
+│       ├── 03_work_with_files_csv_json
+│       │   └── README.md
+│       ├── 04_requests_and_api
+│       │   └── README.md
+│       ├── 05_error_handling_logging
+│       │   └── README.md
+│       ├── 06_virtualenv_and_project_setup
+│       │   └── README.md
+│       ├── 07_pandas_basics
+│       │   └── README.md
+│       └── 08_data_engineering_python_tasks
+│           └── README.md
+├── 02-sql
+│   ├── README.md
+│   ├── learning-materials
+│   │   ├── 01_sql_analytics_patterns
+│   │   │   ├── README.md
+│   │   │   ├── cohort_analysis.md
+│   │   │   ├── deduplication.md
+│   │   │   ├── funnel_analysis.md
+│   │   │   ├── practice_queries.md
+│   │   │   ├── retention_analysis.md
+│   │   │   ├── running_totals.md
+│   │   │   ├── scd_type2.md
+│   │   │   ├── sessionization.md
+│   │   │   └── top_n.md
+│   │   ├── 02_sql_for_lakehouse
+│   │   │   ├── README.md
+│   │   │   ├── delta_tables.md
+│   │   │   ├── merge_operations.md
+│   │   │   ├── optimization_patterns.md
+│   │   │   ├── partitioning.md
+│   │   │   ├── practice_queries.md
+│   │   │   ├── schema_evolution.md
+│   │   │   └── time_travel.md
+│   │   ├── 03_sql_vs_nosql_architecture
+│   │   │   ├── README.md
+│   │   │   ├── architecture.md
+│   │   │   ├── consistency_and_scaling.md
+│   │   │   ├── modeling_differences.md
+│   │   │   ├── practice_comparisons.md
+│   │   │   ├── query_differences.md
+│   │   │   └── tradeoffs.md
+│   │   ├── 04_document_database_modeling
+│   │   │   ├── README.md
+│   │   │   ├── access_patterns.md
+│   │   │   ├── anti_patterns.md
+│   │   │   ├── denormalization.md
+│   │   │   ├── embedding_vs_referencing.md
+│   │   │   ├── modeling_exercises.md
+│   │   │   └── schema_design.md
+│   │   ├── 05_mongodb
+│   │   │   ├── README.md
+│   │   │   ├── aggregation.md
+│   │   │   ├── data_modeling.md
+│   │   │   ├── indexing.md
+│   │   │   ├── mongodb_vs_sql.md
+│   │   │   ├── python_setup.md
+│   │   │   └── queries.md
+│   │   ├── 06_dynamodb
+│   │   │   ├── README.md
+│   │   │   ├── architecture.md
+│   │   │   ├── data_modeling.md
+│   │   │   ├── dynamodb_vs_mongodb.md
+│   │   │   ├── hot_partition_problem.md
+│   │   │   ├── partition_keys.md
+│   │   │   ├── practice_patterns.md
+│   │   │   ├── query_patterns.md
+│   │   │   ├── scaling_and_throttling.md
+│   │   │   └── secondary_indexes.md
+│   │   ├── 07_azure_databases_for_databricks
+│   │   │   ├── README.md
+│   │   │   ├── azure_cosmosdb.md
+│   │   │   ├── azure_sql_database.md
+│   │   │   ├── azure_sql_indexes.md
+│   │   │   ├── azure_sql_stored_procedures.md
+│   │   │   ├── cosmos_partitioning.md
+│   │   │   ├── cosmos_queries.md
+│   │   │   ├── database_selection_guide.md
+│   │   │   ├── databricks_integration.md
+│   │   │   ├── practical_usage_patterns.md
+│   │   │   ├── synapse_queries.md
+│   │   │   ├── synapse_sql.md
+│   │   │   └── synapse_vs_databricks_sql.md
+│   │   ├── README.md
+│   │   ├── data_modeling_comparison.md
+│   │   ├── indexing_strategy_across_databases.md
+│   │   └── query_pattern_cheatsheet.md
+│   ├── pet-projects
+│   │   ├── 01_sql_analytics_engine
+│   │   │   ├── README.md
+│   │   │   ├── architecture.md
+│   │   │   ├── dataset.md
+│   │   │   └── requirements.md
+│   │   ├── 02_mongodb_event_store
+│   │   │   ├── README.md
+│   │   │   ├── architecture.md
+│   │   │   ├── document_model.md
+│   │   │   └── query_patterns.md
+│   │   └── 03_relational_to_document_migration
+│   │       ├── README.md
+│   │       ├── migration_strategy.md
+│   │       ├── source_model.md
+│   │       └── target_model.md
+│   └── simple-tasks
+│       ├── 01_analytics_queries
+│       │   └── README.md
+│       ├── 02_window_queries
+│       │   └── README.md
+│       ├── 03_document_queries
+│       │   └── README.md
+│       └── 04_nosql_modeling
+│           └── README.md
+├── 03-docker
+│   ├── README.md
+│   ├── learning-materials
+│   ├── pet-projects
+│   └── simple-tasks
+├── 04-github-actions
+│   ├── README.md
+│   ├── learning-materials
+│   ├── pet-projects
+│   └── simple-tasks
+├── 05-confluent-kafka
+│   ├── README.md
+│   ├── learning-materials
+│   │   ├── event-driven-design
+│   │   ├── kafka-connect
+│   │   ├── kafka-fundamentals
+│   │   ├── producers-consumers
+│   │   ├── schema-registry
+│   │   ├── stream-processing
+│   │   └── topics-partitions-offsets
+│   ├── pet-projects
+│   │   ├── 01_iot_streaming_lab
+│   │   ├── 02_clickstream_pipeline
+│   │   ├── 03_orders_payments_shipments_events
+│   │   └── 04_kafka_to_postgres_pipeline
+│   └── simple-tasks
+│       ├── 01_run_local_kafka
+│       ├── 02_first_producer_consumer
+│       ├── 03_json_events
+│       ├── 04_retry_dead_letter_queue
+│       ├── 05_multi_consumer_groups
+│       └── 06_streaming_simulation
+├── 06-spark-pyspark
+│   ├── README.md
+│   ├── learning-materials
+│   │   ├── dataframe-api
+│   │   ├── joins-window-functions
+│   │   ├── parquet-partitions
+│   │   ├── performance-basics
+│   │   ├── pyspark-etl
+│   │   ├── spark-core
+│   │   └── transformations-actions
+│   ├── pet-projects
+│   │   ├── 01_batch_etl_pipeline
+│   │   ├── 02_log_analytics_pyspark
+│   │   ├── 03_large_csv_to_parquet_optimizer
+│   │   └── 04_data_quality_framework_spark
+│   └── simple-tasks
+│       ├── 01_read_write_files
+│       ├── 02_transformations
+│       ├── 03_joins_and_windows
+│       ├── 04_partitioning
+│       ├── 05_basic_aggregations
+│       └── 06_etl_mini_jobs
+├── 07-databricks
+│   ├── README.md
+│   ├── learning-materials
+│   │   ├── delta-lake
+│   │   ├── medallion-architecture
+│   │   ├── notebooks-jobs
+│   │   ├── production-patterns
+│   │   ├── unity-catalog
+│   │   ├── workflows
+│   │   └── workspace-basics
+│   ├── pet-projects
+│   │   ├── 01_lakehouse_pipeline
+│   │   ├── 02_cdc_to_delta
+│   │   ├── 03_bi_ready_gold_layer
+│   │   └── 04_end_to_end_databricks_project
+│   └── simple-tasks
+│       ├── 01_first_notebook
+│       ├── 02_bronze_silver_gold
+│       ├── 03_delta_tables
+│       ├── 04_notebook_to_job
+│       ├── 05_autoloader_intro
+│       └── 06_basic_governance
+├── 08-delta-lake
+│   ├── README.md
+│   ├── learning-materials
+│   ├── pet-projects
+│   └── simple-tasks
+├── 09-azure-data-lake-storage
+│   ├── README.md
+│   ├── learning-materials
+│   │   ├── access-control
+│   │   ├── adls-gen2
+│   │   ├── integration-patterns
+│   │   ├── partitioning-layout
+│   │   └── storage-basics
+│   ├── pet-projects
+│   │   ├── 01_cloud_data_landing_zone
+│   │   ├── 02_bronze_silver_gold_storage_design
+│   │   └── 03_adls_for_databricks_pipeline
+│   └── simple-tasks
+│       ├── 01_storage_account_layout
+│       ├── 02_raw_curated_zones
+│       ├── 03_partition_strategy
+│       └── 04_access_and_secrets_concepts
+├── 10-powerbi-fabric
+│   ├── README.md
+│   ├── learning-materials
+│   │   ├── data-modeling
+│   │   ├── dax
+│   │   ├── fabric-overview
+│   │   ├── performance
+│   │   ├── power-query
+│   │   └── rls
+│   ├── pet-projects
+│   │   ├── 01_executive_dashboard
+│   │   ├── 02_sales_analytics_report
+│   │   ├── 03_operational_monitoring_dashboard
+│   │   └── 04_bi_portfolio_case
+│   └── simple-tasks
+│       ├── 01_first_dashboard
+│       ├── 02_star_schema_model
+│       ├── 03_dax_measures
+│       ├── 04_power_query_cleaning
+│       └── 05_rls_basic_case
+├── 11-airflow
+│   ├── README.md
+│   ├── learning-materials
+│   │   ├── airflow-basics
+│   │   ├── airflow-with-spark
+│   │   ├── dag-design
+│   │   ├── operators-and-hooks
+│   │   ├── production-patterns
+│   │   └── scheduling-and-retries
+│   ├── pet-projects
+│   │   ├── 01_batch_pipeline_orchestration
+│   │   ├── 02_api_to_lakehouse_orchestration
+│   │   ├── 03_multi_step_data_workflow
+│   │   └── 04_production_style_airflow_project
+│   └── simple-tasks
+│       ├── 01_first_dag
+│       │   └── README.md
+│       ├── 02_task_dependencies
+│       │   └── README.md
+│       ├── 03_scheduling_and_retries
+│       │   └── README.md
+│       ├── 04_python_operator_pipeline
+│       │   └── README.md
+│       ├── 05_airflow_with_external_jobs
+│       │   └── README.md
+│       └── 06_basic_monitoring
+│           └── README.md
+├── 12-dbt
+│   ├── README.md
+│   ├── learning-materials
+│   │   ├── dbt-basics
+│   │   ├── dbt-with-lakehouse
+│   │   ├── documentation-and-lineage
+│   │   ├── macros-and-jinja
+│   │   ├── models-and-materializations
+│   │   └── tests-and-quality
+│   ├── pet-projects
+│   │   ├── 01_analytics_engineering_project
+│   │   ├── 02_sales_marts_with_dbt
+│   │   ├── 03_dbt_on_lakehouse_data
+│   │   └── 04_end_to_end_dbt_project
+│   └── simple-tasks
+│       ├── 01_first_model
+│       │   └── README.md
+│       ├── 02_staging_models
+│       │   └── README.md
+│       ├── 03_incremental_model
+│       │   └── README.md
+│       ├── 04_tests_and_sources
+│       │   └── README.md
+│       ├── 05_marts_layer
+│       │   └── README.md
+│       └── 06_docs_and_lineage
+│           └── README.md
+├── 13-flink
+│   ├── README.md
+│   ├── learning-materials
+│   │   ├── event-time-and-watermarks
+│   │   ├── flink-basics
+│   │   ├── flink-with-kafka
+│   │   ├── production-patterns
+│   │   ├── stateful-processing
+│   │   ├── streams-and-transformations
+│   │   └── windowing
+│   ├── pet-projects
+│   │   ├── 01_realtime_metrics_pipeline
+│   │   ├── 02_clickstream_sessionization
+│   │   ├── 03_fraud_detection_simulator
+│   │   └── 04_flink_end_to_end_project
+│   └── simple-tasks
+│       ├── 01_first_stream_job
+│       │   └── README.md
+│       ├── 02_kafka_to_flink
+│       │   └── README.md
+│       ├── 03_windows_and_aggregations
+│       │   └── README.md
+│       ├── 04_event_time_intro
+│       │   └── README.md
+│       ├── 05_stateful_processing
+│       │   └── README.md
+│       └── 06_checkpointing_basics
+│           └── README.md
+├── 14-iceberg
+│   ├── README.md
+│   ├── learning-materials
+│   │   ├── iceberg-basics
+│   │   ├── iceberg-with-flink
+│   │   ├── iceberg-with-spark
+│   │   ├── lakehouse-tradeoffs
+│   │   ├── partitioning-and-evolution
+│   │   └── table-format-concepts
+│   ├── pet-projects
+│   │   ├── 01_iceberg_lakehouse_lab
+│   │   ├── 02_spark_iceberg_pipeline
+│   │   ├── 03_flink_iceberg_streaming_case
+│   │   └── 04_open_lakehouse_project
+│   └── simple-tasks
+│       ├── 01_first_iceberg_table
+│       │   └── README.md
+│       ├── 02_partition_evolution
+│       │   └── README.md
+│       ├── 03_schema_evolution
+│       │   └── README.md
+│       ├── 04_time_travel_intro
+│       │   └── README.md
+│       ├── 05_spark_with_iceberg
+│       │   └── README.md
+│       └── 06_streaming_to_iceberg_concepts
+│           └── README.md
+├── README.md
+├── ai-learning
+│   ├── README.md
+│   ├── practical-exercises
+│   │   ├── 01_ai_python_refactor
+│   │   ├── 02_ai_sql_generation
+│   │   ├── 03_ai_pipeline_design
+│   │   └── 04_ai_code_review
+│   ├── prompting-guides
+│   │   ├── architecture-prompts.md
+│   │   ├── code-review-prompts.md
+│   │   ├── debugging-prompts.md
+│   │   └── learning-prompts.md
+│   ├── tools
+│   │   ├── ai-data-tools.md
+│   │   ├── chatgpt.md
+│   │   ├── codeium.md
+│   │   ├── cursor-ide.md
+│   │   └── github-copilot.md
+│   └── workflows
+│       ├── ai-for-debugging.md
+│       ├── ai-for-project-design.md
+│       ├── ai-pair-programming.md
+│       └── how-to-learn-faster.md
+├── docs
+│   ├── ai-templates_for_new_chat
+│   │   ├── ai-context.md
+│   │   └── repo-map.md
+│   ├── architecture
+│   │   ├── 01_foundations
+│   │   │   ├── README.md
+│   │   │   └── resources.md
+│   │   ├── 02_batch_architecture
+│   │   │   ├── README.md
+│   │   │   └── resources.md
+│   │   ├── 03_streaming_architecture
+│   │   │   ├── README.md
+│   │   │   └── resources.md
+│   │   ├── 04_lakehouse_architecture
+│   │   │   ├── README.md
+│   │   │   └── resources.md
+│   │   ├── 05_serving_and_bi_architecture
+│   │   │   ├── README.md
+│   │   │   └── resources.md
+│   │   ├── 06_data_governance_security
+│   │   │   ├── README.md
+│   │   │   └── resources.md
+│   │   ├── 07_scalability_reliability
+│   │   │   ├── README.md
+│   │   │   └── resources.md
+│   │   ├── 08_cost_performance_tradeoffs
+│   │   │   ├── README.md
+│   │   │   └── resources.md
+│   │   ├── 09_architecture_case_studies
+│   │   │   ├── README.md
+│   │   │   └── resources.md
+│   │   ├── README.md
+│   │   ├── adr
+│   │   │   ├── 0001_store_raw_data_before_transformation.md
+│   │   │   ├── 0002_separate_raw_processed_curated_layers.md
+│   │   │   ├── 0003_choose_batch_for_reporting_pipelines.md
+│   │   │   ├── 0004_use_kafka_for_event_streaming.md
+│   │   │   ├── 0005_use_delta_lake_for_lakehouse_tables.md
+│   │   │   └── README.md
+│   │   └── system-design
+│   │       ├── README.md
+│   │       ├── batch-etl.md
+│   │       ├── kafka-ingestion.md
+│   │       ├── lakehouse-bi.md
+│   │       └── streaming-analytics.md
+│   ├── architecture-principles.md
+│   ├── case-studies
+│   │   ├── README.md
+│   │   └── case-study-template.md
+│   ├── data-platform-map.md
+│   ├── data-platform-projects-roadmap.md
+│   ├── how-to-study.md
+│   ├── learning-architecture.md
+│   ├── learning-sequence.md
+│   ├── portfolio-guidelines.md
+│   ├── roadmap.md
+│   ├── system-design
+│   │   ├── README.md
+│   │   ├── batch-etl-template.md
+│   │   ├── batch-etl.md
+│   │   ├── kafka-ingestion.md
+│   │   ├── lakehouse-bi.md
+│   │   ├── streaming-analytics.md
+│   │   └── streaming-template.md
+│   └── trade-offs
+│       ├── README.md
+│       └── trade-off-template.md
+├── real-projects
+│   ├── 01_python_sql_etl
+│   ├── 02_python_docker_github_actions
+│   ├── 03_python_kafka
+│   ├── 04_python_kafka_databricks
+│   ├── 05_python_spark_delta
+│   ├── 06_databricks_adls_powerbi
+│   ├── 07_kafka_databricks_powerbi
+│   ├── 08_end_to_end_data_platform
+│   └── README.md
+├── scripts
+│   ├── README.md
+│   ├── bootstrap_all.sh
+│   ├── bootstrap_section.sh
+│   ├── create_module.sh
+│   ├── init_new_scripts_structure.sh
+│   ├── lib
+│   │   ├── common.sh
+│   │   ├── fs.sh
+│   │   └── section.sh
+│   ├── old
+│   │   ├── add_new_modules.sh
+│   │   ├── bootstrap.sh
+│   │   ├── fill_new_modules_readmes.sh
+│   │   ├── fill_new_modules_simple_tasks.sh
+│   │   ├── fill_python_pet_projects.sh
+│   │   ├── fill_python_simple_tasks.sh
+│   │   ├── fill_sql_learning_materials.sh
+│   │   ├── fill_sql_pet_projects.sh
+│   │   ├── fill_sql_simple_tasks.sh
+│   │   ├── init_docs.sh
+│   │   ├── init_python_api_project.sh
+│   │   ├── init_repo.sh
+│   │   ├── init_repo_docs.sh
+│   │   └── init_sql_module.sh
+│   ├── sections
+│   │   ├── ai-learning
+│   │   │   ├── bootstrap.sh
+│   │   │   ├── fill_practical_exercises.sh
+│   │   │   ├── fill_prompting_guides.sh
+│   │   │   ├── fill_tools.sh
+│   │   │   ├── fill_workflows.sh
+│   │   │   └── init.sh
+│   │   ├── docs
+│   │   │   ├── bootstrap.sh
+│   │   │   ├── fill_architecture.sh
+│   │   │   ├── fill_case_studies.sh
+│   │   │   ├── fill_core_docs.sh
+│   │   │   ├── fill_system_design.sh
+│   │   │   ├── fill_tradeoffs.sh
+│   │   │   └── init.sh
+│   │   ├── modules
+│   │   │   ├── 01-python
+│   │   │   │   ├── bootstrap.sh
+│   │   │   │   ├── fill_learning_materials.sh
+│   │   │   │   ├── fill_pet_projects.sh
+│   │   │   │   ├── fill_readme.sh
+│   │   │   │   ├── fill_simple_tasks.sh
+│   │   │   │   └── init.sh
+│   │   │   └── 02-sql
+│   │   │       ├── bootstrap.sh
+│   │   │       ├── fill_learning_materials.sh
+│   │   │       ├── fill_pet_projects.sh
+│   │   │       ├── fill_readme.sh
+│   │   │       ├── fill_simple_tasks.sh
+│   │   │       └── init.sh
+│   │   ├── real-projects
+│   │   │   ├── bootstrap.sh
+│   │   │   ├── fill_readmes.sh
+│   │   │   └── init.sh
+│   │   └── shared
+│   │       ├── bootstrap.sh
+│   │       ├── fill_nested_readmes.sh
+│   │       ├── fill_readme.sh
+│   │       ├── fill_sub_readmes.sh
+│   │       └── init.sh
+│   └── structure.md
+├── shared
+│   ├── README.md
+│   ├── architecture
+│   │   ├── diagrams
+│   │   ├── patterns
+│   │   └── reference-flows
+│   ├── configs
+│   │   ├── dev
+│   │   ├── local
+│   │   └── templates
+│   ├── databases
+│   │   ├── mongodb
+│   │   │   ├── collections
+│   │   │   ├── docker
+│   │   │   ├── dumps
+│   │   │   ├── init
+│   │   │   └── seed
+│   │   └── mysql
+│   │       ├── docker
+│   │       ├── dumps
+│   │       ├── init
+│   │       ├── schema
+│   │       └── seed
+│   ├── datasets
+│   │   ├── generated
+│   │   │   └── parquet
+│   │   ├── processed
+│   │   │   └── parquet
+│   │   ├── raw
+│   │   │   ├── csv
+│   │   │   ├── json
+│   │   │   └── parquet
+│   │   └── sample
+│   │       ├── csv
+│   │       ├── json
+│   │       └── parquet
+│   ├── diagrams
+│   ├── docker
+│   │   ├── compose
+│   │   └── local-stacks
+│   ├── environments
+│   │   ├── airflow
+│   │   ├── dbt
+│   │   ├── python
+│   │   └── spark
+│   ├── glossary
+│   ├── notebooks
+│   │   ├── demos
+│   │   └── exploratory
+│   ├── schemas
+│   │   ├── avro
+│   │   ├── json
+│   │   ├── protobuf
+│   │   └── sql
+│   ├── scripts
+│   │   ├── data-generation
+│   │   ├── helpers
+│   │   ├── setup
+│   │   └── validation
+│   ├── templates
+│   │   ├── README-template
+│   │   ├── module-template
+│   │   └── project-template
+│   ├── testing
+│   │   ├── expected-outputs
+│   │   ├── fixtures
+│   │   └── mock-data
+│   └── utils
+├── structure.txt
+└── templates
+    ├── learning-module-readme-template.md
+    ├── pet-project-readme-template.md
+    ├── real-project-readme-template.md
+    ├── rs-data-platform-roadmap.code-workspace
+    └── task-readme-template.md

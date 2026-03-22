@@ -1,23 +1,52 @@
-# Secondary Indexes
 
-## GSI
+cat <<'EOF' > "$MODULE/learning-materials/06_dynamodb/query_patterns.md" <<'EOF'
+# DynamoDB Query Patterns
 
-Global Secondary Index lets you query on alternative key shapes.
+DynamoDB queries are key-oriented.
 
-## LSI
+## Get item by primary key
 
-Local Secondary Index changes sort-key style access inside same partition key.
+```python
+table.get_item(
+    Key={
+        "pk": "CUSTOMER#10",
+        "sk": "PROFILE#10"
+    }
+)
+```
 
-## Rule
+## Query all orders for customer
 
-Add indexes only for real access patterns, not speculative ones.
+```python
+table.query(
+    KeyConditionExpression=
+        Key("pk").eq("CUSTOMER#10") &
+        Key("sk").begins_with("ORDER#")
+)
+```
 
-## Example
+## Query latest orders for customer
 
-Base table:
-- PK = customer_id
-- SK = order_timestamp
+```python
+table.query(
+    KeyConditionExpression=
+        Key("pk").eq("CUSTOMER#10") &
+        Key("sk").begins_with("ORDER#"),
+    ScanIndexForward=False,
+    Limit=10
+)
+```
 
-GSI1:
-- GSI1PK = product_id
-- GSI1SK = order_timestamp
+## Query through GSI
+
+```python
+table.query(
+    IndexName="GSI1",
+    KeyConditionExpression=
+        Key("gsi1pk").eq("PRODUCT#1001")
+)
+```
+
+## Main Rule
+
+If a query cannot be expressed through PK/SK or a designed index, the schema is probably wrong for that workload.

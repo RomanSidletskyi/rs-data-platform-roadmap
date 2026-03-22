@@ -1,331 +1,472 @@
-# 02 Window Queries
+
+cat <<'EOF' > "$MODULE/simple-tasks/03_document_queries/README.md" <<'EOF'
+# 03 Document Queries
 
 ## Overview
 
-These tasks focus on window-function-based patterns frequently used in analytics engineering and data platform work.
+These tasks focus on document-oriented queries, mainly with MongoDB-style patterns.
 
-Suggested dataset tables:
+Suggested collections:
 
 - orders
+- users
 - events
-- customers
-- daily_metrics
+- sessions
+
+Example document:
+
+```json
+{
+  "order_id": 101,
+  "customer_id": 10,
+  "status": "paid",
+  "amount": 250,
+  "customer": {
+    "country": "PL"
+  },
+  "items": [
+    {"sku": "A1", "qty": 2, "price": 100},
+    {"sku": "B2", "qty": 1, "price": 50}
+  ],
+  "tags": ["priority", "electronics"]
+}
+```
 
 ---
 
-## Task 1 — Rank Orders Per User
+## Task 1 — Read All Documents
 
 ### Goal
 
-Assign a sequential order number to each user's orders.
+Return all documents from the orders collection.
 
 ### Input
 
-Table:
+Collection:
 
 - orders
-
-Relevant columns:
-
-- user_id
-- order_id
-- order_date
 
 ### Requirements
 
-- partition by user_id
-- order by order_date
-- assign row number
+- read all documents
+- do not apply filters
 
 ### Expected Output
 
-Columns:
-
-- user_id
-- order_id
-- order_date
-- order_number
+Full set of order documents.
 
 ### Extra Challenge
 
-Also calculate:
-
-- reverse order number (latest = 1)
+Return only the first 10 documents.
 
 ---
 
-## Task 2 — Running Customer Revenue
+## Task 2 — Equality Filter
 
 ### Goal
 
-Calculate cumulative revenue per customer over time.
+Return all paid orders.
 
 ### Input
 
-Table:
+Collection:
 
 - orders
 
-Relevant columns:
+Relevant fields:
 
-- user_id
-- order_date
+- status
+
+### Requirements
+
+- filter on status = paid
+
+### Expected Output
+
+Only documents where status is paid.
+
+### Extra Challenge
+
+Also return paid orders for one specific customer_id.
+
+---
+
+## Task 3 — Range Filter
+
+### Goal
+
+Return all orders with amount greater than 100.
+
+### Input
+
+Collection:
+
+- orders
+
+Relevant fields:
+
+- amount
+
+### Requirements
+
+- apply numeric range filter
+
+### Expected Output
+
+Documents where amount > 100.
+
+### Extra Challenge
+
+Filter amount between 100 and 500.
+
+---
+
+## Task 4 — Combined Filter
+
+### Goal
+
+Return all paid orders with amount between 100 and 500.
+
+### Input
+
+Collection:
+
+- orders
+
+Relevant fields:
+
+- status
+- amount
+
+### Requirements
+
+- combine equality and range filter
+
+### Expected Output
+
+Documents that satisfy both conditions.
+
+### Extra Challenge
+
+Add customer.country = "PL" to the filter.
+
+---
+
+## Task 5 — Projection
+
+### Goal
+
+Return only selected fields from documents.
+
+### Input
+
+Collection:
+
+- orders
+
+Relevant fields:
+
+- order_id
+- customer_id
 - amount
 - status
 
 ### Requirements
 
-- include only paid/completed orders
-- partition by user_id
-- order by order_date
-- calculate running sum
+- exclude _id
+- include only required fields
 
 ### Expected Output
 
-Columns:
-
-- user_id
-- order_date
-- amount
-- running_customer_revenue
+Documents containing only selected fields.
 
 ### Extra Challenge
 
-Return running order count together with running revenue.
+Add a computed field later through aggregation.
 
 ---
 
-## Task 3 — Global Running Revenue
+## Task 6 — Sorting
 
 ### Goal
 
-Calculate cumulative revenue across the whole business timeline.
+Return orders sorted by amount descending.
 
 ### Input
 
-Table:
+Collection:
 
 - orders
 
-Relevant columns:
+Relevant fields:
 
-- order_date
 - amount
+
+### Requirements
+
+- sort descending
+
+### Expected Output
+
+Documents ordered by amount from highest to lowest.
+
+### Extra Challenge
+
+Sort by status ascending and amount descending.
+
+---
+
+## Task 7 — Pagination
+
+### Goal
+
+Return page 3 with page size 10.
+
+### Input
+
+Collection:
+
+- orders
+
+Relevant fields:
+
+- order_id or another sorting key
+
+### Requirements
+
+- sort deterministically
+- skip first 20
+- limit 10
+
+### Expected Output
+
+10 documents representing page 3.
+
+### Extra Challenge
+
+Explain why skip-based pagination may become expensive on large collections.
+
+---
+
+## Task 8 — Count Paid Orders
+
+### Goal
+
+Count the number of paid orders.
+
+### Input
+
+Collection:
+
+- orders
+
+Relevant fields:
+
 - status
 
 ### Requirements
 
-- aggregate by day first or document why you do not
-- order by date
-- calculate cumulative revenue
+- count only paid documents
 
 ### Expected Output
 
-Columns:
-
-- revenue_date
-- daily_revenue
-- running_revenue
+Single numeric count.
 
 ### Extra Challenge
 
-Add cumulative average daily revenue.
+Return counts by status using aggregation.
 
 ---
 
-## Task 4 — 7-Day Moving Average
+## Task 9 — Distinct Statuses
 
 ### Goal
 
-Smooth daily revenue using a 7-day moving average.
+Return all distinct order statuses.
 
 ### Input
 
-Table:
-
-- daily_revenue or derived daily revenue dataset
-
-Relevant columns:
-
-- revenue_date
-- daily_revenue
-
-### Requirements
-
-- order by date
-- calculate 7-day moving average
-- use a proper window frame
-
-### Expected Output
-
-Columns:
-
-- revenue_date
-- daily_revenue
-- moving_avg_7d
-
-### Extra Challenge
-
-Also calculate 3-day and 30-day moving averages.
-
----
-
-## Task 5 — Previous and Next Order
-
-### Goal
-
-Show previous and next order timestamps for each customer order.
-
-### Input
-
-Table:
+Collection:
 
 - orders
 
-Relevant columns:
+Relevant fields:
 
-- user_id
-- order_id
-- order_date
+- status
 
 ### Requirements
 
-- use LAG
-- use LEAD
-- partition by user_id
-- order by order_date
+- return unique values only
 
 ### Expected Output
 
-Columns:
-
-- user_id
-- order_id
-- order_date
-- previous_order_date
-- next_order_date
+Distinct list of statuses.
 
 ### Extra Challenge
 
-Also calculate days_since_previous_order.
+Return distinct countries from nested customer.country.
 
 ---
 
-## Task 6 — Latest Record Per Entity
+## Task 10 — Nested Field Query
 
 ### Goal
 
-Return only the latest record per entity from an update stream.
+Return all orders where customer.country = "PL".
 
 ### Input
 
-Table:
+Collection:
 
-- customer_updates or orders_raw
+- orders
 
-Relevant columns:
+Relevant fields:
 
-- entity_id
-- updated_at
-- payload_version or event_id
+- customer.country
 
 ### Requirements
 
-- partition by entity_id
-- order by updated_at descending
-- keep only latest row
+- query nested field
 
 ### Expected Output
 
-Columns:
-
-- entity_id
-- updated_at
-- latest_payload_columns
+Documents whose nested customer.country equals PL.
 
 ### Extra Challenge
 
-Make the ordering deterministic when timestamps are equal.
+Add status = paid to the same query.
 
 ---
 
-## Task 7 — Sessionization Flag
+## Task 11 — Array Membership
 
 ### Goal
 
-Mark whether an event starts a new session.
+Return all orders tagged as priority.
 
 ### Input
 
-Table:
+Collection:
 
-- events
+- orders
 
-Relevant columns:
+Relevant fields:
 
-- user_id
-- event_time
-- event_name
+- tags
 
 ### Requirements
 
-- partition by user_id
-- order by event_time
-- compare current event_time with previous event_time
-- define a session timeout, for example 30 minutes
+- match documents containing one array value
 
 ### Expected Output
 
-Columns:
-
-- user_id
-- event_time
-- previous_event_time
-- new_session_flag
+Documents where tags contains "priority".
 
 ### Extra Challenge
 
-Create a session_id using cumulative sum over new_session_flag.
+Match documents containing both "priority" and "electronics".
 
 ---
 
-## Task 8 — Top N Inside Partition
+## Task 12 — elemMatch
 
 ### Goal
 
-Return top 5 products per category by revenue.
+Find orders where one embedded item has sku = A1 and qty >= 2.
 
 ### Input
 
-Tables:
+Collection:
 
-- order_items
-- products
+- orders
 
-Relevant columns:
+Relevant fields:
 
-- product_id
-- category_id
-- quantity
-- item_price
+- items.sku
+- items.qty
 
 ### Requirements
 
-- aggregate revenue per product
-- partition by category
-- rank by revenue descending
-- keep only top 5
+- use elemMatch
+- ensure both conditions match the same array element
 
 ### Expected Output
 
-Columns:
-
-- category_id
-- product_id
-- total_revenue
-- rank_in_category
+Orders containing at least one matching item object.
 
 ### Extra Challenge
 
-Compare ROW_NUMBER vs RANK vs DENSE_RANK on the same dataset.
+Also filter orders with amount > 100.
+
+---
+
+## Task 13 — Aggregation by Status
+
+### Goal
+
+Group orders by status and calculate count and total amount.
+
+### Input
+
+Collection:
+
+- orders
+
+Relevant fields:
+
+- status
+- amount
+
+### Requirements
+
+- use aggregation pipeline
+- group by status
+- count documents
+- sum amount
+
+### Expected Output
+
+Columns / fields:
+
+- status
+- order_count
+- total_amount
+
+### Extra Challenge
+
+Sort aggregated result by total_amount descending.
+
+---
+
+## Task 14 — Aggregation by Customer
+
+### Goal
+
+Group paid orders by customer_id and calculate total amount.
+
+### Input
+
+Collection:
+
+- orders
+
+Relevant fields:
+
+- customer_id
+- status
+- amount
+
+### Requirements
+
+- filter to paid orders first
+- group by customer_id
+- calculate total amount
+
+### Expected Output
+
+Documents showing customer-level paid revenue.
+
+### Extra Challenge
+
+Return top 10 customers by total_amount.
 

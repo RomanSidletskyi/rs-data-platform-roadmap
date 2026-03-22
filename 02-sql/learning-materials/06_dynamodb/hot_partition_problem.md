@@ -1,33 +1,17 @@
-# Hot Partition Problem
 
-A hot partition happens when too much traffic targets one partition key.
+cat <<'EOF' > "$MODULE/learning-materials/06_dynamodb/dynamodb_vs_mongodb.md" <<'EOF'
+# DynamoDB vs MongoDB
 
-## Example
+| Feature | DynamoDB | MongoDB |
+|---|---|---|
+| Main model | key-value / access-pattern | document-oriented |
+| Query style | PK/SK and indexes | flexible document queries |
+| Joins | no | limited through lookup |
+| Main strength | scale and latency | flexible document reads |
+| Main risk | hard schema design | document/index misuse |
 
-Bad key:
+## Main Difference
 
-```text
-pk = country
-```
+DynamoDB is stricter and more access-pattern-driven.
 
-If most traffic is:
-
-```text
-USA
-```
-
-then one partition becomes overloaded.
-
-## Symptoms
-
-- throttling
-- latency spikes
-- failed writes
-- inconsistent operational performance
-
-## Solutions
-
-- choose better partition keys
-- shard hot keys
-- spread writes intentionally
-- redesign access pattern
+MongoDB is more flexible in querying but still requires good modeling.

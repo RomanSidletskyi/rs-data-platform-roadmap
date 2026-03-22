@@ -1,30 +1,46 @@
-# Azure SQL Database
 
-Azure SQL Database is a managed SQL Server-based relational database service.
+cat <<'EOF' > "$MODULE/learning-materials/07_azure_databases_for_databricks/azure_sql_indexes.md" <<'EOF'
+# Azure SQL Indexes
 
-## What Stays Familiar
+## Clustered Index
 
-- T-SQL
-- joins
-- window functions
-- procedures
-- transactions
-- indexing
+```sql
+CREATE CLUSTERED INDEX idx_orders_date
+ON orders(order_date);
+```
 
-## What Changes
+## Nonclustered Index
 
-- fully managed infrastructure
-- platform-specific scaling tiers
-- Azure-native security and networking
-- cloud operational model
+```sql
+CREATE INDEX idx_orders_customer
+ON orders(customer_id);
+```
 
-## Best Use Cases
+## Composite Index
 
-- OLTP applications
-- transactional backends
-- source systems for data ingestion
-- structured operational workloads
+```sql
+CREATE INDEX idx_orders_customer_date
+ON orders(customer_id, order_date);
+```
 
-## Databricks Role
+## Filtered Index
 
-Databricks often reads Azure SQL as a source through JDBC or connector-based ingestion.
+```sql
+CREATE INDEX idx_active_orders
+ON orders(status)
+WHERE status = 'active';
+```
+
+## Columnstore Index
+
+```sql
+CREATE CLUSTERED COLUMNSTORE INDEX cci_orders
+ON orders;
+```
+
+## Strong Points
+
+- strong optimizer support
+- mature indexing model
+- columnstore for analytics-style reads
+- good balance between OLTP and reporting in moderate workloads

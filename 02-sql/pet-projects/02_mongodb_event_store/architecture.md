@@ -1,34 +1,45 @@
-# Architecture
 
-## Logical Flow
+cat <<'EOF' > "$MODULE/pet-projects/02_mongodb_event_store/document_model.md" <<'EOF'
+# Document Model
 
-Application
--> MongoDB event collection
--> indexes
--> operational queries
--> aggregation pipelines
--> optional export to analytics platform
+## Option 1 — Event Per Document
 
-## Main Architectural Concerns
+### Description
 
-- write volume
-- event granularity
-- query latency
-- index overhead
-- retention strategy
-- export strategy for analytics
+Each event is stored as one document.
 
-## Common Architecture Decision
+### Benefits
 
-MongoDB is usually good for:
+- simple write path
+- flexible filtering
+- easy indexing on event fields
+- natural fit for event streams
 
-- operational event access
-- recent activity queries
-- session reconstruction
-- application-side event browsing
+### Risks
 
-For deeper large-scale analytics, events are often exported to:
+- many small documents
+- session reconstruction requires grouping or multiple reads
 
-- data lake
-- Delta tables
-- Spark / Databricks pipelines
+---
+
+## Option 2 — Session Document
+
+### Description
+
+Store a session with embedded events.
+
+### Benefits
+
+- read-many events together
+- session-level reconstruction is easy
+
+### Risks
+
+- unbounded growth
+- harder partial updates
+- harder indexing on all event-level fields
+- less flexible for large sessions
+
+## Recommendation
+
+For most operational event logging workloads, event-per-document is the safer and simpler starting point.

@@ -1,10 +1,9 @@
-# Anti-Patterns
 
-## Common Mistakes
+cat <<'EOF' > "$MODULE/learning-materials/04_document_database_modeling/modeling_exercises.md" <<'EOF'
+# Modeling Exercises
 
-- using document DB as if it were a normalized relational DB
-- overusing joins / lookups
-- creating giant unbounded arrays
-- ignoring index design
-- ignoring partition strategy
-- storing multiple unrelated access patterns in one poor document shape
+1. Model users + orders in MongoDB.
+2. Model sessions + events in MongoDB.
+3. Model product catalog with flexible attributes.
+4. Decide when to embed payment data vs reference it.
+5. Compare the same domain in SQL vs document model.

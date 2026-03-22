@@ -1,28 +1,29 @@
-# Consistency and Scaling
 
-## SQL Systems
+cat <<'EOF' > "$MODULE/learning-materials/03_sql_vs_nosql_architecture/modeling_differences.md" <<'EOF'
+# Modeling Differences
 
-Common focus:
+## SQL Modeling
 
-- ACID transactions
-- strong consistency
-- normalized updates
-- vertical scale first, horizontal scale depending on engine
+Start with:
 
-## NoSQL Systems
+- entities
+- relationships
+- normalization
+- constraints
 
-Common focus:
+## NoSQL Modeling
 
-- distribution
-- scalability
-- eventual consistency in many systems
-- partition-based availability
+Start with:
 
-## Engineering Trade-Off
+- access patterns
+- document boundaries
+- partition strategy
+- denormalization needs
 
-You usually trade between:
+## SQL Question
 
-- strict correctness guarantees
-- write/read latency
-- global distribution
-- operational simplicity
+What are the entities and relationships?
+
+## NoSQL Question
+
+How will this data be queried and scaled?

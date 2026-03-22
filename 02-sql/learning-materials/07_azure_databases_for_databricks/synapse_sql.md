@@ -1,19 +1,39 @@
-# Synapse SQL
 
-Synapse SQL is a warehouse-style SQL engine in Azure.
+cat <<'EOF' > "$MODULE/learning-materials/07_azure_databases_for_databricks/synapse_queries.md" <<'EOF'
+# Synapse Queries
 
-## Main Modes
+## Query Parquet from Data Lake
 
-- dedicated SQL pool
-- serverless SQL pool
+```sql
+SELECT *
+FROM OPENROWSET(
+    BULK 'https://storageaccount.dfs.core.windows.net/data/orders/*.parquet',
+    FORMAT='PARQUET'
+) AS rows;
+```
 
-## Strong Sides
+## Aggregation
 
-- structured analytics
-- warehouse-style SQL
-- Power BI integration
-- querying external data in some modes
+```sql
+SELECT customer_id,
+       SUM(amount) AS total_amount
+FROM OPENROWSET(
+    BULK 'https://storageaccount.dfs.core.windows.net/data/orders/*.parquet',
+    FORMAT='PARQUET'
+) AS rows
+GROUP BY customer_id;
+```
 
-## Important Difference from OLTP SQL
+## Delta Query Example
 
-Synapse is about analytics and warehouse-style processing, not application OLTP.
+```sql
+SELECT *
+FROM OPENROWSET(
+    BULK 'https://storageaccount.dfs.core.windows.net/lake/delta/orders',
+    FORMAT='DELTA'
+) AS rows;
+```
+
+## Notes
+
+Synapse SQL is useful when the workload is warehouse-like and SQL-first.

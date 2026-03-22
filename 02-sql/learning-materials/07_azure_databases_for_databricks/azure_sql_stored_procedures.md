@@ -1,45 +1,31 @@
-# Azure SQL Stored Procedures
 
-Azure SQL Database supports T-SQL stored procedures.
+cat <<'EOF' > "$MODULE/learning-materials/07_azure_databases_for_databricks/azure_cosmosdb.md" <<'EOF'
+# Azure CosmosDB
 
-## Simple Procedure
+Azure CosmosDB is a globally distributed NoSQL database platform.
 
-```sql
-CREATE PROCEDURE GetCustomerOrders
-    @customer_id INT
-AS
-BEGIN
-    SELECT *
-    FROM orders
-    WHERE customer_id = @customer_id;
-END;
-```
+## Key Concepts
 
-## Execute
+- partition key
+- request units (RU)
+- global replication
+- JSON document model
+- multiple APIs
 
-```sql
-EXEC GetCustomerOrders @customer_id = 100;
-```
+## Supported APIs
 
-## Update Procedure
+- SQL API
+- Mongo API
+- Cassandra API
+- Gremlin API
 
-```sql
-CREATE PROCEDURE UpdateOrderStatus
-    @order_id INT,
-    @status VARCHAR(50)
-AS
-BEGIN
-    UPDATE orders
-    SET status = @status
-    WHERE order_id = @order_id;
-END;
-```
+## Best Use Cases
 
-## Why Important
+- globally distributed apps
+- microservices
+- IoT / event-oriented operational systems
+- semi-structured data
 
-Stored procedures are useful for:
+## Main Warning
 
-- business logic
-- data validation
-- transaction control
-- stable data access contracts
+Bad partition-key design leads to expensive and slow cross-partition queries.

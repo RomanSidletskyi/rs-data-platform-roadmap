@@ -1,0 +1,20 @@
+pipeline:
+  name: orders_platform_pipeline
+
+sources:
+  postgres_conn_id: postgres_source
+  api_http_conn_id: customer_api
+
+storage:
+  raw_prefix: orders/raw
+  enrichment_prefix: orders/enrichment
+  curated_prefix: orders/curated
+
+spark:
+  script_path: /opt/airflow/spark_jobs/orders_job.py
+  executor_memory: 1g
+  app_name: orders_job
+
+validation:
+  require_non_empty_output: true
+  min_expected_records: 1

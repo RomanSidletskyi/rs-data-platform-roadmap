@@ -1,52 +1,48 @@
-# Deduplication Pattern
+
+cat <<'EOF' > "$MODULE/learning-materials/01_sql_analytics_patterns/sessionization.md" <<'EOF'
+# Sessionization Pattern
 
 ## Goal
 
-Keep only one row per business key.
+Group user events into sessions based on inactivity windows.
 
-## Latest record per user
+## Example
 
 ```sql
-WITH ranked AS (
-    SELECT *,
-           ROW_NUMBER() OVER (
+WITH ordered AS (
+    SELECT user_id,
+           event_time,
+           CASE
+               WHEN LAG(event_time) OVER (
+                        PARTITION BY user_id
+                        ORDER BY event_time
+                    ) IS NULL THEN 1
+               WHEN event_time
+                    - LAG(event_time) OVER (
+                        PARTITION BY user_id
+                        ORDER BY event_time
+                    ) > INTERVAL '30 minutes' THEN 1
+               ELSE 0
+           END AS new_session
+    FROM events
+),
+numbered AS (
+    SELECT user_id,
+           event_time,
+           SUM(new_session) OVER (
                PARTITION BY user_id
-               ORDER BY updated_at DESC
-           ) AS rn
-    FROM users_raw
+               ORDER BY event_time
+               ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+           ) AS session_id
+    FROM ordered
 )
 SELECT *
-FROM ranked
-WHERE rn = 1;
-```
-
-## Keep latest event per order
-
-```sql
-WITH ranked AS (
-    SELECT *,
-           ROW_NUMBER() OVER (
-               PARTITION BY order_id
-               ORDER BY event_time DESC
-           ) AS rn
-    FROM order_events
-)
-SELECT *
-FROM ranked
-WHERE rn = 1;
+FROM numbered;
 ```
 
 ## Use Cases
 
-- CDC ingestion
-- bronze to silver transformations
-- event stream cleanup
-- removing duplicates after retries
-
-## Notes
-
-A deduplication strategy must define:
-
-- business key
-- tie breaker
-- deterministic ordering
+- clickstream analytics
+- web sessions
+- app activity analysis
+- user journey reconstruction
