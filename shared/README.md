@@ -165,7 +165,15 @@ Examples:
 Environment configuration for tools.
 
     environments/
+    ├─ git-hygiene.md
+    ├─ local-env-files-workflow.md
+    ├─ local-shell-env-loading-examples.md
+    ├─ secrets-management.md
+    ├─ use-github-env.md
+    ├─ use-postgres-env.md
+    ├─ who-reads-what.md
     ├─ python/
+    ├─ raspberry-pi/
     ├─ spark/
     ├─ dbt/
     └─ airflow/
@@ -175,6 +183,14 @@ Examples:
 - Python requirements
 - Spark configuration
 - tool setup documentation
+- remote homelab and Docker host setup
+- shared rules for local and runtime secrets
+- shared rules for keeping git clean
+- workflow for reading and editing local env files
+- concrete examples of loading env files into a shell
+- concrete example for GitHub env usage
+- concrete example for Postgres env usage
+- overview of which process reads which config source
 
 ---
 

@@ -29,6 +29,26 @@ Python ETL pipeline in Docker.
 
 ---
 
+# Support Module - Homelab Runtime
+
+Module:
+
+15-raspberry-pi-homelab
+
+Focus:
+
+- self-hosted lab machine
+- remote Docker runtime
+- lightweight service operations
+- storage and monitoring basics
+
+When to study it:
+
+- after 03-docker
+- before or alongside 11-airflow if you need a remote lab host
+
+---
+
 # Phase 2 — Data Processing
 
 Modules:
@@ -160,8 +180,8 @@ Spark + Flink reading Iceberg tables
 
 Modules:
 
-15-data-quality
-16-observability
+16-data-quality
+17-observability
 
 Focus:
 
@@ -175,8 +195,8 @@ Focus:
 
 Modules:
 
-17-cloud-architecture
-18-terraform
+18-cloud-architecture
+19-terraform
 
 Focus:
 

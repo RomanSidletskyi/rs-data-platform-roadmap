@@ -19,6 +19,7 @@ It covers the knowledge required to work with:
 - Python
 - SQL
 - Docker
+- Raspberry Pi / Homelab environments
 - GitHub Actions
 - Confluent / Kafka
 - Spark / PySpark
@@ -72,6 +73,11 @@ The focus is not only on learning tools, but also on learning how to think like 
 - `08-delta-lake/`
 - `09-azure-data-lake-storage/`
 - `10-powerbi-fabric/`
+- `11-airflow/`
+- `12-dbt/`
+- `13-flink/`
+- `14-iceberg/`
+- `15-raspberry-pi-homelab/`
 
 ### Cross-Technology Projects
 
@@ -126,6 +132,7 @@ That way, the repository becomes more than a study folder — it becomes evidenc
 
 - Start with `01-python/`
 - Move to `02-sql/`
+- Study `03-docker/` before `15-raspberry-pi-homelab/`
 - Build a strong foundation before starting streaming and lakehouse topics
 - Complete simple tasks before pet projects
 - Document what you learn in each module
