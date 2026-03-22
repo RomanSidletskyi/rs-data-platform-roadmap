@@ -125,10 +125,23 @@ Modules:
 
 03-docker
 04-github-actions
+15-raspberry-pi-homelab
 
 Purpose:
 
-Reproducible environments and CI/CD pipelines.
+Reproducible environments, CI/CD pipelines, and self-hosted lab runtime.
+
+---
+
+## Self-Hosted Lab Environment
+
+Module:
+
+15-raspberry-pi-homelab
+
+Purpose:
+
+Provide a lightweight remote host for Docker workloads, persistent volumes, and service operations practice.
 
 ---
 
@@ -198,7 +211,7 @@ Engine-independent lakehouse tables.
 
 Module:
 
-15-data-quality
+16-data-quality
 
 Purpose:
 
@@ -210,7 +223,7 @@ Validate datasets before consumption.
 
 Module:
 
-16-observability
+17-observability
 
 Purpose:
 
@@ -222,7 +235,7 @@ Monitor pipelines and infrastructure.
 
 Module:
 
-17-cloud-architecture
+18-cloud-architecture
 
 Purpose:
 
@@ -234,7 +247,7 @@ Understand cloud-native data platform design.
 
 Module:
 
-18-terraform
+19-terraform
 
 Purpose:
 

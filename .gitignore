@@ -1,0 +1,72 @@
+# macOS
+.DS_Store
+
+# Editors and local workspace state
+.vscode/
+.idea/
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Secrets and environment files
+.env
+.env.*
+*.env
+*.secrets
+*.secret
+*.token
+*.pem
+*.key
+*.p12
+*.crt
+!*.env.example
+!**/*.env.example
+
+# Logs and local runtime outputs
+*.log
+logs/
+**/logs/
+
+# Local databases and temporary files
+*.db
+*.sqlite
+*.sqlite3
+*.pid
+*.tmp
+*.swp
+*.swo
+
+# Build and packaging artifacts
+dist/
+build/
+*.egg-info/
+
+# Common local test and coverage outputs
+htmlcov/
+.tox/
+.nox/
+
+# Docker and local container overrides
+docker-compose.override.yml
+
+# Local host config directories for this repository
+.config/rs-data-platform/
+configs/local/*.env
+configs/dev/*.env
+
+# Repository-specific generated local artifacts
+**/data/raw/local/
+**/data/processed/local/
+**/data/generated/local/
+**/backups/local/

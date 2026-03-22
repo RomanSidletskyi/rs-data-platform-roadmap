@@ -379,6 +379,31 @@
 │       │   └── README.md
 │       └── 06_streaming_to_iceberg_concepts
 │           └── README.md
+├── 15-raspberry-pi-homelab
+│   ├── README.md
+│   ├── learning-materials
+│   │   ├── 01_raspberry_pi_role_in_data_platform_lab.md
+│   │   ├── 02_installation_and_first_boot.md
+│   │   ├── 03_ssh_networking_and_remote_access.md
+│   │   ├── 04_docker_services_and_runtime_layout.md
+│   │   ├── 05_storage_backups_and_file_management.md
+│   │   └── 06_monitoring_security_and_operations.md
+│   ├── pet-projects
+│   │   ├── 01_remote_docker_lab
+│   │   │   └── README.md
+│   │   └── 02_airflow_on_raspberry_pi
+│   │       └── README.md
+│   └── simple-tasks
+│       ├── 01_first_boot_and_ssh
+│       │   └── README.md
+│       ├── 02_static_ip_and_remote_access
+│       │   └── README.md
+│       ├── 03_install_docker_and_run_services
+│       │   └── README.md
+│       ├── 04_storage_layout_and_backups
+│       │   └── README.md
+│       └── 05_monitoring_and_operations
+│           └── README.md
 ├── README.md
 ├── ai-learning
 │   ├── README.md

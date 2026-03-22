@@ -1,0 +1,111 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: rpi-postgres
+    restart: unless-stopped
+    env_file:
+      - ${STACK_ENV_FILE}
+    volumes:
+      - ${RPI_RUNTIME_ROOT}/postgres/data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  minio:
+    image: quay.io/minio/minio:latest
+    container_name: rpi-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    env_file:
+      - ${STACK_ENV_FILE}
+    volumes:
+      - ${RPI_RUNTIME_ROOT}/minio/data:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  airflow-init:
+    image: apache/airflow:2.9.3
+    container_name: rpi-airflow-init
+    user: "0:0"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - ${STACK_ENV_FILE}
+    environment:
+      AIRFLOW_UID: ${AIRFLOW_UID}
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      _PIP_ADDITIONAL_REQUIREMENTS: psycopg2-binary
+    volumes:
+      - ${RPI_RUNTIME_ROOT}/airflow/dags:/opt/airflow/dags
+      - ${RPI_RUNTIME_ROOT}/airflow/logs:/opt/airflow/logs
+      - ${RPI_RUNTIME_ROOT}/airflow/plugins:/opt/airflow/plugins
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - |
+        airflow db migrate && \
+        airflow users create \
+          --username $${AIRFLOW_USER} \
+          --password $${AIRFLOW_PASSWORD} \
+          --firstname Airflow \
+          --lastname Admin \
+          --role Admin \
+          --email admin@example.com || true
+
+  airflow-webserver:
+    image: apache/airflow:2.9.3
+    container_name: rpi-airflow-webserver
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      airflow-init:
+        condition: service_completed_successfully
+    env_file:
+      - ${STACK_ENV_FILE}
+    environment:
+      AIRFLOW_UID: ${AIRFLOW_UID}
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      _PIP_ADDITIONAL_REQUIREMENTS: psycopg2-binary
+    volumes:
+      - ${RPI_RUNTIME_ROOT}/airflow/dags:/opt/airflow/dags
+      - ${RPI_RUNTIME_ROOT}/airflow/logs:/opt/airflow/logs
+      - ${RPI_RUNTIME_ROOT}/airflow/plugins:/opt/airflow/plugins
+    command: webserver
+    ports:
+      - "8088:8080"
+
+  airflow-scheduler:
+    image: apache/airflow:2.9.3
+    container_name: rpi-airflow-scheduler
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      airflow-init:
+        condition: service_completed_successfully
+    env_file:
+      - ${STACK_ENV_FILE}
+    environment:
+      AIRFLOW_UID: ${AIRFLOW_UID}
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      _PIP_ADDITIONAL_REQUIREMENTS: psycopg2-binary
+    volumes:
+      - ${RPI_RUNTIME_ROOT}/airflow/dags:/opt/airflow/dags
+      - ${RPI_RUNTIME_ROOT}/airflow/logs:/opt/airflow/logs
+      - ${RPI_RUNTIME_ROOT}/airflow/plugins:/opt/airflow/plugins
+    command: scheduler
