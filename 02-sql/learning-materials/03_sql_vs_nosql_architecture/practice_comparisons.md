@@ -1,39 +1,26 @@
-# Practice Comparisons
 
-## Example 1: Customer Orders
+cat <<'EOF' > "$MODULE/learning-materials/04_document_database_modeling/README.md" <<'EOF'
+# 04 Document Database Modeling
 
-### SQL
-Use normalized tables and joins.
+This section focuses on document-oriented schema design.
 
-### MongoDB
-Embed order items inside order documents.
+## Why This Matters
 
-### DynamoDB
-Store orders under customer partition.
+SQL engineers often know normalization deeply, but document stores require a different design mindset.
 
-### CosmosDB
-Use customer_id as partition key and model orders as JSON documents.
+In document databases, the critical questions are:
 
-## Example 2: Product Catalog
+- what gets read together
+- what changes together
+- what should be embedded
+- what should be referenced
+- what should be partitioned together
 
-### SQL
-Good for structured product relationships.
+## Files
 
-### MongoDB
-Good for flexible product attributes.
-
-### DynamoDB
-Good if access patterns are simple and key-based.
-
-### CosmosDB
-Good for distributed microservice catalog APIs.
-
-## Exercise
-
-For each use case, decide:
-
-- dominant read pattern
-- write pattern
-- scaling requirement
-- consistency need
-- best storage fit
+- embedding_vs_referencing.md
+- access_patterns.md
+- denormalization.md
+- schema_design.md
+- anti_patterns.md
+- modeling_exercises.md

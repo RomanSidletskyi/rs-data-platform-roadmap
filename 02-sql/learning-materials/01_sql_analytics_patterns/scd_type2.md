@@ -1,47 +1,22 @@
-# SCD Type 2 Pattern
 
-## Goal
+cat <<'EOF' > "$MODULE/learning-materials/01_sql_analytics_patterns/practice_queries.md" <<'EOF'
+# Practice Queries
 
-Track historical changes to dimension attributes.
+1. Find top 5 customers by revenue.
+2. Find the latest order per user.
+3. Build a 4-step funnel.
+4. Compute 7-day retention.
+5. Calculate cumulative daily revenue.
+6. Produce a monthly cohort table.
+7. Deduplicate event stream records.
+8. Build an SCD Type 2 dimension for product pricing.
 
-## Example Dimension Columns
+## Guidance
 
-- customer_id
-- customer_name
-- country
-- valid_from
-- valid_to
-- is_current
+For each query:
 
-## Insert New Version Logic
-
-```sql
-UPDATE dim_customer
-SET valid_to = CURRENT_DATE - INTERVAL '1 day',
-    is_current = false
-WHERE customer_id = 100
-  AND is_current = true;
-
-INSERT INTO dim_customer (
-    customer_id,
-    customer_name,
-    country,
-    valid_from,
-    valid_to,
-    is_current
-)
-VALUES (
-    100,
-    'Alice',
-    'PL',
-    CURRENT_DATE,
-    DATE '9999-12-31',
-    true
-);
-```
-
-## Use Cases
-
-- historical customer attributes
-- changing account states
-- slowly changing business dimensions
+- define grain
+- define business keys
+- define time logic
+- define tie-break rules
+- define expected output shape

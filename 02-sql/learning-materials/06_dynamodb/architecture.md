@@ -1,23 +1,25 @@
-# DynamoDB Architecture
 
-## High-Level Flow
+cat <<'EOF' > "$MODULE/learning-materials/06_dynamodb/partition_keys.md" <<'EOF'
+# Partition Keys
 
-Client
--> API
--> partition key hashing
--> storage partitions
+Partition keys determine data placement.
 
-## Main Concepts
+## Good Partition Key
 
-- partition key
-- sort key
-- throughput
-- GSIs
-- LSIs
-- adaptive capacity
+A good partition key should:
 
-## Important Truth
+- distribute traffic evenly
+- support important access patterns
+- avoid concentration on one value
 
-DynamoDB is not designed for relational query flexibility.
+## Bad Partition Key Examples
 
-It is designed for predictable, scalable key-based access.
+- country when most traffic is one country
+- status when one status dominates
+- very low-cardinality fields
+
+## Good Examples
+
+- customer_id if traffic is well distributed
+- tenant_id when tenants are balanced
+- sharded synthetic keys when needed

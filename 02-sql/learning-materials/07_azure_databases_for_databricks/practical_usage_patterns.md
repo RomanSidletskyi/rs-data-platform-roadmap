@@ -1,22 +1,22 @@
-# Practical Usage Patterns
 
-## Pattern 1: Azure SQL as Source for Databricks
+cat <<'EOF' > "$MODULE/learning-materials/07_azure_databases_for_databricks/synapse_vs_databricks_sql.md" <<'EOF'
+# Synapse vs Databricks SQL
 
-- operational app writes to Azure SQL
-- Databricks ingests via JDBC
-- Delta tables become analytics layer
+| Feature | Synapse SQL | Databricks SQL |
+|---|---|---|
+| Main style | warehouse SQL | lakehouse SQL |
+| Core storage fit | warehouse / external query | Delta Lake |
+| Best for | BI and warehouse patterns | analytics, engineering, lakehouse |
+| Engine character | MPP warehouse style | Spark-based SQL over lakehouse |
 
-## Pattern 2: CosmosDB for Operational API + Databricks for Analytics
+## Use Synapse SQL When
 
-- application writes JSON documents to CosmosDB
-- analytics pipeline exports or ingests operational data
-- curated Delta tables power BI and ML
+- SQL warehouse model is dominant
+- BI/reporting is the main driver
+- platform is organized around warehouse semantics
 
-## Pattern 3: Synapse for SQL Warehouse Workloads
+## Use Databricks SQL When
 
-- structured reporting in Synapse
-- Databricks handles broader engineering / lakehouse workloads
-
-## Rule
-
-Do not force one Azure database to serve every workload.
+- Delta Lake is central
+- data engineering and analytics are combined
+- ML and broader platform workflows matter

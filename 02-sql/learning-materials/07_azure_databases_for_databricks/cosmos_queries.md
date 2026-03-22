@@ -1,81 +1,34 @@
-# CosmosDB Queries
 
-These examples assume SQL API style queries.
+cat <<'EOF' > "$MODULE/learning-materials/07_azure_databases_for_databricks/cosmos_partitioning.md" <<'EOF'
+# CosmosDB Partitioning
 
-## Select all
+Partitioning is one of the most important design decisions in CosmosDB.
 
-```sql
-SELECT *
-FROM c
+## Good Partition Key Should
+
+- distribute data well
+- distribute traffic well
+- align with common query paths
+- avoid hot logical partitions
+
+## Example
+
+Good candidate:
+
+```text
+/customer_id
 ```
 
-## Equality filter
+if common access pattern is customer-local.
 
-```sql
-SELECT *
-FROM c
-WHERE c.status = "paid"
+## Bad Example
+
+```text
+/status
 ```
 
-## Range filter
+if one status dominates.
 
-```sql
-SELECT *
-FROM c
-WHERE c.amount > 100
-```
+## Main Cost Rule
 
-## Projection
-
-```sql
-SELECT c.order_id, c.amount
-FROM c
-```
-
-## Nested field
-
-```sql
-SELECT *
-FROM c
-WHERE c.customer.country = "PL"
-```
-
-## Array query
-
-```sql
-SELECT *
-FROM c
-JOIN item IN c.items
-WHERE item.sku = "A1"
-```
-
-## Count
-
-```sql
-SELECT VALUE COUNT(1)
-FROM c
-WHERE c.status = "paid"
-```
-
-## Distinct
-
-```sql
-SELECT DISTINCT VALUE c.status
-FROM c
-```
-
-## Order by
-
-```sql
-SELECT *
-FROM c
-ORDER BY c.order_date DESC
-```
-
-## Notes
-
-Always think about:
-
-- partition key usage
-- cross-partition cost
-- RU consumption
+Queries that do not align with partitioning are often more expensive and slower.

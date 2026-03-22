@@ -1,309 +1,245 @@
-# Data Modeling Comparison
 
-This file shows how the same business domain can be modeled in different storage systems.
+cat <<'EOF' > "$MODULE/learning-materials/indexing_strategy_across_databases.md" <<'EOF'
+# Indexing Strategy Across Databases
 
-## Example Domain
+Indexes are not one universal feature with the same behavior everywhere. They are system-specific mechanisms that accelerate access patterns.
 
-E-commerce:
+## Core Principle
 
-- users
-- orders
-- order_items
-- payments
-- products
-- clickstream events
+Indexes should follow actual query patterns.
+
+```text
+queries -> indexes
+```
+
+Not the other way around.
 
 ---
 
-## 1. SQL Model
+## 1. SQL Databases
 
-### Tables
+Examples:
 
-- users
-- orders
-- order_items
-- products
-- payments
+- PostgreSQL
+- SQL Server
+- MySQL
+- Azure SQL Database
 
-### Characteristics
+### Common Index Types
 
-- normalized model
-- joins are natural
-- strong transactional consistency
-- good for OLTP and structured analytics
+- clustered
+- non-clustered
+- composite
+- filtered / partial
+- columnstore
 
 ### Example
 
 ```sql
-CREATE TABLE users (
-    user_id INT PRIMARY KEY,
-    email VARCHAR(255),
-    country VARCHAR(50)
-);
-
-CREATE TABLE orders (
-    order_id INT PRIMARY KEY,
-    user_id INT,
-    order_date TIMESTAMP,
-    status VARCHAR(50),
-    amount DECIMAL(12,2)
-);
-
-CREATE TABLE order_items (
-    order_item_id INT PRIMARY KEY,
-    order_id INT,
-    product_id INT,
-    quantity INT,
-    item_price DECIMAL(12,2)
-);
+CREATE INDEX idx_orders_customer_date
+ON orders(customer_id, order_date);
 ```
 
-### Best For
+### Good For
 
-- transactional applications
-- structured business data
-- reporting with joins
-- strong ACID guarantees
+- equality filters
+- range filters
+- joins
+- sorting
+- selective lookups
 
----
+### Bad Uses
 
-## 2. MongoDB Model
+- low-selectivity columns
+- too many write-heavy indexes
+- indexing every column blindly
 
-### Design Idea
+### Columnstore
 
-Store related data together when it improves read patterns.
-
-### Example Document
-
-```json
-{
-  "order_id": 101,
-  "user_id": 10,
-  "order_date": "2025-01-10T12:00:00Z",
-  "status": "paid",
-  "amount": 450,
-  "items": [
-    {
-      "product_id": 1001,
-      "product_name": "Laptop",
-      "quantity": 1,
-      "item_price": 400
-    },
-    {
-      "product_id": 1002,
-      "product_name": "Mouse",
-      "quantity": 1,
-      "item_price": 50
-    }
-  ],
-  "payment": {
-    "method": "card",
-    "status": "captured"
-  }
-}
-```
-
-### Characteristics
-
-- denormalized
-- optimized for document reads
-- nested structures are natural
-- embedding reduces joins
-
-### Best For
-
-- flexible JSON-like data
-- product catalogs
-- event payloads
-- fast application reads
-
-### Risks
-
-- document growth
-- duplicated data
-- overuse of lookup
-- weak schema governance
-
----
-
-## 3. DynamoDB Model
-
-### Design Idea
-
-Schema is built from access patterns, not from entities.
-
-### Example Access Patterns
-
-- get all orders for one customer
-- get latest orders for a customer
-- get all orders for one product
-- get daily order summary
-
-### Example Item Structure
-
-```json
-{
-  "pk": "CUSTOMER#10",
-  "sk": "ORDER#2025-01-10T12:00:00Z#101",
-  "entity_type": "ORDER",
-  "order_id": 101,
-  "status": "paid",
-  "amount": 450
-}
-```
-
-### GSI Example
-
-```json
-{
-  "gsi1pk": "PRODUCT#1001",
-  "gsi1sk": "ORDER#2025-01-10T12:00:00Z#101"
-}
-```
-
-### Characteristics
-
-- access-pattern driven
-- no joins
-- partition key design is critical
-- single-table design is common
-
-### Best For
-
-- high-scale key-based access
-- event or activity timelines
-- low-latency operational systems
-
-### Risks
-
-- hard to redesign later
-- poor PK choice causes hot partitions
-- ad hoc analytics are weak
-- scans are expensive and often the wrong tool
-
----
-
-## 4. CosmosDB Model
-
-### Design Idea
-
-Document database with partition-aware distribution.
-
-### Example Document
-
-```json
-{
-  "id": "101",
-  "customer_id": "10",
-  "type": "order",
-  "order_date": "2025-01-10T12:00:00Z",
-  "status": "paid",
-  "amount": 450,
-  "items": [
-    {
-      "product_id": "1001",
-      "quantity": 1,
-      "item_price": 400
-    }
-  ]
-}
-```
-
-### Partition Key
-
-```text
-/customer_id
-```
-
-### Characteristics
-
-- JSON documents
-- partition key drives routing and cost
-- global distribution available
-- supports multiple APIs
-
-### Best For
-
-- globally distributed apps
-- operational document workloads
-- microservice backends
-- semi-structured data
-
-### Risks
-
-- bad partition key = expensive queries
-- cross-partition queries increase RU costs
-- indexing policy matters
-
----
-
-## 5. Lakehouse / Delta Model
-
-### Design Idea
-
-Store analytics-ready data in files and tables optimized for large-scale processing.
-
-### Bronze / Silver / Gold
-
-- bronze: raw ingestion
-- silver: cleaned and standardized
-- gold: business-level analytics tables
-
-### Example Delta Table
+Very important for analytics:
 
 ```sql
-CREATE TABLE silver_orders (
-    order_id BIGINT,
-    user_id BIGINT,
-    order_date TIMESTAMP,
-    status STRING,
-    amount DECIMAL(12,2)
-)
-USING DELTA
-PARTITIONED BY (status);
+CREATE CLUSTERED COLUMNSTORE INDEX cci_orders
+ON orders;
 ```
 
-### Characteristics
+Useful for:
 
-- large-scale analytics
-- batch and streaming support
-- schema evolution
-- time travel
-- merge/upsert patterns
-
-### Best For
-
-- analytics
-- data engineering pipelines
-- ML feature preparation
-- lakehouse architectures
-
-### Risks
-
-- poor partition strategy
-- too many small files
-- weak optimization hygiene
-- trying to use it like OLTP
+- scans
+- aggregates
+- reporting
+- warehouse workloads
 
 ---
 
-## Comparison Summary
+## 2. MongoDB
 
-| System | Modeling Style | Strength | Weakness |
-|---|---|---|---|
-| SQL | normalized relational | joins, transactions | rigid scaling patterns in some workloads |
-| MongoDB | document-oriented | flexible nested reads | duplicated data, growth risk |
-| DynamoDB | access-pattern driven | scale and low latency | difficult modeling |
-| CosmosDB | partitioned document | global distribution | partition/cost pitfalls |
-| Delta Lake | analytics tables/files | scale and analytics | not OLTP |
+MongoDB indexes support document access paths.
 
-## Main Rule
+### Common Types
 
-Choose the model based on:
+- single field
+- compound
+- multikey
+- text
+- hashed
+- TTL
+- geospatial
 
-- access patterns
-- consistency needs
-- scale requirements
-- analytics needs
-- cost profile
-- operational complexity
+### Example
+
+```javascript
+db.orders.createIndex({ customer_id: 1, order_date: -1 })
+```
+
+### Nested Field Index
+
+```javascript
+db.orders.createIndex({ "customer.country": 1 })
+```
+
+### Array Field Index
+
+```javascript
+db.orders.createIndex({ "items.sku": 1 })
+```
+
+### Design Guidance
+
+- create indexes for frequent filter paths
+- align compound indexes with query order
+- avoid index explosion
+- understand cardinality and selectivity
+
+### Common Mistakes
+
+- too many indexes
+- indexing unused fields
+- ignoring sort order in compound indexes
+- forgetting nested field indexes
+
+---
+
+## 3. DynamoDB
+
+DynamoDB does not use indexes like relational databases.
+
+### Main Access Structure
+
+- partition key
+- sort key
+
+### Secondary Indexes
+
+- GSI: Global Secondary Index
+- LSI: Local Secondary Index
+
+### Example
+
+Base table:
+
+- PK = customer_id
+- SK = order_timestamp
+
+GSI1:
+
+- GSI1PK = product_id
+- GSI1SK = order_timestamp
+
+### Key Truth
+
+In DynamoDB, indexes are part of schema design.
+
+You do not add indexes casually later in the same way as SQL.
+
+### Design Guidance
+
+- start from access patterns
+- ensure partition key distribution
+- avoid hot partitions
+- add GSIs only for real access needs
+
+### Common Mistakes
+
+- weak partition key
+- trying to mimic joins
+- overusing scans
+- too many GSIs
+
+---
+
+## 4. CosmosDB
+
+CosmosDB automatically indexes fields by default.
+
+### Important Implication
+
+Indexing policy directly affects:
+
+- RU cost
+- write performance
+- query speed
+- storage cost
+
+### Design Guidance
+
+- do not blindly index giant payload fields
+- optimize indexing policy for workload
+- know whether queries are partition-local or cross-partition
+
+### Common Mistakes
+
+- relying on default indexing without review
+- bad partition key plus broad indexing
+- expensive cross-partition filters
+
+---
+
+## 5. Delta Lake / Lakehouse
+
+Traditional row-level indexes are not the core optimization mechanism.
+
+### Main Optimization Tools
+
+- partitioning
+- file pruning
+- data skipping
+- statistics
+- ZORDER
+
+### Example
+
+```sql
+OPTIMIZE orders
+ZORDER BY (customer_id);
+```
+
+### Design Guidance
+
+- partition only on meaningful common filters
+- avoid high-cardinality partitions
+- optimize small files
+- use ZORDER for selective reads
+
+### Common Mistakes
+
+- partitioning by user_id
+- too many partitions
+- never running optimize
+- ignoring file size distribution
+
+---
+
+## Comparison Table
+
+| System | Main Optimization Path |
+|---|---|
+| SQL | B-tree / columnstore indexes |
+| MongoDB | document indexes |
+| DynamoDB | PK/SK + GSIs/LSIs |
+| CosmosDB | automatic indexing policy |
+| Delta Lake | partitioning + skipping + layout |
+
+## Final Rule
+
+The best index is the one that directly supports a high-value query pattern at acceptable write and storage cost.

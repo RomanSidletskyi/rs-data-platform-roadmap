@@ -1,30 +1,22 @@
-# DynamoDB Data Modeling
 
-## Main Mindset
+cat <<'EOF' > "$MODULE/learning-materials/06_dynamodb/scaling_and_throttling.md" <<'EOF'
+# Scaling and Throttling
 
-Do not start with entities.
+## Core Issues
 
-Start with access patterns.
+DynamoDB performance depends on partition distribution and throughput behavior.
 
-## Typical Process
+## Typical Problems
 
-1. list read/write patterns
-2. design primary key
-3. design sort key
-4. identify alternate access needs
-5. add GSIs only where necessary
+- hot partitions
+- throttling spikes
+- uneven traffic
+- write bursts on one key
 
-## Common Patterns
+## Design Responses
 
-- customer timeline
-- order history
-- latest status per entity
-- tenant-isolated data
-- event streams by actor
-
-## Common Mistakes
-
-- trying to reproduce normalized SQL schema
-- overusing scans
-- weak partition keys
-- not thinking about hot partitions
+- improve partition key distribution
+- use sharding strategies
+- cache hot reads
+- precompute aggregates
+- use adaptive scaling features appropriately

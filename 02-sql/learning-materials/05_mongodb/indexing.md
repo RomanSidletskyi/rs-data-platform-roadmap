@@ -1,38 +1,23 @@
-# MongoDB Indexing
 
-## Simple index
+cat <<'EOF' > "$MODULE/learning-materials/05_mongodb/data_modeling.md" <<'EOF'
+# MongoDB Data Modeling
 
-```javascript
-db.orders.createIndex({ customer_id: 1 })
-```
+## Main Rules
 
-## Compound index
+- embed when data is read together
+- reference when data is large, shared, or independent
+- design documents around application access patterns
+- avoid modeling everything like normalized SQL
 
-```javascript
-db.orders.createIndex({ customer_id: 1, order_date: -1 })
-```
+## Good Fit
 
-## Nested field index
+- product catalogs
+- event payloads
+- order documents
+- session documents
 
-```javascript
-db.orders.createIndex({ "customer.country": 1 })
-```
+## Common Risks
 
-## Array field index
-
-```javascript
-db.orders.createIndex({ "items.sku": 1 })
-```
-
-## Text index
-
-```javascript
-db.products.createIndex({ description: "text" })
-```
-
-## Design Rules
-
-- index frequent filters
-- align compound index order with query patterns
-- keep write overhead in mind
-- validate with explain plans
+- giant documents
+- too much duplication
+- lookup-heavy data access

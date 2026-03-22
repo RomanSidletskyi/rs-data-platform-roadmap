@@ -1,22 +1,47 @@
-# 03 SQL vs NoSQL Architecture
 
-This section compares relational and NoSQL systems from an engineering and architecture perspective.
+cat <<'EOF' > "$MODULE/learning-materials/03_sql_vs_nosql_architecture/architecture.md" <<'EOF'
+# Architecture
 
-## Goal
+## Relational Architecture
 
-Understand:
+Typical structure:
 
-- where SQL is strong
-- where NoSQL is strong
-- what changes in data modeling
-- what changes in querying
-- what changes in consistency and scaling
+Application
+-> SQL engine
+-> tables
+-> indexes
+-> transactional storage
 
-## Files
+### Strong Sides
 
-- architecture.md
-- consistency_and_scaling.md
-- modeling_differences.md
-- query_differences.md
-- tradeoffs.md
-- practice_comparisons.md
+- transactions
+- joins
+- integrity constraints
+- strong consistency
+
+## NoSQL Architecture
+
+Typical structure:
+
+Application
+-> API / query layer
+-> distributed partitions
+-> document or key-value storage
+
+### Strong Sides
+
+- horizontal scaling
+- flexible schema
+- workload-specific design
+- very high throughput in some systems
+
+## Key Difference
+
+SQL centers around relational structure.
+
+NoSQL often centers around:
+
+- documents
+- keys
+- partitions
+- access patterns

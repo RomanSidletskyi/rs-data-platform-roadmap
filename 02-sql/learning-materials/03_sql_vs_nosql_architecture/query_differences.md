@@ -1,38 +1,21 @@
-# Query Differences
 
-## SQL
+cat <<'EOF' > "$MODULE/learning-materials/03_sql_vs_nosql_architecture/tradeoffs.md" <<'EOF'
+# Trade-Offs
 
-Rich declarative language:
+## SQL is Usually Better For
 
-- joins
-- window functions
-- group by
-- subqueries
-- CTEs
+- transactions
+- structured business systems
+- relational analytics
+- strong integrity requirements
 
-## MongoDB
+## NoSQL is Usually Better For
 
-Document-oriented:
+- flexible schemas
+- key-based massive scale
+- globally distributed document workloads
+- ultra-low-latency operational access
 
-- find filters
-- projections
-- aggregation pipeline
-- nested fields
-- array operations
+## Common Mistake
 
-## DynamoDB
-
-Key-based:
-
-- query by PK/SK
-- GSIs
-- scans are discouraged
-- no joins
-
-## CosmosDB
-
-Document SQL-like:
-
-- JSON field access
-- partition-aware behavior
-- limited compared to full relational SQL
+Trying to force one storage model into every workload.

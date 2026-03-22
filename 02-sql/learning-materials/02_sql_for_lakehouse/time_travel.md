@@ -1,26 +1,30 @@
-# Time Travel
 
-## Goal
+cat <<'EOF' > "$MODULE/learning-materials/02_sql_for_lakehouse/schema_evolution.md" <<'EOF'
+# Schema Evolution
 
-Read previous versions of Delta tables.
+## Problem
 
-## Example: By version
+Data changes over time:
 
-```sql
-SELECT *
-FROM silver_orders VERSION AS OF 10;
-```
+- new columns appear
+- types evolve
+- source payloads drift
 
-## Example: By timestamp
+## Lakehouse Need
 
-```sql
-SELECT *
-FROM silver_orders TIMESTAMP AS OF '2025-01-01T12:00:00Z';
-```
+A scalable platform must handle schema change intentionally.
 
-## Use Cases
+## Common Practices
 
-- debugging bad loads
-- reproducible analytics
-- historical comparisons
-- rollback support
+- enforce schema in curated layers
+- allow controlled evolution in ingestion layers
+- add audit logic around schema changes
+- document table contracts
+
+## Main Trade-Off
+
+Too strict:
+- breaks ingestion often
+
+Too loose:
+- creates schema chaos

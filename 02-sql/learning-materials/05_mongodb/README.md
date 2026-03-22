@@ -1,19 +1,32 @@
-# 05 MongoDB
 
-This section covers MongoDB from a data engineering and architecture perspective.
+cat <<'EOF' > "$MODULE/learning-materials/05_mongodb/python_setup.md" <<'EOF'
+# Python Setup
 
-## Main Topics
+## Local Setup
 
-- architecture
-- Python setup
-- query patterns
-- aggregation
-- indexing
-- data modeling
-- MongoDB vs SQL
+```python
+from pymongo import MongoClient
+from pprint import pprint
 
-MongoDB should be learned here as:
+client = MongoClient("mongodb://localhost:27017/")
+db = client["learning_db"]
+orders = db["orders"]
 
-- a document database
-- a queryable operational store
-- a system that depends heavily on good schema and index design
+def show(cursor):
+    for doc in cursor:
+        pprint(doc)
+```
+
+## Atlas Setup
+
+```python
+from pymongo import MongoClient
+
+client = MongoClient("mongodb+srv://<username>:<password>@cluster.mongodb.net/")
+db = client["learning_db"]
+orders = db["orders"]
+```
+
+## Why Python First
+
+Using MongoDB through Python is closer to real application and data engineering workflows than using shell-only examples.

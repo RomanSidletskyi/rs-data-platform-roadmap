@@ -1,0 +1,14 @@
+pipeline:
+  name: orders_pipeline_runtime_safe
+
+spark:
+  script_path: /opt/airflow/spark_jobs/orders_job.py
+  executor_memory: 1g
+  app_name: orders_job
+
+storage:
+  raw_prefix: orders/raw
+  curated_prefix: orders/curated
+
+validation:
+  require_non_empty_output: true

@@ -1,15 +1,14 @@
-# Practice Patterns
 
-1. Design a table for customer orders.
-2. Design a GSI for product-based order lookup.
-3. Model latest events per user.
-4. Avoid hot partition for high-traffic tenants.
-5. Design a time-series access pattern.
+cat <<'EOF' > "$MODULE/learning-materials/07_azure_databases_for_databricks/README.md" <<'EOF'
+# 07 Azure Databases for Databricks
 
-For each case define:
+This section focuses on Azure databases and how they fit into data platform architecture, especially around Databricks.
 
-- PK
-- SK
-- alternate indexes
-- expected query
-- scaling risk
+## Main Topics
+
+- Azure SQL Database
+- Azure CosmosDB
+- Synapse SQL
+- Databricks integration
+- selection guidance
+- partitioning and indexing trade-offs

@@ -1,38 +1,38 @@
-# Running Totals Pattern
+
+cat <<'EOF' > "$MODULE/learning-materials/01_sql_analytics_patterns/cohort_analysis.md" <<'EOF'
+# Cohort Analysis Pattern
 
 ## Goal
 
-Accumulate values over time.
+Group users by first activity period and track behavior over time.
 
 ## Example
 
 ```sql
-SELECT order_date,
-       amount,
-       SUM(amount) OVER (
-           ORDER BY order_date
-           ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-       ) AS running_revenue
-FROM daily_revenue;
-```
-
-## Partitioned Running Total
-
-```sql
-SELECT customer_id,
-       order_date,
-       amount,
-       SUM(amount) OVER (
-           PARTITION BY customer_id
-           ORDER BY order_date
-           ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-       ) AS running_customer_revenue
-FROM orders;
+WITH first_month AS (
+    SELECT user_id,
+           DATE_TRUNC('month', MIN(event_time)) AS cohort_month
+    FROM events
+    GROUP BY user_id
+),
+monthly_activity AS (
+    SELECT user_id,
+           DATE_TRUNC('month', event_time) AS activity_month
+    FROM events
+    GROUP BY user_id, DATE_TRUNC('month', event_time)
+)
+SELECT f.cohort_month,
+       m.activity_month,
+       COUNT(DISTINCT m.user_id) AS active_users
+FROM first_month f
+JOIN monthly_activity m
+  ON f.user_id = m.user_id
+GROUP BY f.cohort_month, m.activity_month
+ORDER BY f.cohort_month, m.activity_month;
 ```
 
 ## Use Cases
 
-- cumulative revenue
-- cumulative signups
-- cumulative errors
-- progressive KPIs
+- retention trends
+- product adoption curves
+- long-term customer behavior

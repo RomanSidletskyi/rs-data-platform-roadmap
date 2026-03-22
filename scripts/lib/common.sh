@@ -2,15 +2,23 @@
 
 set -euo pipefail
 
+if [[ -z "${SCRIPT_NAME:-}" ]]; then
+  SCRIPT_NAME="$(basename "${BASH_SOURCE[0]:-script}")"
+fi
+
 log() {
-  printf '[INFO] %s\n' "$1"
+  printf '[%s] INFO  %s\n' "$SCRIPT_NAME" "$1"
 }
 
 warn() {
-  printf '[WARN] %s\n' "$1"
+  printf '[%s] WARN  %s\n' "$SCRIPT_NAME" "$1"
+}
+
+error() {
+  printf '[%s] ERROR %s\n' "$SCRIPT_NAME" "$1" >&2
 }
 
 die() {
-  printf '[ERROR] %s\n' "$1" >&2
+  error "$1"
   exit 1
 }

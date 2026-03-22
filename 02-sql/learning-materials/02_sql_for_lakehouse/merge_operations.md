@@ -1,30 +1,34 @@
-# Merge Operations
 
-## Goal
+cat <<'EOF' > "$MODULE/learning-materials/02_sql_for_lakehouse/partitioning.md" <<'EOF'
+# Partitioning
 
-Perform upserts and synchronized loads.
+## Purpose
+
+Partitioning reduces the amount of data scanned when queries filter on partition columns.
 
 ## Example
 
 ```sql
-MERGE INTO silver_orders t
-USING staged_orders s
-ON t.order_id = s.order_id
-WHEN MATCHED THEN UPDATE SET
-    t.customer_id = s.customer_id,
-    t.order_date = s.order_date,
-    t.status = s.status,
-    t.amount = s.amount
-WHEN NOT MATCHED THEN INSERT (
-    order_id, customer_id, order_date, status, amount
-) VALUES (
-    s.order_id, s.customer_id, s.order_date, s.status, s.amount
-);
+CREATE TABLE gold_daily_orders
+USING DELTA
+PARTITIONED BY (order_date)
+AS
+SELECT *
+FROM silver_orders;
 ```
 
-## Use Cases
+## Good Partition Columns
 
-- CDC ingestion
-- incremental loads
-- deduplicated upserts
-- dimension maintenance
+- low to medium cardinality
+- common filter usage
+- stable values
+
+## Bad Partition Columns
+
+- user_id
+- order_id
+- highly unique keys
+
+## Main Warning
+
+Over-partitioning creates too many small files and hurts performance.

@@ -1,26 +1,30 @@
-# 02 SQL for Lakehouse
 
-This section focuses on SQL patterns specific to modern data platforms built on Delta Lake and Databricks-style architectures.
+cat <<'EOF' > "$MODULE/learning-materials/02_sql_for_lakehouse/delta_tables.md" <<'EOF'
+# Delta Tables
 
-## Why This Matters
+## What They Are
 
-SQL in a lakehouse is not the same as SQL in OLTP systems.
+Delta tables provide:
 
-Here SQL is used for:
+- ACID transactions on data lake storage
+- schema enforcement
+- time travel
+- merge support
+- scalable reads and writes
 
-- large-scale analytics
-- file-backed transactional tables
-- merge/upsert workflows
-- schema evolution
-- incremental pipelines
-- historical snapshots
+## Example
 
-## Files
+```sql
+CREATE TABLE silver_orders (
+    order_id BIGINT,
+    customer_id BIGINT,
+    order_date TIMESTAMP,
+    status STRING,
+    amount DECIMAL(12,2)
+)
+USING DELTA;
+```
 
-- delta_tables.md
-- merge_operations.md
-- partitioning.md
-- time_travel.md
-- schema_evolution.md
-- optimization_patterns.md
-- practice_queries.md
+## Why Important
+
+Delta tables are a core abstraction for lakehouse architectures.

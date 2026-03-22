@@ -1,32 +1,30 @@
-# Databricks Integration
 
-## Azure SQL -> Databricks
+cat <<'EOF' > "$MODULE/learning-materials/07_azure_databases_for_databricks/database_selection_guide.md" <<'EOF'
+# Database Selection Guide
 
-```python
-df = spark.read \
-    .format("jdbc") \
-    .option("url", jdbc_url) \
-    .option("dbtable", "orders") \
-    .option("user", user) \
-    .option("password", password) \
-    .load()
-```
+## Use Azure SQL When
 
-## CosmosDB -> Databricks
+- workload is transactional
+- relational integrity matters
+- application backend needs familiar SQL engine
+- source system is OLTP
 
-```python
-df = spark.read.format("cosmos.oltp").options(**cfg).load()
-```
+## Use CosmosDB When
 
-## Synapse / Lake Query Style
+- globally distributed app is needed
+- JSON documents fit naturally
+- partition-aware NoSQL model is appropriate
+- microservice operational workload dominates
 
-Databricks can also read lake data directly through Delta and Spark-native patterns.
+## Use Synapse SQL When
 
-## Main Architectural Question
+- warehouse-style SQL is primary
+- BI / reporting is dominant
+- data lake query integration is needed in warehouse style
 
-Choose the source based on workload:
+## Use Databricks + Delta When
 
-- Azure SQL for transactional source systems
-- CosmosDB for operational NoSQL apps
-- Synapse for warehouse SQL patterns
-- Databricks for core lakehouse analytics and engineering
+- analytics platform is core
+- batch + streaming are needed
+- data engineering pipelines dominate
+- lakehouse architecture is the target
