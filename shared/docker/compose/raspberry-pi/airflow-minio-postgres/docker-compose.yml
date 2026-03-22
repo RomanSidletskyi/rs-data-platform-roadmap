@@ -46,7 +46,7 @@ services:
       AIRFLOW_UID: ${AIRFLOW_UID}
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__CORE__LOAD_EXAMPLES: "false"
-      _PIP_ADDITIONAL_REQUIREMENTS: psycopg2-binary
+      _PIP_ADDITIONAL_REQUIREMENTS: psycopg2-binary minio
     volumes:
       - ${RPI_RUNTIME_ROOT}/airflow/dags:/opt/airflow/dags
       - ${RPI_RUNTIME_ROOT}/airflow/logs:/opt/airflow/logs
@@ -79,7 +79,7 @@ services:
       AIRFLOW_UID: ${AIRFLOW_UID}
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__CORE__LOAD_EXAMPLES: "false"
-      _PIP_ADDITIONAL_REQUIREMENTS: psycopg2-binary
+      _PIP_ADDITIONAL_REQUIREMENTS: psycopg2-binary minio
     volumes:
       - ${RPI_RUNTIME_ROOT}/airflow/dags:/opt/airflow/dags
       - ${RPI_RUNTIME_ROOT}/airflow/logs:/opt/airflow/logs
@@ -103,7 +103,7 @@ services:
       AIRFLOW_UID: ${AIRFLOW_UID}
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__CORE__LOAD_EXAMPLES: "false"
-      _PIP_ADDITIONAL_REQUIREMENTS: psycopg2-binary
+      _PIP_ADDITIONAL_REQUIREMENTS: psycopg2-binary minio
     volumes:
       - ${RPI_RUNTIME_ROOT}/airflow/dags:/opt/airflow/dags
       - ${RPI_RUNTIME_ROOT}/airflow/logs:/opt/airflow/logs
