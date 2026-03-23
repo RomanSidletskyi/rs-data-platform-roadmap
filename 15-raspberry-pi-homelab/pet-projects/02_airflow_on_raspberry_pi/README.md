@@ -375,12 +375,26 @@ Repository example path:
 
 ### How To Enable It On Raspberry Pi
 
-Copy the DAG into the runtime DAG folder used by the stack:
+The stack reads DAG files from:
+
+`/srv/rs-data-platform/runtime/airflow/dags`
+
+If direct copy fails with `Permission denied`, fix ownership first and then copy the DAG:
 
 ```bash
+sudo chown -R rsidletskyi:rsidletskyi /srv/rs-data-platform/runtime/airflow
 cp \
 	/srv/rs-data-platform/repo/rs-data-platform-roadmap/15-raspberry-pi-homelab/pet-projects/02_airflow_on_raspberry_pi/examples/airflow_dags/minio_roundtrip_demo_dag.py \
 	/srv/rs-data-platform/runtime/airflow/dags/
+ls -lah /srv/rs-data-platform/runtime/airflow/dags
+```
+
+If you prefer not to change ownership, use a one-time privileged copy instead:
+
+```bash
+sudo install -m 644 \
+	/srv/rs-data-platform/repo/rs-data-platform-roadmap/15-raspberry-pi-homelab/pet-projects/02_airflow_on_raspberry_pi/examples/airflow_dags/minio_roundtrip_demo_dag.py \
+	/srv/rs-data-platform/runtime/airflow/dags/minio_roundtrip_demo_dag.py
 ```
 
 ### Important Dependency Note
@@ -415,9 +429,10 @@ The DAG writes objects like:
 Check:
 
 ```bash
+ls -lah /srv/rs-data-platform/runtime/airflow/dags
 docker compose logs airflow-webserver
 docker compose logs airflow-scheduler
-ls -lah /srv/rs-data-platform/runtime/airflow/dags
+docker compose restart airflow-webserver airflow-scheduler
 ```
 
 ### If The DAG Fails On MinIO Access
