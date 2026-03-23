@@ -16,6 +16,78 @@ Use the other learning materials when you need explanation and context.
 
 Adjust those values to your real setup.
 
+## One-Command Setup Shortcuts
+
+Full host baseline:
+
+```bash
+sudo bash /srv/rs-data-platform/repo/rs-data-platform-roadmap/shared/scripts/setup/raspberry-pi/bootstrap-host-baseline.sh
+```
+
+Minimal useful terminal apps:
+
+See [15_useful_headless_apps.md](/Users/rsidletskyi/Documents/My/Programming/rs-data-platform-roadmap/15-raspberry-pi-homelab/learning-materials/15_useful_headless_apps.md)
+
+```bash
+sudo bash /srv/rs-data-platform/repo/rs-data-platform-roadmap/shared/scripts/setup/raspberry-pi/install-headless-apps.sh
+```
+
+Extended useful terminal apps:
+
+See [15_useful_headless_apps.md](/Users/rsidletskyi/Documents/My/Programming/rs-data-platform-roadmap/15-raspberry-pi-homelab/learning-materials/15_useful_headless_apps.md)
+
+```bash
+sudo bash /srv/rs-data-platform/repo/rs-data-platform-roadmap/shared/scripts/setup/raspberry-pi/install-extended-headless-apps.sh
+```
+
+Useful web UI tools:
+
+See [16_useful_web_ui_apps.md](/Users/rsidletskyi/Documents/My/Programming/rs-data-platform-roadmap/15-raspberry-pi-homelab/learning-materials/16_useful_web_ui_apps.md)
+
+One-command web UI stack:
+
+```bash
+sudo bash /srv/rs-data-platform/repo/rs-data-platform-roadmap/shared/scripts/setup/raspberry-pi/install-ops-ui.sh
+```
+
+This starts:
+
+- Portainer on `9005`
+- Dozzle on `9999`
+- File Browser on `8089`
+- Uptime Kuma on `3001`
+
+Post-install checklist:
+
+```bash
+cd /srv/rs-data-platform/repo/rs-data-platform-roadmap/shared/docker/compose/raspberry-pi/ops-ui
+docker compose ps
+```
+
+Open in browser:
+
+- Portainer: `http://pi5.local:9005`
+- Dozzle: `http://pi5.local:9999`
+- File Browser: `http://pi5.local:8089`
+- Uptime Kuma: `http://pi5.local:3001`
+
+First useful Uptime Kuma monitors:
+
+- `http://pi5.local:8088`
+- `http://pi5.local:9001`
+- `http://pi5.local:9000/minio/health/live`
+
+Manual compose path:
+
+```bash
+cd /srv/rs-data-platform/repo/rs-data-platform-roadmap/shared/docker/compose/raspberry-pi/ops-ui
+cp .env.example .env
+mkdir -p /srv/rs-data-platform/runtime/portainer/data
+mkdir -p /srv/rs-data-platform/runtime/filebrowser/config
+mkdir -p /srv/rs-data-platform/runtime/uptime-kuma/data
+docker compose up -d
+```
+
 ## First Login And Basic Host Checks
 
 Connect by SSH alias:
