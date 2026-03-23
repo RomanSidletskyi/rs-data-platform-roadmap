@@ -1,0 +1,8 @@
+{
+  "job_id": "job-001",
+  "job_type": "aggregate_sales",
+  "payload": {
+    "source": "demo",
+    "window": "daily"
+  }
+}

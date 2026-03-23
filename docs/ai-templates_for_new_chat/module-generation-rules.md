@@ -127,6 +127,62 @@ Projects should contain:
         docker/
         data/
 
+Main rule:
+
+The primary pet-project folder should be a guided project.
+
+That means:
+
+- the learner builds the implementation by following README.md
+- architecture.md defines the target shape and trade-offs
+- sample assets such as input data, config, and env examples may be provided
+- ready-made implementation code should not be placed in the main guided project unless the learning goal explicitly requires it
+
+Optional pattern:
+
+If a working implementation is useful for later comparison, create a separate sibling folder named:
+
+    reference_example_<project-name>/
+
+The reference example is not the main assignment.
+
+It is used for:
+
+- self-checking after the learner attempts the project
+- preserving a known-good implementation
+- establishing a reusable design pattern for future pet modules
+
+Guided projects may include starter notes inside:
+
+    src/README.md
+    tests/README.md
+    docker/README.md
+
+These starter notes should explain what the learner must implement.
+
+The main guided project README.md should include:
+
+- project goal
+- scenario
+- project type (guided project)
+- starter assets already provided
+- expected deliverables
+- recommended implementation plan
+- implementation requirements
+- validation ideas
+- definition of done
+- possible improvements
+
+The architecture.md file should include:
+
+- components
+- data flow
+- storage model
+- configuration model
+- trade-offs
+- target outputs when relevant
+- what would change in production
+
 Projects should demonstrate:
 
 - data ingestion
