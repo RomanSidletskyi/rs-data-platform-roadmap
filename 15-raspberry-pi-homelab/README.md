@@ -44,6 +44,36 @@ Raspberry Pi gives you a small always-on environment where you can learn:
 - security basics for a home lab machine
 - how Raspberry Pi integrates with this repository
 
+## Quick One-Command Setup
+
+If you already have Raspberry Pi OS running and want fast setup entry points, use these commands on the Pi.
+
+Full host baseline:
+
+```bash
+sudo bash /srv/rs-data-platform/repo/rs-data-platform-roadmap/shared/scripts/setup/raspberry-pi/bootstrap-host-baseline.sh
+```
+
+Minimal useful terminal apps:
+
+See [learning-materials/15_useful_headless_apps.md](learning-materials/15_useful_headless_apps.md)
+
+```bash
+sudo bash /srv/rs-data-platform/repo/rs-data-platform-roadmap/shared/scripts/setup/raspberry-pi/install-headless-apps.sh
+```
+
+Extended useful terminal apps:
+
+See [learning-materials/15_useful_headless_apps.md](learning-materials/15_useful_headless_apps.md)
+
+```bash
+sudo bash /srv/rs-data-platform/repo/rs-data-platform-roadmap/shared/scripts/setup/raspberry-pi/install-extended-headless-apps.sh
+```
+
+Useful browser-based tools:
+
+See [learning-materials/16_useful_web_ui_apps.md](learning-materials/16_useful_web_ui_apps.md)
+
 ## Learning Structure
 
 ### Learning Materials

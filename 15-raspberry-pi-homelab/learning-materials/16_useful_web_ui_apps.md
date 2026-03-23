@@ -8,6 +8,117 @@ The goal is not to install everything.
 
 The goal is to choose a few UI tools that improve daily work without wasting memory.
 
+For useful terminal-side tools and one-command install scripts, also see [15_useful_headless_apps.md](/Users/rsidletskyi/Documents/My/Programming/rs-data-platform-roadmap/15-raspberry-pi-homelab/learning-materials/15_useful_headless_apps.md).
+
+## One-Command Compose Setup
+
+If you want a cleaner setup than separate `docker run` commands, use the ready stack from this repository:
+
+`/srv/rs-data-platform/repo/rs-data-platform-roadmap/shared/docker/compose/raspberry-pi/ops-ui`
+
+Fastest path:
+
+```bash
+sudo bash /srv/rs-data-platform/repo/rs-data-platform-roadmap/shared/scripts/setup/raspberry-pi/install-ops-ui.sh
+```
+
+Quick start:
+
+```bash
+cd /srv/rs-data-platform/repo/rs-data-platform-roadmap/shared/docker/compose/raspberry-pi/ops-ui
+cp .env.example .env
+mkdir -p /srv/rs-data-platform/runtime/portainer/data
+mkdir -p /srv/rs-data-platform/runtime/filebrowser/config
+docker compose up -d
+```
+
+Read more in:
+
+- [shared/docker/compose/raspberry-pi/ops-ui/README.md](/Users/rsidletskyi/Documents/My/Programming/rs-data-platform-roadmap/shared/docker/compose/raspberry-pi/ops-ui/README.md)
+
+Default URLs:
+
+- Portainer: `http://pi5.local:9005`
+- Dozzle: `http://pi5.local:9999`
+- File Browser: `http://pi5.local:8089`
+- Uptime Kuma: `http://pi5.local:3001`
+
+## Post-Install Checklist
+
+After starting the stack, use this short checklist.
+
+### 1. Check container status
+
+```bash
+cd /srv/rs-data-platform/repo/rs-data-platform-roadmap/shared/docker/compose/raspberry-pi/ops-ui
+docker compose ps
+```
+
+Expected services:
+
+- `rpi-portainer`
+- `rpi-dozzle`
+- `rpi-filebrowser`
+- `rpi-uptime-kuma`
+
+### 2. Open the web UIs
+
+- Portainer: `http://pi5.local:9005`
+- Dozzle: `http://pi5.local:9999`
+- File Browser: `http://pi5.local:8089`
+- Uptime Kuma: `http://pi5.local:3001`
+
+If hostname resolution fails, use the Raspberry Pi IP instead of `pi5.local`.
+
+### 3. First actions in Portainer
+
+1. Create the first admin user.
+2. Choose the local Docker environment.
+3. Verify that Airflow, MinIO, Postgres, and the new ops UI containers are visible.
+
+### 4. First actions in Dozzle
+
+Open logs for:
+
+- `rpi-airflow-webserver`
+- `rpi-airflow-scheduler`
+- `rpi-minio`
+- `rpi-uptime-kuma`
+
+### 5. First folders to inspect in File Browser
+
+- `/srv/runtime/airflow`
+- `/srv/runtime/minio`
+- `/srv/configs/shared`
+- `/srv/repo/rs-data-platform-roadmap`
+
+### 6. First monitors to add in Uptime Kuma
+
+Add these URLs first:
+
+- `http://pi5.local:8088`
+- `http://pi5.local:9001`
+- `http://pi5.local:9000/minio/health/live`
+- `http://pi5.local:9005`
+- `http://pi5.local:9999`
+- `http://pi5.local:8089`
+
+### 7. If something does not open
+
+```bash
+cd /srv/rs-data-platform/repo/rs-data-platform-roadmap/shared/docker/compose/raspberry-pi/ops-ui
+docker compose logs portainer
+docker compose logs dozzle
+docker compose logs filebrowser
+docker compose logs uptime-kuma
+```
+
+### 8. Check listening ports quickly
+
+```bash
+sudo lsof -iTCP -sTCP:LISTEN -P -n | egrep '9005|9999|8089|3001'
+```
+
 ## Best First Picks
 
 If you want only the most useful web UI tools first, start with:
@@ -48,6 +159,31 @@ Tradeoff:
 
 - useful, but not mandatory if you are still learning CLI first
 
+Quick Docker run example:
+
+```bash
+docker volume create portainer_data
+
+docker run -d \
+	--name portainer \
+	--restart unless-stopped \
+	-p 9005:9000 \
+	-v /var/run/docker.sock:/var/run/docker.sock \
+	-v portainer_data:/data \
+	portainer/portainer-ce:latest
+```
+
+Open in browser:
+
+- `http://pi5.local:9005`
+- `http://192.168.1.110:9005`
+
+What to do first in UI:
+
+1. Create the first admin user.
+2. Choose the local Docker environment.
+3. Open `Containers` and verify your Airflow, MinIO, and Postgres services are visible.
+
 ## 2. Dozzle
 
 Dozzle is a lightweight web UI for Docker logs.
@@ -66,6 +202,29 @@ Why it is useful:
 Good fit for Raspberry Pi:
 
 - yes, very good
+
+Quick Docker run example:
+
+```bash
+docker run -d \
+	--name dozzle \
+	--restart unless-stopped \
+	-p 9999:8080 \
+	-v /var/run/docker.sock:/var/run/docker.sock \
+	amir20/dozzle:latest
+```
+
+Open in browser:
+
+- `http://pi5.local:9999`
+- `http://192.168.1.110:9999`
+
+What to do first in UI:
+
+1. Select `rpi-airflow-webserver`.
+2. Select `rpi-airflow-scheduler`.
+3. Select `rpi-minio`.
+4. Use it as a faster replacement for repeated `docker compose logs` commands.
 
 ## 3. File Browser
 
@@ -87,6 +246,32 @@ Good fit for Raspberry Pi:
 
 - yes, if you keep its scope narrow and point it only at directories you need
 
+Quick Docker run example:
+
+```bash
+mkdir -p /srv/rs-data-platform/runtime/filebrowser
+
+docker run -d \
+	--name filebrowser \
+	--restart unless-stopped \
+	-p 8089:80 \
+	-v /srv/rs-data-platform:/srv \
+	-v /srv/rs-data-platform/runtime/filebrowser:/config \
+	filebrowser/filebrowser:latest
+```
+
+Open in browser:
+
+- `http://pi5.local:8089`
+- `http://192.168.1.110:8089`
+
+Practical first folders to inspect:
+
+- `/srv/runtime/airflow`
+- `/srv/runtime/minio`
+- `/srv/configs/shared`
+- `/srv/repo/rs-data-platform-roadmap`
+
 ## 4. Uptime Kuma
 
 Uptime Kuma is a simple service status dashboard.
@@ -106,6 +291,30 @@ Good fit for Raspberry Pi:
 
 - yes, but not as essential as Portainer or Dozzle
 
+Quick Docker run example:
+
+```bash
+docker volume create uptime-kuma
+
+docker run -d \
+	--name uptime-kuma \
+	--restart unless-stopped \
+	-p 3001:3001 \
+	-v uptime-kuma:/app/data \
+	louislam/uptime-kuma:1
+```
+
+Open in browser:
+
+- `http://pi5.local:3001`
+- `http://192.168.1.110:3001`
+
+Good first monitors to add:
+
+- `http://pi5.local:8088`
+- `http://pi5.local:9001`
+- `http://pi5.local:9000/minio/health/live`
+
 ## 5. Netdata
 
 Netdata is a more detailed host monitoring UI.
@@ -124,6 +333,23 @@ Tradeoff:
 
 - heavier than the other tools in this list
 - probably not the first thing I would install on a small Pi homelab
+
+Quick Docker run example:
+
+```bash
+docker run -d \
+	--name netdata \
+	--restart unless-stopped \
+	-p 19999:19999 \
+	--cap-add SYS_PTRACE \
+	--security-opt apparmor=unconfined \
+	netdata/netdata:stable
+```
+
+Open in browser:
+
+- `http://pi5.local:19999`
+- `http://192.168.1.110:19999`
 
 ## What I Would Install In Your Case
 
@@ -196,12 +422,40 @@ If you want the highest practical value per resource spent:
 
 That trio is enough for most Raspberry Pi homelab work.
 
+## Short Start Commands
+
+If you want the shortest practical start, these are the three commands I would use first:
+
+```bash
+docker volume create portainer_data
+docker run -d --name portainer --restart unless-stopped -p 9005:9000 -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest
+
+docker run -d --name dozzle --restart unless-stopped -p 9999:8080 -v /var/run/docker.sock:/var/run/docker.sock amir20/dozzle:latest
+
+mkdir -p /srv/rs-data-platform/runtime/filebrowser && docker run -d --name filebrowser --restart unless-stopped -p 8089:80 -v /srv/rs-data-platform:/srv -v /srv/rs-data-platform/runtime/filebrowser:/config filebrowser/filebrowser:latest
+```
+
+Then open:
+
+- Portainer: `http://pi5.local:9005`
+- Dozzle: `http://pi5.local:9999`
+- File Browser: `http://pi5.local:8089`
+
+## Recommended Use Pattern
+
+Use the tools like this:
+
+1. Open Portainer when you want to inspect containers, ports, and volumes.
+2. Open Dozzle when something is failing and you want logs quickly.
+3. Open File Browser when you want to inspect runtime folders without `scp` or `mc`.
+
 ## Suggested Next Step
 
-If you want, the next practical move is to add a tiny Docker Compose stack for:
+The ready `ops-ui` stack already includes:
 
 - Portainer
 - Dozzle
 - File Browser
+- Uptime Kuma
 
-so you can manage the Raspberry Pi more comfortably from the browser.
+Use it when you want one browser-side toolbox instead of four separate ad-hoc containers.
