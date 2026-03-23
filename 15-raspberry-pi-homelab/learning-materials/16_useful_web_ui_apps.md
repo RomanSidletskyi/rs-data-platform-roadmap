@@ -103,6 +103,42 @@ Add these URLs first:
 - `http://pi5.local:9999`
 - `http://pi5.local:8089`
 
+Recommended monitor list:
+
+1. `Airflow UI`
+	URL: `http://pi5.local:8088`
+	Type: `HTTP(s)`
+2. `MinIO Console`
+	URL: `http://pi5.local:9001`
+	Type: `HTTP(s)`
+3. `MinIO Health`
+	URL: `http://pi5.local:9000/minio/health/live`
+	Type: `HTTP(s)`
+4. `Portainer`
+	URL: `http://pi5.local:9005`
+	Type: `HTTP(s)`
+5. `Dozzle`
+	URL: `http://pi5.local:9999`
+	Type: `HTTP(s)`
+6. `File Browser`
+	URL: `http://pi5.local:8089`
+	Type: `HTTP(s)`
+7. `Uptime Kuma`
+	URL: `http://pi5.local:3001`
+	Type: `HTTP(s)`
+
+If `pi5.local` does not resolve on your Mac or another client device, replace it with `192.168.1.110`.
+
+Suggested tags:
+
+- `core` for Airflow and MinIO
+- `ops-ui` for Portainer, Dozzle, File Browser, and Uptime Kuma
+
+Suggested interval for a small homelab:
+
+- every `60` seconds for UI services
+- every `30` seconds for `MinIO Health`
+
 ### 7. If something does not open
 
 ```bash
