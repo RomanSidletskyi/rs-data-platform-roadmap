@@ -65,6 +65,16 @@ Suggested first actions:
 4. Open File Browser and inspect `/srv/runtime` and `/srv/configs/shared`.
 5. Add the main service URLs into Uptime Kuma.
 
+Recommended Uptime Kuma monitor list:
+
+- `Airflow UI` -> `http://pi5.local:8088`
+- `MinIO Console` -> `http://pi5.local:9001`
+- `MinIO Health` -> `http://pi5.local:9000/minio/health/live`
+- `Portainer` -> `http://pi5.local:9005`
+- `Dozzle` -> `http://pi5.local:9999`
+- `File Browser` -> `http://pi5.local:8089`
+- `Uptime Kuma` -> `http://pi5.local:3001`
+
 ## Stop
 
 ```bash
