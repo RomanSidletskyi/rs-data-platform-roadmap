@@ -65,9 +65,11 @@ Recommended order for a new Raspberry Pi user:
 13. [Docker and service management on ARM](learning-materials/04_docker_services_and_runtime_layout.md)
 14. [Storage, file layout, and backups](learning-materials/05_storage_backups_and_file_management.md)
 15. [Monitoring, security, and operations](learning-materials/06_monitoring_security_and_operations.md)
-16. [Commands cheatsheet](learning-materials/commands-cheatsheet.md)
-17. [Systemd Python service cheatsheet](learning-materials/14_systemd_python_service_cheatsheet.md)
-18. [Recovering access from old notes](learning-materials/07_recovering_access_from_old_notes.md)
+16. [Useful headless apps for daily Raspberry Pi work](learning-materials/15_useful_headless_apps.md)
+17. [Useful web UI apps for Raspberry Pi homelab](learning-materials/16_useful_web_ui_apps.md)
+18. [Commands cheatsheet](learning-materials/commands-cheatsheet.md)
+19. [Systemd Python service cheatsheet](learning-materials/14_systemd_python_service_cheatsheet.md)
+20. [Recovering access from old notes](learning-materials/07_recovering_access_from_old_notes.md)
 
 ### Simple Tasks
 
