@@ -232,7 +232,17 @@ sudo apt full-upgrade -y
 Install useful tools:
 
 ```bash
-sudo apt install -y git curl wget tmux htop tree ncdu jq unzip ca-certificates gnupg lsb-release rsync
+sudo apt install -y git curl wget tmux htop btop tree ncdu jq unzip ca-certificates gnupg lsb-release rsync mc ripgrep fd-find bat vim lsof net-tools dnsutils python3-venv sqlite3
+```
+
+Useful command notes on Raspberry Pi OS:
+
+```bash
+batcat --paging=never /etc/os-release
+fdfind docker /srv/rs-data-platform
+rg minio /srv/rs-data-platform/repo/rs-data-platform-roadmap
+mc
+btop
 ```
 
 Reboot:

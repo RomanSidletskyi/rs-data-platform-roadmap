@@ -16,6 +16,7 @@ PACKAGES=(
   wget
   tmux
   htop
+  btop
   tree
   ncdu
   jq
@@ -24,6 +25,16 @@ PACKAGES=(
   gnupg
   lsb-release
   rsync
+  mc
+  ripgrep
+  fd-find
+  bat
+  vim
+  lsof
+  net-tools
+  dnsutils
+  python3-venv
+  sqlite3
 )
 
 echo "==> Updating package index"
