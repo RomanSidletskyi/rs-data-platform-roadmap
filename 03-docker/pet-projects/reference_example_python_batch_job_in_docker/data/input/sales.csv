@@ -1,0 +1,7 @@
+order_id,region,category,amount
+1001,west,hardware,120.50
+1002,east,software,240.00
+1003,west,software,80.25
+1004,north,hardware,160.00
+1005,east,services,300.00
+1006,west,services,110.75
