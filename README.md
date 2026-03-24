@@ -16,6 +16,8 @@ The goal of this repository is to grow from foundational skills to production-or
 
 It covers the knowledge required to work with:
 
+- shell / Linux
+- Git
 - Python
 - SQL
 - Docker
@@ -63,6 +65,8 @@ The focus is not only on learning tools, but also on learning how to think like 
 
 ### Core Technology Modules
 
+- `00-shell-linux/`
+- `00-git/`
 - `01-python/`
 - `02-sql/`
 - `03-docker/`
@@ -130,7 +134,9 @@ That way, the repository becomes more than a study folder — it becomes evidenc
 
 ## Recommended Way to Use This Repository
 
-- Start with `01-python/`
+- Start with `00-shell-linux/`
+- Then study `00-git/`
+- Continue with `01-python/`
 - Move to `02-sql/`
 - Study `03-docker/` before `15-raspberry-pi-homelab/`
 - Build a strong foundation before starting streaming and lakehouse topics
@@ -158,3 +164,44 @@ This repository is under active development and will expand over time with:
 - more advanced architecture scenarios
 - better documentation
 - stronger portfolio cases
+
+## Generator-Backed Modules
+
+Some finished modules are now maintained through a snapshot-based generator pattern under `scripts/sections/modules/<module>/`.
+
+In these modules, `template_snapshot/` is treated as the source of truth and the `fill_*` scripts copy curated content from it during bootstrap.
+
+Current generator-backed modules:
+
+- `00-shell-linux/`
+- `00-git/`
+- `02-sql/`
+- `03-docker/`
+- `04-github-actions/`
+- `11-airflow/`
+- `12-dbt/`
+- `15-raspberry-pi-homelab/`
+
+The foundational modules also have a lightweight repository workflow for starter-asset validation:
+
+- `.github/workflows/foundational-starter-assets.yml`
+
+It bootstraps `00-shell-linux/` and `00-git/` and checks that their bundled starter assets remain runnable after generator changes.
+
+The same foundational validation can be run locally with:
+
+- `./scripts/check_foundational_starter_assets.sh`
+
+There is also a repository-wide generator integrity workflow:
+
+- `.github/workflows/generator-backed-modules.yml`
+
+It bootstraps every generator-backed module and fails if the regenerated module no longer matches its `template_snapshot/` source.
+
+The same validation can be run locally with:
+
+- `./scripts/check_generator_backed_modules.sh`
+
+For a single repository smoke-check entrypoint, run:
+
+- `./scripts/run_repo_smoke_checks.sh`

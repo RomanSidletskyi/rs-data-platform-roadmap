@@ -1,0 +1,42 @@
+name: Reference controlled release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build release manifest
+        run: |
+          mkdir -p dist
+          python -c "from src.release_manifest import write_manifest; write_manifest('dist/release-manifest.json', 'v2.0.0', '${{ github.sha }}', 'prod')"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-manifest
+          path: dist/release-manifest.json
+
+  deploy:
+    needs: package
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-manifest
+          path: dist
+
+      - name: Review artifact
+        run: cat dist/release-manifest.json
+
+      - name: Simulate production deploy
+        run: echo "Deploying version from release-manifest.json"

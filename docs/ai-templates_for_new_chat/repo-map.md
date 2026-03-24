@@ -10,6 +10,8 @@ Data Engineering and Data Platform Architecture.
 Repository Root Structure
 
     repo/
+        00-shell-linux/
+        00-git/
         01-python/
         02-sql/
         shared/
@@ -230,6 +232,33 @@ fill_pet_projects.sh
 bootstrap.sh
 
     runs all scripts in order to create a fully initialized module
+
+Some finished modules are now generator-backed through a snapshot-based pattern where `template_snapshot/` is the source of truth and `fill_*` scripts copy curated content from it.
+
+Current generator-backed modules:
+
+- `00-shell-linux/`
+- `00-git/`
+- `02-sql/`
+- `03-docker/`
+- `04-github-actions/`
+- `11-airflow/`
+- `12-dbt/`
+- `15-raspberry-pi-homelab/`
+
+--------------------------------------------------
+
+Foundational Modules
+
+00-shell-linux
+
+- shell and Linux operational foundation
+- command-line, processes, permissions, SSH, scripting
+
+00-git
+
+- repository history and workflow foundation
+- branches, remotes, diffs, recovery, PR-oriented work
 
 --------------------------------------------------
 

@@ -12,11 +12,15 @@ SCRIPT_NAME="01-python-fill-learning-materials"
 
 REPO_ROOT="$(get_repo_root "$SCRIPT_DIR")"
 MODULE="$(get_module_root "$REPO_ROOT" "01-python")"
+TEMPLATE_DIR="$SCRIPT_DIR/template_snapshot/learning-materials"
 
-log "Creating learning materials README..."
+log "Creating learning materials..."
 
-cat <<'EOF' > "$MODULE/learning-materials/README.md"
+if [[ ! -d "$TEMPLATE_DIR" ]]; then
+	fail "Missing learning materials template snapshot at $TEMPLATE_DIR"
+fi
 
-EOF
+rm -rf "$MODULE/learning-materials"
+cp -R "$TEMPLATE_DIR" "$MODULE/learning-materials"
 
-log "Learning materials README created."
+log "Learning materials created."

@@ -1,0 +1,10 @@
+selectors:
+  - name: daily_dims
+    definition:
+      method: tag
+      value: daily_dimension
+
+  - name: frequent_facts
+    definition:
+      method: tag
+      value: frequent_fact

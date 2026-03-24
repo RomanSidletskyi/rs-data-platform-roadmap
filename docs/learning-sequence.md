@@ -8,6 +8,26 @@ Move from tool knowledge -> platform engineering -> architecture thinking.
 
 ---
 
+# Phase 0 - Foundational Workflow
+
+Modules:
+
+00-shell-linux
+00-git
+
+Focus:
+
+- command-line execution literacy
+- repository and history literacy
+- operational confidence before higher-level tooling
+
+Example project:
+
+Shell-based ops toolkit.
+Git workflow and recovery lab.
+
+---
+
 # Phase 1 — Engineering Basics
 
 Modules:

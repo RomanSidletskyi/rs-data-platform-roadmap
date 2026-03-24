@@ -1,0 +1,20 @@
+[
+  {
+    "record_id": 1,
+    "customer_id": 10,
+    "status": "processed",
+    "updated_at": "2026-03-01T10:00:00Z"
+  },
+  {
+    "record_id": 2,
+    "customer_id": 11,
+    "status": "new",
+    "updated_at": "2026-03-01T09:05:00Z"
+  },
+  {
+    "record_id": 3,
+    "customer_id": 12,
+    "status": "new",
+    "updated_at": "2026-03-01T10:10:00Z"
+  }
+]

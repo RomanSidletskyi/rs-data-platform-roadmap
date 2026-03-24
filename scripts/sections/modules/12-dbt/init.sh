@@ -50,6 +50,8 @@ ensure_dir "$MODULE/pet-projects/03_dbt_ci_cd_multi_env_platform/src"
 ensure_dir "$MODULE/pet-projects/03_dbt_ci_cd_multi_env_platform/tests"
 ensure_dir "$MODULE/pet-projects/03_dbt_ci_cd_multi_env_platform/docker"
 ensure_dir "$MODULE/pet-projects/03_dbt_ci_cd_multi_env_platform/data"
+ensure_dir "$MODULE/pet-projects/reference_example_snowflake_dbt_warehouse_foundation"
+ensure_dir "$MODULE/pet-projects/reference_example_dbt_ci_cd_multi_env_platform"
 
 
 

@@ -123,13 +123,15 @@ Gold tables -> semantic model -> dashboards
 
 Modules:
 
+00-shell-linux
+00-git
 03-docker
 04-github-actions
 15-raspberry-pi-homelab
 
 Purpose:
 
-Reproducible environments, CI/CD pipelines, and self-hosted lab runtime.
+Command-line runtime literacy, repository control, reproducible environments, CI/CD pipelines, and self-hosted lab runtime.
 
 ---
 

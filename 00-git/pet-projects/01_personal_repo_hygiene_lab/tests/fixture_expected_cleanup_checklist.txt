@@ -1,0 +1,5 @@
+git status
+git diff
+.gitignore
+small commit plan
+clean working tree

@@ -34,6 +34,8 @@ The repository is divided into several logical sections.
 
 Learning modules such as:
 
+    00-shell-linux
+    00-git
     01-python
     02-sql
     03-docker
@@ -188,6 +190,19 @@ Scripts are grouped by repository section, not thrown into one flat directory.
 
 This makes the system easier to scale as the repository grows.
 
+Finished modules may use a snapshot-based generator pattern where `template_snapshot/` is the source of truth and `fill_*` scripts copy from that snapshot.
+
+Current generator-backed modules:
+
+- `00-shell-linux/`
+- `00-git/`
+- `02-sql/`
+- `03-docker/`
+- `04-github-actions/`
+- `11-airflow/`
+- `12-dbt/`
+- `15-raspberry-pi-homelab/`
+
 ## 4. Reusability
 
 Common utilities are stored in:
@@ -235,6 +250,7 @@ Example:
 Contents:
 
     init.sh
+    fill_readme.sh
     fill_learning_materials.sh
     fill_simple_tasks.sh
     fill_pet_projects.sh
@@ -278,6 +294,7 @@ Runs the module scripts in the correct order.
 Typical flow:
 
     init.sh
+    fill_readme.sh
     fill_learning_materials.sh
     fill_simple_tasks.sh
     fill_pet_projects.sh
@@ -363,9 +380,103 @@ Use:
 
 Examples:
 
+    ./scripts/bootstrap_section.sh modules 00-shell-linux
+    ./scripts/bootstrap_section.sh modules 00-git
     ./scripts/bootstrap_section.sh modules 02-sql
     ./scripts/bootstrap_section.sh docs
     ./scripts/bootstrap_section.sh ai-learning
+
+## Run foundational module bootstraps directly
+
+The foundational modules are generator-backed too.
+
+Use:
+
+    ./scripts/bootstrap_section.sh modules 00-shell-linux
+    ./scripts/bootstrap_section.sh modules 00-git
+
+These commands recreate the curated module contents from:
+
+    scripts/sections/modules/00-shell-linux/template_snapshot/
+    scripts/sections/modules/00-git/template_snapshot/
+
+## CI Validation For Foundational Modules
+
+There is also a lightweight repository workflow that validates these foundational starter assets after changes:
+
+    .github/workflows/foundational-starter-assets.yml
+
+It is intended to protect the starter assets shipped with the generator-backed foundational modules.
+
+It uses:
+
+    ./scripts/check_foundational_starter_assets.sh
+
+Current checks:
+
+- bootstrap `00-shell-linux`
+- bootstrap `00-git`
+- verify starter scripts remain executable
+- verify representative shell starter outputs
+- verify representative Git starter repo state
+
+When you change starter assets or their snapshot sources, this workflow should stay green.
+
+Useful local command:
+
+    ./scripts/check_foundational_starter_assets.sh
+
+## CI Validation For All Generator-Backed Modules
+
+There is also a repository-wide workflow for full generator integrity validation:
+
+    .github/workflows/generator-backed-modules.yml
+
+It uses:
+
+    ./scripts/check_generator_backed_modules.sh
+
+Current checks:
+
+- bootstrap all generator-backed modules
+- compare each regenerated module with its `template_snapshot/`
+- fail fast when snapshot drift appears
+
+Useful local commands:
+
+    ./scripts/check_generator_backed_modules.sh
+    ./scripts/check_generator_backed_modules.sh list
+
+## Aggregate Repository Smoke Checks
+
+If you want one repository-level entrypoint for the smoke checks already used in CI, use:
+
+    ./scripts/run_repo_smoke_checks.sh
+
+It currently runs:
+
+- foundational starter-asset validation
+- generator-backed module validation
+
+Useful command variants:
+
+    ./scripts/run_repo_smoke_checks.sh foundational
+    ./scripts/run_repo_smoke_checks.sh generator-backed
+    ./scripts/run_repo_smoke_checks.sh list
+
+## Update a generator-backed module safely
+
+For snapshot-based modules, edit the template snapshot first.
+
+Recommended workflow:
+
+1. update files under `scripts/sections/modules/<module>/template_snapshot/`
+2. run `./scripts/bootstrap_section.sh modules <module>`
+3. verify the regenerated module output
+
+Example:
+
+    ./scripts/bootstrap_section.sh modules 00-shell-linux
 
 ## Run all configured sections
 
@@ -387,6 +498,7 @@ This creates:
 
     scripts/sections/modules/03-docker/
       init.sh
+    fill_readme.sh
       fill_learning_materials.sh
       fill_simple_tasks.sh
       fill_pet_projects.sh

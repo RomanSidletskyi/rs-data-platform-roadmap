@@ -1,0 +1,5 @@
+hostname
+uptime
+disk
+ports
+permissions

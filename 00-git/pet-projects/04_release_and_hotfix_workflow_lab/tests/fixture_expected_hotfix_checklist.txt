@@ -1,0 +1,4 @@
+release tag exists
+hotfix branch is named clearly
+fix is merged back safely
+rollback or revert path is documented

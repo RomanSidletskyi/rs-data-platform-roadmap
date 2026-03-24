@@ -1,0 +1,6 @@
+{
+  "endpoint": "/orders",
+  "raw_prefix": "orders_api",
+  "downstream_marker_name": "_READY.json",
+  "minimum_records": 1
+}

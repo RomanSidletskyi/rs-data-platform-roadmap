@@ -1,0 +1,5 @@
+{
+  "source_table": "raw_orders",
+  "summary_table": "daily_order_summary",
+  "required_fields": ["order_id", "order_date", "region", "customer_id", "amount"]
+}

@@ -1,0 +1,5 @@
+{
+  "bucket_name": "events-lab",
+  "raw_table": "raw_events",
+  "summary_table": "event_counts_by_type"
+}

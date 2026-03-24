@@ -1,0 +1,19 @@
+api:
+  url: "https://jsonplaceholder.typicode.com/users"
+  timeout: 30
+
+output:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+
+processing:
+  selected_fields:
+    - id
+    - name
+    - username
+    - email
+    - phone
+    - website
+
+logging:
+  log_dir: "logs"

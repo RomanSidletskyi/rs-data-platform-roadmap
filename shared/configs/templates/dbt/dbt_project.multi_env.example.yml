@@ -1,0 +1,33 @@
+name: platform_ops
+version: 1.0.0
+config-version: 2
+
+profile: platform_ops
+
+model-paths: ['models']
+macro-paths: ['src/macros']
+test-paths: ['tests']
+
+models:
+  platform_ops:
+    staging:
+      +schema: staging
+      +materialized: view
+      +snowflake_warehouse: DBT_SMALL_WH
+      +tags: ['staging']
+    intermediate:
+      +schema: intermediate
+      +materialized: view
+      +snowflake_warehouse: DBT_MEDIUM_WH
+    marts:
+      dimensions:
+        +schema: marts
+        +materialized: table
+        +snowflake_warehouse: DBT_SMALL_WH
+        +tags: ['daily_dimension']
+      facts:
+        +schema: marts
+        +materialized: incremental
+        +snowflake_warehouse: DBT_LARGE_WH
+        +tags: ['frequent_fact']
+        +on_schema_change: sync_all_columns

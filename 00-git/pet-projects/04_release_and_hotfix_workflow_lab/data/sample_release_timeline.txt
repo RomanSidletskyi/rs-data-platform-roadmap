@@ -1,0 +1,7 @@
+1. cut release candidate on main
+2. tag release
+3. detect production issue
+4. branch from release tag or stable main
+5. validate hotfix
+6. merge hotfix back into main
+7. cut next release tag

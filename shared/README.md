@@ -203,6 +203,23 @@ Reusable configuration templates.
     ├─ dev/
     └─ templates/
 
+dbt-specific shared templates should live under:
+
+    configs/templates/dbt/
+
+airflow-specific shared templates should live under:
+
+    configs/templates/airflow/
+
+Recommended contents:
+
+- `profiles.*.example.yml`
+- `dbt_project.*.example.yml`
+- `selectors.example.yml`
+- CI/CD workflow examples
+- Airflow runtime config examples
+- API landing contract examples
+
 Examples:
 
 - application configs
@@ -220,6 +237,16 @@ Reusable utility scripts.
     ├─ data-generation/
     ├─ validation/
     └─ helpers/
+
+dbt helper utilities should live under:
+
+    scripts/helpers/dbt/
+
+Examples:
+
+- render profile hints
+- summarize dbt artifacts
+- small operational wrappers
 
 Examples:
 
@@ -256,6 +283,17 @@ Examples:
 - expected pipeline outputs
 - testing fixtures
 
+Airflow-oriented shared testing assets may live under:
+
+    testing/mock-data/airflow/
+    testing/expected-outputs/airflow/
+
+Use these for:
+
+- reusable API payload examples
+- expected publish marker contracts
+- small validation fixtures used by more than one workflow example
+
 ---
 
 # architecture
@@ -282,7 +320,13 @@ Templates used for consistent repository structure.
     templates/
     ├─ module-template/
     ├─ project-template/
-    └─ README-template/
+    ├─ README-template/
+    └─ dbt/
+
+dbt reusable code templates should live under:
+
+    templates/dbt/
+    └─ macros/
 
 These templates help maintain consistent structure when creating new modules or projects.
 

@@ -1,0 +1,4 @@
+HEAD@{0}: reset: moving to HEAD~1
+HEAD@{1}: commit: Add risky change
+HEAD@{2}: commit: Add first note
+HEAD@{3}: commit (initial): Initial commit

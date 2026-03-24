@@ -1,3 +1,13 @@
+├── 00-shell-linux
+│   ├── README.md
+│   ├── learning-materials
+│   ├── pet-projects
+│   └── simple-tasks
+├── 00-git
+│   ├── README.md
+│   ├── learning-materials
+│   ├── pet-projects
+│   └── simple-tasks
 ├── 01-python
 │   ├── README.md
 │   ├── learning-materials

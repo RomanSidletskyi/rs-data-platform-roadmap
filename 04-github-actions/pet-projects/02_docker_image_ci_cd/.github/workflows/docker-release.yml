@@ -1,0 +1,29 @@
+name: Docker release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build image
+        run: docker build -f docker/Dockerfile -t ghcr.io/${{ github.repository }}/docker-image-ci-cd:${{ github.sha }} .
+
+      - name: Push immutable tag
+        run: docker push ghcr.io/${{ github.repository }}/docker-image-ci-cd:${{ github.sha }}

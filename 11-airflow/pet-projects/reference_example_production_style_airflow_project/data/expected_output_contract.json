@@ -1,0 +1,5 @@
+{
+  "required_output_directory": "published/orders_daily",
+  "success_marker_name": "_SUCCESS.json",
+  "minimum_output_files": 1
+}
