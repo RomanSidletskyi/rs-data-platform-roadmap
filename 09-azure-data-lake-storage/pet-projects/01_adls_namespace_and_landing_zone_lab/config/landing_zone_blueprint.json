@@ -1,0 +1,30 @@
+{
+  "storage_account": "adlsretailplatformdev",
+  "environment": "dev",
+  "containers": ["raw", "curated", "publish"],
+  "domains": [
+    {
+      "name": "commerce",
+      "datasets": [
+        {
+          "name": "orders",
+          "raw_path": "raw/commerce/orders/source=erp/load_date=2026-03-24/",
+          "curated_path": "curated/commerce/orders_clean/business_date=2026-03-24/",
+          "publish_path": "publish/commerce/daily_orders/business_date=2026-03-24/",
+          "published": true
+        },
+        {
+          "name": "inventory",
+          "raw_path": "raw/commerce/inventory/source=wms/load_date=2026-03-24/",
+          "curated_path": "curated/commerce/inventory_snapshot/snapshot_date=2026-03-24/",
+          "publish_path": "publish/commerce/inventory_snapshot/snapshot_date=2026-03-24/",
+          "published": true
+        }
+      ]
+    }
+  ],
+  "internal_only_paths": [
+    "raw/commerce/orders/quarantine/",
+    "curated/commerce/orders_working/"
+  ]
+}

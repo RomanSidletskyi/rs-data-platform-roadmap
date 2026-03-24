@@ -1,0 +1,3 @@
+{"order_id":"o-2010","business_date":"2026-04-03","gross_amount":"-5.00","currency_code":"EUR","quality_status":"invalid"}
+{"order_id":"o-2011","business_date":"2026-04-03","gross_amount":"50.00","currency_code":"usd","quality_status":"invalid"}
+{"order_id":"o-2012","business_date":"2026-04-04","gross_amount":"40.00","currency_code":"PLN","quality_status":"valid"}

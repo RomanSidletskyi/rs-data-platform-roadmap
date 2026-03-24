@@ -1,0 +1,11 @@
+{
+  "storage_account": "adlsretailplatformdev",
+  "official_publish_path": "curated/commerce/orders_serving_work/",
+  "internal_curated_path": "curated/commerce/orders_serving_work/",
+  "supported_engines": ["databricks", "serverless_sql", "power_bi"],
+  "required_columns": ["business_date", "store_id", "net_sales"],
+  "schema_change_candidate": {
+    "adds": ["currency_code"],
+    "drops": ["net_sales"]
+  }
+}

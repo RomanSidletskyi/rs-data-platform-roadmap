@@ -8,6 +8,10 @@ The goal is to understand:
 - what problem it solves
 - how systems connect together
 
+This document describes the current repository scope first.
+
+Where future platform layers are mentioned, they should be read as planned extensions rather than existing modules.
+
 ---
 
 # Logical Architecture
@@ -42,9 +46,9 @@ Supporting layers:
 
 Modules:
 
-01-python
-02-sql
-05-confluent-kafka
+- `01-python`
+- `02-sql`
+- `05-confluent-kafka`
 
 Purpose:
 
@@ -62,8 +66,8 @@ Application -> Kafka -> Stream consumers
 
 Modules:
 
-06-spark-pyspark
-07-databricks
+- `06-spark-pyspark`
+- `07-databricks`
 
 Purpose:
 
@@ -86,8 +90,8 @@ Raw -> Spark -> Curated tables
 
 Modules:
 
-08-delta-lake
-09-azure-data-lake-storage
+- `08-delta-lake`
+- `09-azure-data-lake-storage`
 
 Purpose:
 
@@ -95,11 +99,11 @@ Reliable storage of raw and processed data.
 
 Typical layout:
 
-data-lake/
-raw/
-bronze/
-silver/
-gold/
+`data-lake/`
+`raw/`
+`bronze/`
+`silver/`
+`gold/`
 
 ---
 
@@ -107,7 +111,11 @@ gold/
 
 Module:
 
-10-powerbi-fabric
+- `10-powerbi-fabric`
+
+Current status:
+
+- planned placeholder module for a later repository pass
 
 Purpose:
 
@@ -123,11 +131,11 @@ Gold tables -> semantic model -> dashboards
 
 Modules:
 
-00-shell-linux
-00-git
-03-docker
-04-github-actions
-15-raspberry-pi-homelab
+- `00-shell-linux`
+- `00-git`
+- `03-docker`
+- `04-github-actions`
+- `15-raspberry-pi-homelab`
 
 Purpose:
 
@@ -139,7 +147,7 @@ Command-line runtime literacy, repository control, reproducible environments, CI
 
 Module:
 
-15-raspberry-pi-homelab
+- `15-raspberry-pi-homelab`
 
 Purpose:
 
@@ -153,7 +161,7 @@ Provide a lightweight remote host for Docker workloads, persistent volumes, and 
 
 Module:
 
-11-airflow
+- `11-airflow`
 
 Purpose:
 
@@ -165,7 +173,7 @@ Coordinate pipeline execution and scheduling.
 
 Module:
 
-12-dbt
+- `12-dbt`
 
 Purpose:
 
@@ -183,7 +191,11 @@ Features:
 
 Module:
 
-13-flink
+- `13-flink`
+
+Current status:
+
+- planned placeholder module for a later repository pass
 
 Purpose:
 
@@ -199,7 +211,11 @@ Kafka -> Flink -> aggregated metrics
 
 Module:
 
-14-iceberg
+- `14-iceberg`
+
+Current status:
+
+- planned placeholder module for a later repository pass
 
 Purpose:
 
@@ -207,13 +223,36 @@ Engine-independent lakehouse tables.
 
 ---
 
-# Production Layers
+# Current End-to-End Flow
+
+One practical repository flow is:
+
+- source systems
+- Python or Kafka ingestion
+- Spark or Databricks processing
+- Delta Lake and ADLS storage design
+- dbt transformation layer where needed
+- Power BI serving
+- Airflow orchestration
+
+Supporting layers already represented in the repository include:
+
+- shell and Git operational literacy
+- Docker runtime packaging
+- CI through GitHub Actions
+- homelab runtime practice
+
+# Future Platform Layers
+
+These are useful platform layers that may later become first-class modules.
+
+They are listed here so the architecture map stays complete, but they are not current repository modules.
 
 ## Data Quality
 
 Module:
 
-16-data-quality
+`16-data-quality` planned
 
 Purpose:
 
@@ -225,7 +264,7 @@ Validate datasets before consumption.
 
 Module:
 
-17-observability
+`17-observability` planned
 
 Purpose:
 
@@ -237,7 +276,7 @@ Monitor pipelines and infrastructure.
 
 Module:
 
-18-cloud-architecture
+`18-cloud-architecture` planned
 
 Purpose:
 
@@ -249,7 +288,7 @@ Understand cloud-native data platform design.
 
 Module:
 
-19-terraform
+`19-terraform` planned
 
 Purpose:
 
@@ -257,7 +296,13 @@ Provision infrastructure reproducibly.
 
 ---
 
-# Full Platform Flow
+# Working Interpretation
+
+Use this map as a placement guide:
+
+- modules explain one technology or platform layer deeply
+- `docs/` explains how several layers combine
+- `real-projects/` is where those layers should later converge into full end-to-end implementations
 
 Sources
 

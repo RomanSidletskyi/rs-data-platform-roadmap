@@ -1,0 +1,15 @@
+{
+  "row_count": 2,
+  "rows": [
+    {
+      "last_event_time": "2026-03-24T10:07:00Z",
+      "latest_status": "shipped",
+      "order_id": "ord-9001"
+    },
+    {
+      "last_event_time": "2026-03-24T10:15:00Z",
+      "latest_status": "payment_failed",
+      "order_id": "ord-9002"
+    }
+  ]
+}

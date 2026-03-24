@@ -1,0 +1,6 @@
+{"event_id":"evt-web-1001","event_time":"2026-03-24T12:00:00Z","event_type":"page_viewed","page_url":"/home","session_id":"sess-100","user_id":"user-21"}
+{"event_id":"evt-web-1002","event_time":"2026-03-24T12:00:05Z","event_type":"product_clicked","page_url":"/products/sku-1","session_id":"sess-100","user_id":"user-21"}
+{"event_id":"evt-web-1003","event_time":"2026-03-24T12:00:20Z","event_type":"cart_added","page_url":"/cart","session_id":"sess-100","user_id":"user-21"}
+{"event_id":"evt-web-1004","event_time":"2026-03-24T12:03:00Z","event_type":"page_viewed","page_url":"/home","session_id":"sess-200","user_id":"user-55"}
+{"event_id":"evt-web-1005","event_time":"2026-03-24T12:03:30Z","event_type":"checkout_started","page_url":"/checkout","session_id":"sess-200","user_id":"user-55"}
+{"event_id":"evt-web-1006","event_time":"2026-03-24T12:04:10Z","event_type":"checkout_completed","page_url":"/checkout/success","session_id":"sess-200","user_id":"user-55"}

@@ -1,0 +1,50 @@
+{
+  "contract": {
+    "grain": [
+      "business_date",
+      "store_id"
+    ],
+    "required_fields": [
+      "business_date",
+      "store_id",
+      "gross_sales",
+      "order_count"
+    ],
+    "object_name": "analytics.daily_store_sales",
+    "freshness_sla_hours": 4
+  },
+  "schema_change_review": {
+    "breaking_changes": [
+      "drop_required_column",
+      "change_metric_type",
+      "change_grain"
+    ]
+  },
+  "serving_contract_passed": true,
+  "serving_findings": [],
+  "preview_row_count": 3,
+  "preview_rows": [
+    {
+      "business_date": "2026-04-05",
+      "store_id": "s-001",
+      "gross_sales": "1500.50",
+      "order_count": 15,
+      "refund_count": 1
+    },
+    {
+      "business_date": "2026-04-05",
+      "store_id": "s-002",
+      "gross_sales": "980.00",
+      "order_count": 11,
+      "refund_count": 0
+    }
+  ],
+  "schema_review": {
+    "approved": false,
+    "findings": [
+      "breaking: removes required field",
+      "breaking: changes type for gross_sales",
+      "breaking: changes consumer grain"
+    ]
+  }
+}

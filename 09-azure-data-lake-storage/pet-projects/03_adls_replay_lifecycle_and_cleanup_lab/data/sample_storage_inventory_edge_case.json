@@ -1,0 +1,17 @@
+[
+  {
+    "path": "raw/finance/invoices/load_date=2025-02-01/",
+    "path_class": "raw",
+    "age_days": 420
+  },
+  {
+    "path": "publish/commerce/daily_orders/business_date=2025-08-01/",
+    "path_class": "publish",
+    "age_days": 236
+  },
+  {
+    "path": "curated/commerce/orders_backfill/run_id=2026-03-01/",
+    "path_class": "temporary",
+    "age_days": 23
+  }
+]

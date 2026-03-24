@@ -1,0 +1,13 @@
+quality:
+  block_negative_gross_amount: true
+  require_supported_currency_codes:
+    - EUR
+    - PLN
+    - UAH
+recovery:
+  preferred_strategy: bounded_replace_where
+  restore_threshold: whole_table_corruption
+retention:
+  log_retention_days: 30
+  deleted_file_retention_days: 14
+  rationale: keep enough history for delayed defect detection and controlled recovery

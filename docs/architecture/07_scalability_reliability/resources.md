@@ -1,21 +1,35 @@
-# Learning Resources — Scalability and Reliability
+# Learning Resources - Scalability and Reliability
 
-## Articles
+## How To Use These Resources
+
+Use these resources to understand failure behavior, not only peak throughput.
+
+After each resource, write down:
+
+- what failure mode it is trying to control
+- whether the strategy protects correctness, throughput, or both
+- what operational signal would show the problem first
+
+## What To Search For
 
 - idempotent pipeline design
 - checkpointing concepts
 - retry and backoff strategies
 - distributed processing bottlenecks
+- replay and recovery architecture
 
-## Courses
+## Best Resource Types
 
-### Coursera
+- postmortems
+- runbook-oriented engineering articles
+- reliability talks for Kafka, Spark, Airflow, or lakehouse platforms
 
-Add reliability-related content here.
+## Real Examples To Pair With Reading
 
-### Udemy
-
-Add Spark, Kafka, and production reliability sections here.
+- consumer lag incident
+- failed batch rerun with duplicate risk
+- checkpoint recovery after streaming interruption
+- sink bottleneck that looked like a messaging problem at first
 
 ## Books
 

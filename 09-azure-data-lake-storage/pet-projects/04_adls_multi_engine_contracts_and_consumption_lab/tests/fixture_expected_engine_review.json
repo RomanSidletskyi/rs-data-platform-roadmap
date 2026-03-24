@@ -1,0 +1,22 @@
+{
+  "recommendation": "Expose one official publish path and keep engine-specific working paths unsupported.",
+  "supported_requests": [
+    {
+      "engine": "databricks",
+      "purpose": "notebook_analysis",
+      "requested_path": "publish/commerce/daily_orders/"
+    },
+    {
+      "engine": "power_bi",
+      "purpose": "dashboard_refresh",
+      "requested_path": "publish/commerce/daily_orders/"
+    }
+  ],
+  "unsupported_requests": [
+    {
+      "engine": "serverless_sql",
+      "purpose": "quick_sql_preview",
+      "requested_path": "curated/commerce/orders_serving_work/"
+    }
+  ]
+}

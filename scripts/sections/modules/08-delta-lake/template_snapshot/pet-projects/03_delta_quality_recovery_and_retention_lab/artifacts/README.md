@@ -1,0 +1,1 @@
+Store generated local quality and recovery outputs here, for example `quality_recovery_assessment.json` produced by the local pipeline skeleton.

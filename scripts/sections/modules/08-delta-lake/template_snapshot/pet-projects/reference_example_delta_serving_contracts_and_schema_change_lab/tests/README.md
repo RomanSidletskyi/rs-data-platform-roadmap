@@ -1,0 +1,1 @@
+Add example tests for consumer contract stability, freshness checks, and safe schema evolution.

@@ -1,0 +1,27 @@
+{
+  "assignments": [
+    {
+      "path": "raw/commerce/orders/",
+      "permission": "rwx",
+      "principal": "spn-retail-raw-ingest"
+    },
+    {
+      "path": "curated/commerce/orders_clean/",
+      "permission": "rwx",
+      "principal": "mi-retail-curation"
+    },
+    {
+      "path": "publish/commerce/daily_orders/",
+      "permission": "r-x",
+      "principal": "grp-retail-analytics"
+    }
+  ],
+  "forbidden_consumer_paths": [
+    "raw/commerce/orders/",
+    "curated/commerce/orders_working/"
+  ],
+  "storage_account": "adlsretailplatformdev",
+  "supported_consumer_paths": [
+    "publish/commerce/daily_orders/"
+  ]
+}

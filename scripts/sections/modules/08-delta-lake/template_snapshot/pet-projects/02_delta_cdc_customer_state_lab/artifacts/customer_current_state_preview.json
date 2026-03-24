@@ -1,0 +1,38 @@
+{
+  "source": {
+    "primary_key": "customer_id",
+    "sequence_column": "event_ts",
+    "operation_column": "op"
+  },
+  "merge": {
+    "latest_state_table": "silver.customer_current_state",
+    "history_table": "silver.customer_change_history"
+  },
+  "delete_operations": [
+    "delete"
+  ],
+  "required_fields": [
+    "customer_id",
+    "event_ts",
+    "op",
+    "email",
+    "loyalty_tier"
+  ],
+  "cdc_check_passed": true,
+  "cdc_findings": [],
+  "current_state_row_count": 2,
+  "current_state_preview": [
+    {
+      "customer_id": "c-001",
+      "event_ts": "2026-04-01T10:00:00",
+      "email": "anna@example.com",
+      "loyalty_tier": "silver"
+    },
+    {
+      "customer_id": "c-002",
+      "event_ts": "2026-04-01T12:00:00",
+      "email": "bob@example.com",
+      "loyalty_tier": "gold"
+    }
+  ]
+}

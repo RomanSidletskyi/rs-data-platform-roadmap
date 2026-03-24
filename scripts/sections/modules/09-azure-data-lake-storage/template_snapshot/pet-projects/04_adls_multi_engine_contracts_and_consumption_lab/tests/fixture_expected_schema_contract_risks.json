@@ -1,0 +1,8 @@
+{
+  "dropped_required_columns": [
+    "net_sales"
+  ],
+  "official_path_is_publish": false,
+  "recommendation": "Keep the official contract on a publish path and do not drop columns that downstream engines treat as required.",
+  "risk_detected": true
+}

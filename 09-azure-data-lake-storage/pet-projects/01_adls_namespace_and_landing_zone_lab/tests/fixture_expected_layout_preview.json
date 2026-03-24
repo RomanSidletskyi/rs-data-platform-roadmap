@@ -1,0 +1,17 @@
+{
+  "contract_paths": [
+    "publish/commerce/daily_orders/business_date=2026-03-24/part-0001.parquet"
+  ],
+  "internal_paths": [
+    "curated/commerce/orders_clean/business_date=2026-03-24/part-0001.parquet",
+    "raw/commerce/orders/quarantine/file-002.json",
+    "raw/commerce/orders/source=erp/load_date=2026-03-24/file-001.json"
+  ],
+  "object_count": 4,
+  "purpose_counts": {
+    "consumer_contract": 1,
+    "internal_trusted": 1,
+    "landing": 1,
+    "quarantine": 1
+  }
+}

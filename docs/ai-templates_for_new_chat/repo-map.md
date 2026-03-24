@@ -303,9 +303,9 @@ shared
 
 --------------------------------------------------
 
-Planned Modules
+Current Script-Backed Modules
 
-The following modules are planned but not yet implemented.
+The following modules already have active script-backed generation or active curated scope.
 
 03-docker
 04-github-actions
@@ -314,9 +314,16 @@ The following modules are planned but not yet implemented.
 07-databricks
 08-delta-lake
 09-azure-data-lake-storage
-10-powerbi-fabric
 11-airflow
 12-dbt
+
+--------------------------------------------------
+
+Planned Placeholder Modules
+
+The following directories already exist, but they are intentionally being kept as planned placeholders for later learning passes.
+
+10-powerbi-fabric
 13-flink
 14-iceberg
 

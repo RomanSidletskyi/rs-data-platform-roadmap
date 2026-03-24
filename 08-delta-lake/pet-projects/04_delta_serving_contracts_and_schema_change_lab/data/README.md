@@ -1,0 +1,1 @@
+Describe curated sample output and one schema-change scenario that could break downstream consumers.

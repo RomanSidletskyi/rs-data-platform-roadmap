@@ -1,0 +1,10 @@
+{
+  "analyst_non_publish_paths": [
+    "curated/commerce/orders_clean/"
+  ],
+  "publish_write_assignments": [
+    "spn-vendor-shared:publish/commerce/daily_orders/"
+  ],
+  "recommendation": "Keep analysts on publish-only reads and avoid broad write grants on publish paths.",
+  "risk_detected": true
+}

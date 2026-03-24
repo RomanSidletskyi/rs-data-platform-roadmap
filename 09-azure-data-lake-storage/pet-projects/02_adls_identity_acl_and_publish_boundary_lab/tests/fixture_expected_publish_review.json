@@ -1,0 +1,22 @@
+{
+  "allowed_requests": [
+    {
+      "purpose": "dashboard_read",
+      "requested_path": "publish/commerce/daily_orders/",
+      "requester": "grp-retail-analytics"
+    }
+  ],
+  "denied_requests": [
+    {
+      "purpose": "ad_hoc_exploration",
+      "requested_path": "curated/commerce/orders_working/",
+      "requester": "grp-retail-analytics"
+    },
+    {
+      "purpose": "ingest_write",
+      "requested_path": "raw/commerce/orders/",
+      "requester": "spn-retail-raw-ingest"
+    }
+  ],
+  "recommendation": "Keep analysts on publish paths and reject raw or working-path exploration by default."
+}

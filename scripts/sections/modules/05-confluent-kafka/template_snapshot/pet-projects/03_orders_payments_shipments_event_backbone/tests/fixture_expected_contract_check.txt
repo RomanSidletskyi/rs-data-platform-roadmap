@@ -1,0 +1,6 @@
+contract-check=fail
+line 1: producer_service should be 'order-service' for sales events
+line 2: missing fields: payment_id
+line 2: unexpected event_type 'order_confirmed' for domain 'payments'
+line 3: missing fields: shipment_id
+line 4: unknown domain

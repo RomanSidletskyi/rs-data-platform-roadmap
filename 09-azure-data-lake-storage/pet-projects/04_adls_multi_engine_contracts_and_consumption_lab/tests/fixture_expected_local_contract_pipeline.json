@@ -1,0 +1,7 @@
+{
+  "breaking_change_detected": true,
+  "official_publish_path": "publish/commerce/daily_orders/",
+  "recommendation": "Do not treat internal curated serving paths as public contracts across engines.",
+  "supported_engine_count": 3,
+  "unsupported_request_count": 1
+}

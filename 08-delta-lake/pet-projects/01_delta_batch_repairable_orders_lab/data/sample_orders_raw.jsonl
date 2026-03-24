@@ -1,0 +1,4 @@
+{"order_id":"o-1001","business_date":"2026-04-01","customer_id":"c-201","country_code":"UA","gross_amount":"120.50","order_status":"paid"}
+{"order_id":"o-1002","business_date":"2026-04-01","customer_id":"c-202","country_code":"PL","gross_amount":"80.00","order_status":"refunded"}
+{"order_id":"o-1003","business_date":"2026-04-02","customer_id":"c-203","country_code":"UA","gross_amount":"45.40","order_status":"paid"}
+{"order_id":"o-1004","business_date":"2026-04-02","customer_id":"c-204","country_code":"DE","gross_amount":"210.00","order_status":"pending"}

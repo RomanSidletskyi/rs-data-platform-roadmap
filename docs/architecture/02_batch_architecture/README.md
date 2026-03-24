@@ -1,28 +1,67 @@
 # Batch Architecture
 
-## What Problem Does It Solve
+## What This Topic Is For
 
-Batch architecture is used when data does not need to be processed immediately and can be delivered on a schedule.
+Batch architecture is for systems where data can be processed on a schedule rather than continuously.
 
-## Why It Matters
-
-A large number of analytics systems and reporting workflows are built using batch pipelines.
+It is still one of the most important architecture patterns in analytics, internal reporting, finance workflows, and historical reconstruction.
 
 ## Typical Architecture
 
     Source -> Landing -> Raw -> Transform -> Curated -> BI
 
-## When To Use It
+## When Batch Is A Strong Fit
 
 - daily reporting
 - hourly synchronization
 - historical backfills
+- cost-sensitive analytics that do not need immediate freshness
+- workloads where recomputation and reruns matter more than sub-minute latency
 
-## When Not To Use It
+## When Batch Is A Weak Fit
 
 - fraud detection
 - live monitoring
 - real-time alerting
+- workflows where the business action depends on immediate reaction
+
+## What To Pay Attention To
+
+- where raw data is preserved before transformations
+- whether full refresh or incremental processing is safer
+- how backfills will run without corrupting later layers
+- whether pipeline dependencies are explicit
+- what the acceptable freshness window really is
+
+## Good Architecture Signals
+
+- raw, processed, and curated layers are separated clearly
+- backfill strategy exists before incidents happen
+- pipeline reruns are safe and reproducible
+- batch windows are based on real business need rather than habit
+
+## Common Mistakes
+
+- using full refresh everywhere because it is easier initially
+- storing only transformed outputs and losing raw history
+- pretending an hourly job is real time
+- letting downstream BI read unstable intermediate data
+
+## Real Examples To Think Through
+
+- nightly finance reporting pipeline
+- hourly CRM synchronization into an analytical warehouse
+- bronze to silver to gold rebuild after a transformation bug
+
+Worked example:
+
+- `worked_example_daily_sales_batch_pipeline.md`
+
+For each example, ask:
+
+- why is batch good enough here
+- what is the replay or rerun path
+- where can data quality checks fail the flow safely
 
 ## Interview Questions
 
@@ -31,11 +70,13 @@ A large number of analytics systems and reporting workflows are built using batc
 - What is a backfill?
 - When should you use incremental processing?
 
-## Related Courses
+## Read Next
 
-See:
-
-    resources.md
+- `resources.md`
+- `anti-patterns.md`
+- `worked_example_daily_sales_batch_pipeline.md`
+- `../../system-design/README.md`
+- `../../trade-offs/README.md`
 
 ## Completion Checklist
 

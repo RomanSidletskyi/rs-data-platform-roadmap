@@ -1,0 +1,14 @@
+[
+  {
+    "order_id": "o-5001",
+    "latest_event_time": "2026-03-20T10:05:00Z",
+    "latest_status": "paid",
+    "latest_amount": "120.50"
+  },
+  {
+    "order_id": "o-5002",
+    "latest_event_time": "2026-03-20T11:15:00Z",
+    "latest_status": "cancelled",
+    "latest_amount": "45.00"
+  }
+]

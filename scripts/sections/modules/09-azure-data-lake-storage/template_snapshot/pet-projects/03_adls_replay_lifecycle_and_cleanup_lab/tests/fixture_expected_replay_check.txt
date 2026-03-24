@@ -1,0 +1,5 @@
+status=REPLAY_BOUNDARY_OK
+replay_prefix_count=2
+temporary_prefix_count=2
+published_prefix_count=1
+temporary_retention_days=14

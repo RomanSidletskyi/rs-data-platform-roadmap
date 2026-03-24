@@ -1,0 +1,2 @@
+{"topic":"orders.events","partition":0,"offset":301,"payload":{"event_type":"order_created","order_id":"o-9001","event_time":"2026-03-20T12:00:00Z","amount":"100.00"}}
+{"topic":"orders.events","partition":0,"offset":302,"payload":{"event_type":"order_paid","event_time":"2026-03-20T12:10:00Z","order_status":"paid","amount":"100.00"}}

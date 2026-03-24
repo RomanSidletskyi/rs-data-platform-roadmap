@@ -1,0 +1,15 @@
+{
+  "release_id": "release-2026-04-05",
+  "source_table": "gold.daily_store_sales",
+  "official_consumer_object": "analytics.daily_store_sales",
+  "contract_grain": [
+    "business_date",
+    "store_id"
+  ],
+  "freshness_sla_hours": 4,
+  "review_steps": [
+    "check required serving fields",
+    "review schema-change proposal",
+    "publish only through official consumer object"
+  ]
+}

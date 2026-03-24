@@ -1,0 +1,15 @@
+{
+  "consumer_contract_count": 1,
+  "environment": "dev",
+  "internal_only_paths": [
+    "raw/commerce/orders/quarantine/",
+    "curated/commerce/orders_working/"
+  ],
+  "object_count": 4,
+  "published_paths": [
+    "publish/commerce/daily_orders/business_date=2026-03-24/",
+    "publish/commerce/inventory_snapshot/snapshot_date=2026-03-24/"
+  ],
+  "recommendation": "Keep quarantine and working paths out of the publish container.",
+  "storage_account": "adlsretailplatformdev"
+}

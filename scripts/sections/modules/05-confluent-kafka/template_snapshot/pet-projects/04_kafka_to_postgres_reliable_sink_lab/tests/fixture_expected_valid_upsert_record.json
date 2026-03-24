@@ -1,0 +1,8 @@
+{
+  "amount": 149.9,
+  "currency": "EUR",
+  "customer_id": "cust-77",
+  "event_id": "evt-order-1001",
+  "event_time": "2026-03-24T11:00:00Z",
+  "order_id": "ord-501"
+}

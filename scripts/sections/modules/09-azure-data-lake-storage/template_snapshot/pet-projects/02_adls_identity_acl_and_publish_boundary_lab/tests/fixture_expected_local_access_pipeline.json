@@ -1,0 +1,10 @@
+{
+  "denied_request_count": 2,
+  "managed_identity_count": 1,
+  "recommendation": "Grant analysts read-only access to publish and keep engineering write scopes path-specific.",
+  "service_principal_count": 1,
+  "storage_account": "adlsretailplatformdev",
+  "supported_consumer_paths": [
+    "publish/commerce/daily_orders/"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "batch_id": "batch-001",
+  "source_table": "bronze.customer_cdc_events",
+  "current_state_table": "silver.customer_current_state",
+  "history_table": "silver.customer_change_history",
+  "merge_key": [
+    "customer_id"
+  ],
+  "winner_logic": [
+    "keep newest event_ts per customer_id",
+    "ignore exact duplicates during staging",
+    "treat delete as removal from current state"
+  ],
+  "validation_steps": [
+    "check required CDC fields",
+    "deduplicate exact duplicates",
+    "preview current-state output"
+  ]
+}

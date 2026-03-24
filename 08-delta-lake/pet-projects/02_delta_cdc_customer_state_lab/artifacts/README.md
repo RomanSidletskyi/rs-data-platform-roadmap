@@ -1,0 +1,1 @@
+Store generated local CDC outputs here, for example `customer_current_state_preview.json` written by the local pipeline skeleton.

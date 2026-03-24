@@ -14,6 +14,11 @@ GENERATOR_MODULES=(
   02-sql
   03-docker
   04-github-actions
+  05-confluent-kafka
+  06-spark-pyspark
+  07-databricks
+  08-delta-lake
+  09-azure-data-lake-storage
   11-airflow
   12-dbt
   15-raspberry-pi-homelab

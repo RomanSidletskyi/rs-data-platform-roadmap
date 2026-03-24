@@ -112,7 +112,11 @@ Programming → Data Processing → Distributed Systems → Data Platform Archit
 
 Example path:
 
-Python → SQL → Docker → Kafka → Spark → Databricks → Delta Lake → Airflow → dbt → Flink → Iceberg
+Python → SQL → Docker → Kafka → Spark → Databricks → Delta Lake → Airflow → dbt
+
+Later planned continuation:
+
+Power BI / Fabric → Flink → Iceberg
 
 ---
 
@@ -240,6 +244,10 @@ Module:
 
 10-powerbi-fabric
 
+Current status:
+
+- planned placeholder module for a later repository pass
+
 Purpose:
 
 Expose business data to analysts.
@@ -301,6 +309,10 @@ Module:
 
 13-flink
 
+Current status:
+
+- planned placeholder module for a later repository pass
+
 Purpose:
 
 Stateful real-time stream processing.
@@ -316,6 +328,10 @@ Kafka -> Flink -> aggregated metrics
 Module:
 
 14-iceberg
+
+Current status:
+
+- planned placeholder module for a later repository pass
 
 Purpose:
 
@@ -443,6 +459,10 @@ Goal:
 
 Move from tool knowledge -> platform engineering -> architecture thinking.
 
+Current note:
+
+10-powerbi-fabric, 13-flink, and 14-iceberg are already present as directories but are intentionally being kept as planned placeholders rather than active generated scope.
+
 ---
 
 # Phase 1 — Engineering Basics
@@ -504,11 +524,15 @@ API -> Spark -> Delta pipeline
 
 ---
 
-# Phase 4 — Analytics
+# Planned Phase — Analytics
 
 Module:
 
 10-powerbi-fabric
+
+Current status:
+
+- planned placeholder for a later learning pass
 
 Focus:
 
@@ -558,11 +582,15 @@ dbt transformation layer
 
 ---
 
-# Phase 7 — Streaming Systems
+# Planned Phase — Streaming Systems
 
 Module:
 
 13-flink
+
+Current status:
+
+- planned placeholder for a later learning pass
 
 Focus:
 
@@ -576,11 +604,15 @@ Kafka -> Flink -> real-time metrics
 
 ---
 
-# Phase 8 — Lakehouse Formats
+# Planned Phase — Lakehouse Formats
 
 Module:
 
 14-iceberg
+
+Current status:
+
+- planned placeholder for a later learning pass
 
 Focus:
 
@@ -631,6 +663,10 @@ cat << 'EOF' > "$SECTION_ROOT/data-platform-projects-roadmap.md"
 This document lists recommended end-to-end projects for mastering the full data platform stack.
 
 The projects gradually combine more modules from the roadmap.
+
+Note:
+
+The later portfolio projects may reference planned placeholder modules, especially 10-powerbi-fabric, before those modules are fully activated in the learning path.
 
 ---
 

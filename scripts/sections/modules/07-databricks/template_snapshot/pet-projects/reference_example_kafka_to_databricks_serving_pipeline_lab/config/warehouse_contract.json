@@ -1,0 +1,6 @@
+{
+  "freshness": "every_15_minutes",
+  "grain": "one_row_per_order",
+  "table_name": "prod_sales.gold_order_status",
+  "warehouse_name": "ops-serving-warehouse"
+}

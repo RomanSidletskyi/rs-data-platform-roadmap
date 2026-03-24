@@ -1,0 +1,12 @@
+contract:
+  object_name: analytics.store_sales_serving
+  official_consumption_only: true
+  required_fields:
+    - business_date
+    - store_id
+    - gross_sales
+    - order_count
+review_rules:
+  reject_if_grain_changes: true
+  reject_if_required_field_removed: true
+  reject_if_metric_type_changes: true

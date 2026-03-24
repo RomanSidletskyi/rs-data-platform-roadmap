@@ -1,0 +1,7 @@
+{
+  "proposed_removed_fields": ["order_count"],
+  "proposed_type_changes": {
+    "gross_sales": "integer"
+  },
+  "proposed_grain": ["business_date"]
+}

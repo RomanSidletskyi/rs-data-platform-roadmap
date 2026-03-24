@@ -1,0 +1,9 @@
+solution:
+  repair_strategy: replace_where
+  merge_usage: use_only_for_keyed_updates_not_for_full_day_replace
+  gold_grain:
+    - business_date
+    - country_code
+operating_notes:
+  rerun_scope: single_business_date
+  validation_step: compare daily row counts and gross revenue totals before publish

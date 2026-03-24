@@ -1,0 +1,19 @@
+{
+  "published_prefixes": [
+    "publish/commerce/daily_orders/"
+  ],
+  "replay_critical_prefixes": [
+    "raw/commerce/orders/",
+    "raw/finance/invoices/"
+  ],
+  "retention_days": {
+    "curated": 90,
+    "publish": 180,
+    "raw": 365,
+    "temporary": 14
+  },
+  "temporary_prefixes": [
+    "curated/commerce/orders_backfill/",
+    "curated/finance/invoices_working/"
+  ]
+}

@@ -1,181 +1,224 @@
 # Data Platform Projects Roadmap
 
-This document lists recommended end-to-end projects for mastering the full data platform stack.
+This document lists the recommended cross-technology projects for the repository.
 
-The projects gradually combine more modules from the roadmap.
+The goal is to make `real-projects/` a coherent portfolio path rather than a loose set of ideas.
+
+## Current Real Project Slots
+
+The repository currently has these real-project directories:
+
+1. `01_python_sql_etl`
+2. `02_python_docker_github_actions`
+3. `03_python_kafka`
+4. `04_python_kafka_databricks`
+5. `05_python_spark_delta`
+6. `06_databricks_adls_powerbi`
+7. `07_kafka_databricks_powerbi`
+8. `08_end_to_end_data_platform`
+
+These should be implemented in roughly this order.
+
+Projects `06_databricks_adls_powerbi` and `07_kafka_databricks_powerbi` already reserve a BI-serving target, but that serving layer still depends on the planned placeholder module `10-powerbi-fabric`.
 
 ---
 
-# Project 1 — Python Batch ETL
+# Project 1 - Python SQL ETL
+
+Directory:
+
+- `real-projects/01_python_sql_etl`
 
 Modules used:
 
-- Python
-- SQL
-- Docker
+- `01-python`
+- `02-sql`
 
 Architecture:
 
-API -> Python -> CSV / Parquet
+- API or file source
+- Python ingestion and normalization
+- SQL validation or downstream analytical shaping
 
 Goal:
 
-Learn basic ingestion pipelines.
+- build a first end-to-end batch pipeline with clear structure and reproducible outputs
 
 ---
 
-# Project 2 — Event Streaming Pipeline
+# Project 2 - Python Docker GitHub Actions
+
+Directory:
+
+- `real-projects/02_python_docker_github_actions`
 
 Modules used:
 
-- Python
-- Kafka
+- `01-python`
+- `03-docker`
+- `04-github-actions`
 
 Architecture:
 
-Producer -> Kafka -> Consumer -> storage
+- Python application
+- Dockerized runtime
+- CI checks and image or artifact validation in GitHub Actions
 
 Goal:
 
-Understand event streaming.
+- learn how implementation, packaging, and CI fit together
 
 ---
 
-# Project 3 — Spark Batch Processing
+# Project 3 - Python Kafka
+
+Directory:
+
+- `real-projects/03_python_kafka`
 
 Modules used:
 
-- Spark
-- ADLS
+- `01-python`
+- `05-confluent-kafka`
 
 Architecture:
 
-Raw files -> Spark -> processed datasets
+- Python producer
+- Kafka topic backbone
+- Python consumer or event sink
 
 Goal:
 
-Process large datasets.
+- understand event-driven ingestion and consumer design
 
 ---
 
-# Project 4 — Lakehouse Pipeline
+# Project 4 - Python Kafka Databricks
+
+Directory:
+
+- `real-projects/04_python_kafka_databricks`
 
 Modules used:
 
-- Databricks
-- Delta Lake
-- ADLS
+- `01-python`
+- `05-confluent-kafka`
+- `07-databricks`
 
 Architecture:
 
-Raw -> Bronze -> Silver -> Gold
+- event producer
+- Kafka ingestion layer
+- Databricks processing and lakehouse loading
 
 Goal:
 
-Implement medallion architecture.
+- connect event ingress with managed distributed compute
 
 ---
 
-# Project 5 — Analytics Pipeline
+# Project 5 - Python Spark Delta
+
+Directory:
+
+- `real-projects/05_python_spark_delta`
 
 Modules used:
 
-- Databricks
-- Power BI
+- `01-python`
+- `06-spark-pyspark`
+- `08-delta-lake`
 
 Architecture:
 
-Gold tables -> BI dashboards
+- Python-controlled pipeline entrypoint
+- Spark transformation layer
+- Delta tables for reliable storage and repair
 
 Goal:
 
-Deliver business insights.
+- practice batch processing with stronger table semantics and recovery thinking
 
 ---
 
-# Project 6 — Orchestrated Data Platform
+# Project 6 - Databricks ADLS Power BI
+
+Directory:
+
+- `real-projects/06_databricks_adls_powerbi`
 
 Modules used:
 
-- Airflow
-- Spark
-- Delta
+- `07-databricks`
+- `09-azure-data-lake-storage`
+- `10-powerbi-fabric` planned placeholder
 
 Architecture:
 
-Airflow -> Spark jobs -> Delta tables
+- Databricks compute layer
+- ADLS namespace and storage boundaries
+- Power BI consumer-facing delivery
 
 Goal:
 
-Understand orchestration.
+- practice a full analytics-serving path from lakehouse to BI consumption
 
 ---
 
-# Project 7 — Transformation Layer
+# Project 7 - Kafka Databricks Power BI
+
+Directory:
+
+- `real-projects/07_kafka_databricks_powerbi`
 
 Modules used:
 
-- dbt
-- Delta
+- `05-confluent-kafka`
+- `07-databricks`
+- `10-powerbi-fabric` planned placeholder
 
 Architecture:
 
-Silver tables -> dbt models -> marts
+- event ingestion backbone
+- Databricks processing or aggregation
+- BI-facing outputs for near-real-time consumption
 
 Goal:
 
-Create maintainable SQL models.
+- connect event streams to business-facing analytics
 
 ---
 
-# Project 8 — Real-time Metrics Platform
+# Project 8 - End-To-End Data Platform
+
+Directory:
+
+- `real-projects/08_end_to_end_data_platform`
 
 Modules used:
 
-- Kafka
-- Flink
+- selected layers from across the repository
 
-Architecture:
+Suggested platform shape:
 
-Events -> Flink -> real-time aggregates
+- source systems
+- Python or Kafka ingestion
+- Spark, Databricks, or Flink processing
+- Delta Lake or Iceberg table layer
+- dbt transformation where useful
+- Power BI serving
+- Airflow orchestration
 
 Goal:
 
-Implement streaming analytics.
+- design one production-style learning platform that forces trade-off thinking across several layers at once
 
 ---
 
-# Project 9 — Observability Pipeline
+# Working Rule
 
-Modules used:
+`real-projects/` should stay selective.
 
-- monitoring
-- logging
-- metrics
+The goal is not to create one real project per module.
 
-Goal:
-
-Monitor pipeline health and performance.
-
----
-
-# Project 10 — Full Data Platform
-
-Modules used:
-
-All modules.
-
-Architecture:
-
-Sources
--> Kafka ingestion
--> Spark / Flink processing
--> Delta / Iceberg tables
--> dbt transformation
--> BI dashboards
--> Airflow orchestration
--> monitoring + data quality
-
-Goal:
-
-Build a production-style data platform.
+The goal is to create a small set of multi-technology projects that clearly show growth from tool literacy to platform architecture.

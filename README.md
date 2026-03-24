@@ -48,6 +48,7 @@ In addition, the repository includes:
 - `shared/` — datasets, diagrams, utilities, and glossary
 - `ai-learning/` — AI workflows, prompts, and exercises for faster learning
 - `real-projects/` — end-to-end projects combining multiple technologies
+- `docs/learning-progress.md` — repository-level learning progress tracker
 
 ## Learning Approach
 
@@ -142,6 +143,7 @@ That way, the repository becomes more than a study folder — it becomes evidenc
 - Build a strong foundation before starting streaming and lakehouse topics
 - Complete simple tasks before pet projects
 - Document what you learn in each module
+- Track what you actually finished in each module `PROGRESS.md`
 - Revisit old modules and improve them over time
 
 ## Long-Term Vision
@@ -157,13 +159,15 @@ This repository is intended to become a complete personal data platform learning
 
 ## Status
 
-This repository is under active development and will expand over time with:
+This repository is currently treated as structurally complete for the active learning path.
 
-- new technologies
-- new project ideas
-- more advanced architecture scenarios
-- better documentation
-- stronger portfolio cases
+Current rule:
+
+- modules through `09-azure-data-lake-storage`, `11-airflow`, `12-dbt`, and `15-raspberry-pi-homelab` are active curated scope
+- `10-powerbi-fabric`, `13-flink`, and `14-iceberg` remain roadmap placeholders for future learning passes
+- `real-projects/` already has starter scaffolding, but the implementations should be added gradually during learning rather than prebuilt all at once
+
+This means the repository already contains the learning system structure, while some later modules remain intentionally lighter until they are studied directly.
 
 ## Generator-Backed Modules
 
@@ -178,6 +182,11 @@ Current generator-backed modules:
 - `02-sql/`
 - `03-docker/`
 - `04-github-actions/`
+- `05-confluent-kafka/`
+- `06-spark-pyspark/`
+- `07-databricks/`
+- `08-delta-lake/`
+- `09-azure-data-lake-storage/`
 - `11-airflow/`
 - `12-dbt/`
 - `15-raspberry-pi-homelab/`
@@ -205,3 +214,28 @@ The same validation can be run locally with:
 For a single repository smoke-check entrypoint, run:
 
 - `./scripts/run_repo_smoke_checks.sh`
+
+## Repository Generation
+
+The generator system now has two consistent layers:
+
+- modules under `scripts/sections/modules/<module>/`
+- repository sections under `scripts/sections/<section>/`
+
+Both use the same orchestration pattern:
+
+- `init.sh`
+- one or more `fill_*` scripts
+- `bootstrap.sh`
+
+Useful commands:
+
+- `./scripts/bootstrap_section.sh docs`
+- `./scripts/bootstrap_section.sh shared`
+- `./scripts/bootstrap_section.sh ai-learning`
+- `./scripts/bootstrap_section.sh real-projects`
+- `./scripts/bootstrap_section.sh modules 03-docker`
+- `./scripts/bootstrap_section.sh modules --all`
+- `./scripts/bootstrap_all.sh`
+
+`bootstrap_all.sh` intentionally bootstraps only the sections and modules that already have script-backed generation logic. That keeps `10-powerbi-fabric`, `13-flink`, and `14-iceberg` out of auto-generated active scope until they are intentionally upgraded later.

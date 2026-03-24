@@ -1,0 +1,30 @@
+[
+  {
+    "order_date": "2026-03-20",
+    "country_code": "PL",
+    "order_count": 1,
+    "gross_revenue": "89.40",
+    "refunded_order_count": 1
+  },
+  {
+    "order_date": "2026-03-20",
+    "country_code": "UA",
+    "order_count": 1,
+    "gross_revenue": "120.50",
+    "refunded_order_count": 0
+  },
+  {
+    "order_date": "2026-03-21",
+    "country_code": "DE",
+    "order_count": 1,
+    "gross_revenue": "200.00",
+    "refunded_order_count": 0
+  },
+  {
+    "order_date": "2026-03-21",
+    "country_code": "UA",
+    "order_count": 1,
+    "gross_revenue": "40.10",
+    "refunded_order_count": 0
+  }
+]

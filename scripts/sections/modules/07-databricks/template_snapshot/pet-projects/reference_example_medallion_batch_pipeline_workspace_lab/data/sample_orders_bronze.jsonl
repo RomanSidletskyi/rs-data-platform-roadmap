@@ -1,0 +1,4 @@
+{"event_date":"2026-03-24","country_code":"DE","net_amount":100.50,"order_id":"ord-1001","quality_status":"valid"}
+{"event_date":"2026-03-24","country_code":"DE","net_amount":49.50,"order_id":"ord-1002","quality_status":"valid"}
+{"event_date":"2026-03-24","country_code":"PL","net_amount":30.00,"order_id":"ord-1003","quality_status":"valid"}
+{"event_date":"2026-03-25","country_code":"DE","net_amount":25.00,"order_id":"ord-1004","quality_status":"valid"}

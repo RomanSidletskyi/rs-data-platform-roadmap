@@ -1,0 +1,17 @@
+[
+  {
+    "requester": "grp-retail-analytics",
+    "requested_path": "publish/commerce/daily_orders/",
+    "purpose": "dashboard_read"
+  },
+  {
+    "requester": "grp-retail-analytics",
+    "requested_path": "curated/commerce/orders_working/",
+    "purpose": "ad_hoc_exploration"
+  },
+  {
+    "requester": "spn-retail-raw-ingest",
+    "requested_path": "raw/commerce/orders/",
+    "purpose": "ingest_write"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "session_count": 2,
+  "sessions": {
+    "sess-100": {
+      "completed_checkout": false,
+      "event_count": 3,
+      "page_count": 3,
+      "user_id": "user-21"
+    },
+    "sess-200": {
+      "completed_checkout": true,
+      "event_count": 3,
+      "page_count": 3,
+      "user_id": "user-55"
+    }
+  }
+}

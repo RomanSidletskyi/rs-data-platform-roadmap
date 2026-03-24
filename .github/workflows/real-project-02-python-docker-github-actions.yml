@@ -1,0 +1,31 @@
+name: Real Project 02 Python Docker GitHub Actions
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'real-projects/02_python_docker_github_actions/**'
+      - '.github/workflows/real-project-02-python-docker-github-actions.yml'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: real-projects/02_python_docker_github_actions
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate project structure
+        run: python -m compileall src tests run_pipeline.py
+
+      - name: Run smoke tests
+        run: python -m unittest tests/test_pipeline.py
+
+      - name: Build Docker image
+        run: docker build -f docker/Dockerfile -t real-project-02:ci .

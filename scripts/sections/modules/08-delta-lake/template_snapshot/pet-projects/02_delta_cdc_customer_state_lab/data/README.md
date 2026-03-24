@@ -1,0 +1,1 @@
+Add small CDC sample records here, including duplicates and late updates, so the learner must define winner logic explicitly.

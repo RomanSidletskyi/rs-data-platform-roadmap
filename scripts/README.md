@@ -1,16 +1,19 @@
 # Scripts System
 
-This directory contains automation scripts used to manage the repository structure.
+This directory contains the repository generation and validation scripts.
 
-The scripts allow automatic creation and filling of modules, docs, and other repository sections.
+The current scripts system has two equal layers:
 
-The system is designed to be:
+- generator-backed modules under `scripts/sections/modules/`
+- generator-backed repository sections under `scripts/sections/`
 
-- safe-mode
-- modular
-- scalable
-- easy to extend
-- friendly for future automation
+Both follow the same contract used by `03-docker`:
+
+- `init.sh` creates structure
+- one or more `fill_*` scripts add curated starter content
+- `bootstrap.sh` runs the section in the correct order
+
+The goal is consistency. `ai-learning`, `docs`, `shared`, and `real-projects` should be maintained with the same orchestration logic as script-backed modules, even when their internal content differs from a numbered module.
 
 ---
 
@@ -45,11 +48,12 @@ Learning modules such as:
     07-databricks
     08-delta-lake
     09-azure-data-lake-storage
-    10-powerbi-fabric
+    10-powerbi-fabric   (future placeholder)
     11-airflow
     12-dbt
-    13-flink
-    14-iceberg
+    13-flink            (future placeholder)
+    14-iceberg          (future placeholder)
+    15-raspberry-pi-homelab
 
 Each module follows the standard structure:
 
@@ -101,61 +105,67 @@ Large end-to-end projects:
 
 The new scripts architecture is section-based.
 
-    scripts/
-      README.md
-      create_module.sh
-      bootstrap_section.sh
-      bootstrap_all.sh
+        scripts/
+            README.md
+            create_module.sh
+            create_section.sh
+            bootstrap_section.sh
+            bootstrap_all.sh
 
-      lib/
-        common.sh
-        fs.sh
-        section.sh
+            lib/
+                common.sh
+                fs.sh
+                section.sh
 
-      sections/
-        modules/
-          01-python/
-            init.sh
-            fill_learning_materials.sh
-            fill_simple_tasks.sh
-            fill_pet_projects.sh
-            bootstrap.sh
+            sections/
+                modules/
+                    01-python/
+                        init.sh
+                        fill_readme.sh
+                        fill_learning_materials.sh
+                        fill_simple_tasks.sh
+                        fill_pet_projects.sh
+                        bootstrap.sh
 
-          02-sql/
-            init.sh
-            fill_learning_materials.sh
-            fill_simple_tasks.sh
-            fill_pet_projects.sh
-            bootstrap.sh
+                    02-sql/
+                        init.sh
+                        fill_readme.sh
+                        fill_learning_materials.sh
+                        fill_simple_tasks.sh
+                        fill_pet_projects.sh
+                        bootstrap.sh
 
-        docs/
-          init.sh
-          fill_core_docs.sh
-          fill_architecture.sh
-          fill_system_design.sh
-          fill_case_studies.sh
-          fill_tradeoffs.sh
-          bootstrap.sh
+                docs/
+                    init.sh
+                    fill_core_docs.sh
+                    fill_architecture.sh
+                    fill_system_design.sh
+                    fill_case_studies.sh
+                    fill_tradeoffs.sh
+                    bootstrap.sh
 
-        ai-learning/
-          init.sh
-          fill_prompting_guides.sh
-          fill_workflows.sh
-          fill_tools.sh
-          fill_practical_exercises.sh
-          bootstrap.sh
+                ai-learning/
+                    init.sh
+                    fill_readme.sh
+                    fill_prompting_guides.sh
+                    fill_workflows.sh
+                    fill_tools.sh
+                    fill_practical_exercises.sh
+                    bootstrap.sh
 
-        shared/
-          init.sh
-          fill_readmes.sh
-          bootstrap.sh
+                shared/
+                    init.sh
+                    fill_readme.sh
+                    fill_sub_readmes.sh
+                    fill_nested_readmes.sh
+                    bootstrap.sh
 
-        real-projects/
-          init.sh
-          fill_readmes.sh
-          bootstrap.sh
+                real-projects/
+                    init.sh
+                    fill_readmes.sh
+                    bootstrap.sh
 
-      old/
+            old/
 
 ---
 
@@ -199,6 +209,11 @@ Current generator-backed modules:
 - `02-sql/`
 - `03-docker/`
 - `04-github-actions/`
+- `05-confluent-kafka/`
+- `06-spark-pyspark/`
+- `07-databricks/`
+- `08-delta-lake/`
+- `09-azure-data-lake-storage/`
 - `11-airflow/`
 - `12-dbt/`
 - `15-raspberry-pi-homelab/`
@@ -342,7 +357,13 @@ Example files:
     fill_practical_exercises.sh
     bootstrap.sh
 
-This section is also separate because it is not a learning module in the same sense as Python or SQL.
+This section is also separate because it is not a numbered learning module.
+
+However, it still follows the same generator contract as module `03-docker`:
+
+- `init.sh`
+- targeted `fill_*` scripts
+- `bootstrap.sh`
 
 ---
 
@@ -352,11 +373,7 @@ Directory:
 
     scripts/sections/shared/
 
-This section usually needs lighter automation:
-
-- directory creation
-- README creation
-- optional future metadata files
+This section is not a numbered module, but it should still be maintained with the same init/fill/bootstrap orchestration pattern used by the module generators.
 
 ---
 
@@ -366,7 +383,9 @@ Directory:
 
     scripts/sections/real-projects/
 
-This section is for larger end-to-end projects and usually needs its own scaffolding logic.
+This section is for larger end-to-end projects.
+
+It now uses the same orchestration contract as other generated sections and is intended to create starter scaffolding only, not full implementations.
 
 ---
 
@@ -484,7 +503,9 @@ Use:
 
     ./scripts/bootstrap_all.sh
 
-This is useful when building or rebuilding the whole repository structure.
+This command bootstraps every script-backed repository section and every module directory that currently exists under `scripts/sections/modules/`.
+
+That means it stays aligned with the generator tree automatically and does not need a hardcoded module list for day-to-day maintenance.
 
 ---
 
@@ -497,14 +518,32 @@ Use:
 This creates:
 
     scripts/sections/modules/03-docker/
+            template_snapshot/
       init.sh
-    fill_readme.sh
+            fill_readme.sh
       fill_learning_materials.sh
       fill_simple_tasks.sh
       fill_pet_projects.sh
       bootstrap.sh
 
-After creation, implement the logic inside these files.
+The scaffold now also creates a minimal `template_snapshot/` so new modules start closer to the generator-backed pattern already used by mature modules like `03-docker`.
+
+After creation, replace the placeholder snapshot and refine the scripts.
+
+## Creating A New Generated Section
+
+Use:
+
+        ./scripts/create_section.sh shared
+
+Supported section names:
+
+        ai-learning
+        docs
+        real-projects
+        shared
+
+This is useful when you want non-module sections to follow the same init/fill/bootstrap contract as the module generators.
 
 Then run:
 
@@ -593,19 +632,10 @@ This scripts system provides a consistent foundation for expanding the roadmap s
 
 At the current stage, the main focus is:
 
-- stabilize the scripts architecture
-- support modules
-- support docs
-- support future module expansion
-- prepare the repository for scalable growth
-
-The first main migrated targets are:
-
-- `01-python`
-- `02-sql`
-- `docs`
-
-After that, future modules should use the new scripts system from the start.
+- keep root documentation aligned with the real repository structure
+- keep generator entrypoints aligned with the actual script-backed tree
+- preserve starter scaffolding for `real-projects/` without auto-building the learner's work for them
+- leave `10-powerbi-fabric`, `13-flink`, and `14-iceberg` as future placeholders until they are intentionally upgraded
 
 ---
 

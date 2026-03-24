@@ -1,0 +1,4 @@
+{"topic":"orders.events","partition":0,"offset":101,"payload":{"event_type":"order_created","order_id":"o-5001","event_time":"2026-03-20T10:00:00Z","order_status":"created","amount":"120.50"}}
+{"topic":"orders.events","partition":0,"offset":102,"payload":{"event_type":"order_paid","order_id":"o-5001","event_time":"2026-03-20T10:05:00Z","order_status":"paid","amount":"120.50"}}
+{"topic":"orders.events","partition":1,"offset":201,"payload":{"event_type":"order_created","order_id":"o-5002","event_time":"2026-03-20T11:00:00Z","order_status":"created","amount":"45.00"}}
+{"topic":"orders.events","partition":1,"offset":202,"payload":{"event_type":"order_cancelled","order_id":"o-5002","event_time":"2026-03-20T11:15:00Z","order_status":"cancelled","amount":"45.00"}}
