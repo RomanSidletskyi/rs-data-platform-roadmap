@@ -53,5 +53,5 @@ jobs:
 
       - name: Validate generator-backed modules
         run: |
-          chmod +x scripts/check_generator_backed_modules.sh
-          ./scripts/check_generator_backed_modules.sh
+          chmod +x scripts/check_repo.sh
+          ./scripts/check_repo.sh modules

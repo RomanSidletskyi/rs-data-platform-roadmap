@@ -3,10 +3,8 @@ scripts/
 ├── create_module.sh
 ├── create_section.sh
 ├── bootstrap_section.sh
-├── bootstrap_all.sh
-├── check_generator_backed_modules.sh
-├── check_foundational_starter_assets.sh
-├── run_repo_smoke_checks.sh
+├── refresh_template_snapshots.sh
+├── check_repo.sh
 │
 ├── lib/
 │   ├── common.sh

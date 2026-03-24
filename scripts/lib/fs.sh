@@ -46,3 +46,73 @@ write_file_safe() {
 
   log "Wrote file: $file"
 }
+
+copy_file_from_template() {
+  local source_file="$1"
+  local target_file="$2"
+
+  if [[ ! -f "$source_file" ]]; then
+    die "Missing template file: $source_file"
+  fi
+
+  ensure_dir "$(dirname "$target_file")"
+  cp "$source_file" "$target_file"
+
+  log "Copied template file: $source_file -> $target_file"
+}
+
+sync_dir_contents_from_template() {
+  local source_dir="$1"
+  local target_dir="$2"
+  shift 2
+
+  local excluded_names=("$@")
+  local entry
+  local base_name
+  local excluded_name
+  local skip_entry
+
+  if [[ ! -d "$source_dir" ]]; then
+    die "Missing template directory: $source_dir"
+  fi
+
+  ensure_dir "$target_dir"
+
+  shopt -s dotglob nullglob
+
+  for entry in "$target_dir"/*; do
+    base_name="$(basename "$entry")"
+    skip_entry=false
+
+    for excluded_name in "${excluded_names[@]}"; do
+      if [[ "$base_name" == "$excluded_name" ]]; then
+        skip_entry=true
+        break
+      fi
+    done
+
+    if [[ "$skip_entry" == false ]]; then
+      rm -rf "$entry"
+    fi
+  done
+
+  for entry in "$source_dir"/*; do
+    base_name="$(basename "$entry")"
+    skip_entry=false
+
+    for excluded_name in "${excluded_names[@]}"; do
+      if [[ "$base_name" == "$excluded_name" ]]; then
+        skip_entry=true
+        break
+      fi
+    done
+
+    if [[ "$skip_entry" == false ]]; then
+      cp -R "$entry" "$target_dir/$base_name"
+    fi
+  done
+
+  shopt -u dotglob nullglob
+
+  log "Synchronized template directory contents: $source_dir -> $target_dir"
+}

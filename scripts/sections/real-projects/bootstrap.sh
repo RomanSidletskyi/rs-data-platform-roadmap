@@ -11,6 +11,7 @@ SCRIPT_NAME="real-projects-bootstrap"
 log "Starting real-projects bootstrap..."
 
 bash "$SCRIPT_DIR/init.sh"
-bash "$SCRIPT_DIR/fill_readmes.sh"
+bash "$SCRIPT_DIR/fill_readme.sh"
+bash "$SCRIPT_DIR/fill_content.sh"
 
 log "Real-projects bootstrap finished successfully."

@@ -36,5 +36,5 @@ jobs:
 
       - name: Validate foundational starter assets
         run: |
-          chmod +x scripts/check_foundational_starter_assets.sh
-          ./scripts/check_foundational_starter_assets.sh
+          chmod +x scripts/check_repo.sh
+          ./scripts/check_repo.sh foundational

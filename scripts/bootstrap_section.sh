@@ -2,6 +2,18 @@
 
 set -euo pipefail
 
+SCRIPT_NAME="bootstrap-section"
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SECTIONS_DIR="$SCRIPT_DIR/sections"
+
+SPECIAL_SECTIONS=(
+  docs
+  shared
+  ai-learning
+  real-projects
+)
+
 usage() {
   cat <<'EOF'
 Usage:
@@ -20,6 +32,31 @@ Supported sections:
 EOF
 }
 
+log() {
+  printf '[%s] INFO  %s\n' "$SCRIPT_NAME" "$1"
+}
+
+run_all() {
+  local section
+  local module_dir
+
+  log "Bootstrapping repository sections..."
+  for section in "${SPECIAL_SECTIONS[@]}"; do
+    bash "$SCRIPT_DIR/bootstrap_section.sh" "$section"
+  done
+
+  log "Bootstrapping all script-backed modules..."
+  shopt -s nullglob
+  for module_dir in "$SECTIONS_DIR"/modules/*; do
+    if [[ -d "$module_dir" ]]; then
+      bash "$SCRIPT_DIR/bootstrap_section.sh" modules "$(basename "$module_dir")"
+    fi
+  done
+  shopt -u nullglob
+
+  log "Repository bootstrap finished successfully."
+}
+
 if [[ $# -lt 1 ]]; then
   usage
   exit 1
@@ -28,12 +65,9 @@ fi
 SECTION="$1"
 NAME="${2:-}"
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SECTIONS_DIR="$SCRIPT_DIR/sections"
-
 case "$SECTION" in
   all)
-    bash "$SCRIPT_DIR/bootstrap_all.sh"
+    run_all
     ;;
 
   modules)

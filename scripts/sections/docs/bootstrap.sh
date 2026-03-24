@@ -11,10 +11,7 @@ SCRIPT_NAME="docs-bootstrap"
 log "Starting docs bootstrap..."
 
 bash "$SCRIPT_DIR/init.sh"
-bash "$SCRIPT_DIR/fill_core_docs.sh"
-bash "$SCRIPT_DIR/fill_architecture.sh"
-bash "$SCRIPT_DIR/fill_case_studies.sh"
-bash "$SCRIPT_DIR/fill_system_design.sh"
-bash "$SCRIPT_DIR/fill_tradeoffs.sh"
+bash "$SCRIPT_DIR/fill_readme.sh"
+bash "$SCRIPT_DIR/fill_content.sh"
 
 log "Docs bootstrap finished successfully."
