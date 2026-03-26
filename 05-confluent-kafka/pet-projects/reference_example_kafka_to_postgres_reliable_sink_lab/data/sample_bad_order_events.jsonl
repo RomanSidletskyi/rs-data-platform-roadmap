@@ -1,0 +1,2 @@
+{"amount":"149.90 EUR","currency":"EUR","customer_id":"cust-77","event_id":"evt-order-bad-1","event_time":"2026-03-24T11:05:00Z","event_type":"order_created","order_id":"ord-502"}
+{"amount":89.50,"currency":"EUR","customer_id":"cust-88","event_id":"evt-order-bad-2","event_time":"2026-03-24T11:06:00Z","event_type":"order_created"}

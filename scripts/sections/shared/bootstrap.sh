@@ -12,7 +12,6 @@ log "Starting shared bootstrap..."
 
 bash "$SCRIPT_DIR/init.sh"
 bash "$SCRIPT_DIR/fill_readme.sh"
-bash "$SCRIPT_DIR/fill_sub_readmes.sh"
-bash "$SCRIPT_DIR/fill_nested_readmes.sh"
+bash "$SCRIPT_DIR/fill_content.sh"
 
 log "Shared bootstrap finished successfully."

@@ -1,0 +1,6 @@
+order_id,customer_id,order_date,status,amount
+1001,10,2026-03-01,paid,120.50
+1002,11,2026-03-01,paid,
+1002,11,2026-03-01,paid,90.00
+1004,12,not_a_date,cancelled,-15.00
+1005,,2026-03-02,paid,45.00

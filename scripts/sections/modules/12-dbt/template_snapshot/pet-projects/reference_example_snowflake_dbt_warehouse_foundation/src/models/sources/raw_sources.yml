@@ -1,0 +1,35 @@
+version: 2
+
+sources:
+  - name: raw
+    database: RAW_DB
+    schema: RAW
+    description: Raw warehouse landing layer for commerce entities.
+    tables:
+      - name: orders
+        description: Raw order-level records landed in Snowflake.
+        loaded_at_field: ingested_at
+        freshness:
+          warn_after: {count: 30, period: minute}
+          error_after: {count: 2, period: hour}
+        columns:
+          - name: order_id
+            description: Source order identifier.
+            tests: [not_null]
+          - name: customer_id
+            description: Source customer identifier.
+          - name: product_id
+            description: Source product identifier.
+          - name: status
+            description: Raw business status of the order.
+          - name: amount
+            description: Raw monetary amount.
+          - name: updated_at
+            description: Last business update timestamp.
+          - name: ingested_at
+            description: Warehouse landing timestamp.
+            tests: [not_null]
+      - name: customers
+        description: Raw customer records.
+      - name: products
+        description: Raw product records.

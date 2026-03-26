@@ -1,0 +1,14 @@
+{
+  "bronze_table": "bronze.orders_raw",
+  "silver_table": "silver.orders_clean",
+  "gold_table": "gold.daily_sales",
+  "business_date": "2026-04-01",
+  "repair_strategy": "replace_where",
+  "replace_where_predicate": "business_date = '2026-04-01'",
+  "validation_steps": [
+    "check raw contract",
+    "rebuild affected silver slice",
+    "rebuild affected gold slice",
+    "compare aggregate totals before publish"
+  ]
+}

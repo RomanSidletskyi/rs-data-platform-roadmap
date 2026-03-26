@@ -1,0 +1,7 @@
+{
+  "amount_field": "amount",
+  "group_by_fields": ["region", "category"],
+  "summary_output": "summary.json",
+  "region_output": "region_totals.csv",
+  "category_output": "category_totals.csv"
+}

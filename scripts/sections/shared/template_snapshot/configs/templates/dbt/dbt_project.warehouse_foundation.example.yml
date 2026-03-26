@@ -1,0 +1,27 @@
+name: warehouse_foundation
+version: 1.0.0
+config-version: 2
+
+profile: warehouse_foundation
+
+model-paths: ['src/models']
+macro-paths: ['src/macros']
+test-paths: ['tests']
+target-path: target
+clean-targets: ['target', 'dbt_packages', 'logs']
+
+models:
+  warehouse_foundation:
+    staging:
+      +schema: staging
+      +materialized: view
+    intermediate:
+      +schema: intermediate
+      +materialized: view
+    marts:
+      +schema: marts
+      dimensions:
+        +materialized: table
+      facts:
+        +materialized: incremental
+        +on_schema_change: sync_all_columns

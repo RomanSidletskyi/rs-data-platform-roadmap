@@ -1,0 +1,8 @@
+main
+feature/alpha
+feature/beta
+release/2026-03
+
+Recommended merge targets:
+- feature/* -> main via PR
+- release/* -> main after validation

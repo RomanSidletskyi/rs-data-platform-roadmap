@@ -1,0 +1,10 @@
+name: Repository CI
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  call-reusable-validation:
+    uses: ./.github/workflows/reusable-validate.yml

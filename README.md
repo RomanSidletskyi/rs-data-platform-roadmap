@@ -1,68 +1,36 @@
 # Data Platform Roadmap
 
-A structured, portfolio-oriented roadmap for learning modern data engineering and data platform architecture step by step.
+A structured, portfolio-oriented repository for learning data engineering and data platform architecture from fundamentals to system design.
 
-This repository is designed to help build practical skills through:
+This repository is not only a collection of notes.
 
-- learning materials
-- simple practice tasks
-- portfolio-ready pet projects
-- real-world multi-technology projects
-- AI-assisted learning workflows
+It is designed as a working learning system with:
 
-## Goal
+- technology modules
+- focused practice tasks
+- guided pet projects
+- cross-technology real projects
+- architecture and trade-off documentation
+- AI-assisted workflows for learning, debugging, review, and design
 
-The goal of this repository is to grow from foundational skills to production-oriented data platform thinking.
+## What This Repository Is
 
-It covers the knowledge required to work with:
+Use this repository to move through three layers of growth:
 
-- Python
-- SQL
-- Docker
-- Raspberry Pi / Homelab environments
-- GitHub Actions
-- Confluent / Kafka
-- Spark / PySpark
-- Databricks
-- Delta Lake
-- Azure Data Lake Storage
-- Power BI / Microsoft Fabric
+1. learn one tool well
+2. combine several tools into realistic pipelines
+3. reason about platform boundaries, contracts, trade-offs, and operating models
 
-Over time, this repository will evolve into a complete learning system and portfolio for Data Engineering and Data Platform Architecture.
+The target is not just tool familiarity.
 
-## Repository Structure
+The target is stronger engineering judgment.
 
-Each technology module follows the same structure:
+## Current Scope
 
-- `README.md` — module overview, goals, and learning resources
-- `learning-materials/` — theory notes, curated resources, and study guides
-- `simple-tasks/` — focused exercises covering specific topics
-- `pet-projects/` — larger portfolio projects with more realistic implementation
+The current active and curated path is:
 
-In addition, the repository includes:
-
-- `docs/` — roadmap, study strategy, portfolio guidance, and architecture principles
-- `templates/` — reusable README templates for modules, tasks, and projects
-- `shared/` — datasets, diagrams, utilities, and glossary
-- `ai-learning/` — AI workflows, prompts, and exercises for faster learning
-- `real-projects/` — end-to-end projects combining multiple technologies
-
-## Learning Approach
-
-This repository is based on a practical progression:
-
-1. Learn core concepts
-2. Solve small focused tasks
-3. Build pet projects
-4. Combine technologies in real-world scenarios
-5. Document everything as part of a professional portfolio
-
-The focus is not only on learning tools, but also on learning how to think like a data engineer.
-
-## Modules
-
-### Core Technology Modules
-
+- `00-shell-linux/`
+- `00-git/`
 - `01-python/`
 - `02-sql/`
 - `03-docker/`
@@ -72,89 +40,278 @@ The focus is not only on learning tools, but also on learning how to think like 
 - `07-databricks/`
 - `08-delta-lake/`
 - `09-azure-data-lake-storage/`
-- `10-powerbi-fabric/`
 - `11-airflow/`
 - `12-dbt/`
-- `13-flink/`
-- `14-iceberg/`
 - `15-raspberry-pi-homelab/`
 
-### Cross-Technology Projects
+Planned placeholders already present in the repository, but intentionally outside the active curated path, are:
 
-Located in `real-projects/`, these projects combine multiple tools into realistic scenarios.
+- `10-powerbi-fabric/`
+- `13-flink/`
+- `14-iceberg/`
 
-Examples:
+That means the repository already contains the long-term roadmap structure, but only part of it is currently maintained as active learning scope.
 
-- Python + SQL ETL pipeline
-- Python + Docker + GitHub Actions automation
-- Python + Kafka streaming pipeline
-- Python + Kafka + Databricks processing flow
-- Python + Spark + Delta batch pipeline
-- Databricks + ADLS + Power BI analytics solution
-- Kafka + Databricks + Power BI near real-time platform
-- End-to-end data platform architecture project
+## Standard Module Shape
 
-## AI-Assisted Learning
+Each technology module follows the same base structure:
 
-The `ai-learning/` section is included to accelerate learning in a practical way.
+- `README.md` - module overview, goals, navigation, and study path
+- `learning-materials/` - theory, architecture, cookbooks, and curated resources
+- `simple-tasks/` - focused practice grouped by topic
+- `pet-projects/` - guided projects and reference examples
+- `PROGRESS.md` - personal module-level learning tracker
 
-It contains:
+The intended learning loop is:
 
-- prompting guides
-- debugging workflows
-- architecture design prompts
-- AI code review practices
-- tool-specific notes for ChatGPT, GitHub Copilot, Cursor, and others
+1. study concepts and architecture
+2. solve focused tasks
+3. build the guided pet projects
+4. revisit the module with stronger standards later
 
-The goal is to use AI as:
+## Start Here
 
-- a mentor
-- a reviewer
-- a pair programmer
-- a debugging assistant
-- an architecture thinking partner
+If you are entering the repository for the first time, use this route:
 
-## Portfolio Mindset
+1. `00-shell-linux/`
+2. `00-git/`
+3. `docs/learning-sequence.md`
+4. `docs/data-platform-map.md`
+5. `01-python/`
+6. `02-sql/`
 
-This repository is also a long-term portfolio project.
+If your goal is repository-level orientation before touching a single module, start with:
 
-Each module and project should gradually include:
+1. `docs/README.md`
+2. `docs/learning-sequence.md`
+3. `docs/learning-architecture.md`
+4. `docs/data-platform-map.md`
+5. `docs/data-platform-projects-roadmap.md`
 
-- clear problem statements
-- implementation notes
-- architecture diagrams
-- assumptions and trade-offs
-- improvements and next steps
+## Learning Path
 
-That way, the repository becomes more than a study folder — it becomes evidence of engineering growth.
+### Phase 0 - Foundational Workflow
 
-## Recommended Way to Use This Repository
+- `00-shell-linux/`
+- `00-git/`
 
-- Start with `01-python/`
-- Move to `02-sql/`
-- Study `03-docker/` before `15-raspberry-pi-homelab/`
-- Build a strong foundation before starting streaming and lakehouse topics
-- Complete simple tasks before pet projects
-- Document what you learn in each module
-- Revisit old modules and improve them over time
+Focus:
 
-## Long-Term Vision
+- shell confidence
+- repository literacy
+- file, process, and environment handling
+- recovery and workflow basics before higher-level tooling
 
-This repository is intended to become a complete personal data platform learning system, including:
+### Phase 1 - Engineering Basics
 
-- foundational engineering skills
-- batch and streaming pipelines
-- lakehouse architecture
-- analytics and BI delivery
-- portfolio-ready real-world projects
-- architecture-level thinking
+- `01-python/`
+- `02-sql/`
+- `03-docker/`
+- `04-github-actions/`
 
-## Status
+Focus:
 
-This repository is under active development and will expand over time with:
+- implementation
+- query thinking
+- reproducible runtimes
+- CI discipline
 
-- new technologies
-- new project ideas
-- more advanced architecture scenarios
-- better documentation
-- stronger portfolio cases
+Example outcome:
+
+- a Python data workflow built, containerized, and validated in CI
+
+### Support Module - Homelab Runtime
+
+- `15-raspberry-pi-homelab/`
+
+Focus:
+
+- remote Docker runtime
+- self-hosted lab operations
+- persistent services and lightweight infrastructure practice
+
+Recommended timing:
+
+- after `03-docker/`
+- before or alongside `11-airflow/` if you want a remote lab environment
+
+### Phase 2 - Data Processing
+
+- `05-confluent-kafka/`
+- `06-spark-pyspark/`
+
+Focus:
+
+- event ingestion
+- distributed processing
+- batch versus streaming thinking
+
+### Phase 3 - Lakehouse Foundations
+
+- `07-databricks/`
+- `08-delta-lake/`
+- `09-azure-data-lake-storage/`
+
+Recommended internal order:
+
+1. `07-databricks/`
+2. `08-delta-lake/`
+3. `09-azure-data-lake-storage/`
+
+Reason:
+
+- Databricks frames the compute and workspace layer
+- Delta Lake frames the table and reliability layer
+- ADLS frames the storage and namespace layer
+
+### Phase 4 - Orchestration And Transformation
+
+- `11-airflow/`
+- `12-dbt/`
+
+Focus:
+
+- orchestration
+- dependencies and scheduling
+- SQL transformation modeling
+- tests, lineage, and documentation
+
+### Planned Future Scope
+
+- `10-powerbi-fabric/` for analytics delivery
+- `13-flink/` for stateful streaming
+- `14-iceberg/` for open table format and multi-engine patterns
+
+## Top-Level Areas
+
+- `docs/` - repository map, learning sequence, architecture study, trade-offs, case studies, and AI chat context packs
+- `shared/` - reusable datasets, schemas, configs, docker assets, testing fixtures, and reference resources reused across modules
+- `ai-learning/` - AI workflows, prompting guides, tool notes, communication practice, and architecture-thinking exercises
+- `real-projects/` - sequential cross-technology projects that combine several modules into realistic portfolio work
+- `scripts/` - repository generation and validation automation
+- `templates/` - reusable templates for modules, progress tracking, and related documentation
+
+## How The Pieces Fit Together
+
+Use modules for local depth.
+
+Use `docs/` for architecture context and sequencing.
+
+Use `shared/` when an asset should be reused instead of copied.
+
+Use `real-projects/` when one module is no longer enough and you need full integration work.
+
+Use `ai-learning/` to improve how you study, debug, review, write, and design.
+
+## Real Projects
+
+The `real-projects/` directory is the integration layer of the repository.
+
+Current path:
+
+1. `01_python_sql_etl/`
+2. `02_python_docker_github_actions/`
+3. `03_python_kafka/`
+4. `04_python_kafka_databricks/`
+5. `05_python_spark_delta/`
+6. `06_databricks_adls_powerbi/`
+7. `07_kafka_databricks_powerbi/`
+8. `08_end_to_end_data_platform/`
+
+These projects are intentionally sequential:
+
+- early projects combine two or three layers
+- later projects force broader platform thinking
+
+For planning context, use `docs/data-platform-projects-roadmap.md`.
+
+## AI Learning Layer
+
+The `ai-learning/` section is not a loose prompt collection.
+
+It is a structured operating layer for:
+
+- learning faster without becoming shallow
+- debugging more systematically
+- reviewing code more critically
+- comparing architectures and trade-offs
+- improving technical writing and spoken explanations
+- using AI as a disciplined engineering amplifier rather than a substitute
+
+If you want to enter that section directly, start with:
+
+1. `ai-learning/README.md`
+2. `ai-learning/workflows/how-to-learn-faster.md`
+3. `ai-learning/workflows/ai-pair-programming.md`
+4. `ai-learning/workflows/ai-for-project-design.md`
+
+## Progress Tracking
+
+Progress is tracked at two levels:
+
+- repository-wide overview in `docs/learning-progress.md`
+- module-level detail in each module `PROGRESS.md`
+
+These progress files are learner-managed state.
+
+They are intentionally separate from the generator-backed source-of-truth snapshots used by the scripts system.
+
+## Scripts And Automation
+
+The repository has a section-based scripts system under `scripts/`.
+
+It supports two automation layers:
+
+- generator-backed modules under `scripts/sections/modules/`
+- generator-backed repository sections under `scripts/sections/`
+
+Current script-backed sections include:
+
+- `docs`
+- `shared`
+- `ai-learning`
+- `real-projects`
+
+Current generator-backed modules include:
+
+- `00-shell-linux`
+- `00-git`
+- `01-python`
+- `02-sql`
+- `03-docker`
+- `04-github-actions`
+- `05-confluent-kafka`
+- `06-spark-pyspark`
+- `07-databricks`
+- `08-delta-lake`
+- `09-azure-data-lake-storage`
+- `11-airflow`
+- `12-dbt`
+- `15-raspberry-pi-homelab`
+
+Useful entrypoints:
+
+- `./scripts/bootstrap_section.sh all`
+- `./scripts/check_repo.sh`
+- `./scripts/check_repo.sh foundational`
+- `./scripts/check_repo.sh modules`
+- `./scripts/refresh_template_snapshots.sh`
+
+For deeper operational detail, use `scripts/README.md`.
+
+## Working Principles
+
+- prefer architecture understanding over isolated syntax memorization
+- prefer guided, reviewable progress over huge prebuilt dumps of content
+- preserve one clear source of truth for generated sections and modules
+- keep roadmap placeholders visible, but separate them from active curated scope
+- use AI to compress friction, not to outsource understanding
+
+## Recommended Next Step
+
+Choose one of these entry paths:
+
+1. start the core path at `00-shell-linux/`
+2. open `docs/README.md` for repository-level orientation
+3. open `real-projects/README.md` if your goal is integration work
+4. open `ai-learning/README.md` if your goal is better AI-assisted learning and engineering workflows

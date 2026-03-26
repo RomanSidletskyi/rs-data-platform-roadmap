@@ -1,0 +1,6 @@
+{
+  "project_name": "orders_platform",
+  "success_marker_name": "_SUCCESS.json",
+  "minimum_output_files": 1,
+  "default_transform_command": "python /opt/airflow/project/src/helpers/mock_transform_job.py"
+}

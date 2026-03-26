@@ -1,0 +1,36 @@
+{
+  "checked_rows": 6,
+  "issue_count": 5,
+  "issues": [
+    {
+      "row_number": 3,
+      "field_name": "order_id",
+      "issue_code": "duplicate_order_id",
+      "message": "Duplicate order_id detected: 1001"
+    },
+    {
+      "row_number": 4,
+      "field_name": "customer_id",
+      "issue_code": "missing_required_value",
+      "message": "Missing required value for customer_id"
+    },
+    {
+      "row_number": 5,
+      "field_name": "quantity",
+      "issue_code": "invalid_quantity",
+      "message": "Quantity must be a positive integer: -2"
+    },
+    {
+      "row_number": 6,
+      "field_name": "order_date",
+      "issue_code": "invalid_date",
+      "message": "Invalid ISO date: 2026-15-99"
+    },
+    {
+      "row_number": 7,
+      "field_name": "product_category",
+      "issue_code": "missing_required_value",
+      "message": "Missing required value for product_category"
+    }
+  ]
+}

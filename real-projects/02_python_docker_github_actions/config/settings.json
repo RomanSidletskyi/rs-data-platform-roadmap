@@ -1,0 +1,8 @@
+{
+  "pipeline_name": "python_docker_github_actions_mvp",
+  "source_csv": "data/source/orders.csv",
+  "raw_dir": "data/raw",
+  "quality_dir": "data/quality",
+  "warehouse_path": "data/warehouse/warehouse.db",
+  "log_dir": "logs"
+}

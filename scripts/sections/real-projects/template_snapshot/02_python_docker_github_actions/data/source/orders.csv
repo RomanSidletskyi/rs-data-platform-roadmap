@@ -1,0 +1,9 @@
+order_id,customer_id,order_date,product_category,quantity,unit_price
+2001,C101,2026-03-20,books,2,14.50
+2002,C102,2026-03-20,electronics,1,319.99
+2003,C103,2026-03-20,books,3,16.00
+2004,C104,2026-03-21,home,2,41.50
+2005,C102,2026-03-21,electronics,1,129.90
+2006,C105,2026-03-21,toys,4,12.25
+2007,C101,2026-03-22,books,1,21.00
+2008,C106,2026-03-22,home,2,65.00

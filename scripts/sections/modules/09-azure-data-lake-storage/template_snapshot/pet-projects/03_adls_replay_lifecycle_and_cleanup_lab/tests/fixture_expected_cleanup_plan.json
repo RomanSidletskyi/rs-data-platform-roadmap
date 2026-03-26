@@ -1,0 +1,27 @@
+{
+  "delete_candidates": [
+    {
+      "age_days": 32,
+      "path": "curated/commerce/orders_backfill/run_id=2026-02-10/",
+      "path_class": "temporary"
+    },
+    {
+      "age_days": 69,
+      "path": "curated/finance/invoices_working/run_id=2026-01-15/",
+      "path_class": "temporary"
+    }
+  ],
+  "keep_candidates": [
+    {
+      "age_days": 60,
+      "path": "raw/commerce/orders/load_date=2026-01-01/",
+      "path_class": "raw"
+    },
+    {
+      "age_days": 4,
+      "path": "publish/commerce/daily_orders/business_date=2026-03-20/",
+      "path_class": "publish"
+    }
+  ],
+  "warning": "Never delete replay-critical or published paths without validating recovery and consumer impact."
+}

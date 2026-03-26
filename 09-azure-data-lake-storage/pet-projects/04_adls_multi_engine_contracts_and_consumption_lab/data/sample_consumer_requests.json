@@ -1,0 +1,17 @@
+[
+  {
+    "engine": "databricks",
+    "requested_path": "publish/commerce/daily_orders/",
+    "purpose": "notebook_analysis"
+  },
+  {
+    "engine": "power_bi",
+    "requested_path": "publish/commerce/daily_orders/",
+    "purpose": "dashboard_refresh"
+  },
+  {
+    "engine": "serverless_sql",
+    "requested_path": "curated/commerce/orders_serving_work/",
+    "purpose": "quick_sql_preview"
+  }
+]

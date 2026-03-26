@@ -1,0 +1,4 @@
+{"customer_id":"cust-301","domain":"sales","event_id":"evt-3001","event_time":"2026-03-24T13:00:00Z","event_type":"order_created","order_id":"ord-300","producer_service":"analytics-service","schema_version":1}
+{"customer_id":"cust-301","domain":"payments","event_id":"evt-3002","event_time":"2026-03-24T13:00:05Z","event_type":"order_confirmed","order_id":"ord-300","producer_service":"payment-service","schema_version":1}
+{"customer_id":"cust-301","domain":"logistics","event_id":"evt-3003","event_time":"2026-03-24T13:05:00Z","event_type":"shipment_created","order_id":"ord-300","producer_service":"shipment-service","schema_version":1}
+{"customer_id":"cust-301","domain":"unknown","event_id":"evt-3004","event_time":"2026-03-24T13:10:00Z","event_type":"mystery_event","order_id":"ord-300","producer_service":"unknown-service","schema_version":1}

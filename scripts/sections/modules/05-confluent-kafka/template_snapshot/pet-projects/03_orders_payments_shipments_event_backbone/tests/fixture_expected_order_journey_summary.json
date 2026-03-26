@@ -1,0 +1,28 @@
+{
+  "order_count": 2,
+  "orders": {
+    "ord-100": {
+      "customer_id": "cust-001",
+      "domains_seen": [
+        "logistics",
+        "payments",
+        "sales"
+      ],
+      "event_count": 5,
+      "latest_payment_status": "payment_authorized",
+      "latest_shipment_status": "shipment_dispatched",
+      "order_status": "order_confirmed"
+    },
+    "ord-200": {
+      "customer_id": "cust-002",
+      "domains_seen": [
+        "payments",
+        "sales"
+      ],
+      "event_count": 3,
+      "latest_payment_status": "payment_failed",
+      "latest_shipment_status": null,
+      "order_status": "order_cancelled"
+    }
+  }
+}

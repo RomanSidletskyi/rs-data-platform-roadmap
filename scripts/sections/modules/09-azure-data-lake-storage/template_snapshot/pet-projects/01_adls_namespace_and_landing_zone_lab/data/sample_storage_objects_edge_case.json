@@ -1,0 +1,17 @@
+[
+  {
+    "container": "curated",
+    "path": "curated/commerce/orders_serving_work/business_date=2026-03-24/part-0001.parquet",
+    "purpose": "consumer_contract"
+  },
+  {
+    "container": "publish",
+    "path": "publish/commerce/daily_orders/tmp_validation/run_id=2026-03-24/part-0001.parquet",
+    "purpose": "temporary_working"
+  },
+  {
+    "container": "publish",
+    "path": "publish/commerce/daily_orders/business_date=2026-03-24/part-0002.parquet",
+    "purpose": "consumer_contract"
+  }
+]

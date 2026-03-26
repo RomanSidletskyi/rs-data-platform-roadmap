@@ -1,0 +1,7 @@
+order_id,customer_id,order_date,product_category,quantity,unit_price
+1001,C001,2026-03-20,books,2,12.50
+1001,C002,2026-03-20,electronics,1,249.99
+1011,,2026-03-23,books,1,15.00
+1012,C007,2026-03-23,toys,-2,19.99
+1013,C008,2026-15-99,home,1,44.00
+1014,C009,2026-03-23,,3,10.00

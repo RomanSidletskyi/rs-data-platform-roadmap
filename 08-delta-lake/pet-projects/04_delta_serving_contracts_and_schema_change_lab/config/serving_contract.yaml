@@ -1,0 +1,16 @@
+contract:
+  object_name: analytics.daily_store_sales
+  grain:
+    - business_date
+    - store_id
+  freshness_sla_hours: 4
+  required_fields:
+    - business_date
+    - store_id
+    - gross_sales
+    - order_count
+schema_change_review:
+  breaking_changes:
+    - drop_required_column
+    - change_metric_type
+    - change_grain

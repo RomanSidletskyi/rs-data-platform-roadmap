@@ -1,0 +1,8 @@
+{
+  "supported_consumer_path": "publish/commerce/daily_orders/",
+  "analyst_permission": "r-x",
+  "engineering_write_scope": [
+    "raw/commerce/orders/",
+    "curated/commerce/orders_clean/"
+  ]
+}

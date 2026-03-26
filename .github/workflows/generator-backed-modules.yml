@@ -1,0 +1,57 @@
+name: Generator-backed modules
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/generator-backed-modules.yml'
+      - '00-shell-linux/**'
+      - '00-git/**'
+      - '02-sql/**'
+      - '03-docker/**'
+      - '04-github-actions/**'
+      - '11-airflow/**'
+      - '12-dbt/**'
+      - '15-raspberry-pi-homelab/**'
+      - 'scripts/bootstrap_section.sh'
+      - 'scripts/sections/modules/00-shell-linux/**'
+      - 'scripts/sections/modules/00-git/**'
+      - 'scripts/sections/modules/02-sql/**'
+      - 'scripts/sections/modules/03-docker/**'
+      - 'scripts/sections/modules/04-github-actions/**'
+      - 'scripts/sections/modules/11-airflow/**'
+      - 'scripts/sections/modules/12-dbt/**'
+      - 'scripts/sections/modules/15-raspberry-pi-homelab/**'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/generator-backed-modules.yml'
+      - '00-shell-linux/**'
+      - '00-git/**'
+      - '02-sql/**'
+      - '03-docker/**'
+      - '04-github-actions/**'
+      - '11-airflow/**'
+      - '12-dbt/**'
+      - '15-raspberry-pi-homelab/**'
+      - 'scripts/bootstrap_section.sh'
+      - 'scripts/sections/modules/00-shell-linux/**'
+      - 'scripts/sections/modules/00-git/**'
+      - 'scripts/sections/modules/02-sql/**'
+      - 'scripts/sections/modules/03-docker/**'
+      - 'scripts/sections/modules/04-github-actions/**'
+      - 'scripts/sections/modules/11-airflow/**'
+      - 'scripts/sections/modules/12-dbt/**'
+      - 'scripts/sections/modules/15-raspberry-pi-homelab/**'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate generator-backed modules
+        run: |
+          chmod +x scripts/check_repo.sh
+          ./scripts/check_repo.sh modules

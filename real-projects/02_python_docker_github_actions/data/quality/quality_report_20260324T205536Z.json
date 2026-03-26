@@ -1,0 +1,42 @@
+{
+  "checked_rows": 5,
+  "issue_count": 6,
+  "issues": [
+    {
+      "row_number": 3,
+      "field_name": "order_id",
+      "issue_code": "duplicate_order_id",
+      "message": "Duplicate order_id detected: 2001"
+    },
+    {
+      "row_number": 4,
+      "field_name": "customer_id",
+      "issue_code": "missing_required_value",
+      "message": "Missing required value for customer_id"
+    },
+    {
+      "row_number": 5,
+      "field_name": "order_date",
+      "issue_code": "invalid_date",
+      "message": "Invalid ISO date: bad-date"
+    },
+    {
+      "row_number": 6,
+      "field_name": "unit_price",
+      "issue_code": "missing_required_value",
+      "message": "Missing required value for unit_price"
+    },
+    {
+      "row_number": 6,
+      "field_name": "order_date",
+      "issue_code": "invalid_date",
+      "message": "Invalid ISO date: toys"
+    },
+    {
+      "row_number": 6,
+      "field_name": "quantity",
+      "issue_code": "invalid_quantity",
+      "message": "Quantity must be a positive integer: 11.00"
+    }
+  ]
+}

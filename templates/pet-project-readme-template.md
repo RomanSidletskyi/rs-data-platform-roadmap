@@ -14,7 +14,7 @@ This folder is a guided project, not a ready solution.
 
 The learner should implement the project by following this README and the target design described in `architecture.md`.
 
-If a working implementation exists for later comparison, it should live in a separate sibling folder named:
+If a reference example exists for later comparison, it should live in a separate sibling folder named:
 
 - `reference_example_<project-name>`
 
@@ -114,6 +114,8 @@ State what must be true before the project is considered complete.
 ## Suggested Self-Check
 
 If a reference example exists, tell the learner to compare only after attempting the project independently.
+
+The main project folder should remain a guided build exercise, not a pre-solved implementation.
 
 ## Possible Improvements
 

@@ -1,577 +1,146 @@
 # Scripts System
 
-This directory contains automation scripts used to manage the repository structure.
+This directory contains the repository automation layer.
 
-The scripts allow automatic creation and filling of modules, docs, and other repository sections.
+Its job is to keep module and section generation consistent, safe, and maintainable.
 
-The system is designed to be:
+At the top level, you should think about the scripts system through five entrypoints:
 
-- safe-mode
-- modular
-- scalable
-- easy to extend
-- friendly for future automation
+- `create_module.sh`
+- `create_section.sh`
+- `bootstrap_section.sh`
+- `refresh_template_snapshots.sh`
+- `check_repo.sh`
 
----
+If you only need to use the scripts system day to day, this README should be enough.
 
-# Goals
+If you need the exact tree, use `scripts/structure.md`.
 
-The main goals of the scripts system are:
+## How To Run Shell Scripts
 
-- create consistent structures across modules
-- avoid manual repetitive setup
-- preserve existing content
-- support future growth of the repository
-- make expansion of the learning roadmap predictable
+Run all commands from the repository root:
 
----
+    cd /Users/rsidletskyi/Documents/My/Programming/rs-data-platform-roadmap
 
-# Repository Sections
+There are two normal ways to run the top-level `.sh` files.
 
-The repository is divided into several logical sections.
+### Option 1 - Run Executable Script Directly
 
-## Modules
+Use this when the script already has execute permission:
 
-Learning modules such as:
+    ./scripts/bootstrap_section.sh docs
+    ./scripts/bootstrap_section.sh modules 01-python
+    ./scripts/check_repo.sh
+    ./scripts/refresh_template_snapshots.sh modules
 
-    01-python
-    02-sql
-    03-docker
-    04-github-actions
-    05-confluent-kafka
-    06-spark-pyspark
-    07-databricks
-    08-delta-lake
-    09-azure-data-lake-storage
-    10-powerbi-fabric
-    11-airflow
-    12-dbt
-    13-flink
-    14-iceberg
+### Option 2 - Run Through `bash`
 
-Each module follows the standard structure:
+Use this when you want to execute the script even if it is not marked executable yet:
 
-    <module>/
-      README.md
-      learning-materials/
-      simple-tasks/
-      pet-projects/
+    bash ./scripts/bootstrap_section.sh docs
+    bash ./scripts/bootstrap_section.sh modules 01-python
+    bash ./scripts/check_repo.sh
+    bash ./scripts/refresh_template_snapshots.sh modules
 
-## Docs
+### If A Script Is Not Executable
 
-Architecture and study-related documentation:
+Make one script executable:
 
-    docs/
-      architecture/
-      system-design/
-      case-studies/
-      trade-offs/
+    chmod +x ./scripts/check_repo.sh
 
-## AI Learning
+Make all shell scripts under `scripts/` executable:
 
-AI-assisted learning materials:
+    find ./scripts -name "*.sh" -exec chmod +x {} \;
 
-    ai-learning/
-      prompting-guides/
-      workflows/
-      tools/
-      practical-exercises/
+After that, you can use the shorter direct form:
 
-## Shared
+    ./scripts/check_repo.sh
 
-Reusable resources:
+### Quick Rule
 
-    shared/
-      datasets/
-      diagrams/
-      glossary/
-      utils/
+- if the file is executable, use `./scripts/<name>.sh`
+- if it is not executable yet, use `bash ./scripts/<name>.sh`
+- for this repository, prefer running from the repository root so relative paths always resolve correctly
 
-## Real Projects
+## What The System Does
 
-Large end-to-end projects:
+The current scripts system supports two generator-backed layers:
 
-    real-projects/
+- modules under `scripts/sections/modules/`
+- top-level repository sections under `scripts/sections/`
 
----
+That means the repository can generate or validate both:
 
-# Scripts Directory Structure
+- numbered learning modules such as `01-python/` or `11-airflow/`
+- top-level sections such as `docs/`, `shared/`, `ai-learning/`, and `real-projects/`
 
-The new scripts architecture is section-based.
+The design goal is one consistent orchestration model.
 
-    scripts/
-      README.md
-      create_module.sh
-      bootstrap_section.sh
-      bootstrap_all.sh
+## Current Top-Level Shell Scripts
 
-      lib/
-        common.sh
-        fs.sh
-        section.sh
+These are the shell entrypoints at `scripts/` root and what they do.
 
-      sections/
-        modules/
-          01-python/
-            init.sh
-            fill_learning_materials.sh
-            fill_simple_tasks.sh
-            fill_pet_projects.sh
-            bootstrap.sh
+### `create_module.sh`
 
-          02-sql/
-            init.sh
-            fill_learning_materials.sh
-            fill_simple_tasks.sh
-            fill_pet_projects.sh
-            bootstrap.sh
+Creates a new generator scaffold for a module under `scripts/sections/modules/<module>/`.
 
-        docs/
-          init.sh
-          fill_core_docs.sh
-          fill_architecture.sh
-          fill_system_design.sh
-          fill_case_studies.sh
-          fill_tradeoffs.sh
-          bootstrap.sh
+What it creates:
 
-        ai-learning/
-          init.sh
-          fill_prompting_guides.sh
-          fill_workflows.sh
-          fill_tools.sh
-          fill_practical_exercises.sh
-          bootstrap.sh
+- `init.sh`
+- `fill_readme.sh`
+- `fill_learning_materials.sh`
+- `fill_simple_tasks.sh`
+- `fill_pet_projects.sh`
+- `bootstrap.sh`
+- `template_snapshot/`
 
-        shared/
-          init.sh
-          fill_readmes.sh
-          bootstrap.sh
+Use when:
 
-        real-projects/
-          init.sh
-          fill_readmes.sh
-          bootstrap.sh
-
-      old/
-
----
-
-# Core Design Principles
-
-## 1. Safe Mode
-
-Scripts must not overwrite existing content.
-
-Rules:
-
-- create directories only if they do not already exist
-- create files only if they do not already exist
-- write file content only if a file is empty
-- preserve existing manual work
-
-## 2. Separation of Responsibilities
-
-Scripts are split by responsibility.
-
-Examples:
-
-- `init.sh` creates structure
-- `fill_learning_materials.sh` fills learning content
-- `fill_simple_tasks.sh` fills tasks
-- `fill_pet_projects.sh` fills pet project files
-- `bootstrap.sh` runs the full workflow
-
-## 3. Section-Based Organization
-
-Scripts are grouped by repository section, not thrown into one flat directory.
-
-This makes the system easier to scale as the repository grows.
-
-## 4. Reusability
-
-Common utilities are stored in:
-
-    scripts/lib/
-
-This avoids duplicated shell logic across many scripts.
-
----
-
-# Library Files
-
-## `scripts/lib/common.sh`
-
-Contains common helper functions such as:
-
-- log
-- warn
-- die
-
-## `scripts/lib/fs.sh`
-
-Contains file system helpers such as:
-
-- ensure_dir
-- ensure_file
-- write_file_safe
-
-## `scripts/lib/section.sh`
-
-Contains helper logic related to repository root or section handling.
-
----
-
-# Module Script Structure
-
-Each module should have its own script directory:
-
-    scripts/sections/modules/<module>/
+- you want to start a new generator-backed numbered module
 
 Example:
 
-    scripts/sections/modules/02-sql/
+    ./scripts/create_module.sh 16-some-new-module
 
-Contents:
+### `create_section.sh`
 
-    init.sh
-    fill_learning_materials.sh
-    fill_simple_tasks.sh
-    fill_pet_projects.sh
-    bootstrap.sh
+Creates a new generator scaffold for a top-level section under `scripts/sections/<section>/`.
 
-## Responsibilities
+Supported section names:
 
-### `init.sh`
-
-Creates the directory structure for the module.
-
-Example responsibilities:
-
-- create module root
-- create `learning-materials`
-- create `simple-tasks`
-- create `pet-projects`
-
-### `fill_learning_materials.sh`
-
-Creates and fills markdown files inside:
-
-    learning-materials/
-
-### `fill_simple_tasks.sh`
-
-Creates and fills markdown task descriptions inside:
-
-    simple-tasks/
-
-### `fill_pet_projects.sh`
-
-Creates and fills markdown project descriptions inside:
-
-    pet-projects/
-
-### `bootstrap.sh`
-
-Runs the module scripts in the correct order.
-
-Typical flow:
-
-    init.sh
-    fill_learning_materials.sh
-    fill_simple_tasks.sh
-    fill_pet_projects.sh
-
----
-
-# Docs Script Structure
-
-Docs are not modules, so they have their own section scripts.
-
-Directory:
-
-    scripts/sections/docs/
-
-Example files:
-
-    init.sh
-    fill_core_docs.sh
-    fill_architecture.sh
-    fill_system_design.sh
-    fill_case_studies.sh
-    fill_tradeoffs.sh
-    bootstrap.sh
-
-## Why docs are separate
-
-The docs section has different internal structure and different content types than modules.
-
-It should not be forced into module-style automation.
-
----
-
-# AI Learning Script Structure
-
-Directory:
-
-    scripts/sections/ai-learning/
-
-Example files:
-
-    init.sh
-    fill_prompting_guides.sh
-    fill_workflows.sh
-    fill_tools.sh
-    fill_practical_exercises.sh
-    bootstrap.sh
-
-This section is also separate because it is not a learning module in the same sense as Python or SQL.
-
----
-
-# Shared Script Structure
-
-Directory:
-
-    scripts/sections/shared/
-
-This section usually needs lighter automation:
-
-- directory creation
-- README creation
-- optional future metadata files
-
----
-
-# Real Projects Script Structure
-
-Directory:
-
-    scripts/sections/real-projects/
-
-This section is for larger end-to-end projects and usually needs its own scaffolding logic.
-
----
-
-# Entrypoints
-
-## Run one section
-
-Use:
-
-    ./scripts/bootstrap_section.sh <section> [name]
-
-Examples:
-
-    ./scripts/bootstrap_section.sh modules 02-sql
-    ./scripts/bootstrap_section.sh docs
-    ./scripts/bootstrap_section.sh ai-learning
-
-## Run all configured sections
-
-Use:
-
-    ./scripts/bootstrap_all.sh
-
-This is useful when building or rebuilding the whole repository structure.
-
----
-
-# Creating a New Module
-
-Use:
-
-    ./scripts/create_module.sh 03-docker
-
-This creates:
-
-    scripts/sections/modules/03-docker/
-      init.sh
-      fill_learning_materials.sh
-      fill_simple_tasks.sh
-      fill_pet_projects.sh
-      bootstrap.sh
-
-After creation, implement the logic inside these files.
-
-Then run:
-
-    ./scripts/bootstrap_section.sh modules 03-docker
-
----
-
-# Expected Development Workflow
-
-A typical workflow for adding a new module:
-
-## Step 1
-
-Create module scripts:
-
-    ./scripts/create_module.sh 03-docker
-
-## Step 2
-
-Implement logic inside:
-
-    scripts/sections/modules/03-docker/
-
-## Step 3
-
-Run bootstrap:
-
-    ./scripts/bootstrap_section.sh modules 03-docker
-
-## Step 4
-
-Review generated content and continue manual refinement if needed.
-
----
-
-# Migration Strategy
-
-The repository originally had a flatter scripts structure.
-
-The new architecture introduces:
-
-- `scripts/lib/`
-- `scripts/sections/`
-- section-based bootstrapping
-
-Old scripts can be moved gradually into:
-
-    scripts/old/
-
-This allows incremental migration without breaking working flows.
-
----
-
-# Safe Mode Rules
-
-This repository uses safe-mode scripting.
-
-That means:
-
-- existing directories are not recreated destructively
-- existing files are not overwritten
-- non-empty files are preserved
-- scaffolding is additive, not destructive
-
-This is especially important because many sections are manually curated and should not be damaged by automation.
-
----
-
-# Why This System Exists
-
-As the repository grows, manual creation of modules and documentation becomes harder to maintain.
-
-Without a structured scripts system, the repository would risk:
-
-- inconsistent structures
-- repeated manual work
-- duplicated logic
-- higher maintenance cost
-- lower scalability
-
-This scripts system provides a consistent foundation for expanding the roadmap safely.
-
----
-
-# Current Priorities
-
-At the current stage, the main focus is:
-
-- stabilize the scripts architecture
-- support modules
-- support docs
-- support future module expansion
-- prepare the repository for scalable growth
-
-The first main migrated targets are:
-
-- `01-python`
-- `02-sql`
 - `docs`
+- `shared`
+- `ai-learning`
+- `real-projects`
 
-After that, future modules should use the new scripts system from the start.
+What it creates:
 
----
+- `init.sh`
+- `fill_readme.sh`
+- `fill_content.sh`
+- `bootstrap.sh`
+- `template_snapshot/`
 
-# Recommended Next Steps
+Use when:
 
-Recommended order of work:
+- you want a top-level repository section to follow the same generator contract as mature sections
 
-1. finalize `scripts/lib/`
-2. migrate `02-sql`
-3. migrate `01-python`
-4. migrate `docs`
-5. move old scripts into `scripts/old/`
-6. build new modules only with the new structure
+Example:
 
----
+    ./scripts/create_section.sh shared
 
-# Final Note
+### `bootstrap_section.sh`
 
-This scripts system is not just a collection of shell files.
+Main generation entrypoint.
 
-It is the automation layer of the repository.
+Use it to regenerate one section, one module, all script-backed modules, or the whole script-backed repository surface.
 
-A clean scripts architecture makes the learning platform:
-
-- easier to expand
-- easier to maintain
-- safer to automate
-- more consistent across sections
-- better prepared for long-term growth
-
-
----
-
-# Command Reference
-
-This section shows the most common commands used to manage the repository structure.
-
-These commands are intended to be run from the repository root.
-
----
-
-# 1. Make Scripts Executable
-
-After cloning the repository or creating new scripts, make them executable:
-
-    find scripts -name "*.sh" -exec chmod +x {} \;
-
----
-
-or
-
-    f chmod +x scripts/**/*.sh
-___
-
-
-# 2. Bootstrap Entire Repository Structure
-
-To initialize or verify the entire repository structure:
-
-    ./scripts/bootstrap_all.sh
-
-This command will run bootstrapping scripts for all configured sections:
-
-- docs
-- shared
-- ai-learning
-- modules
-- real-projects
-
-Safe mode guarantees that existing files will not be overwritten.
-
----
-
-# 3. Bootstrap One Section
-
-To bootstrap a specific section:
+Supported forms:
 
     ./scripts/bootstrap_section.sh <section>
+    ./scripts/bootstrap_section.sh modules <module-name>
+    ./scripts/bootstrap_section.sh modules --all
+    ./scripts/bootstrap_section.sh all
 
 Examples:
 
@@ -579,131 +148,367 @@ Examples:
     ./scripts/bootstrap_section.sh shared
     ./scripts/bootstrap_section.sh ai-learning
     ./scripts/bootstrap_section.sh real-projects
+    ./scripts/bootstrap_section.sh modules 01-python
+    ./scripts/bootstrap_section.sh modules 11-airflow
+    ./scripts/bootstrap_section.sh modules --all
+    ./scripts/bootstrap_section.sh all
 
----
+What `all` means:
 
-# 4. Bootstrap One Module
+- bootstrap all script-backed top-level sections
+- bootstrap all module directories currently present under `scripts/sections/modules/`
 
-To bootstrap a specific learning module:
+Important:
 
-    ./scripts/bootstrap_section.sh modules <module>
+- `all` follows the real generator tree automatically
+- it does not use a hardcoded module list
+- placeholders outside the generator tree are therefore not pulled into active auto-generation accidentally
+
+### `refresh_template_snapshots.sh`
+
+Refreshes generator snapshots from live repository content.
+
+Use it when you intentionally changed the live generated output and want to promote those changes back into the generator source of truth.
+
+Supported forms:
+
+    ./scripts/refresh_template_snapshots.sh
+    ./scripts/refresh_template_snapshots.sh all
+    ./scripts/refresh_template_snapshots.sh sections
+    ./scripts/refresh_template_snapshots.sh modules
+    ./scripts/refresh_template_snapshots.sh list
+    ./scripts/refresh_template_snapshots.sh <target-name> [target-name...]
+
+Examples:
+
+    ./scripts/refresh_template_snapshots.sh
+    ./scripts/refresh_template_snapshots.sh sections
+    ./scripts/refresh_template_snapshots.sh modules
+    ./scripts/refresh_template_snapshots.sh 01-python
+    ./scripts/refresh_template_snapshots.sh docs shared
+
+Important behavior:
+
+- sections sync from live section content into `template_snapshot/`
+- modules sync from live module content into `template_snapshot/`
+- module-level `PROGRESS.md` is intentionally excluded because it is learner-managed state, not generator source content
+
+### `check_repo.sh`
+
+Unified repository validation entrypoint.
+
+Use it to validate starter assets, section snapshots, and module snapshots.
+
+Supported forms:
+
+    ./scripts/check_repo.sh
+    ./scripts/check_repo.sh all
+    ./scripts/check_repo.sh foundational
+    ./scripts/check_repo.sh template-backed
+    ./scripts/check_repo.sh sections
+    ./scripts/check_repo.sh modules
+    ./scripts/check_repo.sh list
+
+Examples:
+
+    ./scripts/check_repo.sh
+    ./scripts/check_repo.sh foundational
+    ./scripts/check_repo.sh sections
+    ./scripts/check_repo.sh modules
+    ./scripts/check_repo.sh template-backed
+    ./scripts/check_repo.sh list
+
+What each mode does:
+
+- `foundational`: bootstraps `00-shell-linux` and `00-git`, validates bundled starter assets, and checks representative shell and Git labs
+- `sections`: bootstraps each top-level section with `template_snapshot/` and checks snapshot sync
+- `modules`: bootstraps each module with `template_snapshot/` and checks snapshot sync
+- `template-backed`: runs `sections` and `modules`
+- default `all`: runs `foundational` and then `template-backed`
+
+Important behavior:
+
+- module validation intentionally ignores root-level `PROGRESS.md`
+- this keeps learner state out of generator integrity checks
+
+## Fast Practical Workflows
+
+### 1. Regenerate One Existing Module
+
+Use this when you edited `template_snapshot/` of one module and want to rebuild the live module.
+
+Steps:
+
+1. edit files under `scripts/sections/modules/<module>/template_snapshot/`
+2. run the module bootstrap
+3. review the live output
+4. run validation if needed
 
 Example:
 
-    ./scripts/bootstrap_section.sh modules 02-sql
+    ./scripts/bootstrap_section.sh modules 01-python
+    ./scripts/check_repo.sh modules
 
-This runs:
+### 2. Regenerate One Existing Section
+
+Use this when you edited snapshot content of a top-level section such as `docs/` or `ai-learning/`.
+
+Steps:
+
+1. edit files under `scripts/sections/<section>/template_snapshot/`
+2. run the section bootstrap
+3. review the live output
+4. run validation if needed
+
+Example:
+
+    ./scripts/bootstrap_section.sh docs
+    ./scripts/check_repo.sh sections
+
+### 3. Promote Live Changes Back Into Snapshot Source
+
+Use this only when the live repository block is now the intended source of truth and you want to sync the snapshot to match it.
+
+Example:
+
+    ./scripts/refresh_template_snapshots.sh 01-python
+    ./scripts/refresh_template_snapshots.sh docs
+
+Then verify:
+
+    ./scripts/check_repo.sh modules
+    ./scripts/check_repo.sh sections
+
+### 4. Full Validation Before Finishing Script Work
+
+Use this when you changed generation logic, snapshots, or starter assets.
+
+Recommended sequence:
+
+    ./scripts/check_repo.sh foundational
+    ./scripts/check_repo.sh sections
+    ./scripts/check_repo.sh modules
+
+Or just:
+
+    ./scripts/check_repo.sh
+
+## Generator Architecture
+
+The current system uses one shared architectural idea across modules and sections:
+
+1. structure creation is separate from content sync
+2. bootstrap is the only orchestration entrypoint inside a generator unit
+3. mature generator-backed units use `template_snapshot/` as the source of truth
+
+## Module Generator Structure
+
+Each generator-backed module lives under:
+
+    scripts/sections/modules/<module>/
+
+Typical contents:
 
     init.sh
+    fill_readme.sh
     fill_learning_materials.sh
     fill_simple_tasks.sh
     fill_pet_projects.sh
+    bootstrap.sh
+    template_snapshot/
 
-for that module.
+Responsibility model:
 
----
+- `init.sh`: create the module directory structure safely
+- `fill_readme.sh`: create or sync the root `README.md`
+- `fill_learning_materials.sh`: create or sync `learning-materials/`
+- `fill_simple_tasks.sh`: create or sync `simple-tasks/`
+- `fill_pet_projects.sh`: create or sync `pet-projects/`
+- `bootstrap.sh`: run the full module flow in the right order
+- `template_snapshot/`: source of truth for mature snapshot-backed modules
 
-# 5. Create a New Module (Scripts Only)
+Typical module bootstrap order:
 
-To create the script structure for a new module:
+1. `init.sh`
+2. `fill_readme.sh`
+3. `fill_learning_materials.sh`
+4. `fill_simple_tasks.sh`
+5. `fill_pet_projects.sh`
 
-    ./scripts/create_module.sh 03-docker
+## Section Generator Structure
 
-This generates:
+Each generator-backed top-level section lives under:
 
-    scripts/sections/modules/03-docker/
+    scripts/sections/<section>/
 
-        init.sh
-        fill_learning_materials.sh
-        fill_simple_tasks.sh
-        fill_pet_projects.sh
-        bootstrap.sh
+Current sections:
 
-After this, implement the logic inside those scripts.
+- `docs/`
+- `shared/`
+- `ai-learning/`
+- `real-projects/`
 
----
+Typical contents:
 
-# 6. Generate a New Module
+    init.sh
+    fill_readme.sh
+    fill_content.sh
+    bootstrap.sh
+    template_snapshot/
 
-Once the scripts for the module are implemented, generate its structure:
+Responsibility model:
 
-    ./scripts/bootstrap_section.sh modules 03-docker
+- `init.sh`: create the section root safely
+- `fill_readme.sh`: create or sync root `README.md`
+- `fill_content.sh`: sync all remaining content from snapshot into the live section
+- `bootstrap.sh`: run the full section flow in the right order
+- `template_snapshot/`: source of truth for the section content
 
-This will create or fill:
+Typical section bootstrap order:
 
-    03-docker/
-        README.md
-        learning-materials/
-        simple-tasks/
-        pet-projects/
+1. `init.sh`
+2. `fill_readme.sh`
+3. `fill_content.sh`
 
----
+## Why Modules And Sections Differ
 
-# 7. Re-run Module Generation
+Modules have a stable internal pedagogical shape:
 
-You can safely run module bootstrap multiple times:
+- `learning-materials/`
+- `simple-tasks/`
+- `pet-projects/`
 
-    ./scripts/bootstrap_section.sh modules 02-sql
+Top-level sections do not share that shape.
 
-Safe mode ensures:
+So sections use a simpler split:
 
-- existing directories are preserved
-- existing files are not overwritten
-- non-empty files remain untouched
+- create root safely
+- sync README
+- sync the rest of the section
 
-This allows incremental updates.
+This keeps both layers consistent without forcing section content into module conventions.
 
----
+## Snapshot-Based Pattern
 
-# 8. Typical Workflow for Adding a Module
+For mature generator-backed units, `template_snapshot/` is the generator source of truth.
 
-Step 1 — Create scripts
+That means:
 
-    ./scripts/create_module.sh 03-docker
+- you usually edit snapshot first
+- then bootstrap the live output
+- then validate sync with `check_repo.sh`
 
-Step 2 — Implement module scripts
+This pattern is already used by:
 
-Edit files in:
+- mature modules in `scripts/sections/modules/`
+- top-level sections in `scripts/sections/`
 
-    scripts/sections/modules/03-docker/
+## Safe-Mode Rules
 
-Step 3 — Generate module
+The scripts system is intentionally additive and conservative.
 
-    ./scripts/bootstrap_section.sh modules 03-docker
+Main rules:
 
-Step 4 — Continue writing learning materials manually if needed.
+- do not overwrite manual work blindly
+- create directories only if needed
+- create files only if needed
+- keep generator orchestration predictable
+- separate learner-managed state from generator-managed content
 
----
+Why this matters:
 
-# 9. Typical Workflow for Expanding the Repository
+- many repository areas are manually curated after generation
+- destructive regeneration would make the system unsafe to use daily
 
-Example workflow when expanding the roadmap:
+## Shared Libraries
 
-1. create module scripts
+Shared shell helpers live under:
 
-       ./scripts/create_module.sh 04-github-actions
+    scripts/lib/
 
-2. implement module logic
+Current files:
 
-3. bootstrap module
+- `common.sh`
+- `fs.sh`
+- `section.sh`
 
-       ./scripts/bootstrap_section.sh modules 04-github-actions
+Typical purposes:
 
-4. verify generated structure
+- logging and fatal error helpers
+- safe file and directory operations
+- repository-root and section-root path helpers
 
-5. add detailed content
+Use these helpers when building or refactoring generator scripts instead of duplicating shell logic.
 
----
+## Current Structure Summary
 
-# 10. Safe Mode Reminder
+Current top-level scripts tree:
 
-All scripts operate in safe mode.
+    scripts/
+    ├── README.md
+    ├── bootstrap_section.sh
+    ├── check_repo.sh
+    ├── create_module.sh
+    ├── create_section.sh
+    ├── refresh_template_snapshots.sh
+    ├── lib/
+    ├── sections/
+    └── structure.md
 
-This means:
+Current top-level section generators:
 
-- existing directories are not recreated destructively
-- existing files are never overwritten
-- non-empty files are preserved
-- scripts can be safely re-run
+    scripts/sections/docs/
+    scripts/sections/shared/
+    scripts/sections/ai-learning/
+    scripts/sections/real-projects/
 
-This protects manual work from accidental loss.
+Current module generators live under:
+
+    scripts/sections/modules/
+
+## Recommended Usage Rules
+
+### If you are editing generator source content
+
+Edit `template_snapshot/` first.
+
+Then run the corresponding bootstrap command.
+
+### If you are editing live generated content on purpose
+
+Promote it back into snapshot with `refresh_template_snapshots.sh`.
+
+Then run validation.
+
+### If you changed shell generation logic
+
+Run:
+
+    ./scripts/check_repo.sh
+
+before considering the work done.
+
+### If you are adding a new module or section
+
+Use the scaffold script first instead of creating the structure manually.
+
+## Minimal Command Reference
+
+Most common day-to-day commands:
+
+    ./scripts/bootstrap_section.sh modules 01-python
+    ./scripts/bootstrap_section.sh docs
+    ./scripts/bootstrap_section.sh all
+    ./scripts/refresh_template_snapshots.sh 01-python
+    ./scripts/refresh_template_snapshots.sh docs
+    ./scripts/check_repo.sh
+    ./scripts/check_repo.sh modules
+    ./scripts/check_repo.sh sections
+    ./scripts/create_module.sh 16-new-module
+    ./scripts/create_section.sh shared
+
+## Final Rule
+
+Treat `scripts/` as the automation layer of the repository, not as a folder of unrelated shell files.
+
+If a script changes structure, generation flow, or snapshot rules, validate the whole affected layer before moving on.

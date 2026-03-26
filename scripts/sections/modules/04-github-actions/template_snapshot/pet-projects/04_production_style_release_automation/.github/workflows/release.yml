@@ -1,0 +1,39 @@
+name: Controlled release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  package-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Create release manifest
+        run: |
+          mkdir -p dist
+          python -c "from src.release_manifest import write_manifest; write_manifest('dist/release-manifest.json', 'v0.1.0', '${{ github.sha }}', 'prod')"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-manifest
+          path: dist/release-manifest.json
+
+  deploy:
+    needs: package-release
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-manifest
+          path: dist
+
+      - name: Simulate deploy
+        run: cat dist/release-manifest.json

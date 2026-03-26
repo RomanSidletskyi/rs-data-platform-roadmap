@@ -1,0 +1,31 @@
+{
+  "order_id": 101,
+  "user_id": 10,
+  "order_date": "2025-01-10T12:00:00Z",
+  "status": "paid",
+  "amount": 450,
+  "customer_snapshot": {
+    "country": "PL",
+    "email": "user@example.com"
+  },
+  "items": [
+    {
+      "product_id": 1001,
+      "product_name": "Laptop",
+      "category_name": "Electronics",
+      "quantity": 1,
+      "item_price": 400
+    },
+    {
+      "product_id": 1002,
+      "product_name": "Mouse",
+      "category_name": "Accessories",
+      "quantity": 1,
+      "item_price": 50
+    }
+  ],
+  "payment": {
+    "method": "card",
+    "status": "captured"
+  }
+}

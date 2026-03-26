@@ -12,11 +12,14 @@ SCRIPT_NAME="01-python-fill-readme"
 
 REPO_ROOT="$(get_repo_root "$SCRIPT_DIR")"
 MODULE="$(get_module_root "$REPO_ROOT" "01-python")"
+TEMPLATE_DIR="$SCRIPT_DIR/template_snapshot"
 
 log "Creating 01-python README..."
 
-cat <<'EOF' > "$MODULE/README.md"
+if [[ ! -f "$TEMPLATE_DIR/README.md" ]]; then
+	fail "Missing template snapshot README at $TEMPLATE_DIR/README.md"
+fi
 
-EOF
+cp "$TEMPLATE_DIR/README.md" "$MODULE/README.md"
 
 log "01-python README created."

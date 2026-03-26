@@ -1,0 +1,25 @@
+{
+  "name": "order-status-serving-refresh",
+  "tasks": [
+    {
+      "task_key": "normalize_events",
+      "job_cluster_key": "serving_cluster",
+      "notebook_task": {
+        "notebook_path": "/Repos/platform/orders/normalize_events"
+      }
+    },
+    {
+      "task_key": "publish_serving_table",
+      "depends_on": [
+        {
+          "task_key": "normalize_events"
+        }
+      ],
+      "job_cluster_key": "serving_cluster",
+      "notebook_task": {
+        "notebook_path": "/Repos/platform/orders/publish_serving_table"
+      }
+    }
+  ],
+  "warehouse_name": "ops-serving-warehouse"
+}

@@ -1,0 +1,5 @@
+status=ACCESS_MODEL_OK
+rbac_role_count=2
+path_acl_rule_count=3
+supported_consumer_path_count=1
+forbidden_consumer_path_count=2

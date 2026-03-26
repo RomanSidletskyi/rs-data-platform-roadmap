@@ -1,0 +1,15 @@
+{
+  "error_reason": "missing required fields: order_id",
+  "error_type": "validation_error",
+  "event_id": "evt-order-bad-2",
+  "failed_at": "2026-03-24T12:00:00Z",
+  "original_payload": {
+    "amount": 89.5,
+    "currency": "EUR",
+    "customer_id": "cust-88",
+    "event_id": "evt-order-bad-2",
+    "event_time": "2026-03-24T11:06:00Z",
+    "event_type": "order_created"
+  },
+  "original_topic": "sales.order_events"
+}

@@ -1,0 +1,12 @@
+{
+  "publish_review_required": [
+    "publish/commerce/daily_orders/business_date=2025-08-01/"
+  ],
+  "recommendation": "Require manual review before deleting aged raw or publish paths, even when age exceeds the nominal retention window.",
+  "replay_review_required": [
+    "raw/finance/invoices/load_date=2025-02-01/"
+  ],
+  "safe_temporary_delete": [
+    "curated/commerce/orders_backfill/run_id=2026-03-01/"
+  ]
+}

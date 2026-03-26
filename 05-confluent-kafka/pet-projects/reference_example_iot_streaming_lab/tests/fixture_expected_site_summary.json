@@ -1,0 +1,15 @@
+{
+  "sites": {
+    "warehouse-1": {
+      "avg_temperature_c": 23.73,
+      "event_count": 3,
+      "max_temperature_c": 24.4
+    },
+    "warehouse-2": {
+      "avg_temperature_c": 22.2,
+      "event_count": 2,
+      "max_temperature_c": 22.5
+    }
+  },
+  "total_events": 5
+}

@@ -1,0 +1,43 @@
+{
+  "tables": {
+    "bronze": "bronze.orders_raw",
+    "silver": "silver.orders_clean",
+    "gold": "gold.daily_sales"
+  },
+  "repair": {
+    "strategy": "replace_where",
+    "business_date_column": "business_date",
+    "allowed_window_days": 3
+  },
+  "required_fields": [
+    "order_id",
+    "business_date",
+    "customer_id",
+    "country_code",
+    "gross_amount",
+    "order_status"
+  ],
+  "allowed_statuses": [
+    "paid",
+    "refunded",
+    "pending"
+  ],
+  "contract_check_passed": true,
+  "contract_findings": [],
+  "gold_preview": [
+    {
+      "business_date": "2026-04-01",
+      "country_code": "PL",
+      "order_count": 1,
+      "gross_revenue": "80.00",
+      "refunded_order_count": 1
+    },
+    {
+      "business_date": "2026-04-01",
+      "country_code": "UA",
+      "order_count": 1,
+      "gross_revenue": "120.50",
+      "refunded_order_count": 0
+    }
+  ]
+}

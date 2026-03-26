@@ -1,0 +1,4 @@
+{"customer_id":"c-010","event_ts":"2026-04-01T10:00:00","op":"upsert","email":"dina@example.com","loyalty_tier":"silver"}
+{"customer_id":"c-010","event_ts":"2026-04-01T09:00:00","op":"upsert","email":"dina-older@example.com","loyalty_tier":"bronze"}
+{"customer_id":"c-011","event_ts":"2026-04-01T11:00:00","op":"remove","email":"evan@example.com","loyalty_tier":"gold"}
+{"customer_id":"","event_ts":"2026-04-01T12:00:00","op":"upsert","email":"","loyalty_tier":"gold"}

@@ -1,0 +1,22 @@
+name: Reference repository CI
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  shared-validation:
+    uses: ./.github/workflows/reusable-validate.yml
+
+  inspect-report:
+    needs: shared-validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: validation-report
+          path: dist
+
+      - name: Show validation report
+        run: cat dist/validation-report.txt

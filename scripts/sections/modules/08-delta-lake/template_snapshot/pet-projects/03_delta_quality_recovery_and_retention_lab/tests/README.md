@@ -1,0 +1,1 @@
+Add tests here for blocked invalid rows, bounded repair behavior, and retention-safety assumptions.

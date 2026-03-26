@@ -1,0 +1,5 @@
+status=NAMESPACE_CONTRACT_OK
+storage_account=adlsretailplatformdev
+container_count=3
+published_dataset_count=2
+missing_required_containers=none

@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: dim_customer
+    description: Customer dimension for downstream analytics.
+    columns:
+      - name: customer_id
+        description: Primary customer key.
+        tests: [not_null, unique]
+
+  - name: fct_orders
+    description: Incremental fact table for order analytics.
+    columns:
+      - name: order_id
+        description: Primary order key.
+        tests: [not_null, unique]
+      - name: customer_id
+        description: Foreign key to the customer dimension.
+        tests:
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_id

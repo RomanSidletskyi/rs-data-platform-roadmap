@@ -1,0 +1,2 @@
+{"device_id":"sensor-warehouse-1-x","event_id":"evt-temp-bad-1","event_time":"2026-03-24T10:05:00Z","event_type":"temperature_reported","humidity_pct":39.5,"site_id":"warehouse-1","temperature_c":"very-hot"}
+{"event_id":"evt-temp-bad-2","event_time":"2026-03-24T10:06:00Z","event_type":"temperature_reported","humidity_pct":43.0,"site_id":"warehouse-2","temperature_c":22.7}

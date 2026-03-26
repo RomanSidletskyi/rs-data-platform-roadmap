@@ -1,0 +1,10 @@
+On branch main
+Changes not staged for commit:
+  modified:   README.md
+
+Untracked files:
+  .env
+  .venv/
+  __pycache__/
+  logs/
+  notes.txt

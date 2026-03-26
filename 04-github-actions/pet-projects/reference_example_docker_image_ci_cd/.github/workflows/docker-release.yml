@@ -1,0 +1,27 @@
+name: Reference Docker release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build image
+        run: docker build -f docker/Dockerfile -t ghcr.io/${{ github.repository }}/reference-docker-ci:${{ github.sha }} .
+
+      - name: Push image
+        run: docker push ghcr.io/${{ github.repository }}/reference-docker-ci:${{ github.sha }}

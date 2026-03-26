@@ -1,0 +1,5 @@
+status=CONSUMER_CONTRACT_OK
+supported_engine_count=3
+required_column_count=3
+official_publish_path=publish/commerce/daily_orders/
+schema_drop_count=1

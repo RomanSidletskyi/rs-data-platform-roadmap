@@ -1,0 +1,6 @@
+event_id,event_type,event_date,source_system
+e001,click,2026-03-01,web
+e002,view,2026-03-01,web
+e003,purchase,2026-03-02,mobile
+e004,click,2026-03-02,mobile
+e005,view,2026-03-03,web

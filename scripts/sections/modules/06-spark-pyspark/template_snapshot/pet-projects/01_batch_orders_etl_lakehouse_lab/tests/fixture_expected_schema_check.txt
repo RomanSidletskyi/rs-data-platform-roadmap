@@ -1,0 +1,3 @@
+line 1: country_code must be uppercase and trimmed
+line 2: gross_amount must be numeric
+line 3: missing fields: country_code

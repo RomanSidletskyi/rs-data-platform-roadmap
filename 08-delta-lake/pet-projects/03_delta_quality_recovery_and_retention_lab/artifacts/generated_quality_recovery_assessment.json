@@ -1,0 +1,32 @@
+{
+  "quality_policy": {
+    "require_supported_currency_codes": [
+      "EUR",
+      "PLN",
+      "UAH"
+    ],
+    "block_negative_gross_amount": true
+  },
+  "recovery_policy": {
+    "preferred_strategy": "bounded_replace_where",
+    "restore_threshold": "whole_table_corruption"
+  },
+  "retention_policy": {
+    "log_retention_days": 30,
+    "deleted_file_retention_days": 14,
+    "rationale": "keep enough history for delayed defect detection and controlled recovery"
+  },
+  "quality_check_passed": false,
+  "quality_findings": [
+    "line 1: gross_amount must be non-negative",
+    "line 2: currency_code must be uppercase and trimmed",
+    "line 2: unsupported currency_code=usd"
+  ],
+  "repair_recommendation": {
+    "recommended_strategy": "bounded_replace_where",
+    "affected_business_dates": [
+      "2026-04-03"
+    ],
+    "invalid_row_count": 2
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "internal_dataset_paths": [
+    {
+      "curated_path": "curated/commerce/orders_clean/business_date=2026-03-24/",
+      "dataset": "orders",
+      "raw_path": "raw/commerce/orders/source=erp/load_date=2026-03-24/"
+    },
+    {
+      "curated_path": "curated/commerce/inventory_snapshot/snapshot_date=2026-03-24/",
+      "dataset": "inventory",
+      "raw_path": "raw/commerce/inventory/source=wms/load_date=2026-03-24/"
+    }
+  ],
+  "internal_only_paths": [
+    "raw/commerce/orders/quarantine/",
+    "curated/commerce/orders_working/"
+  ],
+  "published_datasets": [
+    {
+      "dataset": "orders",
+      "publish_path": "publish/commerce/daily_orders/business_date=2026-03-24/",
+      "stable_contract": true
+    },
+    {
+      "dataset": "inventory",
+      "publish_path": "publish/commerce/inventory_snapshot/snapshot_date=2026-03-24/",
+      "stable_contract": true
+    }
+  ],
+  "storage_account": "adlsretailplatformdev",
+  "top_level_boundaries": [
+    "raw",
+    "curated",
+    "publish"
+  ]
+}

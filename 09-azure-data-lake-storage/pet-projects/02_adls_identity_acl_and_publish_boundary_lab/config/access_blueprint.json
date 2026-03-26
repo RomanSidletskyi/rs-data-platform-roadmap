@@ -1,0 +1,39 @@
+{
+  "storage_account": "adlsretailplatformdev",
+  "resource_rbac_roles": [
+    {
+      "principal": "mi-retail-curation",
+      "role": "Storage Blob Data Contributor",
+      "scope": "storage_account"
+    },
+    {
+      "principal": "grp-retail-analytics",
+      "role": "Storage Blob Data Reader",
+      "scope": "storage_account"
+    }
+  ],
+  "path_acl_rules": [
+    {
+      "principal": "spn-retail-raw-ingest",
+      "path": "raw/commerce/orders/",
+      "permission": "rwx"
+    },
+    {
+      "principal": "mi-retail-curation",
+      "path": "curated/commerce/orders_clean/",
+      "permission": "rwx"
+    },
+    {
+      "principal": "grp-retail-analytics",
+      "path": "publish/commerce/daily_orders/",
+      "permission": "r-x"
+    }
+  ],
+  "supported_consumer_paths": [
+    "publish/commerce/daily_orders/"
+  ],
+  "forbidden_consumer_paths": [
+    "raw/commerce/orders/",
+    "curated/commerce/orders_working/"
+  ]
+}

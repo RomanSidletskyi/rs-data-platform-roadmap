@@ -1,0 +1,16 @@
+[
+  {
+    "business_date": "2026-04-01",
+    "country_code": "PL",
+    "order_count": 1,
+    "gross_revenue": "80.00",
+    "refunded_order_count": 1
+  },
+  {
+    "business_date": "2026-04-01",
+    "country_code": "UA",
+    "order_count": 1,
+    "gross_revenue": "120.50",
+    "refunded_order_count": 0
+  }
+]

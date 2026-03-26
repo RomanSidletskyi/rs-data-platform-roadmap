@@ -1,0 +1,1 @@
+Add tests here for winner logic, duplicate handling, and replay-safe current-state output.

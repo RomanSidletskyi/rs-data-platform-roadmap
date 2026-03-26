@@ -1,0 +1,8 @@
+{
+  "approved": false,
+  "findings": [
+    "breaking: removes required field",
+    "breaking: changes type for gross_sales",
+    "breaking: changes consumer grain"
+  ]
+}

@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: Standardized order records with typed business columns.
+    columns:
+      - name: order_id
+        description: Business order identifier.
+        tests: [not_null]
+      - name: order_status
+        description: Normalized order status.
+        tests:
+          - accepted_values:
+              values: ['created', 'paid', 'shipped', 'cancelled']

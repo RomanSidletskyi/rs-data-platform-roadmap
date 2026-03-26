@@ -1,0 +1,10 @@
+{
+  "consumer_contracts_outside_publish": [
+    "curated/commerce/orders_serving_work/business_date=2026-03-24/part-0001.parquet"
+  ],
+  "internal_working_objects_inside_publish": [
+    "publish/commerce/daily_orders/tmp_validation/run_id=2026-03-24/part-0001.parquet"
+  ],
+  "recommendation": "Keep contract data only on publish paths and keep temporary working outputs out of publish.",
+  "risk_detected": true
+}

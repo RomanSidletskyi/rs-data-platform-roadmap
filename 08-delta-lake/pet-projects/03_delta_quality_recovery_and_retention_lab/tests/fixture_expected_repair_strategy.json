@@ -1,0 +1,7 @@
+{
+  "recommended_strategy": "bounded_replace_where",
+  "affected_business_dates": [
+    "2026-04-03"
+  ],
+  "invalid_row_count": 2
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "container": "raw",
+    "path": "raw/commerce/orders/source=erp/load_date=2026-03-24/file-001.json",
+    "purpose": "landing"
+  },
+  {
+    "container": "raw",
+    "path": "raw/commerce/orders/quarantine/file-002.json",
+    "purpose": "quarantine"
+  },
+  {
+    "container": "curated",
+    "path": "curated/commerce/orders_clean/business_date=2026-03-24/part-0001.parquet",
+    "purpose": "internal_trusted"
+  },
+  {
+    "container": "publish",
+    "path": "publish/commerce/daily_orders/business_date=2026-03-24/part-0001.parquet",
+    "purpose": "consumer_contract"
+  }
+]
