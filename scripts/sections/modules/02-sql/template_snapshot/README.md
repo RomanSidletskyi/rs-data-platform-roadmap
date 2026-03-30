@@ -222,6 +222,30 @@ This section helps place databases into real cloud platform architecture.
 
 ---
 
+## 08_snowflake
+
+This section turns Snowflake from a generic cloud warehouse topic into a real platform-design topic.
+
+Topics include:
+
+- Snowflake architecture and performance foundations
+- ingestion design with stages, Snowpipe, and `COPY INTO`
+- semi-structured data and `VARIANT`
+- Snowflake-managed Iceberg
+- external tables
+- dynamic tables
+- real platform trade-offs between warehouse-native and open-table patterns
+- senior interview and system-design reasoning
+
+This section is designed to work from zero to architect level:
+
+- first build the core Snowflake mental model
+- then learn the physical and operational behavior
+- then study interoperable lakehouse patterns
+- then practice design choices with cookbook-style SQL and architecture examples
+
+---
+
 ## Cross-Cutting Learning Files
 
 The module also contains cross-cutting reference files:
@@ -290,6 +314,26 @@ Focus:
 - CosmosDB design
 - modeling trade-offs
 
+## 05_snowflake_storage_and_ingestion
+
+Focus:
+
+- stage and file format design
+- `COPY INTO` decisions
+- raw ingestion contracts
+- metadata columns
+- external tables as boundary access
+
+## 06_snowflake_open_table_and_refresh
+
+Focus:
+
+- Snowflake-managed Iceberg decisions
+- external tables vs native tables
+- dynamic table freshness design
+- target lag trade-offs
+- publish-contract thinking
+
 All simple tasks are designed to be:
 
 - short
@@ -349,6 +393,34 @@ Main topics:
 - migration strategy
 - SQL vs Mongo query comparison
 - modeling trade-offs
+
+## 04_snowflake_open_table_publish
+
+Goal:
+
+Design a Snowflake publishing layer that uses native tables, external tables, and Snowflake-managed Iceberg deliberately instead of interchangeably.
+
+Main topics:
+
+- raw zone exposure
+- curated publish contracts
+- Iceberg boundary design
+- multi-engine sharing
+- governance and change control
+
+## 05_snowflake_dynamic_table_pipeline
+
+Goal:
+
+Design a freshness-aware Snowflake transformation pipeline using dynamic tables without turning the warehouse into an uncontrolled always-on refresh engine.
+
+Main topics:
+
+- target lag design
+- staging and mart layering
+- dynamic tables vs tasks vs dbt
+- warehouse and cost isolation
+- operational refresh thinking
 
 These projects are intended to move the learner from isolated examples into production-style thinking.
 

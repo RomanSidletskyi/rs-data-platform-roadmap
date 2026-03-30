@@ -1,0 +1,14 @@
+{
+  "catalog_name": "lab",
+  "namespace": "analytics",
+  "warehouse": "s3://iceberg-warehouse/warehouse",
+  "raw_orders_table": "raw_order_events",
+  "current_orders_table": "fct_orders_current",
+  "customer_history_table": "dim_customer_history",
+  "raw_orders_prefix": "s3://iceberg-warehouse/input/orders_cdc/",
+  "raw_customers_prefix": "s3://iceberg-warehouse/input/customer_snapshot/",
+  "maintenance_procedures": [
+    "rewrite_data_files",
+    "expire_snapshots"
+  ]
+}

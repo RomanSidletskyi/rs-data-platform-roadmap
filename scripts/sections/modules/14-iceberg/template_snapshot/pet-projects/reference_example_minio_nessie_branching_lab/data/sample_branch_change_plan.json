@@ -1,0 +1,10 @@
+{
+  "change_name": "price_fix",
+  "branch_name": "dev_price_fix",
+  "goal": "Validate corrected order amounts before promotion to main",
+  "checks": [
+    "table resolves on branch",
+    "main remains unchanged before merge",
+    "promotion happens only after review"
+  ]
+}
