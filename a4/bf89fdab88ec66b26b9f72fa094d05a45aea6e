@@ -1,0 +1,293 @@
+16-cloud-databases/01-snowflake/simple-tasks/04_processing_patterns/solution.md
+  s_662af019422bfb::t_148e32e41b87b8 1-21
+16-cloud-databases/01-snowflake/pet-projects/04_snowflake_open_table_publish/data/README.md
+  s_662af019422bfb::t_93f3067b9b560e 1-10
+16-cloud-databases/01-snowflake/pet-projects/04_snowflake_open_table_publish/src/README.md
+  s_662af019422bfb::t_93f3067b9b560e 1-11
+16-cloud-databases/01-snowflake/pet-projects/05_snowflake_dynamic_table_pipeline/README.md
+  s_662af019422bfb::t_93f3067b9b560e 1-117
+16-cloud-databases/01-snowflake/learning-materials/architecture/07_operations_and_lifecycle.md
+  s_662af019422bfb::t_148e32e41b87b8 1-48
+16-cloud-databases/01-snowflake/learning-materials/reference/02_objects_and_table_types.md
+  s_662af019422bfb::t_148e32e41b87b8 1-55
+16-cloud-databases/01-snowflake/simple-tasks/02_sql_and_semi_structured/README.md
+  s_662af019422bfb::t_148e32e41b87b8 1-21
+16-cloud-databases/01-snowflake/learning-materials/reference/snowflake_functions.md
+  s_662af019422bfb::t_93f3067b9b560e 1-534
+16-cloud-databases/01-snowflake/pet-projects/reference_example_snowflake_dynamic_table_pipeline/src/02_intermediate_dynamic_tables.sql
+  s_662af019422bfb::t_93f3067b9b560e 1-29
+02-sql/learning-materials/README.md
+  s_662af019422bfb::t_abd05e4dfaeee8 26,51,53,55,57,59-61,63
+16-cloud-databases/01-snowflake/pet-projects/01_governed_analytics_warehouse/README.md
+  s_662af019422bfb::t_148e32e41b87b8 1-41
+16-cloud-databases/01-snowflake/pet-projects/05_snowflake_dynamic_table_pipeline/config/README.md
+  s_662af019422bfb::t_93f3067b9b560e 1-10
+16-cloud-databases/01-snowflake/pet-projects/reference_example_snowflake_open_table_publish/README.md
+  s_662af019422bfb::t_93f3067b9b560e 1-12,14-37
+  s_662af019422bfb::t_8a9bdcd5399642 13
+16-cloud-databases/01-snowflake/pet-projects/reference_example_snowflake_open_table_publish/src/01_external_exposure.sql
+  s_662af019422bfb::t_93f3067b9b560e 1-44
+16-cloud-databases/01-snowflake/simple-tasks/04_processing_patterns/README.md
+  s_662af019422bfb::t_148e32e41b87b8 1-23
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/01_semi_structured_data.md
+  s_662af019422bfb::t_16d355b6b4a027 63
+  s_662af019422bfb::t_148e32e41b87b8 1-62,64-108
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/Snowflake_performance.md
+  s_662af019422bfb::t_93f3067b9b560e 1-327
+16-cloud-databases/01-snowflake/pet-projects/05_snowflake_dynamic_table_pipeline/source_model.md
+  s_662af019422bfb::t_93f3067b9b560e 1-19
+16-cloud-databases/01-snowflake/pet-projects/01_governed_analytics_warehouse/architecture.md
+  s_662af019422bfb::t_148e32e41b87b8 1-31
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/03_data_loading_patterns.md
+  s_662af019422bfb::t_148e32e41b87b8 1-64
+16-cloud-databases/01-snowflake/pet-projects/02_reliable_file_ingestion/README.md
+  s_662af019422bfb::t_148e32e41b87b8 1-41
+16-cloud-databases/01-snowflake/learning-materials/architecture/README.md
+  s_662af019422bfb::t_148e32e41b87b8 1-11,16-17
+  s_662af019422bfb::t_93f3067b9b560e 12-15
+16-cloud-databases/01-snowflake/pet-projects/05_snowflake_dynamic_table_pipeline/tests/README.md
+  s_662af019422bfb::t_93f3067b9b560e 1-10
+16-cloud-databases/01-snowflake/pet-projects/reference_example_snowflake_dynamic_table_pipeline/src/03_serving_dynamic_tables.sql
+  s_662af019422bfb::t_93f3067b9b560e 1-23
+16-cloud-databases/01-snowflake/pet-projects/reference_example_snowflake_open_table_publish/tests/publish_boundary_checks.sql
+  s_662af019422bfb::t_93f3067b9b560e 1-29
+16-cloud-databases/01-snowflake/pet-projects/reference_example_snowflake_dynamic_table_pipeline/README.md
+  s_662af019422bfb::t_8a9bdcd5399642 13
+  s_662af019422bfb::t_93f3067b9b560e 1-12,14-37
+16-cloud-databases/01-snowflake/simple-tasks/07_snowflake_storage_and_ingestion/solution.md
+  s_662af019422bfb::t_93f3067b9b560e 1-114
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/02_secure_views.md
+  s_662af019422bfb::t_148e32e41b87b8 1-75
+16-cloud-databases/01-snowflake/learning-materials/README.md
+  s_662af019422bfb::t_148e32e41b87b8 1-6,8-9,11-15
+  s_662af019422bfb::t_93f3067b9b560e 7,10
+16-cloud-databases/01-snowflake/simple-tasks/05_performance_and_cost/solution.md
+  s_662af019422bfb::t_148e32e41b87b8 1-21
+16-cloud-databases/01-snowflake/simple-tasks/02_sql_and_semi_structured/solution.md
+  s_662af019422bfb::t_148e32e41b87b8 1-38
+docs/data-platform-map.md
+  s_662af019422bfb::t_efafe949e9ce76 108-119,267,279,291,303
+16-cloud-databases/01-snowflake/pet-projects/03_production_snowflake_platform/README.md
+  s_662af019422bfb::t_148e32e41b87b8 1-39
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/iceberg-and-external-tables/Snowflake_table_type_decision_guide.md
+  s_662af019422bfb::t_93f3067b9b560e 1-457
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/iceberg-and-external-tables/README.md
+  s_662af019422bfb::t_93f3067b9b560e 1-12,14-54
+  s_662af019422bfb::t_a92b409f4b8b66 13
+16-cloud-databases/01-snowflake/pet-projects/05_snowflake_dynamic_table_pipeline/architecture.md
+  s_662af019422bfb::t_93f3067b9b560e 1-46
+docs/README.md
+  s_662af019422bfb::t_efafe949e9ce76 145-146
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/iceberg-and-external-tables/Snowflake_externally_managed_Iceberg.md
+  s_662af019422bfb::t_93f3067b9b560e 1-843
+16-cloud-databases/01-snowflake/pet-projects/04_snowflake_open_table_publish/contract.md
+  s_662af019422bfb::t_93f3067b9b560e 1-29
+16-cloud-databases/01-snowflake/pet-projects/05_snowflake_dynamic_table_pipeline/requirements.md
+  s_662af019422bfb::t_93f3067b9b560e 1-21
+16-cloud-databases/01-snowflake/learning-materials/architecture/Non_functional_requirements_NFR.md
+  s_662af019422bfb::t_93f3067b9b560e 1-114
+16-cloud-databases/01-snowflake/pet-projects/reference_example_snowflake_dynamic_table_pipeline/tests/refresh_and_quality_checks.sql
+  s_662af019422bfb::t_93f3067b9b560e 1-39
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/iceberg-and-external-tables/Snowflake_Open_Catalog_cookbook.md
+  s_662af019422bfb::t_93f3067b9b560e 1-334
+16-cloud-databases/01-snowflake/simple-tasks/07_snowflake_storage_and_ingestion/README.md
+  s_662af019422bfb::t_93f3067b9b560e 1-227
+16-cloud-databases/01-snowflake/pet-projects/reference_example_snowflake_dynamic_table_pipeline/data/freshness_matrix.md
+  s_662af019422bfb::t_93f3067b9b560e 1-17
+16-cloud-databases/01-snowflake/pet-projects/05_snowflake_dynamic_table_pipeline/freshness_sla.md
+  s_662af019422bfb::t_93f3067b9b560e 1-19
+16-cloud-databases/01-snowflake/simple-tasks/09_snowflake_architecture_scenarios/README.md
+  s_662af019422bfb::t_a92b409f4b8b66 17-22
+  s_662af019422bfb::t_93f3067b9b560e 1-16,23-108
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/semi_structured_performance.md
+  s_662af019422bfb::t_93f3067b9b560e 1-386
+16-cloud-databases/01-snowflake/learning-materials/reference/04_processing_and_recovery.md
+  s_662af019422bfb::t_148e32e41b87b8 1-53
+16-cloud-databases/01-snowflake/learning-materials/snowflake_platform_learning_guide.md
+  s_662af019422bfb::t_93f3067b9b560e 1-177
+16-cloud-databases/01-snowflake/simple-tasks/05_performance_and_cost/README.md
+  s_662af019422bfb::t_148e32e41b87b8 1-21
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/05_query_performance.md
+  s_662af019422bfb::t_148e32e41b87b8 1-57
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/Snowflake_semi_structured_data.md
+  s_662af019422bfb::t_93f3067b9b560e 1-666
+16-cloud-databases/01-snowflake/learning-materials/reference/snowflake_sql.md
+  s_662af019422bfb::t_93f3067b9b560e 1-979
+16-cloud-databases/01-snowflake/simple-tasks/06_security_recovery_architecture/solution.md
+  s_662af019422bfb::t_148e32e41b87b8 1-21
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/iceberg-and-external-tables/Snowflake_external_tables.md
+  s_662af019422bfb::t_93f3067b9b560e 1-453
+16-cloud-databases/01-snowflake/pet-projects/04_snowflake_open_table_publish/tests/README.md
+  s_662af019422bfb::t_93f3067b9b560e 1-10
+scripts/README.md
+  s_662af019422bfb::t_56aa37b8bb69f3 1,3,5,7,9,11-14,16,18,20-22,24,26,28-30,32,34,36-39,41,43,47,49-57,59
+  s_662af019422bfb::t_d6367648c3406d 45
+16-cloud-databases/01-snowflake/pet-projects/README.md
+  s_662af019422bfb::t_148e32e41b87b8 1-7,15-16
+  s_662af019422bfb::t_93f3067b9b560e 8-14
+16-cloud-databases/01-snowflake/learning-materials/01_learning_paths.md
+  s_662af019422bfb::t_93f3067b9b560e 12-14,20-23,29-32
+  s_662af019422bfb::t_4bf2408f099533 1-11,15-19,24-28,33-56
+16-cloud-databases/01-snowflake/simple-tasks/08_snowflake_open_table_and_refresh/README.md
+  s_662af019422bfb::t_93f3067b9b560e 1-212
+16-cloud-databases/01-snowflake/simple-tasks/03_ingestion_and_replay/README.md
+  s_662af019422bfb::t_148e32e41b87b8 1-21
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/iceberg-and-external-tables/Snowflake_Open_Catalog.md
+  s_662af019422bfb::t_93f3067b9b560e 1,3-5,7,9-11,13,15,17,19,21,23,25,27,29,33,35,37,39,41-44,46,48-50,52,54-56,58,60,64,66,68,70,72-73,75,77,79,81-83,85,87,91,93,95,97,99-100,102,104-105,107,109-111,113,115,117,119,121-124,126,128,130,132,134,136,138-139,141,143,145,147,149,151-152,154,156,158,162,164,166,168,170,172,174,176,178,180,182,184-185,187,189,191,193,195,197,199,201,203-205,207,209,211,213-229,231,233-239,241,243-248,250,252,254,256,258,260,262,264-279,281,283-286,288,290-298,300,302-304,306,308-316,318,320,322,324,326-328,330,332-334,336,338,340,342,344,346,348,350,352,354-357,359,361,363,365-367,369,371,373,375,377,379,381,383,385,387,389,391,393-396,398,400,402,404,406-409,411,413,415,417,419,421,423,425,427,429,431-434,436,438,440,442,444,446,450,452,454,456,458-460
+16-cloud-databases/01-snowflake/pet-projects/reference_example_snowflake_open_table_publish/src/03_publish_contract.sql
+  s_662af019422bfb::t_93f3067b9b560e 1-57
+structure.txt
+  s_662af019422bfb::t_e899919d01c178 136,138-139,169,172
+  s_662af019422bfb::t_efafe949e9ce76 89-99,168
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/Snowflake_dynamic_tables.md
+  s_662af019422bfb::t_93f3067b9b560e 1-1475
+16-cloud-databases/01-snowflake/learning-materials/architecture/02_compute_workload_cost.md
+  s_662af019422bfb::t_148e32e41b87b8 1-59
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/iceberg-and-external-tables/Snowflake_externally_managed_Iceberg_cookbook.md
+  s_662af019422bfb::t_93f3067b9b560e 1-451
+16-cloud-databases/01-snowflake/pet-projects/reference_example_snowflake_dynamic_table_pipeline/src/01_staging_dynamic_tables.sql
+  s_662af019422bfb::t_93f3067b9b560e 1-35
+16-cloud-databases/01-snowflake/simple-tasks/01_platform_and_objects/README.md
+  s_662af019422bfb::t_148e32e41b87b8 1-23
+16-cloud-databases/01-snowflake/learning-materials/00_snowflake_capability_map.md
+  s_662af019422bfb::t_148e32e41b87b8 1-29,31-103,105-128
+  s_662af019422bfb::t_93f3067b9b560e 30,104
+16-cloud-databases/01-snowflake/learning-materials/architecture/system_design_ready_answers.md
+  s_662af019422bfb::t_93f3067b9b560e 1-706
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/Snowflake_ingestion.md
+  s_662af019422bfb::t_93f3067b9b560e 1-827
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/iceberg-and-external-tables/Snowflake_managed_Iceberg.md
+  s_662af019422bfb::t_93f3067b9b560e 1-978
+16-cloud-databases/01-snowflake/pet-projects/04_snowflake_open_table_publish/architecture.md
+  s_662af019422bfb::t_93f3067b9b560e 1-48
+16-cloud-databases/01-snowflake/PROGRESS.md
+  s_662af019422bfb::t_4bf2408f099533 1,4,11,13,17,19,21,25,27,29,33,35,37,41,43,45,49,53,55,59,63,65,68-69
+  s_662af019422bfb::t_51d0df1697e76a 51
+16-cloud-databases/01-snowflake/pet-projects/05_snowflake_dynamic_table_pipeline/data/README.md
+  s_662af019422bfb::t_93f3067b9b560e 1-9
+scripts/create_module.sh
+  s_662af019422bfb::t_e9429d6e4dff4b 5-12,14,16-19,21-22,24-27,30,32-34,36-37,39-41,43-44,46,48,50,52,54,56,59-60,62,65-66,68-69,71-72,74,77-78,80-84,86,89-90
+16-cloud-databases/01-snowflake/simple-tasks/03_ingestion_and_replay/solution.md
+  s_662af019422bfb::t_148e32e41b87b8 1-21
+16-cloud-databases/01-snowflake/pet-projects/04_snowflake_open_table_publish/docker/README.md
+  s_662af019422bfb::t_93f3067b9b560e 1-11
+16-cloud-databases/01-snowflake/pet-projects/04_snowflake_open_table_publish/source_landscape.md
+  s_662af019422bfb::t_93f3067b9b560e 1,3,5,7-9,11,13-17,19,21
+docs/ai-templates_for_new_chat/module-generation-rules.md
+  s_662af019422bfb::t_ad874aa7aac7b2 364,366,368,370-371,375
+  s_662af019422bfb::t_781f211979948f 373
+scripts/structure.md
+  s_662af019422bfb::t_0e62dd6de259be 1-3,7-19
+docs/learning-sequence.md
+  s_662af019422bfb::t_efafe949e9ce76 34-35,81-94
+  s_662af019422bfb::t_05446fc96cd024 80
+16-cloud-databases/01-snowflake/learning-materials/architecture/Top_tricky_senior_questions.md
+  s_662af019422bfb::t_93f3067b9b560e 1-712
+16-cloud-databases/01-snowflake/learning-materials/reference/03_loading_and_operations.md
+  s_662af019422bfb::t_148e32e41b87b8 1-62
+16-cloud-databases/01-snowflake/simple-tasks/06_security_recovery_architecture/README.md
+  s_662af019422bfb::t_148e32e41b87b8 1-21
+16-cloud-databases/01-snowflake/learning-materials/reference/01_sql_dates_and_semistructured.md
+  s_662af019422bfb::t_148e32e41b87b8 1-92
+16-cloud-databases/01-snowflake/learning-materials/architecture/01_platform_account_cloud_region.md
+  s_662af019422bfb::t_148e32e41b87b8 1-57
+16-cloud-databases/01-snowflake/learning-materials/architecture/04_security_governance.md
+  s_662af019422bfb::t_148e32e41b87b8 1-45
+16-cloud-databases/01-snowflake/learning-materials/architecture/06_sharing_and_interoperability.md
+  s_662af019422bfb::t_148e32e41b87b8 1-47
+16-cloud-databases/01-snowflake/pet-projects/04_snowflake_open_table_publish/config/README.md
+  s_662af019422bfb::t_93f3067b9b560e 1-10
+16-cloud-databases/01-snowflake/pet-projects/05_snowflake_dynamic_table_pipeline/docker/README.md
+  s_662af019422bfb::t_93f3067b9b560e 1-11
+16-cloud-databases/01-snowflake/pet-projects/03_production_snowflake_platform/architecture.md
+  s_662af019422bfb::t_148e32e41b87b8 1-60
+16-cloud-databases/01-snowflake/simple-tasks/08_snowflake_open_table_and_refresh/solution.md
+  s_662af019422bfb::t_93f3067b9b560e 1-90
+.github/workflows/foundational-starter-assets.yml
+  s_662af019422bfb::t_aac7d54a99b6d9 10,18,30
+16-cloud-databases/01-snowflake/pet-projects/05_snowflake_dynamic_table_pipeline/src/README.md
+  s_662af019422bfb::t_93f3067b9b560e 1-10
+docs/ai-templates_for_new_chat/repo-map.md
+  s_662af019422bfb::t_655abd47ccf4f2 188,190-192,194
+16-cloud-databases/01-snowflake/learning-materials/architecture/03_data_ingestion_processing.md
+  s_662af019422bfb::t_148e32e41b87b8 1-63
+scripts/check_repo.sh
+  s_662af019422bfb::t_286fd573c7d73d 67-71
+  s_662af019422bfb::t_afeb7222068b9e 6-7,9,14,18-20,24-25,28-30,33-36,38,40-42,44-47,50-53,55-57,59-61,77-82,86-89,91-93
+  s_662af019422bfb::t_7282cfb384b71d 94-97,99,110,115,118-119,121-122,124,126-127,134,136,138-139,141-142,145,148,151
+  s_662af019422bfb::t_2f4b9645053836 62-66,72-76
+02-sql/learning-materials/cloud_databases.md
+  s_662af019422bfb::t_595e759e249938 1-19
+02-sql/README.md
+  s_662af019422bfb::t_83ee178b4dd226 363,365
+  s_662af019422bfb::t_685f04900df512 225,227,299,301
+16-cloud-databases/01-snowflake/learning-materials/reference/README.md
+  s_662af019422bfb::t_148e32e41b87b8 1-8,11-12
+  s_662af019422bfb::t_93f3067b9b560e 9-10
+16-cloud-databases/01-snowflake/pet-projects/04_snowflake_open_table_publish/README.md
+  s_662af019422bfb::t_93f3067b9b560e 1-121
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/04_incremental_processing.md
+  s_662af019422bfb::t_148e32e41b87b8 1-67
+16-cloud-databases/01-snowflake/pet-projects/02_reliable_file_ingestion/architecture.md
+  s_662af019422bfb::t_148e32e41b87b8 1-31
+16-cloud-databases/01-snowflake/simple-tasks/README.md
+  s_662af019422bfb::t_148e32e41b87b8 1-10,14-15
+  s_662af019422bfb::t_93f3067b9b560e 11-13
+16-cloud-databases/01-snowflake/pet-projects/04_snowflake_open_table_publish/requirements.md
+  s_662af019422bfb::t_93f3067b9b560e 1-21
+docs/learning-progress.md
+  s_662af019422bfb::t_efafe949e9ce76 192-201
+16-cloud-databases/01-snowflake/learning-materials/architecture/Data_platform_architecture.md
+  s_662af019422bfb::t_93f3067b9b560e 1-346
+16-cloud-databases/01-snowflake/pet-projects/reference_example_snowflake_open_table_publish/src/02_native_raw_ingestion.sql
+  s_662af019422bfb::t_93f3067b9b560e 1-58
+16-cloud-databases/01-snowflake/simple-tasks/09_snowflake_architecture_scenarios/solution.md
+  s_662af019422bfb::t_93f3067b9b560e 1-79
+scripts/export_learner_pack.sh
+  s_662af019422bfb::t_4e597ccb3dc711 48-52,54-59,147,153,171,203-206,250-257,271-286
+  s_662af019422bfb::t_ca4fd996f148fd 60-77,79-80,188-199,202,245-248,259
+  s_662af019422bfb::t_ff3dc30b09a7e6 6-7,9,12-16,20-36,38-41,44-45,83-84,86-91,93-95,97-99,102-103,106,108-125,127-139,141-146,148-152,154-167,169-170,172,174-185,187,207-210,213-218,220-225,227-236,238-240,242-243,260-270,287-309,311-315
+  s_662af019422bfb::t_af884020101827 168
+  s_662af019422bfb::t_4072963b1e5c0f 186,310
+scripts/learner_export_excludes.txt
+  s_662af019422bfb::t_f967c0960ec950 1-5
+02-sql/PROGRESS.md
+  s_662af019422bfb::t_2a05d6c1a3d44c 74,80-81
+16-cloud-databases/01-snowflake/learning-materials/architecture/05_availability_and_recovery.md
+  s_662af019422bfb::t_148e32e41b87b8 1-47
+16-cloud-databases/README.md
+  s_662af019422bfb::t_4bf2408f099533 1,3-23
+  s_662af019422bfb::t_cc007cb27e8977 2
+16-cloud-databases/01-snowflake/pet-projects/reference_example_snowflake_open_table_publish/data/assumptions.md
+  s_662af019422bfb::t_93f3067b9b560e 1-19
+README.md
+  s_662af019422bfb::t_8bda74be4c3ac4 261,265,269-273,275,281
+  s_662af019422bfb::t_efafe949e9ce76 47-48,84,194
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/README.md
+  s_662af019422bfb::t_148e32e41b87b8 1-9,16-17
+  s_662af019422bfb::t_93f3067b9b560e 10-15
+16-cloud-databases/01-snowflake/README.md
+  s_662af019422bfb::t_4bf2408f099533 1-49,51-56,58-71
+  s_662af019422bfb::t_93f3067b9b560e 50
+  s_662af019422bfb::t_148e32e41b87b8 57
+16-cloud-databases/01-snowflake/simple-tasks/01_platform_and_objects/solution.md
+  s_662af019422bfb::t_148e32e41b87b8 1-27
+.github/workflows/repository-structure.yml
+  s_662af019422bfb::t_82fa0b58741709 1,6-23,32-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a4bf89fdab88ec66b26b9f72fa094d05a45aea6e",
+  "prompts": {},
+  "sessions": {
+    "s_662af019422bfb": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "a9e1d8b1-f53f-4c0b-a67e-c2b7c6f523d5",
+        "model": "gpt-6-luna"
+      },
+      "human_author": "Roman Sidletskyi <30626559+RomanSidletskyi@users.noreply.github.com>"
+    }
+  }
+}
