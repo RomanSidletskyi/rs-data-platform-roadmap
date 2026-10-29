@@ -57,8 +57,6 @@ Instead, it can read metadata that describes:
 
 ## 3. What Snowflake-managed Iceberg Means
 
-Snowflake-managed Iceberg means:
-
 - data files live in your object storage
 - table format is Apache Iceberg
 - Snowflake manages the table metadata and lifecycle semantics

@@ -97,10 +97,9 @@ Recommended order for a new Raspberry Pi user:
 15. [Monitoring, security, and operations](learning-materials/06_monitoring_security_and_operations.md)
 16. [Useful headless apps for daily Raspberry Pi work](learning-materials/15_useful_headless_apps.md)
 17. [Useful web UI apps for Raspberry Pi homelab](learning-materials/16_useful_web_ui_apps.md)
-18. [MinIO and Iceberg on Raspberry Pi](learning-materials/17_minio_iceberg_on_raspberry_pi.md)
-19. [Commands cheatsheet](learning-materials/commands-cheatsheet.md)
-20. [Systemd Python service cheatsheet](learning-materials/14_systemd_python_service_cheatsheet.md)
-21. [Recovering access from old notes](learning-materials/07_recovering_access_from_old_notes.md)
+18. [Commands cheatsheet](learning-materials/commands-cheatsheet.md)
+19. [Systemd Python service cheatsheet](learning-materials/14_systemd_python_service_cheatsheet.md)
+20. [Recovering access from old notes](learning-materials/07_recovering_access_from_old_notes.md)
 
 ### Simple Tasks
 
@@ -123,15 +122,12 @@ Recommended pet project order:
 1. [Remote Docker lab](pet-projects/01_remote_docker_lab/README.md)
 2. [Airflow on Raspberry Pi](pet-projects/02_airflow_on_raspberry_pi/README.md)
 3. [Optional Python ETL service on Pi](pet-projects/03_python_etl_service_on_pi/README.md)
-4. [MinIO Iceberg homelab stack](pet-projects/04_minio_iceberg_homelab_stack/README.md)
-5. [MinIO Spark Hadoop catalog](pet-projects/05_minio_spark_hadoop_catalog/README.md)
 
 ## Related Modules
 
 - 03-docker
 - 04-github-actions
 - 11-airflow
-- 14-iceberg
 - 12-dbt
 - 16-observability
 
