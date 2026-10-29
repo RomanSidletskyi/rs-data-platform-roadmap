@@ -31,6 +31,8 @@ Planned placeholder directories already present in the repository, but intention
 - `13-flink`
 - `14-iceberg`
 
+The separate active specialization `16-cloud-databases/` is a container for nested cloud database modules, beginning with `01-snowflake/`.
+
 ---
 
 # Phase 0 - Foundational Workflow
@@ -72,6 +74,21 @@ Focus:
 Example outcome:
 
 - Python ETL pipeline built, containerized, and checked in CI
+
+---
+
+# Cloud Database Specialization
+
+Module:
+
+- `16-cloud-databases/01-snowflake/`
+
+Recommended timing:
+
+- after `02-sql/` for a learner new to Snowflake
+- before or alongside `12-dbt/` to understand the warehouse platform on which many dbt projects run
+
+The nested module starts with the platform basics and continues through ingestion, processing, security, cost, recovery, and architecture decisions. Learners who already know another cloud database can start with its capability map instead of following every beginner topic.
 
 ---
 

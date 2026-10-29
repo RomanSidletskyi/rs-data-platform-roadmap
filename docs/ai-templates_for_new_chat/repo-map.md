@@ -185,66 +185,13 @@ Documentation contains:
 
 Scripts
 
-The repository uses automation scripts to generate module structures.
+Learning materials and module files are edited in their live directories. `scripts/` provides three supporting commands:
 
-    scripts/
-        bootstrap_section.sh
-        refresh_template_snapshots.sh
-        create_module.sh
-        lib/
-        sections/
+- `create_module.sh` creates a one-time empty module scaffold, including nested database modules under `16-cloud-databases/`.
+- `check_repo.sh` validates module structure or smoke-tests foundational starter assets without regenerating content.
+- `export_learner_pack.sh` creates a separate copy with task answers and solved implementations omitted.
 
-Inside sections:
-
-    scripts/sections/modules/<module>/
-
-Each module has automation scripts.
-
-    init.sh
-    fill_readme.sh
-    fill_learning_materials.sh
-    fill_simple_tasks.sh
-    fill_pet_projects.sh
-    bootstrap.sh
-
-Script responsibilities:
-
-init.sh
-
-    builds the entire folder structure of the module
-
-fill_readme.sh
-
-    generates the module README
-
-fill_learning_materials.sh
-
-    generates learning material files
-
-fill_simple_tasks.sh
-
-    creates task folders and task README files
-
-fill_pet_projects.sh
-
-    creates the initial project structure
-
-bootstrap.sh
-
-    runs all scripts in order to create a fully initialized module
-
-Some finished modules are now generator-backed through a snapshot-based pattern where `template_snapshot/` is the source of truth and `fill_*` scripts copy curated content from it.
-
-Current generator-backed modules:
-
-- `00-shell-linux/`
-- `00-git/`
-- `02-sql/`
-- `03-docker/`
-- `04-github-actions/`
-- `11-airflow/`
-- `12-dbt/`
-- `15-raspberry-pi-homelab/`
+The live repository tree is the source of truth; module content is not generated or synchronized from duplicate copies.
 
 --------------------------------------------------
 

@@ -1,4 +1,0 @@
-job=
-run_id=
-log_file=
-ERROR

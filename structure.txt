@@ -86,6 +86,17 @@ rs-data-platform-roadmap/
 │   ├── learning-materials/
 │   ├── simple-tasks/
 │   └── pet-projects/
+├── 16-cloud-databases/
+│   ├── README.md
+│   └── 01-snowflake/
+│       ├── README.md
+│       ├── PROGRESS.md
+│       ├── learning-materials/
+│       │   ├── reference/
+│       │   ├── deep-dives/
+│       │   └── architecture/
+│       ├── simple-tasks/
+│       └── pet-projects/
 ├── ai-learning/
 │   ├── README.md
 │   ├── anti-patterns/
@@ -122,13 +133,10 @@ rs-data-platform-roadmap/
 ├── scripts/
 │   ├── README.md
 │   ├── structure.md
-│   ├── bootstrap_all.sh
-│   ├── bootstrap_section.sh
+│   ├── check_repo.sh
 │   ├── create_module.sh
-│   ├── init_new_scripts_structure.sh
-│   ├── lib/
-│   ├── old/
-│   └── sections/
+│   ├── export_learner_pack.sh
+│   └── learner_export_excludes.txt
 ├── shared/
 │   ├── README.md
 │   ├── architecture/
@@ -157,7 +165,8 @@ rs-data-platform-roadmap/
 Notes:
 
 - Each numbered module follows the same high-level shape: `README.md`, `learning-materials/`, `simple-tasks/`, and `pet-projects/`.
-- `scripts/sections/modules/` contains generator-backed module definitions and snapshot sources for selected modules.
+- `16-cloud-databases/` is a numbered container, not a technology module; each child database directory follows the module shape and owns its `PROGRESS.md`.
+- `scripts/` contains one-time module scaffolding, read-only validation, and learner-copy export tools; live repository files are the source of truth.
 - `docs/` is the repository-level navigation and architecture layer.
 - `real-projects/` is the multi-technology portfolio layer.
-- `10-powerbi-fabric/`, `13-flink/`, and `14-iceberg/` exist as planned future placeholders and are intentionally not part of the current script-backed active scope.
+- `10-powerbi-fabric/`, `13-flink/`, and `14-iceberg/` exist as planned future placeholders and are intentionally outside the current active learning scope.

@@ -44,6 +44,8 @@ The current active and curated path is:
 - `12-dbt/`
 - `15-raspberry-pi-homelab/`
 
+The active path also includes the grouped cloud-database specialization `16-cloud-databases/`, starting with the nested `01-snowflake/` module. This is a container for database modules, not another single-technology module.
+
 Planned placeholders already present in the repository, but intentionally outside the active curated path, are:
 
 - `10-powerbi-fabric/`
@@ -79,6 +81,7 @@ If you are entering the repository for the first time, use this route:
 4. `docs/data-platform-map.md`
 5. `01-python/`
 6. `02-sql/`
+7. `16-cloud-databases/01-snowflake/` for the Snowflake specialization
 
 If your goal is repository-level orientation before touching a single module, start with:
 
@@ -188,6 +191,7 @@ Focus:
 - `shared/` - reusable datasets, schemas, configs, docker assets, testing fixtures, and reference resources reused across modules
 - `ai-learning/` - AI workflows, prompting guides, tool notes, communication practice, and architecture-thinking exercises
 - `real-projects/` - sequential cross-technology projects that combine several modules into realistic portfolio work
+- `16-cloud-databases/` - grouped cloud database specialization; each database has its own nested learning module
 - `scripts/` - repository generation and validation automation
 - `templates/` - reusable templates for modules, progress tracking, and related documentation
 
@@ -254,56 +258,27 @@ Progress is tracked at two levels:
 
 These progress files are learner-managed state.
 
-They are intentionally separate from the generator-backed source-of-truth snapshots used by the scripts system.
+They live beside each module and are edited directly with the learning materials.
 
 ## Scripts And Automation
 
-The repository has a section-based scripts system under `scripts/`.
-
-It supports two automation layers:
-
-- generator-backed modules under `scripts/sections/modules/`
-- generator-backed repository sections under `scripts/sections/`
-
-Current script-backed sections include:
-
-- `docs`
-- `shared`
-- `ai-learning`
-- `real-projects`
-
-Current generator-backed modules include:
-
-- `00-shell-linux`
-- `00-git`
-- `01-python`
-- `02-sql`
-- `03-docker`
-- `04-github-actions`
-- `05-confluent-kafka`
-- `06-spark-pyspark`
-- `07-databricks`
-- `08-delta-lake`
-- `09-azure-data-lake-storage`
-- `11-airflow`
-- `12-dbt`
-- `15-raspberry-pi-homelab`
+Learning content is maintained directly in its module or repository section. Scripts do not generate or synchronize learning materials.
 
 Useful entrypoints:
 
-- `./scripts/bootstrap_section.sh all`
-- `./scripts/check_repo.sh`
-- `./scripts/check_repo.sh foundational`
-- `./scripts/check_repo.sh modules`
-- `./scripts/refresh_template_snapshots.sh`
+- `./scripts/create_module.sh 16-some-new-module` creates a one-time empty module scaffold
+- `./scripts/create_module.sh 16-cloud-databases/02-bigquery` creates a nested cloud-database scaffold
+- `./scripts/check_repo.sh structure` validates repository structure without changing files
+- `./scripts/check_repo.sh foundational` smoke-tests foundational starter assets in a temporary directory
+- `./scripts/export_learner_pack.sh --output ../rs-data-platform-roadmap-learner` creates a learner copy without solutions
 
-For deeper operational detail, use `scripts/README.md`.
+For details, use [scripts/README.md](scripts/README.md).
 
 ## Working Principles
 
 - prefer architecture understanding over isolated syntax memorization
 - prefer guided, reviewable progress over huge prebuilt dumps of content
-- preserve one clear source of truth for generated sections and modules
+- edit live content directly and avoid maintaining duplicate generated copies
 - keep roadmap placeholders visible, but separate them from active curated scope
 - use AI to compress friction, not to outsource understanding
 

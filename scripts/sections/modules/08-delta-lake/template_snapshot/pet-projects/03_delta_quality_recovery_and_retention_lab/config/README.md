@@ -1,1 +1,0 @@
-Document retention assumptions, repair-window parameters, and quality rule thresholds here.

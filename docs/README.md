@@ -142,6 +142,8 @@ This repository currently has finished and actively curated modules through:
 
 - `15-raspberry-pi-homelab`
 
+The separate grouped specialization `16-cloud-databases/` contains nested database modules and currently starts with `01-snowflake/`.
+
 Some roadmap notes in this directory also mention future platform layers such as data quality, observability, cloud architecture, and infrastructure as code.
 
 Those are forward-looking roadmap placeholders, not current repository modules.

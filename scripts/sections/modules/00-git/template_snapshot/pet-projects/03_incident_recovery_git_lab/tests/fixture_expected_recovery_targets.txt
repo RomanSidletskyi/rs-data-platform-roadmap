@@ -1,4 +1,0 @@
-recover lost commit hash
-restore expected file contents
-end on a named branch
-explain why recovery worked
