@@ -38,6 +38,18 @@ Horizon Catalog is the recommended direction for a new customer exposing Snowfla
 
 Open Catalog remains relevant for existing deployments and for Iceberg tables where it is the actual external catalog authority. It is not interchangeable with Horizon: compare whether the requirement is external engines reading Snowflake-managed tables or multiple engines sharing an external catalog control plane. Recheck product onboarding and availability before a production decision.
 
+Scenarios 3 to 6 as one decision path:
+
+```mermaid
+flowchart TD
+    S{"Does another engine need<br/>the same curated table?"} -- No --> NAT["Native Snowflake table"]
+    S -- Yes --> Q1{"Who is the Iceberg<br/>metadata authority?"}
+    Q1 -- "Snowflake publishes" --> SMI["Snowflake-managed Iceberg"]
+    Q1 -- "Glue or another catalog" --> EMI["Externally managed Iceberg<br/>via catalog integration"]
+    SMI --> HC["External engine access:<br/>Horizon Catalog for new customers"]
+    EMI --> OWN["Assign catalog maintenance,<br/>schema evolution, snapshot owners"]
+```
+
 ## Scenario 7: New Files Exist but External-Table Results Look Stale
 
 First verify that files are in the stage path and match the external table's pattern and file format. Then inspect external-table file registration/history and auto-refresh event registration; use `ALTER EXTERNAL TABLE ... REFRESH` when manual registration is appropriate. Ownership transfer can disable auto-refresh, so check the current `AUTO_REFRESH` setting and event integration.

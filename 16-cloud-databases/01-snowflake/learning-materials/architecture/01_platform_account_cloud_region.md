@@ -21,6 +21,40 @@ An organization can administer accounts. Accounts are associated with a cloud pr
 
 Do not conflate an account with an environment, business domain, database, or warehouse. Each boundary provides different isolation and lifecycle behavior.
 
+```mermaid
+flowchart TD
+    ORG[Organization] --> A1["Account: prod<br/>cloud + region"]
+    ORG --> A2["Account: dev<br/>cloud + region"]
+    A1 --> DB1[(Database: sales)]
+    A1 --> DB2[(Database: finance)]
+    DB1 --> SC1[Schema: raw]
+    DB1 --> SC2[Schema: mart]
+    SC2 --> OBJ[Tables, views, dynamic tables, stages, pipes]
+    A1 --> WH[Warehouses - compute]
+    A1 --> RL[Roles and users]
+    A1 --> INT[Integrations and policies]
+```
+
+Warehouses, roles, users, and integrations are account-level objects; they are not inside a database. Grants connect them to database objects.
+
+### Three-layer service model
+
+```mermaid
+flowchart TB
+    CS["Cloud services<br/>auth, metadata, optimizer, transactions"]
+    subgraph Compute
+        W1[Warehouse BI]
+        W2[Warehouse transform]
+        SV[Serverless features]
+    end
+    ST[("Storage<br/>micro-partitions in cloud object storage")]
+    CS --> Compute
+    Compute --> ST
+    CS --> ST
+```
+
+Because compute is separate from storage, many warehouses can read the same data without copying it, and each can be sized, suspended, and billed independently.
+
 ## Common Topologies
 
 | Topology | Useful when | Advantages | Costs and risks |
@@ -32,6 +66,44 @@ Do not conflate an account with an environment, business domain, database, or wa
 | Separate regional accounts | Residency, latency, or regional continuity requires it | Regional control and locality | Replication, global identity, consistency, and cost complexity |
 
 These are patterns, not universal templates. Account capabilities, organization controls, and replication support must be verified for the target deployment.
+
+### Hybrid topology example
+
+```mermaid
+flowchart LR
+    subgraph ORG[Organization]
+        subgraph DEV[Account: dev]
+            DS[sales_dev db]
+            DF[finance_dev db]
+        end
+        subgraph PROD[Account: prod - EU region]
+            PS[sales db]
+            PF[finance db - regulated]
+        end
+        subgraph DR[Account: prod DR - second EU region]
+            RS[sales replica]
+            RF[finance replica]
+        end
+    end
+    CI[CI/CD pipeline] -->|deploy| DEV
+    CI -->|promote after tests| PROD
+    PROD -->|replication| DR
+```
+
+### Choosing a topology
+
+```mermaid
+flowchart TD
+    Q1{Regulation or residency needs a hard boundary?} -- yes --> SEP[Separate account for regulated data or region]
+    Q1 -- no --> Q2{Production must be isolated from development admins?}
+    Q2 -- yes --> ENV[Separate dev and prod accounts]
+    Q2 -- no --> Q3{Domains have separate owners and release cycles?}
+    Q3 -- yes --> DOM[Domain databases in shared accounts, or domain accounts if risk requires]
+    Q3 -- no --> ONE[One account with database and schema separation]
+    ENV --> Q4{Regional continuity required?}
+    SEP --> Q4
+    Q4 -- yes --> REP[Add replicated account in a second region]
+```
 
 ## Cloud and Region Decisions
 
@@ -46,6 +118,16 @@ For each proposed boundary, ask what it isolates and what it makes harder. An ad
 ## Worked Scenario
 
 A company has dev and prod workloads, two domains, one central platform team, and a regulated production dataset. A reasonable candidate is separate dev and prod accounts, domain-owned schemas or databases within prod, and narrowly governed sharing between domains. Before selecting it, verify whether the regulated boundary requires a separate account, whether deployment automation can promote changes safely, and how recovery and integrations work across the chosen regions.
+
+### Boundary comparison
+
+| Boundary | Isolates | Does not isolate | Typical owner |
+| --- | --- | --- | --- |
+| Account | admins, network policies, integrations, billing, failure domain | nothing inside it from its own admins | platform team |
+| Database | lifecycle, replication unit, ownership | compute, account-level roles | domain team |
+| Schema | object grouping, managed access | anything without matching grants | data product owner |
+| Warehouse | compute, cost, concurrency | data access | workload owner |
+| Role | privileges | compute or data location | security and owners |
 
 ## Decision Checklist
 

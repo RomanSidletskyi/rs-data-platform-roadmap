@@ -12,6 +12,29 @@ Focus:
 - real usage
 - interview-ready explanations
 
+Function families covered in this file:
+
+```mermaid
+mindmap
+  root((Snowflake functions))
+    Aggregation
+      COUNT SUM AVG ARRAY_AGG LISTAGG
+    Window
+      ROW_NUMBER RANK LAG LEAD plus QUALIFY
+    Conditional and NULL
+      CASE IFF COALESCE NULLIF NVL
+    Date and time
+      DATEADD DATEDIFF DATE_TRUNC
+    String
+      SPLIT_PART SUBSTR REGEXP
+    Semi-structured
+      PARSE_JSON FLATTEN TYPEOF
+    Conversion
+      CAST TRY_CAST
+    Row generators
+      VALUES GENERATOR SPLIT_TO_TABLE
+```
+
 ---
 
 # 1. Aggregation Functions
@@ -102,6 +125,17 @@ Result:
 
 # 2. Window Functions
 
+Aggregate vs window, on the same input:
+
+```mermaid
+flowchart LR
+    IN["orders<br/>4 rows, 2 users"] --> GB["GROUP BY user_id<br/>SUM amount"]
+    GB --> OUT1["2 rows<br/>one per user, detail lost"]
+    IN --> WIN["SUM amount OVER<br/>PARTITION BY user_id"]
+    WIN --> OUT2["4 rows<br/>detail kept plus user total"]
+    OUT2 --> QF["QUALIFY can filter<br/>on the window result"]
+```
+
 ## ROW_NUMBER
 
     SELECT
@@ -185,6 +219,23 @@ latest row per user
 ---
 
 # 4. Conditional & Null Handling
+
+Picking the right helper:
+
+```mermaid
+flowchart TD
+    S["Need a conditional value"] --> Q1{"Replacing NULL<br/>with a fallback?"}
+    Q1 -- Yes --> Q2{"Several candidates<br/>in priority order?"}
+    Q2 -- Yes --> COAL["COALESCE a, b, c"]
+    Q2 -- "No, one fallback" --> NVLF["NVL or COALESCE"]
+    Q1 -- No --> Q3{"Turning a sentinel such as<br/>an empty string into NULL?"}
+    Q3 -- Yes --> NIF["NULLIF col, sentinel"]
+    Q3 -- No --> Q4{"Different value for<br/>NULL and not NULL?"}
+    Q4 -- Yes --> NV2["NVL2 col, if_not_null, if_null"]
+    Q4 -- No --> Q5{"One true or false<br/>condition?"}
+    Q5 -- Yes --> IF1["IFF condition, a, b"]
+    Q5 -- "No, several branches" --> CW["CASE WHEN ... END"]
+```
 
 ## CASE
 
@@ -361,6 +412,16 @@ Result:
 ## TRY_CAST
 
 Returns NULL instead of error
+
+```mermaid
+flowchart LR
+    V["Input value"] --> Q{"Must bad input<br/>stop the statement?"}
+    Q -- Yes --> C["CAST or ::<br/>error aborts the query"]
+    Q -- "No, treat as data" --> T["TRY_CAST or TRY_TO_ functions<br/>bad input becomes NULL<br/>TRY_CAST takes string input"]
+    T --> M["Count NULLs where the source<br/>was not NULL, alert on the rate"]
+```
+
+The trade-off: a hard cast stops the pipeline loudly; a `TRY_` cast keeps it running but hides bad data unless the failure rate is measured.
 
 ---
 

@@ -12,6 +12,15 @@ Test active-role inheritance, database and schema `USAGE`, object `SELECT`, mana
 
 Accidental update: Time Travel or a tested restore procedure within retention. Bad deployment: versioned code, validation, and data-aware rollback/forward fix; a code revert may not undo data changes. Source corruption: source replay or retained raw data plus reconciliation. Regional outage: supported replication/failover plus application, identity, integration, and consumer cutover. Fail-safe is not an ordinary customer-operated backup.
 
+```mermaid
+flowchart LR
+    AU["Accidental update"] --> TT["Time Travel or tested<br/>restore within retention"]
+    BD["Bad deployment"] --> RB["Versioned code plus<br/>data-aware rollback or fix-forward"]
+    SC["Source corruption"] --> RP["Replay retained raw<br/>plus reconciliation"]
+    RO["Regional outage"] --> FO["Replication and failover plus<br/>app, identity, integration cutover"]
+    TT -. "limit: retention window" .-> L1["Beyond retention, Fail-safe is<br/>Snowflake-operated, not a backup"]
+```
+
 ## Task 4
 
 Include replication lag and promotion, roles, integrations, network connectivity, application endpoints, orchestration, secrets, consumer cutover, data validation, operator access, communication, and failback. Test actual time against the four-hour objective.

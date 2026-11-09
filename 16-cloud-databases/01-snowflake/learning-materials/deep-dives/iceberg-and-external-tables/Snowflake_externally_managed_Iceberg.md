@@ -76,6 +76,32 @@ Architectural takeaway:
 
 - if the remote catalog is the system of record, Snowflake is participating in the table ecosystem, not owning it
 
+```mermaid
+flowchart LR
+    subgraph EXT["External control plane"]
+        SPK["Spark or other engine<br/>creates and maintains table"]
+        CAT["Remote catalog<br/>Glue, REST, or Open Catalog"]
+    end
+    subgraph STORE["Cloud storage"]
+        META["Iceberg metadata files"]
+        DATA["Parquet data files"]
+    end
+    subgraph SF["Snowflake"]
+        T["Iceberg table object"]
+        CI["Catalog integration"]
+        EV["External volume or vended credentials"]
+    end
+    SPK -->|commits| CAT
+    CAT -->|"points to current"| META
+    META --> DATA
+    T --> CI
+    CI -->|"reads table state"| CAT
+    T --> EV
+    EV -->|"reads files"| DATA
+```
+
+Snowflake holds a reference, not the authority. Everything Snowflake knows about the current snapshot comes through the catalog integration.
+
 ---
 
 ## 4. What It Is Good For
@@ -305,6 +331,32 @@ Important mental model:
 - it is not event-driven file discovery like some external-table patterns
 - shorter intervals are not free and can degrade performance
 
+```mermaid
+sequenceDiagram
+    participant SP as Spark
+    participant CAT as Remote catalog
+    participant SF as Snowflake
+    participant U as BI user
+    SP->>CAT: Commit snapshot 42
+    U->>SF: SELECT ... (Snowflake still on snapshot 41)
+    SF-->>U: Results from snapshot 41
+    alt Automated refresh
+        loop Every REFRESH_INTERVAL_SECONDS
+            SF->>CAT: Ask for current metadata pointer
+            CAT-->>SF: Snapshot 42 metadata location
+        end
+    else Manual refresh
+        U->>SF: ALTER ICEBERG TABLE ... REFRESH
+        SF->>CAT: Ask for current metadata pointer
+        CAT-->>SF: Snapshot 42 metadata location
+    end
+    SF->>SF: Register snapshot 42
+    U->>SF: SELECT ...
+    SF-->>U: Results from snapshot 42
+```
+
+End-to-end freshness is producer commit time plus Snowflake refresh lag. A dashboard can be correct for snapshot 41 and still be stale from the business point of view.
+
 ### 9.3 Why refresh is architecturally central
 
 In Snowflake-managed Iceberg, Snowflake owns metadata lifecycle.
@@ -356,6 +408,27 @@ These are architect-grade tools because they answer:
 - is the linked database configured correctly?
 - is catalog sync healthy?
 - are there tables discovered but not initialized?
+
+```mermaid
+flowchart LR
+    subgraph RC["Remote Iceberg REST catalog"]
+        N1["namespace analytics"]
+        N2["namespace sales"]
+        T1["table orders"]
+        T2["table customers"]
+    end
+    subgraph LDB["Snowflake catalog-linked database"]
+        S1["schema analytics"]
+        S2["schema sales"]
+    end
+    N1 --> T1
+    N1 --> T2
+    N1 -.->|"auto discovery and sync"| S1
+    N2 -.->|"auto discovery and sync"| S2
+    S2 -->|"CREATE ICEBERG TABLE also creates it remotely"| N2
+```
+
+Namespaces appear as schemas without one-by-one registration, and DDL in the linked database flows back to the remote catalog. That two-way link is why naming and case rules must agree on both sides.
 
 ### 10.1 Identifier behavior matters more than teams expect
 
@@ -452,6 +525,20 @@ Be explicit about these constraints:
 Current Snowflake documentation describes write support for externally managed Iceberg tables using specification versions 2 and 3 through supported Iceberg REST catalog integrations. This does not mean every v2/v3 feature or every catalog implementation is supported identically.
 
 Before enabling writes, verify the exact REST catalog, credential-vending or external-volume setup, storage provider, specification version, transaction behavior, row-level delete mode, and any preview or region constraints. Treat compatibility as a tested property of the concrete configuration, not as a general promise based on the Iceberg version number alone.
+
+```mermaid
+flowchart TD
+    A{"Does Snowflake need to write?"} -->|No| R["Read-only participation<br/>register table and refresh"]
+    A -->|Yes| B{"Remote catalog supports the required Iceberg REST write path?"}
+    B -->|No| ALT["Write in the owning engine<br/>or reconsider Snowflake-managed Iceberg"]
+    B -->|Yes| C{"Need multi-statement transactions?"}
+    C -->|Yes| ALT2["Not supported on this path<br/>use native or Snowflake-managed tables"]
+    C -->|"No, autocommit is fine"| D{"Tested version, delete mode, storage, and credentials?"}
+    D -->|No| TEST["Run compatibility tests first"]
+    D -->|Yes| W["Enable Snowflake writes<br/>monitor remote commit failures"]
+```
+
+Most teams should stop at read-only participation. Add writes only when there is a clear reason and every gate above has a tested answer.
 
 ---
 
@@ -799,6 +886,24 @@ This is useful when you want:
 - stale-table alerts
 - refresh-latency monitoring
 - visibility into refresh starts, completions, and errors
+
+### 18.5 Troubleshooting flow
+
+```mermaid
+flowchart TD
+    S["Snowflake data looks stale or wrong"] --> A["SYSTEM$AUTO_REFRESH_STATUS"]
+    A -->|STOPPED| R1["Disable auto refresh, manual REFRESH, re-enable"]
+    A -->|STALLED| R2["Check pending snapshot queue"]
+    A -->|RUNNING| H["ICEBERG_TABLE_SNAPSHOT_REFRESH_HISTORY"]
+    R1 --> H
+    R2 --> CAT
+    H --> Q{"Latest remote snapshot registered?"}
+    Q -->|No| CAT["Remote catalog health, commit log, metadata size limits"]
+    Q -->|Yes| F["ICEBERG_TABLE_FILES vs expected files"]
+    F --> M["External maintenance: compaction, expiry, delete files"]
+```
+
+Work from Snowflake outward. Once Snowflake has the latest snapshot, the remaining causes usually sit in the remote catalog or the external maintenance toolchain.
 
 ---
 

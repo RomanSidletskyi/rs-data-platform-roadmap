@@ -15,6 +15,15 @@ Snowflake semi-structured data is built around:
 - `ARRAY` stores ordered elements
 - `VARIANT` values can hold up to 128 MB of uncompressed data, though the practical limit is often lower because of overhead
 
+```mermaid
+flowchart TD
+    V[VARIANT - container for any value] --> O["OBJECT<br/>key-value pairs"]
+    V --> A["ARRAY<br/>ordered elements"]
+    V --> S["Scalar<br/>string, number, boolean, null"]
+    O -->|values are VARIANT| V
+    A -->|elements are VARIANT| V
+```
+
 ### Interview answer
 
 > In Snowflake, semi-structured data is usually stored in `VARIANT`, which can contain scalars, objects, and arrays. `OBJECT` and `ARRAY` are the structural building blocks, while `VARIANT` acts as the flexible container for hierarchical payloads.
@@ -227,6 +236,22 @@ This means:
 
 So `LATERAL` keeps the flatten operation tied to the current row from the left side.
 
+```mermaid
+flowchart LR
+    subgraph Input[raw_events]
+        R1["evt_1<br/>items: A1, B2"]
+        R2["evt_2<br/>items: C3"]
+    end
+    subgraph Output["LATERAL FLATTEN output"]
+        O1["evt_1, index 0, A1"]
+        O2["evt_1, index 1, B2"]
+        O3["evt_2, index 0, C3"]
+    end
+    R1 --> O1
+    R1 --> O2
+    R2 --> O3
+```
+
 ### Practical meaning
 
 Without this correlation, you would not correctly explode each row’s own nested array.
@@ -337,6 +362,17 @@ To flatten nested arrays, chain multiple `LATERAL FLATTEN` calls:
 ### Important warning
 
 Multiple flatten operations can multiply row counts quickly.
+
+```mermaid
+flowchart LR
+    O["order 10<br/>1 row"] --> I1["item A1"]
+    O --> I2["item B2"]
+    I1 --> D1["A1 + discount X"]
+    I1 --> D2["A1 + discount Y"]
+    I2 --> D3["B2 + discount Z"]
+```
+
+One order row became three discount rows. Any order-level or item-level measure selected at this grain is now repeated; aggregate each measure at its own grain.
 
 ---
 

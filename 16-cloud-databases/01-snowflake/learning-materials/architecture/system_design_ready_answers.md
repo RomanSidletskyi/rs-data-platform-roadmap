@@ -52,25 +52,22 @@ At this scale, I would also design explicitly for:
 
 ### Example architecture
 
-    Apps / Services
-          ↓
-        Kafka
-          ↓
-    ┌───────────────┐
-    ↓               ↓
-  S3 Raw        Other consumers
-    ↓
-Snowpipe / COPY
-    ↓
-Snowflake Raw
-    ↓
-dbt Staging
-    ↓
-dbt Intermediate
-    ↓
-dbt Marts
-    ↓
-BI / ML / APIs
+```mermaid
+flowchart TD
+    APP[Apps and services] --> K[Kafka]
+    K --> S3[(S3 raw - immutable)]
+    K --> OC[Other consumers]
+    K -.->|optional hot path| SS[Snowpipe Streaming]
+    S3 --> SP[Snowpipe or COPY]
+    SP --> RAW[(Snowflake raw)]
+    SS -.-> RAW
+    RAW --> STG[dbt staging]
+    STG --> INT[dbt intermediate]
+    INT --> MART[dbt marts]
+    MART --> CONS[BI, ML, APIs]
+```
+
+For sizing math, freshness budgets, and replay SQL, see [Data platform architecture](Data_platform_architecture.md).
 
 ### Trade-offs
 
@@ -115,6 +112,29 @@ The architecture decision depends on system boundaries:
 - file contract → Snowpipe
 - enterprise event bus → Kafka
 - low-latency direct analytical ingestion → Snowpipe Streaming
+
+```mermaid
+flowchart LR
+    subgraph Transport
+        K[Kafka - many consumers, replay, buffering]
+    end
+    subgraph Ingest["Into Snowflake"]
+        SP[Snowpipe - files, minutes]
+        SS[Snowpipe Streaming - rows, seconds]
+    end
+    FILES[(Files in cloud storage)] --> SP
+    K -->|S3 sink| FILES
+    K -->|Kafka connector| SS
+    APPS[Apps and devices] -->|SDK or REST| SS
+```
+
+| | Snowpipe | Snowpipe Streaming | Kafka |
+| --- | --- | --- | --- |
+| Layer | warehouse ingestion | warehouse ingestion | transport backbone |
+| Unit | file | row | event in a partition |
+| Typical freshness | minutes | seconds | n/a by itself |
+| Replay | re-load files | via Kafka offsets or archive | within retention |
+| Delivery | file-level load history | named channels: ordered exactly-once per channel; elastic channels: at-least-once | at-least-once by default |
 
 ### Trade-offs
 
@@ -165,6 +185,16 @@ Otherwise I prefer micro-batching because it gives:
 - easier replay
 - better data layout in Snowflake
 
+```mermaid
+flowchart TD
+    Q{What happens if this data is 15 minutes late?} -->|money lost or harm| RT[Real-time path: seconds]
+    Q -->|someone acts on it within the hour| NRT[Near-real-time: minutes]
+    Q -->|nothing until tomorrow| B[Batch: hourly or daily]
+    RT --> C1[Simple models, small state, own compute]
+    NRT --> C2[Micro-batch, dynamic tables]
+    B --> C3[Heavy joins, finance-grade logic]
+```
+
 ### Trade-offs
 
 - real-time improves latency
@@ -202,8 +232,20 @@ I would design replay in layers:
 - better for historical backfill or schema changes
 
 **Snowflake reprocessing**
-- controlled reloads using `COPY INTO ... FORCE = TRUE`
+- controlled reloads into an isolated replay table (`COPY INTO ... FORCE = TRUE` only there, never straight into production raw)
+- idempotent insert-only `MERGE` into raw on the event ID
 - rebuild downstream models incrementally or by partition
+
+```mermaid
+flowchart LR
+    BUG{Where is the problem?} -->|last few days, consumer bug| K[Rewind Kafka offsets]
+    BUG -->|older or raw load issue| S3[Reload window from S3 into replay table]
+    BUG -->|transformation logic| RB[Rebuild models from Snowflake raw]
+    S3 --> V{Reconciled with manifest?}
+    V -- yes --> M[MERGE insert-only into raw]
+    V -- no --> A[Alert and investigate]
+    M --> RB
+```
 
 I would never let backfills compete blindly with production:
 - separate warehouses
@@ -266,6 +308,15 @@ My strategy:
 
 I also treat semantic drift separately from technical drift. A field can keep the same name and type but change meaning, and that is a governance issue, not only an ingestion issue.
 
+```mermaid
+flowchart TD
+    C[Schema change detected] --> T{Type of change}
+    T -->|new optional field| ADD[Accept: VARIANT keeps it, typed table may evolve]
+    T -->|type change, rename, removal| BRK[Quarantine and alert the producer]
+    T -->|same name, new meaning| SEM[Contract review, new version, consumer notice]
+    ADD --> REV[Review: naming, PII tags, consumer exposure]
+```
+
 ### Trade-offs
 
 - strict schema gives quality, but can increase operational breakage
@@ -320,6 +371,20 @@ Main levers:
 - reduce wide scans
 - improve pruning
 
+```mermaid
+flowchart TD
+    START[Credits above forecast] --> WHO[Attribute by warehouse, service, owner]
+    WHO --> TYPE{Main driver}
+    TYPE -->|idle time| IDLE[Tune auto-suspend, consolidate warehouses]
+    TYPE -->|few expensive queries| Q[Query Profile: scans, spill, joins]
+    TYPE -->|refresh frequency| F[Revisit freshness SLA and target lag]
+    TYPE -->|serverless services| S[Review clustering, SOS, MV, pipes usage]
+    IDLE --> MEAS[Measure again after change]
+    Q --> MEAS
+    F --> MEAS
+    S --> MEAS
+```
+
 ### Trade-offs
 
 - lower latency usually increases cost
@@ -371,6 +436,15 @@ A layered model reduces coupling and makes debugging easier.
 
 I do not put business logic in raw. I do not put ingestion-specific hacks into marts. Clean boundaries matter because they make failures more explainable and backfills safer.
 
+```mermaid
+flowchart LR
+    RAW["Raw<br/>source truth, load metadata"] --> STG["Staging<br/>rename, cast, dedupe"]
+    STG --> INT["Intermediate<br/>business rules, joins"]
+    INT --> MART["Marts<br/>facts, dimensions, contracts"]
+    MART --> C[Consumers]
+    C -.->|never read directly| RAW
+```
+
 ### Trade-offs
 
 - more layers increase model count
@@ -410,15 +484,19 @@ This is where many people mix responsibilities.
 
 Airflow is not responsible for processing each event. It sits at the workflow level. For example:
 
-    Kafka → S3 / Snowflake Raw
-             ↓
-        Airflow / Dagster
-             ↓
-           dbt build
-             ↓
-           tests
-             ↓
-         publish marts
+```mermaid
+flowchart TB
+    subgraph DataPlane["Data plane - continuous"]
+        K[Kafka] --> L[S3 or Snowflake raw]
+    end
+    subgraph ControlPlane["Control plane - workflows"]
+        O[Airflow or Dagster] --> D[dbt build]
+        D --> T[Tests]
+        T --> P[Publish marts]
+        O --> B[Backfills]
+    end
+    L -->|data available, sensor or schedule| O
+```
 
 If the organization is more asset-centric and wants richer data-aware orchestration, Dagster can be a better fit. If the environment is more general-purpose and batch-oriented, Airflow is often fine.
 
@@ -445,6 +523,14 @@ If the organization is more asset-centric and wants richer data-aware orchestrat
 ### Deep answer
 
 Monitoring should map to the architecture layers.
+
+```mermaid
+flowchart LR
+    T["Transport<br/>Kafka lag, offsets"] --> I["Ingestion<br/>pipe status, COPY history, rejects"]
+    I --> X["Transform<br/>dbt failures, refresh history, tests"]
+    X --> S["Serving<br/>query time, queueing, cost"]
+    S --> U["Consumer<br/>freshness and correctness SLOs"]
+```
 
 **Transport**
 - Kafka lag
@@ -513,6 +599,28 @@ I prefer metadata-driven ingestion:
 - deployment procedure creates or updates pipes or copy definitions
 - orchestration reads metadata rather than duplicating logic
 
+```mermaid
+flowchart LR
+    CFG[(ingestion_config table)] --> GEN[Deployment procedure]
+    GEN --> P1[Pipe: orders]
+    GEN --> P2[Pipe: users]
+    GEN --> P3[Pipe: payments]
+    CFG --> ORCH[Orchestrator reads config for checks and replays]
+```
+
+```sql
+CREATE TABLE ops.ingestion_config (
+    source_name   STRING,
+    stage_prefix  STRING,
+    target_table  STRING,
+    file_format   STRING,
+    file_pattern  STRING,
+    owner_team    STRING,
+    freshness_slo_minutes NUMBER,
+    is_active     BOOLEAN
+);
+```
+
 This makes it easier to:
 - onboard new feeds
 - maintain consistency
@@ -570,6 +678,14 @@ At high scale, I usually prefer:
 - idempotent ingestion boundaries
 - downstream dedupe logic based on event identity
 
+```mermaid
+flowchart LR
+    PR["Producer retry<br/>business duplicate"] --> K[Kafka]
+    K --> F["File or channel<br/>technical duplicate risk"]
+    F -->|load history, offset tokens| RAW[(Raw: may still contain business duplicates)]
+    RAW -->|QUALIFY ROW_NUMBER by event_id| STG[(Staging: unique events)]
+```
+
 ### Trade-offs
 
 - stronger idempotency adds complexity
@@ -617,6 +733,14 @@ This improves:
 - debugging
 
 It also prevents a slow heavy transformation from blocking near-real-time dashboards.
+
+```mermaid
+flowchart LR
+    RAW[(Raw)] --> FAST["Fast path<br/>small models, WH_FAST"]
+    RAW --> HEAVY["Heavy path<br/>large joins, WH_TRANSFORM"]
+    FAST --> D1[Ops dashboards - minutes]
+    HEAVY --> D2[Finance and history - hourly or daily]
+```
 
 ### Trade-offs
 

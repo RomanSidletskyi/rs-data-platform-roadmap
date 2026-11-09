@@ -2,6 +2,18 @@
 
 Performance tuning starts with understanding what the scan reads and who owns the table state. A Snowflake native table, an external table, and an Iceberg table can all be queried with SQL, but their storage, metadata, write, and maintenance paths differ.
 
+```mermaid
+flowchart LR
+    Q["SQL on a Snowflake warehouse"] --> N["Native table"]
+    Q --> X["External table"]
+    Q --> I["Iceberg table"]
+    N --> NM["Micro-partition metadata<br/>pruning"] --> NS["Snowflake-managed storage"]
+    X --> XM["File-level metadata<br/>refresh registration"] --> XS["Files in external stage"]
+    I --> IM["Iceberg catalog and snapshots<br/>Snowflake or external catalog"] --> IS["Data files on Snowflake storage<br/>or external volume"]
+```
+
+The same SQL travels through different metadata and storage paths, so the scan bottleneck and the owner of fixing it differ.
+
 ## 1. Snowflake Native Tables
 
 A standard Snowflake table is stored in Snowflake-managed storage and automatically organized into columnar micro-partitions. Snowflake maintains metadata that can prune irrelevant partitions and columns. Users do not create traditional B-tree indexes or manually define static partitions for standard table scans.
@@ -59,6 +71,16 @@ Poor file sizing, too many small files, high snapshot churn, excessive position-
 | Low-latency updates and mutations | Native DML and warehouse operations | Read-only; not a mutation target | Behavior depends on catalog, specification version, write support, and maintenance |
 | Recovery and retention | Snowflake table lifecycle controls apply by table type/configuration | External storage lifecycle and file versioning are outside the table object | Depends on catalog ownership, storage mode, snapshots, retention, and supported recovery features |
 
+```mermaid
+flowchart TD
+    A{"Primary access pattern"} -->|"Repeated Snowflake joins and BI"| N["Native table default"]
+    A -->|"Quick read-only look at new files"| X["External table"]
+    A -->|"Several engines share one table state"| I["Iceberg with one catalog owner"]
+    A -->|"Frequent updates and mutations"| M{"Other engines need<br/>the same table?"}
+    M -->|"No"| N
+    M -->|"Yes"| I2["Iceberg: verify catalog<br/>write and maintenance support"]
+```
+
 ## 5. Choosing An Ingestion Boundary
 
 A common platform pattern is:
@@ -71,6 +93,23 @@ Object storage files
 ```
 
 This is not a mandatory three-layer design. Use it when each boundary solves a real need. For a stable high-value Snowflake-only serving dataset, going directly to native tables may be simpler. For an existing Spark-owned Iceberg catalog, register or connect Snowflake to that authority instead of publishing a competing one.
+
+```mermaid
+flowchart TD
+    F["Files in object storage"] --> O{"Already owned by an<br/>external Iceberg catalog?"}
+    O -->|"Yes"| R["Connect Snowflake to that catalog"]
+    O -->|"No"| D{"Need discovery or<br/>validation first?"}
+    D -->|"Yes"| X["External table"]
+    D -->|"No"| L{"Repeated Snowflake serving?"}
+    X --> L
+    L -->|"No"| K["Keep external access only"]
+    L -->|"Yes"| N["COPY INTO or transform<br/>into native tables"]
+    N --> E{"Another engine needs<br/>the same table contract?"}
+    E -->|"Yes"| I["Optional Iceberg publish"]
+    E -->|"No"| S["Native serving only"]
+```
+
+Each boundary should answer a real requirement; skipping one is a valid outcome.
 
 ## 6. Table-Level Performance Review
 

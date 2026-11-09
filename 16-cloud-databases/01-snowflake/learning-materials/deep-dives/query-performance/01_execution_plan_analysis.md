@@ -6,6 +6,20 @@ This guide teaches how to investigate a slow Snowflake query before selecting an
 
 A Snowflake Query Profile is a runtime execution profile represented as operator nodes and data-flow edges. It is not merely a static relational plan: the profile reports what happened for a completed execution under a particular warehouse, data state, cache state, role, and concurrent workload.
 
+```mermaid
+flowchart LR
+    A["Symptom<br/>Step 1"] --> B["Evidence<br/>Steps 2 to 4"]
+    B --> C["Falsifiable hypothesis<br/>Step 5"]
+    C --> D["Controlled experiment<br/>Step 6"]
+    D --> E{"Correct and better<br/>at acceptable cost?"}
+    E -->|"No"| C
+    E -->|"Yes"| F["Adopt with owner<br/>and rollback trigger"]
+    F --> G["Monitor the workload"]
+    G -->|"Regression or workload change"| A
+```
+
+The loop closes only when the result is correct, the metric moved as predicted, and someone owns the follow-up.
+
 ## The Diagnostic Contract
 
 For every investigation, capture:
@@ -22,6 +36,16 @@ Do not compare runs if the query, data, warehouse, role, concurrency, or cache c
 ## Step 1: Classify The Symptom
 
 Start with total elapsed time, then decompose it. The first question is not “should I resize?” but “where did this execution spend time or wait?”
+
+```mermaid
+xychart-beta
+    title "Illustrative synthetic elapsed-time decomposition"
+    x-axis ["Compilation", "Queued provisioning", "Queued overload", "Execution"]
+    y-axis "Seconds" 0 --> 10
+    bar [0.4, 1.5, 9, 3]
+```
+
+In this synthetic run, SQL tuning could address only the 3-second execution slice; the 9-second overload queue points first to concurrency handling.
 
 | Symptom | First hypothesis to test | First evidence |
 | --- | --- | --- |
@@ -46,6 +70,17 @@ A symptom is not yet a root cause. One signal can have several explanations.
 7. Trace each expensive node back to the SQL expression and its intended data grain.
 
 The plan is a graph, not a left-to-right checklist. A high-cost downstream operator may be caused by an earlier scan or row expansion.
+
+```mermaid
+flowchart TD
+    A["Exact query ID and execution context"] --> B["Profile Overview and Query Insights"]
+    B --> C["Most expensive nodes"]
+    C --> D["TableScan: bytes, partitions, columns"]
+    D --> E["Follow edges: rows in vs rows out"]
+    E --> F["Spill, I/O, network on costly nodes"]
+    F --> G["Map node back to SQL and intended grain"]
+    G -.->|"Downstream cost caused upstream"| D
+```
 
 ## Step 3: Interpret The Main Operators
 
@@ -78,6 +113,18 @@ Check how many rows enter each operator, the partition/group keys, the need for 
 - **External dependency problem:** file listing, remote storage access, external functions, cross-region transfer, or client time dominates.
 
 These categories can coexist. Tune the dominant one first and re-measure the others.
+
+```mermaid
+flowchart TD
+    A{"Queue time material?"} -->|"Yes"| CQ["Concurrency or provisioning problem"]
+    A -->|"No"| B{"Execution dominates?"}
+    B -->|"No"| X["Client, result transfer,<br/>or external dependency"]
+    B -->|"Yes"| C{"Scan or remote file access dominates?"}
+    C -->|"Yes"| DR["Data/read problem"]
+    C -->|"No"| D{"Join, window, flatten or sort<br/>work avoidable?"}
+    D -->|"Yes"| QP["Query/processing problem"]
+    D -->|"No, work is required"| WC["Warehouse capacity problem"]
+```
 
 ## Step 5: Form A Falsifiable Hypothesis
 

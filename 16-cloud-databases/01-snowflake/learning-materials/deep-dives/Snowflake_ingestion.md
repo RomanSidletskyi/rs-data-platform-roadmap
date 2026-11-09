@@ -14,6 +14,18 @@ Snowflake ingestion usually consists of these layers:
 
 Snowpipe loads files **as soon as they are available in a stage**, which makes it suitable for micro-batch ingestion rather than large scheduled batch loads.
 
+```mermaid
+flowchart LR
+    INT[Storage integration<br/>trust to cloud IAM] --> STG[External stage<br/>URL + integration]
+    FF[File format<br/>CSV, JSON, Parquet] --> COPY
+    STG --> COPY[COPY INTO<br/>scheduled batch]
+    STG --> PIPE[Pipe<br/>COPY + AUTO_INGEST]
+    NI[Event notification] --> PIPE
+    COPY --> RAW[(Raw table)]
+    PIPE --> RAW
+    RAW --> DBT[dbt staging and marts]
+```
+
 ---
 
 ## 2. Stages
@@ -100,6 +112,24 @@ From this output, cloud admins usually take:
 - allowed locations
 
 Then they configure the AWS IAM role / bucket policy to allow Snowflake access. Snowflake documents this as the standard flow for S3 storage integrations.
+
+```mermaid
+sequenceDiagram
+    participant SA as Snowflake admin
+    participant SF as Snowflake
+    participant CA as Cloud admin
+    participant IAM as AWS IAM
+    CA->>IAM: create role with S3 read policy on allowed prefix
+    SA->>SF: CREATE STORAGE INTEGRATION with role ARN
+    SA->>SF: DESC INTEGRATION
+    SF-->>SA: STORAGE_AWS_IAM_USER_ARN and STORAGE_AWS_EXTERNAL_ID
+    SA->>CA: send ARN and external ID
+    CA->>IAM: trust policy allows that principal with that external ID
+    SA->>SF: CREATE STAGE using the integration
+    SF->>IAM: assume role at load time
+```
+
+The full AWS integration also takes `STORAGE_AWS_ROLE_ARN`; the short example above omits it for readability.
 
 ### 3.3 Create stage using storage integration
 
@@ -412,6 +442,17 @@ Use carefully:
 - replay
 - controlled reloads
 
+Warning: `FORCE = TRUE` into a table that already holds those rows creates duplicates. Load into an isolated replay table, reconcile, then merge idempotently on a business key. See the [replay procedure](../architecture/Data_platform_architecture.md#9-replay-strategy).
+
+```mermaid
+flowchart LR
+    F[Files already loaded] -->|FORCE = TRUE| T[(Replay table)]
+    T --> V{Counts match manifest?}
+    V -- yes --> M[MERGE insert-only on event_id into raw]
+    V -- no --> A[Investigate]
+    F -.->|FORCE = TRUE directly| BAD[(Raw with duplicates)]
+```
+
 ### SIZE_LIMIT
 Can be used to cap the amount of data loaded in a statement. Useful operationally for testing or partial loads.
 
@@ -495,6 +536,17 @@ Example rows:
     ('payments/', 'raw_payments', 'ff_json',    '.*[.]json',    'pipe_payments', 'CONTINUE',        'NONE',             TRUE);
 
 ### 11.2 Why this pattern is good
+
+```mermaid
+flowchart LR
+    CFG[(ingestion_config)] --> PROC[Deployment procedure]
+    PROC --> P1[pipe_orders]
+    PROC --> P2[pipe_users]
+    PROC --> P3[pipe_payments]
+    CFG --> MON[Monitoring queries per feed]
+    CFG --> REP[Replay jobs per prefix]
+    NEW[New feed] -->|one INSERT| CFG
+```
 
 - scalable
 - less copy-paste
@@ -681,6 +733,25 @@ Example quarantine table:
 
 Then a monitoring task or orchestration layer writes failures there after inspecting load history.
 
+```mermaid
+flowchart LR
+    H[COPY_HISTORY] --> CHK{status is Load failed or Partially loaded?}
+    CHK -- yes --> Q[(ingestion_quarantine)]
+    Q --> AL[Alert feed owner]
+    AL --> FIX[Producer fixes or file format updated]
+    FIX --> RP[Replay file into replay table]
+    CHK -- no --> OK[Freshness metric updated]
+```
+
+```sql
+INSERT INTO ingestion_quarantine (source_prefix, file_name, error_message)
+SELECT 'orders/', file_name, first_error_message
+FROM TABLE(INFORMATION_SCHEMA.COPY_HISTORY(
+    TABLE_NAME => 'RAW_ORDERS',
+    START_TIME => DATEADD('hour', -1, CURRENT_TIMESTAMP())))
+WHERE status IN ('Load failed', 'Partially loaded');
+```
+
 Good production behavior:
 - alert on failed files
 - keep lineage
@@ -788,6 +859,23 @@ Better when:
 Architectural summary:
 - **COPY INTO** = batch primitive
 - **Snowpipe** = automated micro-batch primitive
+
+| | `COPY INTO` | Snowpipe | Snowpipe Streaming |
+| --- | --- | --- | --- |
+| Trigger | schedule or manual | file event or REST call | client SDK, REST, or Kafka connector |
+| Compute | your warehouse | serverless | serverless |
+| Typical latency | schedule interval | minutes | seconds |
+| Load history retention | 64 days | 14 days | channel offsets |
+| Default `ON_ERROR` | `ABORT_STATEMENT` | `SKIP_FILE` | error tables / telemetry |
+| `PURGE` | supported | not supported | n/a |
+
+```mermaid
+flowchart TD
+    A{Data arrives as files?} -- no --> SS[Snowpipe Streaming]
+    A -- yes --> B{Continuous arrival and minutes freshness?}
+    B -- yes --> SP[Snowpipe auto-ingest]
+    B -- no --> CP[Scheduled COPY INTO on a warehouse]
+```
 
 ---
 

@@ -53,6 +53,20 @@ Instead, it can read metadata that describes:
 - data files
 - schema and partition spec
 
+```mermaid
+flowchart TD
+    C["Catalog<br/>pointer to current metadata file"] --> M["metadata.json<br/>schema, partition spec, snapshot list"]
+    M --> S["Current snapshot"]
+    S --> ML["Manifest list<br/>one per snapshot"]
+    ML --> MF1["Manifest file A"]
+    ML --> MF2["Manifest file B"]
+    MF1 --> D1["Parquet data file 1"]
+    MF1 --> D2["Parquet data file 2"]
+    MF2 --> D3["Parquet data file 3"]
+```
+
+An engine starts at the top and walks down. It never lists folders to find the table; it follows references, which is why a half-written file is invisible until a new snapshot points to it.
+
 ---
 
 ## 3. What Snowflake-managed Iceberg Means
@@ -149,6 +163,32 @@ Key idea:
 - the table is open-format, but Snowflake remains the operating control plane
 
 This example uses customer-managed storage through an external volume. Snowflake-managed storage is a separate supported storage option; compare storage ownership, recovery, external-engine access, and billing requirements before selecting either.
+
+```mermaid
+flowchart LR
+    subgraph SF["Snowflake"]
+        WH["Warehouse"]
+        T["Iceberg table<br/>CATALOG = SNOWFLAKE"]
+        CAT["Snowflake as Iceberg catalog"]
+        EV["External volume<br/>lakehouse_ext_vol"]
+    end
+    subgraph CLOUD["Customer cloud storage"]
+        DATA["data/ Parquet files"]
+        META["metadata/ Iceberg metadata files"]
+    end
+    subgraph OTHER["Other engines"]
+        SP["Spark or Trino"]
+    end
+    WH -->|"reads and writes"| T
+    T --> CAT
+    T -->|BASE_LOCATION| EV
+    EV --> DATA
+    EV --> META
+    SP -->|"supported catalog access path"| CAT
+    SP -->|"reads files"| DATA
+```
+
+Snowflake is both the writer and the catalog, while the bytes live in your bucket. Other engines must go through a supported catalog access path to learn which files form the current snapshot; reading the bucket directly is not enough.
 
 ---
 
@@ -392,6 +432,16 @@ Why this recipe works:
 - the publish layer is separated from raw and staging layers
 - external consumers read the same governed table, not a copy
 
+```mermaid
+flowchart LR
+    RAW["Raw ingestion<br/>native tables"] --> STG["Staging and marts<br/>native tables"]
+    STG -->|"validated contract<br/>INSERT OVERWRITE"| PUB["publish.finance_orders<br/>Snowflake-managed Iceberg"]
+    PUB --> FIN["Finance BI in Snowflake"]
+    PUB --> ML["ML team in Spark"]
+```
+
+Only the last hop is Iceberg. Internal work stays native and cheap to change; the open format is reserved for the contract that two engines share.
+
 ---
 
 ## 15. Common Failure Modes
@@ -523,6 +573,27 @@ At a high level, Snowflake does work like this:
 2. Build or update manifest information.
 3. Generate new Iceberg metadata representing the new table snapshot.
 4. Atomically move the table to the new snapshot.
+
+```mermaid
+sequenceDiagram
+    participant U as SQL client
+    participant SF as Snowflake
+    participant ST as Object storage
+    participant CAT as Snowflake catalog state
+    participant R as Reader engine
+    U->>SF: MERGE INTO curated.orders_iceberg
+    SF->>ST: Write new Parquet data files (and delete artifacts if used)
+    SF->>ST: Write manifest files and manifest list
+    SF->>ST: Write new metadata file for snapshot N+1
+    SF->>CAT: Atomically move pointer from snapshot N to N+1
+    CAT-->>SF: Commit recorded
+    SF-->>U: Statement succeeds
+    R->>CAT: Ask for current table state
+    CAT-->>R: Metadata for snapshot N+1
+    Note over SF,ST: If the DML fails and rolls back, files already written can remain as orphan files
+```
+
+Readers see snapshot N until the pointer moves, then snapshot N+1. There is no in-between state, which is the practical meaning of transactional table semantics on object storage.
 
 Representative write flow:
 
@@ -658,6 +729,16 @@ What that means in practice:
 - old table history is not kept forever
 - the table stays queryable through the current valid snapshot chain
 
+```mermaid
+flowchart LR
+    S1["Snapshot 1<br/>initial load"] --> S2["Snapshot 2<br/>INSERT"] --> S3["Snapshot 3<br/>MERGE"] --> S4["Snapshot 4<br/>current"]
+    CAT["Catalog pointer"] --> S4
+    EXP["Automatic snapshot expiry"] -.->|"removes old history"| S1
+    MC["Automatic manifest compaction"] -.->|"keeps metadata small"| S4
+```
+
+Every commit adds a snapshot, and maintenance trims the tail. Do not design consumers that depend on very old snapshots staying available forever.
+
 ### 18.3 Target file size is an explicit architectural control
 
 Snowflake lets you influence Parquet file size.
@@ -759,6 +840,22 @@ Architectural trade-off:
 
 - copy-on-write favors read simplicity
 - merge-on-read favors write speed but can make reads and maintenance more complex
+
+```mermaid
+flowchart TB
+    U["DELETE one row"]
+    subgraph COW["Copy-on-write"]
+        C1["Rewrite the affected data file without the row"] --> C2["Reads scan clean data files only"]
+    end
+    subgraph MOR["Merge-on-read"]
+        M1["Write a small delete file or deletion vector"] --> M2["Reads combine data files with deletes"]
+        M2 --> M3["Compaction later folds deletes into data files"]
+    end
+    U --> C1
+    U --> M1
+```
+
+Copy-on-write moves cost to the writer; merge-on-read moves it to every reader and to maintenance. With several engines reading, every one of them must support the delete representation you choose.
 
 ### 19.2 What Snowflake supports
 

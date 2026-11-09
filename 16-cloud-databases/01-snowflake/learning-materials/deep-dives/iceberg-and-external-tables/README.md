@@ -23,6 +23,30 @@ This deep-dive brings together Snowflake's file-query and open-table patterns. T
 
 An external table and an Iceberg table can both query files in cloud storage, but they are not interchangeable. An external table registers files and exposes them through a read-only table interface. Iceberg tracks table state through catalog metadata and snapshots, with schema and partition evolution semantics. A stage or a Parquet directory alone does not provide those Iceberg guarantees.
 
+### Who Owns What
+
+```mermaid
+flowchart LR
+    subgraph NT["Native Snowflake table"]
+        direction TB
+        NT3["Catalog: Snowflake, not Iceberg"] --- NT2["Table metadata: Snowflake"] --- NT1["Data files: Snowflake storage"]
+    end
+    subgraph ET["External table"]
+        direction TB
+        ET3["Iceberg catalog: none"] --- ET2["File registration metadata: Snowflake"] --- ET1["Data files: your cloud storage"]
+    end
+    subgraph SMI["Snowflake-managed Iceberg"]
+        direction TB
+        SMI3["Catalog: Snowflake"] --- SMI2["Iceberg metadata: written by Snowflake"] --- SMI1["Data files: Snowflake storage or external volume"]
+    end
+    subgraph EMI["Externally managed Iceberg"]
+        direction TB
+        EMI3["Catalog: remote, such as Glue or a REST catalog"] --- EMI2["Iceberg metadata: committed through the remote catalog"] --- EMI1["Data files: external storage"]
+    end
+```
+
+Read each column top to bottom: catalog, metadata, files. The further right you go, the more of the stack lives outside Snowflake, and the more operational ownership you must assign explicitly.
+
 ## Decision Shortcuts
 
 - Snowflake-only curated serving: start by evaluating a native Snowflake table.
@@ -30,6 +54,24 @@ An external table and an Iceberg table can both query files in cloud storage, bu
 - Snowflake owns publishing and another engine needs the same open-table contract: evaluate Snowflake-managed Iceberg.
 - Spark or another platform already owns the catalog and table lifecycle: evaluate externally managed Iceberg rather than introducing a second metadata authority.
 - If nobody owns catalog maintenance, schema evolution, retention, and recovery, the Iceberg design is not ready.
+
+```mermaid
+flowchart TD
+    Q1{"Do other engines need the same table contract?"}
+    Q1 -->|No| Q2{"Is the data stable enough to load and model?"}
+    Q2 -->|Yes| NT["Native Snowflake table"]
+    Q2 -->|"No, still exploring files"| ET["External table as discovery boundary"]
+    ET -.->|"promote when it becomes a serving contract"| NT
+    Q1 -->|Yes| Q3{"Does a catalog outside Snowflake already own the table?"}
+    Q3 -->|"No, Snowflake produces it"| SMI["Snowflake-managed Iceberg"]
+    Q3 -->|"Yes, Spark or Glue or a REST catalog"| EMI["Externally managed Iceberg"]
+    SMI --> R{"Named owner for maintenance, schema evolution, retention, recovery?"}
+    EMI --> R
+    R -->|No| STOP["Design not ready"]
+    R -->|Yes| GO["Proceed to detailed design"]
+```
+
+The first split is about consumers, the second about metadata authority. Syntax only matters after both are answered.
 
 ## Refresh Is Not One Generic Operation
 

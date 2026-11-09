@@ -29,6 +29,16 @@ WHERE order_ts >= '2026-01-15 00:00:00'::TIMESTAMP_NTZ
 
 **Trade-off:** Range predicates are explicit and can help pruning, but a full-range report still needs broad reads.
 
+```mermaid
+xychart-beta
+    title "Case 1 illustrative synthetic pruning outcome"
+    x-axis ["Partitions total", "Scanned before", "Scanned after"]
+    y-axis "Micro-partitions" 0 --> 1000
+    bar [1000, 950, 6]
+```
+
+This is the outcome when the rewrite does improve pruning; if the optimizer already simplified the original predicate, both runs may look alike.
+
 ## Case 2: Repeated Filters On A Nested `VARIANT` Field
 
 **Scenario:** Every BI query filters events by `payload:event_ts` and joins on `payload:customer_id`; mixed types and JSON nulls appear in source records.
@@ -92,6 +102,16 @@ JOIN order_items AS i
 
 **Trade-off:** Deduplication adds processing and requires a survivorship rule; leaving ambiguous records can be more correct than forcing one match.
 
+```mermaid
+flowchart LR
+    IN["Two customer feeds<br/>100 thousand input rows"] --> J["Join on email<br/>duplicate and unnormalized keys"]
+    J --> OUT["50 million output rows"]
+    IN --> P["Profile key multiplicity<br/>on each side"]
+    P --> N["Normalize by contract<br/>deterministic dedup rule"]
+    N --> G["Join at intended grain"]
+    N --> QU["Ambiguous matches<br/>to quarantine path"]
+```
+
 ## Case 6: An `OR` Join Predicate Has A Costly Plan
 
 **Scenario:** A customer can match either of two legacy identifiers. The join predicate uses `a.legacy_id = b.legacy_id OR a.alt_id = b.alt_id`; Query Profile shows a large join/filter stage.
@@ -140,6 +160,16 @@ FROM events;
 
 **Trade-off:** Window functions often express this pattern more directly, but a very large/skewed partition still needs sorting and can be costly. The right method depends on the required result and distribution.
 
+```mermaid
+xychart-beta
+    title "Case 8 illustrative synthetic rows for one customer with 1000 events"
+    x-axis ["Self-join pairs before GROUP BY", "Window output"]
+    y-axis "Rows" 0 --> 500000
+    bar [499500, 1000]
+```
+
+With unique timestamps the self-join pairs grow with the square of events per customer, while the window emits one row per event but still sorts the partition.
+
 ## Case 9: Unneeded Sort And Duplicate Elimination
 
 **Scenario:** A pipeline sorts a subquery, unions two disjoint sources with `UNION`, then sorts the final result again.
@@ -172,6 +202,16 @@ SELECT * FROM (
 
 **Trade-off:** Materialization improves reuse but creates freshness, storage, schema-evolution, and ownership obligations. SQL clause order does not force execution order; inspect the plan.
 
+```mermaid
+flowchart LR
+    E["1 event row<br/>order_total on parent"] --> F1["FLATTEN items<br/>4 rows"]
+    F1 --> F2["FLATTEN discounts<br/>3 per item, 12 rows"]
+    F2 --> J["Downstream joins on 12x rows<br/>spill risk"]
+    F2 --> X["SUM order_total<br/>counted 12 times"]
+```
+
+Multiplicities are illustrative and synthetic; the point is that each nested level multiplies rows and repeats parent-level measures.
+
 ## Case 11: External Table Used As Permanent BI Serving
 
 **Scenario:** A dashboard repeatedly scans a growing set of small Parquet files through an external table. New-file auto-refresh is enabled, but the dashboard has strict completeness and latency needs.
@@ -181,6 +221,16 @@ SELECT * FROM (
 **Verify:** external bytes/listing and refresh history, file counts and row groups, persisted-result behavior, TableScan cost, and the dashboard's freshness contract.
 
 **Trade-off:** Native ingestion adds copy/transform and replay responsibilities; external tables keep file access simple but leave file layout and metadata refresh on the critical path. A materialized view over an external table has its own edition and maintenance requirements.
+
+```mermaid
+flowchart LR
+    F["Many small Parquet files"] --> X["External table<br/>discovery and validation"]
+    X --> L["Load validated data"]
+    L --> N["Native table"]
+    N --> D["Dashboard joins and serving"]
+    X -.->|"Before: file layout and refresh on critical path"| D
+    X -.->|"Another engine needs same table state"| I["Evaluate Iceberg"]
+```
 
 ## Case 12: Cluster Key Chosen By Table Size Alone
 
@@ -212,6 +262,16 @@ SELECT * FROM (
 
 **Trade-off:** Keeping a warehouse active may preserve local cache for recurring traffic but incurs idle cost; a suspended warehouse saves idle usage but may have resume/cold-read latency. Select policy from measured workload and SLA.
 
+```mermaid
+xychart-beta
+    title "Case 14 illustrative synthetic latency by cache condition"
+    x-axis ["First run after resume", "Warm local cache no reuse", "Persisted result reused"]
+    y-axis "Seconds" 0 --> 16
+    bar [15, 6, 2]
+```
+
+Only the 2-second value comes from the case text; the reported number described the right-hand bar while users experienced the left-hand one.
+
 ## Case 15: Bigger Warehouse Chosen For A Queue
 
 **Scenario:** Users complain about “slow queries.” Query History shows high overload queueing but normal execution time when the query runs.
@@ -224,6 +284,14 @@ SELECT * FROM (
 
 **Trade-off:** Multi-cluster or additional warehouses can reduce queueing but increase active compute and operational complexity. They do not make a single inefficient query's plan better.
 
+```mermaid
+flowchart TD
+    S["High overload queue,<br/>normal execution time"] --> U["Upsize same warehouse"]
+    S --> M["Isolate workloads, schedule batch,<br/>or eligible multi-cluster"]
+    U --> U1["Execution may shrink,<br/>queue cause not targeted"]
+    M --> M1["Queue time drops for target workload,<br/>watch extra active compute"]
+```
+
 ## Case 16: Low-Lag Dynamic Tables Create Continuous Refresh Spend
 
 **Scenario:** Every layer in an analytics DAG uses a five-minute target lag, including a large monthly rollup consumed once per day. Refresh usage rises with little user-visible benefit.
@@ -233,6 +301,16 @@ SELECT * FROM (
 **Verify:** User-facing freshness, refresh duration/failures, dependency lag, warehouse/serverless usage, and result correctness.
 
 **Trade-off:** A lower target lag may improve freshness but increase refresh activity, concurrency, and spend. Target lag is not a business SLA guarantee; define monitoring and fallback behavior.
+
+```mermaid
+xychart-beta
+    title "Case 16 illustrative refreshes per day at one refresh per lag interval"
+    x-axis ["5 min", "15 min", "1 hour", "4 hours", "24 hours"]
+    y-axis "Refreshes per day" 0 --> 300
+    bar [288, 96, 24, 6, 1]
+```
+
+This is simple arithmetic, not a model of Snowflake's scheduler: a rollup read once a day gains little from 288 refresh opportunities.
 
 ## Casebook Use
 

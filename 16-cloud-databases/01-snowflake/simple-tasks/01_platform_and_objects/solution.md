@@ -4,6 +4,15 @@
 
 The role is the authorization context; the warehouse supplies execution compute; the qualified path identifies database, schema, and object; Snowflake's storage layer holds the table data. Cloud services coordinate authentication, authorization, compilation, and metadata. Warehouses do not own table copies.
 
+```mermaid
+flowchart LR
+    U["User session<br/>role ANALYST"] --> CS["Cloud services<br/>authenticate, authorize,<br/>compile, metadata"]
+    CS -- "resolve name" --> NS["ANALYTICS.CURATED.ORDERS<br/>database, schema, object"]
+    CS -- "send plan" --> WH["BI_WH<br/>execution compute"]
+    WH -- "read micro-partitions" --> ST["Storage layer<br/>one shared table copy"]
+    WH --> R["Result to user"]
+```
+
 ## Task 2
 
 (a) Permanent is the conservative default for durable curated data. (b) Transient may fit an intermediate that is safely reproducible and does not need the same recovery guarantees. (c) Temporary fits a session-only debugging result. Confirm retention and recovery behavior for the target edition/configuration; do not choose a weaker lifecycle unless rebuild and loss are acceptable.

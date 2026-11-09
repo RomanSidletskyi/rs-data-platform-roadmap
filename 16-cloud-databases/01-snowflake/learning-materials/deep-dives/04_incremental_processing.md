@@ -33,11 +33,73 @@ AS
 
 This example is illustrative. Production logic must handle deletes, duplicate ordering, null keys, source transaction behavior, late updates, task failure, and ownership. A transaction that consumes a stream advances its change position; design target writes and consumption so retries do not lose or duplicate intended changes.
 
+### How the stream offset moves
+
+```mermaid
+sequenceDiagram
+    participant SRC as raw.orders
+    participant ST as Stream orders_changes
+    participant TK as Task
+    participant TGT as curated.orders
+    SRC->>SRC: INSERT and UPDATE commit
+    Note over ST: offset at T0, changes T0..T1 visible
+    TK->>ST: SELECT changes inside MERGE
+    TK->>TGT: MERGE commits
+    Note over ST: offset advances to T1 only because the DML transaction committed
+    TK--xTGT: if MERGE fails, transaction rolls back
+    Note over ST: offset stays at T0, changes are retried next run
+```
+
+A plain `SELECT` from a stream does not advance its offset; only a committed DML statement that reads the stream does.
+
+### Run only when there is work
+
+```sql
+CREATE OR REPLACE TASK apply_order_changes
+  SCHEDULE = '5 MINUTE'
+  WHEN SYSTEM$STREAM_HAS_DATA('raw.orders_changes')
+AS
+  MERGE INTO curated.orders AS target
+  USING (
+    SELECT order_id, status, changed_at
+    FROM raw.orders_changes
+    QUALIFY ROW_NUMBER() OVER (PARTITION BY order_id ORDER BY changed_at DESC) = 1
+  ) AS source
+  ON target.order_id = source.order_id
+  WHEN MATCHED THEN UPDATE SET target.status = source.status, target.changed_at = source.changed_at
+  WHEN NOT MATCHED THEN INSERT (order_id, status, changed_at)
+    VALUES (source.order_id, source.status, source.changed_at);
+
+ALTER TASK apply_order_changes RESUME;
+```
+
+Omitting `WAREHOUSE` makes it a serverless task. The `WHEN` condition is evaluated without starting a warehouse, so idle schedules cost little. Tasks are created suspended and must be resumed.
+
+### Stream types
+
+| Type | Captures | Typical use |
+| --- | --- | --- |
+| Standard | inserts, updates, deletes (net changes) | mutable source tables |
+| Append-only | inserts only | event tables; cheaper to process |
+| Insert-only | inserts on external tables or Iceberg sources where supported | file-based sources |
+
+### Task graph
+
+```mermaid
+flowchart LR
+    ROOT["root task<br/>schedule 5 min"] --> A[load_orders]
+    ROOT --> B[load_customers]
+    A --> C["build_order_facts<br/>after both"]
+    B --> C
+    C --> D[publish_mart]
+    C --> F["finalizer task<br/>alerts and cleanup"]
+```
+
 ## Dynamic Tables: Declarative Refresh
 
 Dynamic tables let a developer define a query result and a freshness objective while Snowflake manages refresh behavior for supported query patterns. This can reduce custom scheduling and incremental SQL. It does not remove the need to inspect refresh history, lag, query support, cost, and lineage.
 
-Choose a dynamic table when the transformation fits supported declarative semantics and the freshness target is more important than controlling every procedural step. Validate behavior under source changes and realistic volume before relying on it.
+Choose a dynamic table when the transformation fits supported declarative semantics and the freshness target is more important than controlling every procedural step. Validate behavior under source changes and realistic volume before relying on it. See the [dynamic tables deep dive](Snowflake_dynamic_tables.md) for refresh modes, including `ADAPTIVE`.
 
 ## dbt and Airflow Boundaries
 
@@ -54,6 +116,14 @@ dbt is useful for versioned warehouse transformations, model dependencies, tests
 | Full rebuild | Data volume and SLA make rebuilding simple and affordable | Runtime and cost may grow; rebuild must remain deterministic |
 
 ## Correctness Questions
+
+```mermaid
+flowchart TD
+    A{Source rows are...} -->|immutable events| E[Append-only stream or insert-only MERGE]
+    A -->|mutable records with key| M[Standard stream + MERGE with latest version]
+    A -->|full snapshots| S[Compare snapshots or full rebuild]
+    A -->|corrections and deletes| D[Handle METADATA$ACTION and delete markers explicitly]
+```
 
 - What uniquely identifies a logical record or change?
 - Are source rows events, snapshots, or mutable records?

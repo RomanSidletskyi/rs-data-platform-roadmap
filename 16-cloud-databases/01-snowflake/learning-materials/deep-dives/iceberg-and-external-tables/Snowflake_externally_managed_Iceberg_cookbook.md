@@ -21,12 +21,14 @@ The goal is to make the platform workflow concrete.
 
 ## 2. Scenario Map
 
-This cookbook covers four practical situations:
+This cookbook covers six practical situations:
 
 1. Read an existing externally managed Iceberg table from a standard Snowflake database.
 2. Turn on refresh and monitor sync health.
 3. Use a catalog-linked database as the scalable platform pattern.
 4. Write back to an externally managed table in a supported REST-catalog flow.
+5. Consume tables from a Glue-like catalog.
+6. Check files and diagnose drift between catalog state and Snowflake.
 
 Before you touch SQL, decide which side owns the table lifecycle:
 
@@ -34,6 +36,21 @@ Before you touch SQL, decide which side owns the table lifecycle:
 - Snowflake participates in creation through a catalog-linked database
 
 If you do not know the answer, stop there.
+
+```mermaid
+flowchart TD
+    START{"Who owns the table lifecycle?"}
+    START -->|"Remote engine"| REG["Scenario 1<br/>register existing table"]
+    START -->|"Snowflake participates in creation"| LDB["Scenario 3<br/>catalog-linked database"]
+    START -->|Unknown| STOP["Stop and decide ownership first"]
+    REG --> REF["Scenario 2<br/>refresh and sync health"]
+    LDB --> REF
+    LDB --> WR["Scenario 4<br/>write back via REST catalog"]
+    REG --> GLUE["Scenario 5<br/>Glue-like consumption"]
+    REF --> DRIFT["Scenario 6<br/>check files and diagnose drift"]
+```
+
+Every path goes through refresh and sync health. Registration is a one-time task; staying in sync is the ongoing operating cost.
 
 ---
 
@@ -109,6 +126,26 @@ Architect note:
 
 - the SQL looks simple
 - the hard part is that table state is still owned outside Snowflake
+
+```mermaid
+sequenceDiagram
+    participant ADM as Platform admin
+    participant SF as Snowflake
+    participant CAT as Remote REST catalog
+    participant ST as Object storage
+    ADM->>SF: CREATE CATALOG INTEGRATION rest_catalog_int
+    ADM->>SF: CREATE EXTERNAL VOLUME lakehouse_ext_vol
+    ADM->>SF: CREATE ICEBERG TABLE curated.orders_remote
+    SF->>CAT: Load table orders
+    CAT-->>SF: Current metadata location
+    SF->>ST: Read metadata and manifests
+    SF-->>ADM: Table registered
+    ADM->>SF: SELECT ... LIMIT 20
+    SF->>ST: Read Parquet data files
+    SF-->>ADM: Rows
+```
+
+The catalog answers where the table state is; the external volume grants access to the bytes. A failure in either one blocks registration, so test both before blaming the SQL.
 
 ---
 
@@ -204,6 +241,18 @@ The next place to look is:
 - remote catalog health
 - remote commit history
 - external maintenance operations
+
+```mermaid
+flowchart TD
+    A["SYSTEM$AUTO_REFRESH_STATUS shows STOPPED"] --> B["SET AUTO_REFRESH = FALSE"]
+    B --> C["ALTER ICEBERG TABLE ... REFRESH"]
+    C --> D["SET AUTO_REFRESH = TRUE"]
+    D --> E{"Status RUNNING and history advancing?"}
+    E -->|Yes| OK["Recovered, keep monitoring"]
+    E -->|No| X["Escalate outside Snowflake<br/>remote catalog, commit history, external maintenance"]
+```
+
+The runbook has a clear exit: if the reset does not recover the table, the root cause is most likely outside Snowflake.
 
 ---
 
@@ -334,6 +383,29 @@ Do not hide these constraints from yourself:
 - remote commit failures are part of the design, not an exception outside the design
 
 If the platform requires large multi-step transactional behavior inside Snowflake control, native tables or Snowflake-managed Iceberg may be the better answer.
+
+```mermaid
+sequenceDiagram
+    participant U as Snowflake user
+    participant SF as Snowflake
+    participant ST as Object storage
+    participant CAT as Remote REST catalog
+    participant SP as Spark reader
+    U->>SF: MERGE INTO orders_remote (autocommit)
+    SF->>ST: Write new data and metadata files
+    SF->>CAT: Commit request based on the snapshot it read
+    alt Commit accepted
+        CAT-->>SF: New snapshot is current
+        SF-->>U: Statement succeeds
+        SP->>CAT: Load table
+        CAT-->>SP: Returns the new snapshot
+    else Conflict or catalog error
+        CAT-->>SF: Commit rejected or no response
+        SF-->>U: Statement fails or outcome is ambiguous
+    end
+```
+
+Snowflake prepares the change, but only the remote catalog can make it real. Plan for the failure branch: conflicts with other writers and ambiguous commit status need a documented recovery step.
 
 ---
 

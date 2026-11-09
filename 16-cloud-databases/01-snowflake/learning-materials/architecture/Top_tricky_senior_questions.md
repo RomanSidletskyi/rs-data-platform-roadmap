@@ -1,4 +1,141 @@
-# System Design — Ready Answers (Deep Senior Version)
+# Senior Architecture Review — Tricky Questions
+
+This file has two parts:
+
+- **Part A — tricky follow-ups:** questions that test whether you understand mechanisms, not slogans. Each has a trap, a strong answer, and a diagram.
+- **Part B — core system-design answers:** the standard question set, kept for repetition. The same core set with diagrams lives in [System design ready answers](system_design_ready_answers.md).
+
+---
+
+# Part A — Tricky Follow-up Questions
+
+## A1. "Snowpipe tracks loaded files. Why do you still deduplicate?"
+
+**Trap:** assuming file-level protection means unique events.
+
+**Strong answer:** Load history only stops the same file from being loaded twice within its retention window. A producer retry creates a *new* event in a *new* file; the connector may write overlapping files after a restart; a renamed file looks new. Business uniqueness needs an event ID and deduplication in staging.
+
+```mermaid
+flowchart LR
+    A[Producer retry] -->|same event, new message| K[Kafka]
+    K --> F1[file_001.parquet]
+    K --> F2[file_002.parquet - contains the retry]
+    F1 --> R[(raw.events)]
+    F2 --> R
+    R -->|ROW_NUMBER by event_id| S[(staging: unique)]
+```
+
+## A2. "The dynamic table has TARGET_LAG = 1 minute, but the dashboard is 12 minutes stale. Why?"
+
+**Trap:** treating target lag as end-to-end freshness.
+
+**Strong answer:** Target lag covers only that table relative to its inputs. Freshness also includes ingestion delay, upstream tables, refresh duration (if a refresh takes longer than the lag, refreshes are skipped and lag grows), warehouse queueing, and BI caching.
+
+```mermaid
+xychart-beta
+    title "Where 12 minutes went (illustrative)"
+    x-axis ["Ingestion", "Upstream DT", "Refresh runtime", "Queueing", "BI cache"]
+    y-axis "Minutes" 0 --> 6
+    bar [2, 3, 4, 1, 2]
+```
+
+Fix the largest bar first; tightening the lag on the last table changes nothing here.
+
+## A3. "We moved from Medium to Large. The query is 2× faster and the bill per run is the same. Good change?"
+
+**Trap:** looking at only one query.
+
+**Strong answer:** For that query, yes — Large costs 2× per hour and the runtime halved, so credits per run are equal. But check the warehouse as a whole: other queries on it may not scale, idle time now bills at 2×, and auto-suspend behavior matters. Decide on total warehouse credits and SLO attainment, not one profile.
+
+## A4. "Why not just cluster every large table?"
+
+**Trap:** treating clustering as free.
+
+**Strong answer:** Automatic clustering consumes serverless credits continuously as data changes, and only helps queries that filter on the clustering key with a selective predicate. Tables loaded in time order are often well clustered on time already. Add a key only when Query Profile shows poor pruning on important, frequent queries, and compare reclustering cost to query savings.
+
+```mermaid
+flowchart TD
+    A[Large table, slow queries] --> B{Partitions scanned close to total for selective filters?}
+    B -- no --> X[Clustering will not help - look elsewhere]
+    B -- yes --> C{Frequent, important queries on the same column?}
+    C -- no --> Y[Fix SQL or accept]
+    C -- yes --> D{High churn on the table?}
+    D -- yes --> E[Expect high reclustering cost - test first]
+    D -- no --> F[Test clustering key, measure pruning and credits]
+```
+
+## A5. "Replication is enabled. Are we DR-ready?"
+
+**Trap:** equating replicated data with a working service.
+
+**Strong answer:** Not yet. DR also needs: a failover group covering roles, warehouses, integrations, and policies; client redirect; pipelines that can restart in the secondary; source replay for the gap since the last refresh; a tested runbook with measured RTO; and a failback plan. Account failover requires Business Critical Edition or higher.
+
+## A6. "We have 90 days of Time Travel. Do we still need an S3 raw archive?"
+
+**Trap:** using Time Travel as a backup or replay system.
+
+**Strong answer:** Yes, in most platforms. Time Travel restores table states inside one account for a limited window, increases storage cost on high-churn tables, and does not help if the data was wrong when it arrived. A raw archive supports multi-year replay, other engines, and rebuilding with new logic.
+
+| Need | Time Travel | S3 raw archive |
+| --- | --- | --- |
+| Undo a bad `DELETE` from yesterday | best | slow |
+| Rebuild a model with new logic over 2 years | no | yes |
+| Survive account loss | no | yes, if in separate storage |
+| Feed another engine | no | yes |
+
+## A7. "Snowpipe Streaming with named channels is exactly-once. So no duplicates in marts?"
+
+**Trap:** confusing ingestion semantics with end-to-end semantics.
+
+**Strong answer:** Exactly-once applies within a channel using offset tokens: Snowflake will not commit the same offset twice. Duplicates created before Kafka (producer retries), by a second ingestion path, or by replays from an archive are outside that guarantee. Elastic channels are at-least-once by design. Keep event-ID deduplication.
+
+## A8. "Kafka retention is 7 days. A transformation bug started 3 weeks ago. How do you recover?"
+
+**Strong answer:** The raw data is not lost if raw history is kept in Snowflake or S3. Fix the code, rebuild the affected 3-week window of downstream models from raw, reconcile, and publish a restatement notice. Kafka is only needed if raw itself is incomplete.
+
+```mermaid
+sequenceDiagram
+    participant E as Engineer
+    participant R as Snowflake raw
+    participant M as Marts
+    participant C as Consumers
+    E->>E: fix model, add regression test
+    E->>M: rebuild window day by day on backfill warehouse
+    M->>R: read raw for each day
+    E->>M: reconcile totals vs source
+    E->>C: restatement notice with affected dates
+```
+
+## A9. "Late events arrive after the daily finance mart was published. What do you do?"
+
+**Strong answer:** Define a policy before it happens: a lookback window for automatic reprocessing (for example 3 days), a cut-off after which periods are closed, and a restatement process with notification for closed periods. Store both event time and load time so lateness is measurable.
+
+```mermaid
+flowchart LR
+    E[Late event arrives] --> W{Within lookback window?}
+    W -- yes --> AUTO[Next incremental run includes it]
+    W -- no --> CL{Period closed?}
+    CL -- no --> MAN[Manual reprocess]
+    CL -- yes --> RS[Restatement with approval and notice]
+```
+
+## A10. "Why does CURRENT_TIMESTAMP() in my dynamic table make refresh expensive?"
+
+**Trap:** not knowing incremental-refresh restrictions.
+
+**Strong answer:** Non-deterministic functions such as `CURRENT_TIMESTAMP()` in the `SELECT` list prevent incremental refresh; with `AUTO` the table resolves to full refresh, with `INCREMENTAL` creation fails. They are supported in `WHERE`, `HAVING`, and `QUALIFY`. For a per-row refresh timestamp, Snowflake documents `METADATA$ROW_LAST_COMMIT_TIME`, which is compatible with incremental refresh.
+
+## A11. "Share data with the partner or export files?"
+
+**Strong answer:** If the partner uses Snowflake, a secure share avoids copies, keeps access revocable, and always shows current data; the partner pays its own compute. Cross-region needs replication or a listing with auto-fulfillment. Export files only when the partner cannot use Snowflake or needs an offline snapshot, and then own retention, encryption, and reconciliation of that copy.
+
+## A12. "Native table or Iceberg?"
+
+**Strong answer:** Native tables when Snowflake is the only engine — simplest, fully managed, best integrated. Snowflake-managed Iceberg when other engines must read the same governed table in open format in your storage. Externally managed Iceberg when another catalog already owns the table. The deciding question is who must read or write the table and who owns its metadata, not performance alone. See the [table type decision guide](../deep-dives/iceberg-and-external-tables/Snowflake_table_type_decision_guide.md).
+
+---
+
+# Part B — Core System-Design Answers
 
 ## Purpose
 
@@ -216,7 +353,7 @@ I would design replay in layers.
 - best for large backfills
 
 **Snowflake replay**
-- controlled reloads with `COPY INTO ... FORCE = TRUE`
+- controlled reloads with `COPY INTO ... FORCE = TRUE` into an isolated replay table, then an idempotent insert-only `MERGE` into raw
 - re-run downstream transforms by partition/window
 
 Backfills should never blindly compete with production:

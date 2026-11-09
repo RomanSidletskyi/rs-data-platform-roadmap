@@ -22,6 +22,18 @@ WHERE order_date >= '2026-01-01';
 
 Snowflake uses columnar storage and can avoid reading unused columns from native tables. Narrow projection also reduces result transfer and downstream row width. `SELECT *` can still be appropriate for exploration; avoid freezing it into views, dashboards, or contracts where schema growth silently expands work.
 
+```mermaid
+flowchart LR
+    subgraph BEFORE["Before: SELECT star"]
+        B1["Read every column<br/>including wide payloads"] --> B2["Wide result transfer"]
+        B2 --> B3["Schema growth<br/>silently adds work"]
+    end
+    subgraph AFTER["After: explicit columns"]
+        A1["Read 4 required columns"] --> A2["Narrow result transfer"]
+        A2 --> A3["Stable consumer contract"]
+    end
+```
+
 ## 2. Write Clear Range Predicates
 
 A function around a filter column can make pruning harder to reason about and may prevent an efficient predicate shape for some expressions.
@@ -40,6 +52,16 @@ WHERE event_ts >= '2026-01-15 00:00:00'::TIMESTAMP_NTZ
 ```
 
 The half-open range avoids overlap at day boundaries. Be explicit about timestamp type and timezone. Snowflake may optimize some function-wrapped predicates; this rewrite is a testable hypothesis, not a universal rule. Compare partitions scanned, bytes, and results.
+
+```mermaid
+flowchart TD
+    P["Need one day of event_ts"] --> A["DATE_TRUNC wrapped around column"]
+    P --> B["Half-open range on raw column"]
+    A --> A1["Pruning depends on the optimizer<br/>simplifying the expression"]
+    B --> B1["Partition min/max metadata<br/>compared directly with bounds"]
+    A1 --> V["Verify: partitions, bytes,<br/>identical boundary results"]
+    B1 --> V
+```
 
 ## 3. Filter and Project Before Large Joins When Semantics Allow
 
@@ -60,6 +82,17 @@ GROUP BY c.segment;
 
 The SQL text expresses intent; it does not force execution order. Snowflake can push filters and reorder operations. Verify the plan rather than assuming a CTE guarantees an early filter.
 
+```mermaid
+flowchart LR
+    O["orders"] --> F["Filter last 30 days<br/>project 3 columns"]
+    F --> J["Join customers"]
+    C["customers"] --> J
+    J --> A["Aggregate by segment"]
+    J -.-> V["Optimizer may push down or reorder<br/>confirm in Query Profile"]
+```
+
+The diagram shows intended data flow; the runtime plan is the evidence.
+
 ## 4. Validate Join Grain Before Tuning Join Speed
 
 A join can multiply rows when keys are not unique at the intended grain.
@@ -74,6 +107,18 @@ JOIN order_items AS i
 If `net_amount` is order-grain, summing it after the item join repeats it once per item. Aggregate at the right grain or join a deduplicated/aggregated relation. In Query Profile compare each join's input and output rows; large growth is a diagnostic signal, not automatically a bug.
 
 A correct join condition is primarily a correctness requirement. Do not add a date/key predicate solely to encourage pruning unless it is logically valid for every matched row.
+
+```mermaid
+flowchart LR
+    O["orders<br/>illustrative 1,000 rows"] --> J["JOIN order_items<br/>on order_id"]
+    I["order_items<br/>illustrative 3,000 rows"] --> J
+    J --> R["3,000 rows at item grain<br/>net_amount repeated per item"]
+    R --> W["SUM net_amount<br/>inflated about 3x"]
+    I --> G["Better: aggregate items to order grain"]
+    G --> K["Join 1:1 with orders"]
+```
+
+Row counts are illustrative and synthetic: the join is fast or slow independently of whether its output grain is correct.
 
 ## 5. Treat `OR` Join Rewrites Carefully
 
@@ -111,6 +156,20 @@ FROM events;
 
 The window form is often a clearer candidate for ordered row-relative calculations. It may still require repartitioning and sorting; a very large or skewed partition can be expensive. Include deterministic tie-breaking and verify null, duplicate, frame, and ordering semantics before comparing.
 
+```mermaid
+flowchart LR
+    subgraph SJ["Self-join"]
+        A1["n events per customer"] --> J1["Pair with every earlier event<br/>about n squared / 2 rows"]
+        J1 --> G1["GROUP BY to MAX"]
+    end
+    subgraph WF["Window"]
+        A2["n events per customer"] --> S2["Partition and sort<br/>customer_id, event_ts, event_id"]
+        S2 --> L2["LAG: n rows out"]
+    end
+```
+
+The window avoids quadratic pairs but still pays for partitioning and sorting; one huge or skewed partition can still spill.
+
 ## 7. Reduce Window Input and Partition Width
 
 A window processes rows within its partition and order specification. Filter to the necessary time range and project only needed columns before the window when the business result permits. Do not add a filter before the window if the requested calculation requires older history; that changes the answer.
@@ -122,6 +181,14 @@ Use a stable `PARTITION BY` grain. A single hot key may create a disproportionat
 `UNION` removes duplicates; `UNION ALL` preserves all rows. Duplicate elimination requires additional work, but changing to `UNION ALL` is correct only when duplicates are meaningful or already excluded by the source contract.
 
 If the requirement is deduplication, keep it and measure it. If deduplication is unnecessary, `UNION ALL` avoids that work. Compare output multiset semantics, not just row counts.
+
+```mermaid
+flowchart TD
+    A{"Can branches produce<br/>duplicate rows?"} -->|"No, proven by source contract"| UA["UNION ALL<br/>no dedup work"]
+    A -->|"Yes"| B{"Does the requirement<br/>remove duplicates?"}
+    B -->|"Yes"| U["UNION<br/>keep and measure dedup cost"]
+    B -->|"No, duplicates are meaningful"| UA
+```
 
 ## 9. Sort Only When The Contract Requires Ordering
 

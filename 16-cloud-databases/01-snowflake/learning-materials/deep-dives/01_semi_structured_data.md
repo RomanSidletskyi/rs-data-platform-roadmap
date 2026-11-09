@@ -4,6 +4,16 @@
 
 Semi-structured storage lets ingestion preserve source payloads whose fields may be nested or evolve. It is useful at raw boundaries, but keeping every field untyped forever makes validation, analytics, governance, and performance harder. A common pattern is to preserve the original payload and create typed, documented projections for fields that become important.
 
+```mermaid
+flowchart LR
+    SRC[JSON source] --> RAW["raw.events<br/>payload VARIANT + load metadata"]
+    RAW --> STG["stg_events<br/>typed: event_id, customer_id, event_ts"]
+    RAW --> ITEMS["stg_event_items<br/>one row per item via FLATTEN"]
+    STG --> MART[Marts and BI]
+    ITEMS --> MART
+    RAW -.->|replay with new parsing rules| STG
+```
+
 ## A Small End-to-End Example
 
 ```sql
@@ -46,6 +56,29 @@ LATERAL FLATTEN(INPUT => e.payload:items) AS item;
 
 `FLATTEN` emits rows from an array or object. One input event can become zero, one, or many output rows. That cardinality change affects sums and joins: aggregate at the intended grain and retain a stable event or parent key.
 
+```mermaid
+flowchart LR
+    E1["event e-100<br/>items: A1, B4"] --> R1[e-100, A1]
+    E1 --> R2[e-100, B4]
+    E2["event e-101<br/>items: empty"] -.->|dropped unless OUTER => TRUE| X[no row]
+    E3["event e-102<br/>items: C9"] --> R3[e-102, C9]
+```
+
+### Worked example: inflated totals
+
+If each event also carries `order_total = 100`, then summing it after flattening two items returns 200 for `e-100`. Keep event-level measures at event grain and item-level measures at item grain:
+
+```sql
+-- Wrong: event-level measure repeated per item
+SELECT SUM(e.payload:order_total::NUMBER(12,2))
+FROM raw.events e, LATERAL FLATTEN(INPUT => e.payload:items) item;
+
+-- Right: event grain for event measures
+SELECT SUM(payload:order_total::NUMBER(12,2)) FROM raw.events;
+```
+
+Use `OUTER => TRUE` when events without array elements must still produce one row with `NULL` item columns.
+
 ## Missing, Null, and Invalid Values
 
 These are not always the same condition:
@@ -56,6 +89,17 @@ These are not always the same condition:
 - a cast may fail or produce a null-like result depending on the conversion used
 
 Create explicit quality checks for required fields. Do not silently convert every malformed payload into a nullable value without tracking the failure rate.
+
+```mermaid
+flowchart TD
+    V[payload:customer.id] --> P{Path exists?}
+    P -- no --> M[Missing: SQL NULL]
+    P -- yes --> J{JSON null?}
+    J -- yes --> JN["JSON null: IS_NULL_VALUE = TRUE"]
+    J -- no --> T{Casts to expected type?}
+    T -- no --> INV[Invalid: TRY_ cast returns NULL]
+    T -- yes --> OK[Valid value]
+```
 
 ```sql
 SELECT

@@ -23,6 +23,36 @@ GRANT SELECT ON VIEW governed.customer_market TO ROLE market_analyst;
 
 The role should not receive broader grants that bypass the intended interface. Test the consumer role directly and enumerate other views, shares, stages, clones, and exports that may expose the same data.
 
+```mermaid
+flowchart LR
+    R[Role market_analyst] -->|SELECT granted| SV[governed.customer_market secure view]
+    SV --> T[(curated.customer)]
+    R -.->|unintended second path| OV[Ordinary view over curated.customer]
+    R -.->|unintended| CL[Clone in dev with same data]
+    OV -.-> T
+    style OV stroke-dasharray: 5 5
+    style CL stroke-dasharray: 5 5
+```
+
+Dashed paths are what reviews usually miss. A secure view protects only the path that goes through it.
+
+### Secure view vs ordinary view behavior
+
+| Aspect | Ordinary view | Secure view |
+| --- | --- | --- |
+| Definition visible to non-owners | yes, to roles with access | no, hidden from non-owners |
+| Optimizer may push filters into the view | yes | some optimizations are disabled to avoid exposing hidden data |
+| Can be shared through Secure Data Sharing | no | yes |
+| Typical performance | baseline | can be slower; measure |
+
+```sql
+-- Test as the consumer, not as the owner
+USE ROLE market_analyst;
+SELECT COUNT(*) FROM governed.customer_market;      -- expected to work
+SELECT COUNT(*) FROM curated.customer;              -- expected to fail
+SELECT GET_DDL('VIEW', 'governed.customer_market'); -- expected to fail for non-owners
+```
+
 ## Common Use Cases
 
 ### Governed sharing

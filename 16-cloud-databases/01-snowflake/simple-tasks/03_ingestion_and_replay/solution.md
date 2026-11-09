@@ -12,6 +12,19 @@ Record source system, delivery or batch ID, stable file identity or checksum, ex
 
 Abort preserves completeness visibility but blocks the batch until remediation. Skip can improve throughput but risks silent loss. Quarantine isolates the bad input while allowing controlled progress only if consumers can identify partial completeness. For financial data, prefer a visible failure or explicit partial-batch contract over silent skip; the business owner defines whether unaffected files may proceed.
 
+```mermaid
+flowchart TD
+    B["Batch with one malformed file"] --> Q{"Failure handling"}
+    Q -- Abort --> A["Batch blocked<br/>failure visible"]
+    Q -- Quarantine --> QU["Good files proceed<br/>bad file isolated"]
+    Q -- Skip --> S["Throughput kept<br/>silent loss risk"]
+    S -. "rejected for finance" .-> X["Not acceptable without<br/>visible completeness"]
+    A --> FIN{"Owner: may unaffected<br/>files proceed?"}
+    QU --> FIN
+    FIN -- No --> A2["Abort and remediate"]
+    FIN -- Yes --> QU2["Quarantine plus a partial-batch<br/>flag consumers can see"]
+```
+
 ## Task 4
 
 File-level load history does not prove that a renamed or corrected file represents the same business events. Use stable source record IDs, batch/version IDs, and a deterministic deduplication or merge rule. Retain the source and document whether corrections replace, append, or version records.

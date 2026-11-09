@@ -2,6 +2,37 @@
 
 These answers model senior-level reasoning. A strong answer starts with workload requirements and evidence, distinguishes symptoms from causes, and names correctness, cost, and operational trade-offs. Do not memorize a tuning slogan as a universal rule.
 
+```mermaid
+mindmap
+  root((Snowflake performance))
+    Diagnosis
+      Q1 Slow query method
+      Q4 Profile percentages
+      Q10 Queueing
+      Q14 Join explosion
+      Q18 Benchmarking
+    Execution signals
+      Q2 Remote spill
+      Q3 Partitions scanned
+      Q16 Filter functions and pruning
+    Caching
+      Q5 Result reuse vs local cache
+    Physical features
+      Q6 Clustering key
+      Q7 Clustering vs Search Optimization
+      Q8 Materialized view vs dynamic table
+      Q17 Aggregate materialization
+      Q19 Dynamic table target lag
+    SQL shape
+      Q12 CTE boundaries
+      Q13 Window vs self-join
+    Architecture
+      Q9 External vs native vs Iceberg
+      Q15 File size and row groups
+      Q11 Warehouse sizing
+      Q20 Communicating decisions
+```
+
 ## 1. How do you investigate a slow Snowflake query?
 
 **Strong answer:** I capture the query ID, exact SQL/parameters, role, warehouse, data state, query tag, concurrency, and whether the run was cold or warm. I split total elapsed into compilation, warehouse provisioning/repair/overload queue, execution, and result delivery. In Query Profile I find expensive operators and trace TableScan bytes/partitions through joins, windows, aggregates, sorts, and spill. I form one falsifiable hypothesis, change one thing, verify identical results, then measure latency, usage, and neighbor workloads.
@@ -108,3 +139,14 @@ A strong senior answer:
 - compares alternatives with performance, cost, security, and operations in view
 - names a test and an owner
 - avoids universal thresholds and “always resize/cluster/cache” advice
+
+```mermaid
+flowchart LR
+    A["Symptom<br/>what users see"] --> B["Evidence<br/>metric or operator"]
+    B --> C["Mechanism<br/>why it happens"]
+    C --> D["Options<br/>at least two"]
+    D --> E["Trade-off<br/>cost, correctness, operations"]
+    E --> F["Verification<br/>test, owner, rollback"]
+```
+
+An answer that skips straight from symptom to option is the pattern interviewers probe hardest.

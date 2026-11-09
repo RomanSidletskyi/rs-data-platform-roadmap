@@ -96,6 +96,16 @@ Add checks that prove the curated contract is stable and consumer-facing.
 
 Summarize trade-offs, including why some datasets should remain native and not become Iceberg.
 
+```mermaid
+flowchart LR
+    S1["Step 1<br/>read the brief and inputs"] --> S2["Step 2<br/>define three layers"]
+    S2 --> S3["Step 3<br/>draft objects per layer"]
+    S3 --> S4["Step 4<br/>publish flow SQL"]
+    S4 --> S5["Step 5<br/>contract stability checks"]
+    S5 --> S6["Step 6<br/>trade-off summary"]
+    S5 -. "check fails: contract too wide or unstable" .-> S2
+```
+
 ## Implementation Requirements
 
 - keep the raw, operational, and contract layers distinct

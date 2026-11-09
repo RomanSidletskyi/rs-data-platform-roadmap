@@ -13,6 +13,51 @@ Dev and production boundaries -> controlled CI/CD promotion
 Airflow or equivalent -> cross-system orchestration where required
 ```
 
+Figure of the starting hypothesis above (explanatory, not a recommended answer):
+
+```mermaid
+flowchart LR
+    SRC["Sources"] --> K["Kafka"]
+    SRC --> OS["Object storage"]
+    K --> ING["Ingestion"]
+    OS --> ING
+    subgraph SF["Snowflake, per environment"]
+        RAW["Raw"] --> TR["dbt or Snowflake-native<br/>transformations"] --> CUR["Curated data products"]
+    end
+    ING --> RAW
+    CUR --> BI["BI"]
+    CUR --> SH["Governed sharing"]
+    AF["Airflow or equivalent"] -. "cross-system orchestration" .-> ING
+    AF -. triggers .-> TR
+    CICD["CI/CD promotion<br/>dev to prod"] -. deploys .-> SF
+```
+
+**Starting skeleton, not a solution.** Copy it into your own design and replace every question mark with a decision and a reason. Add, split, or remove boxes as your requirements demand.
+
+```mermaid
+flowchart TB
+    subgraph REQ["Requirements - fill in"]
+        R1["Freshness, RPO and RTO,<br/>residency, budget: ?"]
+    end
+    subgraph ACCT["Account topology - choose"]
+        DEV["DEV boundary: ?"]
+        PROD["PROD boundary: ?"]
+    end
+    subgraph FLOW["Production data flow - extend per domain"]
+        ING2["Ingestion: ?"] --> RAW2["Raw: ?"] --> XF["Transform: ?"] --> DP["Data products: ?"] --> SERVE["Serving: ?"]
+    end
+    subgraph CROSS["Cross-cutting - assign owners"]
+        SEC["Roles and policies: ?"]
+        COST["Warehouses and budgets: ?"]
+        DR["Recovery and replication: ?"]
+        OPS["CI/CD and monitoring: ?"]
+    end
+    R1 --> ACCT
+    DEV -- "promotion: ?" --> PROD
+    PROD --> FLOW
+    CROSS -.-> FLOW
+```
+
 ## Architecture Decisions
 
 ### Environment and domain boundaries
@@ -34,6 +79,25 @@ Define human and service roles, least privilege, future grants, policy ownership
 ### Recovery and continuity
 
 State RPO/RTO, eligible recovery mechanisms, replication requirements, application cutover, identity/integration readiness, validation, and failback. A database replica alone is not the whole recovery plan.
+
+Example shape of a timed recovery drill (generic; your mechanisms and steps will differ):
+
+```mermaid
+sequenceDiagram
+    participant OPS as OnCall
+    participant P as PrimaryAccount
+    participant S as SecondaryAccount
+    participant APP as BIAndApps
+    Note over P: Regional disruption declared by the named owner
+    OPS->>S: promote replicated objects per runbook
+    OPS->>S: verify roles, integrations, secrets, network paths
+    OPS->>APP: redirect connections and orchestration
+    APP->>S: validation queries and freshness checks
+    S-->>OPS: measured RTO and data-loss window vs RPO
+    OPS->>P: plan and rehearse failback
+```
+
+Every arrow after the first is outside "data replication"; that is why a replica alone does not meet an RTO.
 
 ### Delivery and operations
 

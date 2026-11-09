@@ -1,5 +1,20 @@
 # Solution: Task Set 04
 
+One possible decision path across the five tasks; real constraints can override any branch:
+
+```mermaid
+flowchart TD
+    S["Processing need"] --> Q1{"Spans systems such as<br/>files, APIs, notifications?"}
+    Q1 -- Yes --> EXT["External orchestrator<br/>owns schedule and retries"]
+    Q1 -- No --> Q2{"Small complete snapshot,<br/>daily freshness?"}
+    Q2 -- Yes --> FULL["Full rebuild"]
+    Q2 -- No --> Q3{"SQL DAG needing tests,<br/>lineage, versioning?"}
+    Q3 -- Yes --> DBT["dbt, possibly with dynamic<br/>tables for supported models"]
+    Q3 -- No --> Q4{"Updates and deletes,<br/>minutes-level freshness?"}
+    Q4 -- Yes --> MS["MERGE driven by<br/>streams and tasks"]
+    Q4 -- No --> DT["Dynamic table<br/>with a target lag"]
+```
+
 ## Task 1
 
 A full rebuild is likely simplest and easiest to reason about at this size and freshness target. Confirm the snapshot is complete and rebuild cost remains acceptable.

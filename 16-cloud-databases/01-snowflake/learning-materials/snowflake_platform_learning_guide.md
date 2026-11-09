@@ -72,6 +72,8 @@ Platform engineer track:
 
 Architect track:
 
+Complete the shared foundation in the [recommended main route](01_learning_paths.md#recommended-main-route) first: platform and accounts, compute and cost, native objects, ingestion, and governance. Then:
+
 1. [Snowflake-managed Iceberg](deep-dives/iceberg-and-external-tables/Snowflake_managed_Iceberg.md)
 2. [Open Catalog](deep-dives/iceberg-and-external-tables/Snowflake_Open_Catalog.md)
 3. [Open Catalog cookbook](deep-dives/iceberg-and-external-tables/Snowflake_Open_Catalog_cookbook.md)

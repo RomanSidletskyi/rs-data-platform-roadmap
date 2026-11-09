@@ -74,6 +74,29 @@ You usually need:
 - file format
 - external table definition
 
+```mermaid
+flowchart LR
+    subgraph CLOUD["Your cloud account"]
+        B["S3 bucket<br/>company-raw/orders/"]
+        IAM["IAM role trusted by Snowflake"]
+    end
+    subgraph SF["Snowflake"]
+        SI["Storage integration<br/>raw_s3_int"]
+        ST["External stage<br/>raw_orders_stage"]
+        FF["File format<br/>ff_json_orders"]
+        ET["External table<br/>ext_raw.orders_json"]
+        WH["Virtual warehouse"]
+    end
+    SI -->|assumes| IAM
+    IAM -->|"grants read"| B
+    ST -->|uses| SI
+    ET -->|LOCATION| ST
+    ET -->|FILE_FORMAT| FF
+    WH -->|"scans registered files at query time"| ET
+```
+
+Each object has one job: the integration holds trust, the stage holds the path, the file format holds parsing rules, and the external table holds column expressions plus the list of registered files. Data never moves into Snowflake storage.
+
 ### 5.1 Storage integration
 
 Representative example:
@@ -83,6 +106,7 @@ CREATE OR REPLACE STORAGE INTEGRATION raw_s3_int
   TYPE = EXTERNAL_STAGE
   STORAGE_PROVIDER = S3
   ENABLED = TRUE
+  STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::123456789012:role/snowflake-raw-access'
   STORAGE_ALLOWED_LOCATIONS = ('s3://company-raw/');
 ```
 
@@ -113,14 +137,17 @@ CREATE OR REPLACE FILE FORMAT ff_json_orders
 Representative JSON example:
 
 ```sql
+-- METADATA$FILENAME is relative to the stage URL (s3://company-raw/orders/),
+-- e.g. 'dt=2026-03-20/hour=10/part-0001.json'
 CREATE OR REPLACE EXTERNAL TABLE ext_raw.orders_json (
-    order_date DATE AS TO_DATE(SPLIT_PART(METADATA$FILENAME, '/', 3)),
+    order_date DATE AS TO_DATE(SPLIT_PART(SPLIT_PART(METADATA$FILENAME, '/', 1), '=', 2)),
     order_id STRING AS (VALUE:order_id::STRING),
     customer_id STRING AS (VALUE:customer_id::STRING),
     order_ts TIMESTAMP_NTZ AS (VALUE:order_ts::TIMESTAMP_NTZ),
     amount NUMBER(18,2) AS (VALUE:amount::NUMBER(18,2)),
     status STRING AS (VALUE:status::STRING)
 )
+PARTITION BY (order_date)
 WITH LOCATION = @raw_orders_stage
 FILE_FORMAT = (FORMAT_NAME = ff_json_orders)
 PATTERN = '.*[.]json';
@@ -130,7 +157,7 @@ What this does:
 
 - points to files in the stage
 - maps file content into columns
-- derives one partition-like attribute from the file path
+- derives a partition column from the file path; `PARTITION BY` lets filters on `order_date` skip files
 
 Architecture note:
 
@@ -202,6 +229,31 @@ Registered-file changes and persisted query-result reuse are separate freshness 
 
 Automatic refresh has notification and maintenance costs. Confirm the cloud-specific event setup and billing behavior for your account.
 
+```mermaid
+sequenceDiagram
+    participant P as Producer
+    participant S3 as Object storage
+    participant N as Cloud event notification
+    participant SF as Snowflake external table metadata
+    participant U as Query user
+    P->>S3: Write new file dt=2026-03-21/part-0001.json
+    U->>SF: SELECT ... (before registration)
+    SF-->>U: Rows from previously registered files only
+    alt AUTO_REFRESH = TRUE
+        S3->>N: Object-created event
+        N->>SF: Notify Snowflake
+        SF->>SF: Register new file
+    else Manual refresh
+        U->>SF: ALTER EXTERNAL TABLE ... REFRESH
+        SF->>S3: List files under the stage location
+        SF->>SF: Add new and remove deleted registrations
+    end
+    U->>SF: SELECT ... (after registration)
+    SF-->>U: Rows now include the new file
+```
+
+The file existing in storage and the file being visible in Snowflake are two different events. Freshness incidents usually live in the gap between them: a missing notification, a pattern mismatch, or a refresh that never ran.
+
 ## 9. External Tables vs `COPY INTO`
 
 This is a core architectural decision.
@@ -226,6 +278,18 @@ Short rule:
 
 - external table = access without loading
 - `COPY INTO` = ingest into warehouse-native operational tables
+
+```mermaid
+flowchart LR
+    F["Files in object storage"]
+    F --> ETP["External table<br/>files stay in place"]
+    F --> CP["COPY INTO<br/>files loaded once"]
+    ETP --> Q1["Every query reads raw files<br/>speed depends on file layout and format"]
+    CP --> NT["Native table<br/>Snowflake storage and pruning metadata"]
+    NT --> Q2["Queries read optimized native storage"]
+```
+
+The trade-off is paying the load cost once with `COPY INTO` versus paying the file-scan cost on every query with an external table. Repeated heavy queries usually favor loading.
 
 ---
 
@@ -263,6 +327,19 @@ Why this is strong:
 - fast onboarding of new feeds
 - controlled move from discovery to managed ingestion
 - external tables stay at the boundary where they are most useful
+
+```mermaid
+flowchart LR
+    P["Partner files land<br/>in object storage"] --> ET["External table<br/>discovery and validation"]
+    ET --> V{"Schema and quality rules clear?"}
+    V -->|"Not yet"| ET
+    V -->|Yes| C["COPY INTO<br/>native raw table"]
+    C --> M["Curated and mart models"]
+    M --> BI["Dashboards and joins"]
+    ET -.->|"avoid as permanent serving layer"| BI
+```
+
+The dotted edge is the anti-pattern from the next section: letting the discovery layer silently become the serving layer.
 
 ---
 
@@ -310,6 +387,17 @@ Why this is bad:
 - impossible to reason about logically
 - path semantics are unstable
 - partition expressions become brittle
+
+```mermaid
+flowchart TD
+    Q["WHERE order_date = '2026-03-21'"] --> P{"Partition column derived from a stable path?"}
+    P -->|"Yes, dt= folders"| G["Read only files under orders/dt=2026-03-21/"]
+    P -->|"No, chaotic folders"| B["Read every registered file"]
+    G --> GF["Fewer files, faster and cheaper"]
+    B --> BF["Full scan, slower and costlier"]
+```
+
+Pruning only happens when the external table declares partition columns with `PARTITION BY`, computed from path parts such as `METADATA$FILENAME`. A stable folder convention is what makes that expression reliable.
 
 ---
 

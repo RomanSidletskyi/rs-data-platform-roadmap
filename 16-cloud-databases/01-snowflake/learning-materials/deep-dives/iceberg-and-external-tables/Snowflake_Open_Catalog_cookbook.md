@@ -21,12 +21,29 @@ The point is to make Open Catalog concrete enough to design with it.
 
 ## 2. Scenario Map
 
-This cookbook covers four main scenarios:
+This cookbook covers six scenarios:
 
 1. Query an Open Catalog table from Snowflake.
 2. Sync Snowflake-managed Iceberg tables into Open Catalog.
 3. Design service-principal and RBAC flows for multiple engines.
-4. Decide whether Horizon Catalog is a better fit for external-engine access.
+4. Use credential vending safely with clean storage paths.
+5. Decide whether Horizon Catalog is a better fit for external-engine access.
+6. Decide how to onboard a new engine.
+
+```mermaid
+flowchart TD
+    S{"Who owns the table metadata?"}
+    S -->|"Open Catalog"| S1["Scenario 1<br/>query Open Catalog table from Snowflake"]
+    S -->|Snowflake| H{"Is external-engine read access the only need?"}
+    H -->|Yes| S5["Scenario 5<br/>evaluate Horizon Catalog first"]
+    H -->|"No, Open Catalog is the shared catalog"| S2["Scenario 2<br/>sync Snowflake-managed Iceberg"]
+    S1 --> S3["Scenario 3<br/>service principals and RBAC"]
+    S2 --> S3
+    S3 --> S4["Scenario 4<br/>credential vending and path safety"]
+    NEW["New engine arrives"] --> S6["Scenario 6<br/>engine onboarding decision"]
+```
+
+Scenario numbers in the diagram follow the section headings below. Both Open Catalog paths converge on the same security work: principals, roles, and path layout.
 
 ---
 
@@ -107,6 +124,27 @@ Operator takeaway:
 - this is still an externally managed Iceberg pattern from Snowflake's point of view
 - Open Catalog is the remote metadata authority
 
+```mermaid
+sequenceDiagram
+    participant ADM as Snowflake admin
+    participant SF as Snowflake
+    participant OC as Open Catalog
+    participant ST as Object storage
+    ADM->>SF: CREATE EXTERNAL VOLUME and CATALOG INTEGRATION
+    SF->>OC: OAuth client credentials of the service principal
+    OC-->>SF: Access token
+    ADM->>SF: List namespaces and tables from catalog
+    SF->>OC: List request
+    OC-->>SF: analytics namespace with orders table
+    ADM->>SF: CREATE ICEBERG TABLE analytics.orders_oc
+    SF->>OC: Load table orders
+    OC-->>SF: Current metadata location
+    SF->>ST: Read metadata and data files via external volume
+    SF-->>ADM: Query results
+```
+
+Listing namespaces before registration is a cheap end-to-end test of OAuth, principal roles, and catalog privileges.
+
 ---
 
 ## 4. Scenario 2: Sync Snowflake-Managed Iceberg To Open Catalog
@@ -183,6 +221,27 @@ Important operational nuance:
 - synced Snowflake-managed tables are read-only in Open Catalog for non-Snowflake engines
 - this is a publish path, not a shared multi-writer control plane
 
+```mermaid
+sequenceDiagram
+    participant ENG as Data engineer
+    participant SF as Snowflake
+    participant ST as External volume storage
+    participant OC as Open Catalog
+    participant TR as Trino
+    ENG->>SF: ALTER DATABASE analytics_db SET CATALOG_SYNC
+    ENG->>SF: CREATE ICEBERG TABLE orders_publish (CATALOG = SNOWFLAKE)
+    SF->>ST: Write data and metadata under the base location prefix
+    SF->>OC: Sync table registration and metadata location
+    ENG->>SF: INSERT new rows
+    SF->>ST: Write new snapshot files
+    SF->>OC: Sync new metadata location
+    TR->>OC: Load table orders_publish
+    OC-->>TR: Current metadata location, table is read-only
+    TR->>ST: Read data files
+```
+
+Snowflake is the only writer. Open Catalog follows Snowflake's commits, so external readers can lag until sync completes.
+
 ---
 
 ## 5. Scenario 3: Service Principals And RBAC
@@ -213,6 +272,15 @@ Example mental mapping:
 - `trino_bi_principal` -> `trino_bi_role` -> read-only catalog roles
 - `snowflake_pipeline_principal` -> `snowflake_pipeline_role` -> namespace/table access required for Snowflake integrations
 
+```mermaid
+flowchart LR
+    SPK["spark_etl_principal"] --> SPR["spark_etl_role"] --> W["write and read catalog roles"]
+    TRP["trino_bi_principal"] --> TRR["trino_bi_role"] --> R["read-only catalog roles"]
+    SFP["snowflake_pipeline_principal"] --> SFR["snowflake_pipeline_role"] --> N["namespace and table access for Snowflake integrations"]
+```
+
+One lane per workload makes reviews simple: to audit what Trino can do, read one lane.
+
 ---
 
 ## 6. Scenario 4: Credential Vending And Path Safety
@@ -241,6 +309,21 @@ Rule:
 This is not just neatness.
 
 It is part of the access-control model.
+
+```mermaid
+flowchart LR
+    subgraph BAD["Bad: nested table directories"]
+        B1["/catalog/schema/table1"] --> B2["/catalog/schema/table1/table2"]
+        BC["Credential for table1"] -.->|"also reaches"| B2
+    end
+    subgraph GOOD["Good: one table, one root"]
+        G0["/catalog/schema"] --> G1["/catalog/schema/table1"]
+        G0 --> G2["/catalog/schema/table2"]
+        GC["Credential for table1"] -.->|"only reaches"| G1
+    end
+```
+
+A vended credential covers a path prefix, so nesting one table inside another turns a single grant into two.
 
 ---
 

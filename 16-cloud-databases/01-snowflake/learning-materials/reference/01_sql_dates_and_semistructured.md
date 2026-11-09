@@ -23,6 +23,19 @@ FROM orders;
 
 For `TIMESTAMP_NTZ`, timezone interpretation is external to the value. `TIMESTAMP_LTZ` is displayed using the session timezone. `TIMESTAMP_TZ` retains an offset with the timestamp. Validate ingestion and daylight-saving assumptions with representative records.
 
+```mermaid
+flowchart TD
+    A["What does the source value mean?"] --> B{"An absolute instant,<br/>such as an event time?"}
+    B -- "No, wall-clock or business date-time" --> NTZ["TIMESTAMP_NTZ<br/>no time zone stored<br/>meaning documented in the contract"]
+    B -- Yes --> C{"Must the original<br/>offset be preserved?"}
+    C -- Yes --> TZ["TIMESTAMP_TZ<br/>instant plus an offset"]
+    C -- "No, normalize" --> D{"Should each session<br/>see its own local time?"}
+    D -- Yes --> LTZ["TIMESTAMP_LTZ<br/>stored as UTC<br/>displayed in session time zone"]
+    D -- "No, fixed convention" --> NTZU["TIMESTAMP_NTZ holding UTC<br/>only with an explicit UTC contract"]
+```
+
+`TIMESTAMP_TZ` keeps an offset, not a named time zone, so later daylight-saving rules are not carried with the value. An NTZ column is UTC only when the contract says so.
+
 ## `VARIANT`, JSON, and Paths
 
 ```sql
@@ -51,6 +64,25 @@ LATERAL FLATTEN(INPUT => e.raw_payload:items) AS item;
 ```
 
 `FLATTEN` turns elements of an array or object into rows. The lateral relationship allows the function to use a column from the preceding row source. Check whether empty, missing, or null arrays should produce zero rows or be retained with an outer expansion pattern.
+
+```mermaid
+flowchart LR
+    subgraph IN["raw_events: 2 rows"]
+        E1["event 1<br/>items: A, B, C"]
+        E2["event 2<br/>items: empty array"]
+    end
+    subgraph OUT["After LATERAL FLATTEN: 3 rows"]
+        R1["event 1, index 0, sku A"]
+        R2["event 1, index 1, sku B"]
+        R3["event 1, index 2, sku C"]
+    end
+    E1 --> R1
+    E1 --> R2
+    E1 --> R3
+    E2 -.-> GONE["No output row by default<br/>kept with NULLs only if OUTER is TRUE"]
+```
+
+The grain moves from event to item: any event-level measure now repeats on every item row, and events with empty arrays silently disappear unless the outer form is used.
 
 ## Common Null and Conditional Helpers
 
@@ -88,5 +120,20 @@ Use a deterministic tie-breaker when selecting one row. An omitted or incorrect 
 - Distinguish missing paths, JSON nulls, and SQL `NULL` when they have different business meaning.
 - Validate malformed payload rates instead of silently turning all parse failures into `NULL`.
 - Remember that flattening an array changes row cardinality.
+
+A typical production timestamp failure, end to end:
+
+```mermaid
+flowchart LR
+    SRC["Source string<br/>local wall-clock time<br/>no offset"] --> NTZ["Loaded as TIMESTAMP_NTZ<br/>value kept as written"]
+    NTZ --> Q{"Which zone did<br/>the producer mean?"}
+    Q -- "Assumed UTC, actually local" --> BAD["Every value shifted by the offset<br/>orders move across midnight<br/>daily totals change"]
+    Q -- "Documented in the contract" --> OK["CONVERT_TIMEZONE with an<br/>explicit source zone"]
+    OK --> DST{"Value near a<br/>daylight-saving change?"}
+    DST -- Yes --> TEST["Test skipped and repeated<br/>local hours with real samples"]
+    DST -- No --> CUR["Typed curated column<br/>with documented semantics"]
+```
+
+The wrong-zone bug rarely fails a load; it shows up later as daily totals that disagree with the source system.
 
 For schema-on-read decisions, typed projections, and data-quality patterns, see [Semi-Structured Data](../deep-dives/01_semi_structured_data.md).

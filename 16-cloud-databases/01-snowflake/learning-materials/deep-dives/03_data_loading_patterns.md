@@ -11,11 +11,57 @@ Source -> object storage landing path -> stage/file format -> COPY INTO raw
        -> validation and load history -> curated transformation
 ```
 
+```mermaid
+flowchart LR
+    SRC[Source] --> LAND[(Object storage landing path)]
+    LAND --> STG[Stage + file format]
+    STG --> COPY[COPY INTO raw]
+    COPY --> HIST[Load history and validation]
+    HIST --> CUR[Curated transformation]
+    MAN[Manifest of expected files] --> REC{Reconcile}
+    HIST --> REC
+```
+
+```sql
+CREATE FILE FORMAT ff_orders_csv
+  TYPE = CSV
+  SKIP_HEADER = 1
+  FIELD_OPTIONALLY_ENCLOSED_BY = '"'
+  NULL_IF = ('', 'NULL');
+
+-- Dry run: return errors without loading
+COPY INTO raw.orders
+FROM @landing/orders/dt=2026-03-20/
+FILE_FORMAT = (FORMAT_NAME = ff_orders_csv)
+VALIDATION_MODE = RETURN_ERRORS;
+
+-- Real load
+COPY INTO raw.orders
+FROM @landing/orders/dt=2026-03-20/
+FILE_FORMAT = (FORMAT_NAME = ff_orders_csv)
+ON_ERROR = ABORT_STATEMENT;
+```
+
 Use bulk loading when delivery can be grouped into files and operational simplicity or throughput matters more than very low latency. Keep a manifest or equivalent expected-file record, retain source files for replay, and reconcile expected deliveries against successful loads.
 
 ## Pattern 2: Continuous File Arrival
 
 Snowpipe can automate ingestion of new files using supported notifications and integrations. It reduces custom polling, but the platform still needs to monitor file discovery, load outcomes, rejected records, freshness, and cost. It is not a guarantee that every upstream file arrived correctly.
+
+```mermaid
+sequenceDiagram
+    participant S as Source
+    participant B as Bucket
+    participant N as Event notification
+    participant P as Snowpipe
+    participant T as Target table
+    S->>B: put file
+    B->>N: object created
+    N->>P: notify
+    P->>B: read file
+    P->>T: load rows
+    Note over N,P: a missed notification leaves the file waiting. Use ALTER PIPE REFRESH for recent files and reconcile
+```
 
 ## Pattern 3: Low-Latency Rows or Events
 
@@ -30,6 +76,31 @@ Do not treat load-history duplicate suppression as a complete business idempoten
 ## Error Handling and Quarantine
 
 Choose whether one bad file should fail a batch, whether bad rows can be isolated, and who resolves them. Quarantine requires a location, owner, alert, retention policy, and replay process. Silent skipping is especially risky when the completeness requirement is strict.
+
+| `ON_ERROR` value | Effect | Default for |
+| --- | --- | --- |
+| `ABORT_STATEMENT` | stop the whole load on the first error | bulk `COPY INTO` |
+| `SKIP_FILE` | skip any file with errors | Snowpipe |
+| `SKIP_FILE_<n>` / `SKIP_FILE_<n>%` | skip a file when errors reach a count or share | — |
+| `CONTINUE` | load good rows, skip bad rows | — |
+
+```mermaid
+flowchart TD
+    F[Incoming file] --> V{Parse errors?}
+    V -- none --> L[Load to raw]
+    V -- some rows --> P{Completeness strict?}
+    P -- yes --> A[Reject file, alert owner, keep file for replay]
+    P -- no --> C[Load good rows, record rejects, alert above threshold]
+    A --> Q[(Quarantine path)]
+    C --> Q
+    Q -->|fixed| R[Replay]
+```
+
+Rejected rows of a past load can be inspected with `VALIDATE`:
+
+```sql
+SELECT * FROM TABLE(VALIDATE(raw.orders, JOB_ID => '_last'));
+```
 
 ## External Storage Security
 

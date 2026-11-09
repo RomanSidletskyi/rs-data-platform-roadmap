@@ -1,5 +1,7 @@
 # Snowflake Dynamic Tables
 
+**Last verified against Snowflake documentation:** 2026-11-09 (refresh modes, supported queries, upstream full-refresh constraint). Dynamic tables evolve quickly; re-check [refresh modes](https://docs.snowflake.com/en/user-guide/dynamic-tables/refresh-modes) and [supported queries](https://docs.snowflake.com/en/user-guide/dynamic-tables/supported-queries) before production use.
+
 ## 1. Why This Topic Matters
 
 Most analytics pipelines need one of these refresh models:
@@ -33,6 +35,19 @@ Short version:
 - views are logical
 - tables are explicit
 - dynamic tables are declarative refresh objects
+
+```mermaid
+flowchart LR
+    subgraph View
+        V[Query text] -->|runs on every read| VR[Result]
+    end
+    subgraph Table
+        J[Your job or task] -->|writes when you decide| T[(Stored rows)]
+    end
+    subgraph DT["Dynamic table"]
+        Q[Query text plus TARGET_LAG] -->|Snowflake refreshes| D[(Stored rows)]
+    end
+```
 
 ---
 
@@ -123,6 +138,39 @@ Important mental model:
 - dynamic table is not just a saved query
 - dynamic table is a physically maintained result set
 - refresh may be incremental or full
+
+```mermaid
+sequenceDiagram
+    participant B as Base tables
+    participant S as Refresh scheduler
+    participant W as Warehouse
+    participant DT as Dynamic table
+    B->>B: DML commits, change tracking records changes
+    S->>S: lag approaching TARGET_LAG?
+    S->>W: start refresh at a consistent data timestamp
+    W->>B: read changes or full inputs
+    alt incremental
+        W->>DT: merge computed delta
+    else full
+        W->>DT: replace result
+    end
+    W-->>S: record refresh in history
+```
+
+### Lifecycle
+
+```mermaid
+stateDiagram-v2
+    [*] --> Initializing: CREATE with INITIALIZE = ON_CREATE
+    [*] --> Waiting: CREATE with INITIALIZE = ON_SCHEDULE
+    Waiting --> Initializing: first scheduled refresh
+    Initializing --> Active
+    Active --> Active: incremental or full refresh
+    Active --> Reinitializing: definition change, upstream recreated, ADAPTIVE decision
+    Reinitializing --> Active
+    Active --> Suspended: ALTER SUSPEND or repeated failures
+    Suspended --> Active: ALTER RESUME
+```
 
 ---
 
@@ -259,11 +307,28 @@ This means dynamic tables can sit on a spectrum between:
 
 ## 5.5 Refresh Modes And What They Really Mean
 
-Snowflake supports three refresh modes:
+Snowflake documents four Snowflake-managed refresh modes plus one advanced option:
 
-- `AUTO`
-- `INCREMENTAL`
-- `FULL`
+| Mode | What it does | Unsupported constructs | Production use |
+| --- | --- | --- | --- |
+| `ADAPTIVE` | incremental by default; reinitializes when heuristics expect a rebuild to be cheaper | creation fails | recommended for incrementalizable workloads, especially with occasional bulk loads |
+| `INCREMENTAL` | processes only changes since last refresh | creation fails | append-heavy sources with small change volumes |
+| `FULL` | re-executes the whole definition and replaces the result | always works | unsupported constructs, high churn, small dimensions |
+| `AUTO` (default) | resolves once at creation to `INCREMENTAL` or `FULL`; never to `ADAPTIVE` | silently resolves to `FULL` | exploration and prototyping, then lock in the mode |
+| `CUSTOM_INCREMENTAL` | you define refresh logic as `MERGE` or `INSERT` in a `REFRESH USING` clause | bypasses standard analysis | transformations the standard modes cannot incrementalize |
+
+```mermaid
+flowchart TD
+    A[New dynamic table] --> B{Definition supported for incremental refresh?}
+    B -- no --> C{Need incremental anyway?}
+    C -- yes --> CI[CUSTOM_INCREMENTAL with your own MERGE logic]
+    C -- no --> F[FULL]
+    B -- yes --> D{Sources mostly append or small changes?}
+    D -- no, high churn or full reloads --> F
+    D -- yes --> E{Occasional bulk loads or INSERT OVERWRITE?}
+    E -- yes --> AD[ADAPTIVE]
+    E -- no --> G[ADAPTIVE or INCREMENTAL]
+```
 
 ### `INCREMENTAL`
 
@@ -281,11 +346,33 @@ Example:
 
 So incremental refresh is not the same as “free tiny delta update.”
 
+Snowflake's guideline is that incremental refresh works best when fewer than about 5% of base data changes between refreshes. This is a performance guideline, not an automatic switch: Snowflake never changes the configured mode because change volume grew.
+
 ### `FULL`
 
 Snowflake reruns the query and replaces the previously materialized result.
 
-This is conceptually simpler but more expensive for large tables.
+This is conceptually simpler but more expensive for large tables. Some computations need it by nature — for example an exact median or `EXCEPT`, where a few new rows can change the answer for all rows.
+
+### `ADAPTIVE`
+
+- runs incremental refreshes normally
+- reinitializes automatically when an incremental refresh would be much more expensive, for example after `INSERT OVERWRITE` or large bulk deletes on a base table
+- can use a separate `INITIALIZATION_WAREHOUSE` so occasional rebuilds get a larger warehouse without oversizing routine refreshes
+- same query-support and pipeline constraints as `INCREMENTAL`
+- reinitializations appear in `DYNAMIC_TABLE_REFRESH_HISTORY` with `REFRESH_ACTION = 'REINITIALIZE'` and a `REINIT_REASON`
+
+```sql
+CREATE OR REPLACE DYNAMIC TABLE dt_orders_adaptive
+  TARGET_LAG = '10 minutes'
+  WAREHOUSE = transform_wh
+  INITIALIZATION_WAREHOUSE = transform_wh_xl
+  REFRESH_MODE = ADAPTIVE
+AS
+SELECT order_id, customer_id, order_date, total_amount
+FROM raw_orders
+WHERE order_status = 'COMPLETED';
+```
 
 ### `AUTO`
 
@@ -294,9 +381,34 @@ Snowflake chooses a concrete mode at creation time.
 Important detail:
 
 - that choice is made once when the dynamic table is created
-- it is not something you should treat as a permanently adaptive magic optimizer
+- it resolves only to `INCREMENTAL` or `FULL`, never to `ADAPTIVE`
+- if the definition later stops supporting incremental refresh (for example, an upstream view changes), refreshes fail instead of silently switching
 
-For production designs, explicit `INCREMENTAL` or `FULL` is often clearer than relying on `AUTO`.
+Verify what `AUTO` chose:
+
+```sql
+SHOW DYNAMIC TABLES LIKE 'dt_orders'
+  ->> SELECT "name", "refresh_mode", "refresh_mode_reason" FROM $1;
+```
+
+For production designs, set `ADAPTIVE`, `INCREMENTAL`, or `FULL` explicitly.
+
+### Changing the mode
+
+`ALTER DYNAMIC TABLE` cannot change the refresh mode. Use `CREATE OR ALTER DYNAMIC TABLE` or `CREATE OR REPLACE DYNAMIC TABLE`; the latter reinitializes the table and its downstream dependencies.
+
+### Illustrative cost shape
+
+```mermaid
+xychart-beta
+    title "Illustrative refresh cost vs share of data changed (shape only, not a benchmark)"
+    x-axis ["0.1%", "1%", "5%", "20%", "50%", "100%"]
+    y-axis "Relative refresh cost" 0 --> 140
+    line [3, 10, 35, 90, 120, 130]
+    line [100, 100, 100, 100, 100, 100]
+```
+
+The rising line is incremental refresh, the flat line is full refresh. Where they cross depends on query shape, joins, and data layout; compare actual durations in `DYNAMIC_TABLE_REFRESH_HISTORY` before choosing.
 
 ---
 
@@ -320,7 +432,9 @@ So the safest engineering answer is:
 
 Important practical point:
 
-- change tracking must be enabled on the underlying objects used by a dynamic table
+- incremental refresh relies on change tracking on the base objects
+- if change tracking is not enabled on a base table, `AUTO` resolves to `FULL` and an explicit `INCREMENTAL` definition fails
+- make sure the owning role can enable change tracking, or enable it explicitly, before relying on incremental refresh
 
 That is the part you should reason about explicitly.
 
@@ -343,6 +457,18 @@ When a dynamic table depends on other dynamic tables, Snowflake coordinates refr
 This is stronger than naïve cron thinking.
 
 Snowflake refreshes dependent tables in compatible moments and uses a consistent data timestamp across upstream dependencies.
+
+```mermaid
+flowchart LR
+    RAW[(raw_orders)] --> STG["stg_orders_clean<br/>TARGET_LAG = DOWNSTREAM"]
+    RAWC[(raw_customers)] --> DIM["dim_customers<br/>TARGET_LAG = DOWNSTREAM"]
+    STG --> INT["int_daily_customer_orders<br/>TARGET_LAG = DOWNSTREAM"]
+    DIM --> INT
+    INT --> MART["mart_daily_revenue<br/>TARGET_LAG = 15 minutes"]
+    INT --> OPS["ops_customer_activity<br/>TARGET_LAG = 5 minutes"]
+```
+
+`TARGET_LAG = DOWNSTREAM` lets an intermediate table refresh only as often as its consumers need. The effective cadence of a shared upstream table is driven by its tightest downstream lag — here, 5 minutes.
 
 Why this matters:
 
@@ -449,8 +575,9 @@ Why it becomes a problem:
 
 Better production habit:
 
-- choose `INCREMENTAL` when you know the query and data shape support it
+- choose `ADAPTIVE` or `INCREMENTAL` when you know the query and data shape support it
 - choose `FULL` when you know they do not
+- check `refresh_mode_reason` in `SHOW DYNAMIC TABLES` for every table created with `AUTO`
 
 ### Failure mode 3: Reinitialization surprises your deployment
 
@@ -471,12 +598,13 @@ Operational consequence:
 
 ### Failure mode 4: Upstream full-refresh tables break downstream incremental assumptions
 
-Snowflake documents that incremental dynamic tables cannot be downstream from full-refresh dynamic tables.
+Snowflake documents that an incremental (or adaptive) dynamic table can consume an upstream full-refresh dynamic table only if that upstream table has a system-derived unique key or a frozen region. Otherwise the combination is not allowed.
 
 Why:
 
 - upstream full refresh replaces the whole result set
-- downstream incremental logic cannot safely interpret that as a normal row-delta pattern
+- without a stable key or frozen region, downstream incremental logic cannot interpret that as a normal row-delta pattern
+- with a system-derived unique key, Snowflake can compute row-level changes across full refreshes; set `REFRESH_MODE = INCREMENTAL` explicitly downstream, because `AUTO` does not resolve to incremental in this case
 
 Architectural rule:
 
@@ -496,6 +624,20 @@ Better approach:
 - check actual refresh duration
 - set lag slightly above realistic execution time
 - separate low-latency and high-cost layers
+
+```mermaid
+gantt
+    title Target lag 5 min, refresh takes 7 min (illustrative)
+    dateFormat HH:mm
+    axisFormat %H:%M
+    section Refreshes
+    Refresh 1           :r1, 10:00, 7m
+    Skipped slot        :crit, 10:05, 2m
+    Refresh 2           :r2, after r1, 7m
+    Skipped slot        :crit, 10:12, 2m
+    section Effective lag
+    Lag grows beyond target :active, 10:05, 9m
+```
 
 ### Failure mode 6: Change in upstream object shape forces heavier behavior
 
@@ -693,6 +835,15 @@ Architectural takeaway:
 
 ## 5.13 Practical Decision Matrix
 
+```mermaid
+flowchart TD
+    S[Where do the inputs live?] --> F{Files in object storage only?}
+    F -- yes --> EX[External table for discovery, load or Iceberg for serving]
+    F -- no --> N{Must other engines read the output?}
+    N -- yes --> IC[Snowflake-managed Iceberg plus dynamic Iceberg table]
+    N -- no --> NT[Native tables plus dynamic tables]
+```
+
 Use external tables when:
 
 - you need raw file exposure
@@ -788,6 +939,15 @@ That is a better architecture conversation than cron-first thinking.
 ---
 
 ## 8. Dynamic Tables vs Tasks And Streams
+
+| Need | Dynamic tables | Streams + tasks | dbt incremental | Materialized view |
+| --- | --- | --- | --- | --- |
+| Declare freshness instead of schedule | yes | no | no | automatic, no lag control |
+| Multi-step SQL pipeline | yes, managed DAG | manual chaining | yes, via orchestrator | single query only |
+| Procedural logic, side effects | no | yes | limited | no |
+| Tests, docs, CI workflow | via surrounding tooling | via surrounding tooling | built in | no |
+| Joins and broad SQL | yes, within supported constructs | yes | yes | restricted |
+| Who pays compute | your warehouse | your warehouse or serverless task | your warehouse | serverless maintenance |
 
 ### Dynamic tables
 

@@ -12,6 +12,20 @@ Snowflake has several mechanisms that are casually called “the cache.” They 
 
 Do not call all three “the result cache.” In particular, warehouse local data cache can affect a query that still executes, while persisted result reuse can avoid the normal table-scan/operator work entirely.
 
+```mermaid
+flowchart TD
+    Q["Incoming query"] --> R{"Eligible persisted result?<br/>cloud services layer"}
+    R -->|"Yes"| RR["Return stored result<br/>no warehouse execution"]
+    R -->|"No"| P["Plan with micro-partition metadata<br/>prune irrelevant partitions"]
+    P -->|"Some metadata-only answers"| MO["Answer from metadata"]
+    P --> W["Execute on warehouse"]
+    W --> L{"Data in local cache<br/>of the active warehouse?"}
+    L -->|"Yes"| LC["Read from local disk cache"]
+    L -->|"No"| RS["Read from remote storage"]
+```
+
+Only the first branch skips execution; local cache shortens reads but the query still does its joins, sorts, and aggregation.
+
 ## 1. Persisted Query Result Reuse
 
 For an eligible query, Snowflake can reuse a previously computed result instead of executing the SQL again. This is most visible with repeated deterministic queries over unchanged data. Reuse eligibility is conditional; changes in source objects, nondeterministic functions, access/role behavior, or relevant session/query settings can prevent reuse. Use current Snowflake documentation for the complete eligibility rules.
@@ -50,6 +64,40 @@ A longer auto-suspend interval can preserve local cache for likely repeat worklo
 
 Do not keep a large warehouse running solely for cache warmth unless you have measured the end-to-end benefit against idle compute usage and service requirements.
 
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant CS as CloudServices
+    participant WH as Warehouse
+    participant RS as RemoteStorage
+    Note over U,RS: Run 1, first run on a resumed warehouse
+    U->>CS: Query
+    CS->>WH: Execute plan
+    WH->>RS: Read micro-partitions
+    RS-->>WH: Data, retained in local cache
+    WH-->>CS: Result, persisted
+    CS-->>U: Result
+    Note over U,RS: Run 2, same eligible query, data unchanged
+    U->>CS: Query
+    CS-->>U: Persisted result reused, no warehouse execution
+    Note over CS: Result kept 24 hours, reset on each reuse, up to 31 days
+    Note over U,RS: Run 3, USE_CACHED_RESULT FALSE, warehouse still active
+    U->>CS: Query
+    CS->>WH: Execute plan
+    WH->>WH: Read from local cache where possible
+    WH-->>CS: Result
+    CS-->>U: Result
+    Note over WH: Auto-suspend clears local cache
+    Note over U,RS: Run 4, after resume, result reuse disabled
+    U->>CS: Query
+    CS->>WH: Resume and execute
+    WH->>RS: Cold remote reads again
+    WH-->>CS: Result
+    CS-->>U: Result
+```
+
+Runs 2, 3, and 4 measure three different things; label each one in any benchmark report.
+
 ## 3. Metadata, Pruning, and Metadata-Only Results
 
 Snowflake maintains micro-partition metadata that helps prune data during scans. Metadata can also allow some queries to be answered without reading all table data. These are storage/planning optimizations, not the same as a prior query's persisted result or a warehouse's local copy of scanned data.
@@ -77,6 +125,16 @@ If a persisted result is reused, the usual table-scan/operator profile may not r
 | Repeated run on same active warehouse | Depends on result-reuse setting/eligibility | May be warm | Warm execution behavior |
 
 A valid performance report should state which row it measures, the query ID, warehouse size, concurrency, data state, and result-reuse setting. Do not mix result-cache hits with execution-time comparisons.
+
+```mermaid
+flowchart TD
+    A{"What do you need to measure?"} -->|"User-visible repeat request"| R1["Default settings<br/>result reuse may apply"]
+    A -->|"Warm execution"| R2["USE_CACHED_RESULT FALSE<br/>on active warehouse"]
+    A -->|"Cold start and remote reads"| R3["Controlled suspend and resume<br/>on a disposable warehouse"]
+    R1 --> REP["Report query ID, size, concurrency,<br/>data state, reuse setting"]
+    R2 --> REP
+    R3 --> REP
+```
 
 ## 6. Example: Separate The Two Cache Effects
 

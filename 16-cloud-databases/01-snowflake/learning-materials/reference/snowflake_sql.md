@@ -115,6 +115,15 @@ dense_ranks = 1, 2, 2, 3
 
 This is one of the most important Snowflake SQL features for interviews.
 
+Logical evaluation order (the optimizer may execute differently, but results follow this order):
+
+```mermaid
+flowchart LR
+    F["FROM and JOIN"] --> W["WHERE"] --> G["GROUP BY"] --> H["HAVING"] --> WIN["Window functions<br/>OVER clauses"] --> Q["QUALIFY"] --> D["DISTINCT"] --> O["ORDER BY"] --> L["LIMIT"]
+```
+
+`WHERE` cannot filter on `ROW_NUMBER()` because windows are computed later; `QUALIFY` sits exactly where that filter belongs.
+
 ### Example: latest order per user
 
     SELECT
@@ -302,6 +311,19 @@ Be explicit about frame when needed.
 
 Some candidates forget that frame defaults can matter.
 
+Illustrative data with a tie on `order_ts`:
+
+```mermaid
+flowchart LR
+    subgraph PART["Partition user_id 1, ordered by order_ts"]
+        R1["t1, amount 10"] --> R2["t2, amount 20"] --> R3["t2, amount 30<br/>tie on order_ts"] --> R4["t3, amount 5"]
+    end
+    PART --> ROWS["ROWS UNBOUNDED PRECEDING<br/>to CURRENT ROW<br/>10, 30, 60, 65<br/>tie order is arbitrary"]
+    PART --> RANGE["RANGE UNBOUNDED PRECEDING<br/>to CURRENT ROW<br/>10, 60, 60, 65<br/>peers share one total"]
+```
+
+`RANGE` is the usual default when `ORDER BY` is present and no frame is written, so ties silently change a running total. An explicit `ROWS` frame plus a deterministic tie-breaker gives stable results.
+
 ### Strong line
 
 > For cumulative metrics, I prefer to specify the frame explicitly so the behavior is clear and not left to defaults.
@@ -485,6 +507,18 @@ Better:
 ### Senior insight
 
 Filtering conditions on the right side of a `LEFT JOIN` often belong in the `ON` clause, not `WHERE`, if you want to preserve unmatched left rows.
+
+```mermaid
+flowchart TD
+    O["orders: all rows"] --> LJ["LEFT JOIN customers<br/>ON customer_id"]
+    LJ --> M["Matched rows<br/>c.status has a value"]
+    LJ --> U["Unmatched rows<br/>c columns are NULL"]
+    M --> W{"WHERE c.status = 'ACTIVE'"}
+    U --> W
+    W -- "NULL fails the filter" --> LOST["Unmatched orders removed<br/>result behaves like INNER JOIN"]
+    W -- "ACTIVE passes" --> KEPT["Active matches kept"]
+    U -. "filter moved into ON" .-> SAFE["Unmatched orders kept<br/>with NULL customer columns"]
+```
 
 ---
 
@@ -812,7 +846,7 @@ Example:
         ) AS first_order_ts
     FROM orders;
 
-`LAST_VALUE` is more dangerous because default frame can make it look like “current row” instead of true last row in partition.
+In Snowflake, `FIRST_VALUE`, `LAST_VALUE`, and `NTH_VALUE` default to the whole partition (`ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING`). This differs from the ANSI standard and from other databases, where `LAST_VALUE` with only `ORDER BY` often returns the current row. Write the frame explicitly so the query behaves the same everywhere.
 
 Safer:
 
@@ -850,6 +884,16 @@ Common pitfalls:
 ### Strong line
 
 > I always check how nulls affect joins, filters, and anti-joins, because null semantics often break seemingly correct SQL.
+
+```mermaid
+flowchart TD
+    N["Column may contain NULL"] --> Q{"Where is it used?"}
+    Q -- "Comparison or filter" --> C1["NULL = NULL is unknown<br/>use IS NULL or EQUAL_NULL"]
+    Q -- "Join key" --> C2["NULL keys never match<br/>decide: drop, default key,<br/>or unknown member row"]
+    Q -- "NOT IN subquery" --> C3["One NULL in the list<br/>returns no rows<br/>prefer NOT EXISTS"]
+    Q -- "Aggregate" --> C4["COUNT col and SUM skip NULL<br/>all-NULL SUM returns NULL"]
+    Q -- "Output default" --> C5["COALESCE or NVL<br/>only when the business<br/>agrees on the default"]
+```
 
 ---
 

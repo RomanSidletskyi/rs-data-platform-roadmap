@@ -20,6 +20,22 @@ An online retailer receives daily order data. Analysts need daily revenue and ac
 8. Add basic quality checks for duplicate order IDs, null keys, and invalid amounts.
 9. Define an auto-suspend and usage-review approach.
 
+Project milestones:
+
+```mermaid
+flowchart LR
+    subgraph MODEL["Model"]
+        S1["Step 1<br/>grain and schema"] --> S2["Step 2<br/>namespaces"] --> S3["Step 3<br/>table types, recovery"]
+    end
+    subgraph SECURE["Secure"]
+        S4["Step 4<br/>role duties"] --> S6["Step 6<br/>governed interface"] --> S7["Step 7<br/>grants and access tests"]
+    end
+    subgraph OPERATE["Operate"]
+        S5["Step 5<br/>warehouses"] --> S8["Step 8<br/>quality checks"] --> S9["Step 9<br/>suspend and usage review"]
+    end
+    MODEL --> SECURE --> OPERATE
+```
+
 ## Deliverables
 
 - `architecture.md` completed with your choices and alternatives

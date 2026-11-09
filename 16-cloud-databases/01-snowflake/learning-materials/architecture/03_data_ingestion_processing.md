@@ -10,6 +10,19 @@ Producer -> transport or object storage -> Snowflake landing -> validation
          -> consumer
 ```
 
+```mermaid
+flowchart LR
+    P[Producer] --> T[Transport or object storage]
+    T --> L[Snowflake landing]
+    L --> V{Validation}
+    V -->|valid| R[(Raw history)]
+    V -->|invalid| Q[(Quarantine)]
+    R --> X[Typed transformations]
+    X --> C[(Curated data product)]
+    C --> U[Consumer]
+    Q -.->|fix and replay| L
+```
+
 Snowflake may own one or more steps, but external systems may still own extraction, event durability, orchestration, or data contracts.
 
 ## Select a Loading Pattern
@@ -24,6 +37,18 @@ Snowflake may own one or more steps, but external systems may still own extracti
 
 “Real-time” is not a requirement. State a measurable end-to-end freshness objective and identify every stage contributing to it.
 
+```mermaid
+flowchart TD
+    S[Source] --> F{Delivers files?}
+    F -- yes --> C{Cadence}
+    C -- scheduled batches --> COPY[Stage + COPY INTO]
+    C -- continuous arrival --> PIPE[Snowpipe auto-ingest]
+    F -- no, rows or events --> L{Freshness needed}
+    L -- seconds --> SS[Snowpipe Streaming or Kafka connector]
+    L -- minutes or more --> SINK[Write files to object storage, then Snowpipe]
+    F -- no, small database extract --> FULL[Periodic full extract and reload]
+```
+
 ## Raw and Curated Contracts
 
 Raw data is useful for traceability and replay, but it should have ownership, retention, access, and classification. Curated datasets should expose stable grain, types, keys, freshness, quality expectations, and change policy. Keeping a raw payload does not make an undocumented consumer contract safe.
@@ -33,6 +58,18 @@ Raw data is useful for traceability and replay, but it should have ownership, re
 Use full rebuilds when the data volume and SLA make them simple and reliable. Use `MERGE` when stable keys and explicit change handling are required. Streams and tasks provide explicit native change processing and scheduling. Dynamic tables can simplify supported declarative SQL pipelines with freshness objectives. dbt adds transformation project structure, tests, lineage, and deployment. An external orchestrator is useful when workflows cross systems.
 
 Avoid two schedulers independently owning the same work. Assign one owner for retries, dependency state, alerting, and replay.
+
+```mermaid
+flowchart TD
+    A{Data volume and SLA allow a full rebuild?} -- yes --> FR[Full rebuild: simplest correctness]
+    A -- no --> B{Stable business key and explicit change rules?}
+    B -- yes --> C{Need declarative freshness inside Snowflake?}
+    C -- yes --> DT[Dynamic tables]
+    C -- no --> D{Need tests, docs, CI as a team workflow?}
+    D -- yes --> DBT[dbt incremental with MERGE]
+    D -- no --> ST[Streams + tasks]
+    B -- no --> FIX[Define keys and dedupe rules first]
+```
 
 ## Reliability and Observability
 
@@ -45,6 +82,26 @@ For every boundary, define:
 - owner and alert path
 - behavior on partial failure
 - retained evidence for reconciliation
+
+### Worked scenario: partner files with corrections
+
+A partner drops CSV files hourly. Files can be re-sent with corrections for the last 3 days. Consumers need hourly freshness and exact totals.
+
+```mermaid
+sequenceDiagram
+    participant P as Partner
+    participant S as Stage
+    participant R as raw.partner_orders
+    participant M as curated.orders
+    P->>S: orders_2026-03-20T10.csv
+    S->>R: COPY with file name and row number
+    P->>S: orders_2026-03-20T10_v2.csv (correction)
+    S->>R: COPY - new file name, new rows
+    R->>M: MERGE latest version per order_id within 3-day window
+    M-->>M: reconcile totals vs partner control file
+```
+
+Key decisions: keep every file version in raw, choose the latest version per business key in curated, and reprocess a rolling 3-day window so corrections are applied idempotently.
 
 ## Trade-Offs
 

@@ -12,6 +12,25 @@ This reference groups the metrics an engineer should inspect during a performanc
 | `GET_QUERY_OPERATOR_STATS(query_id)` | Programmatic per-operator rows, I/O, pruning, spill, and execution-time breakdown | The query must be completed and recent; warehouse monitoring privileges are required |
 | Warehouse load/metering and query-attribution views | Queueing, concurrency, and cost trends | Usage/credit attribution is not the same as a query's elapsed time and has its own latency and granularity |
 
+```mermaid
+flowchart LR
+    subgraph ONE["One recent query"]
+        QP["Snowsight Query Profile<br/>operator graph and insights"]
+        OS["GET_QUERY_OPERATOR_STATS<br/>completed, recent, privileged"]
+        IS["Information Schema QUERY_HISTORY<br/>short lookback"]
+    end
+    subgraph MANY["Workload over time"]
+        AU["ACCOUNT_USAGE QUERY_HISTORY<br/>long history, ingestion latency"]
+        WL["Warehouse load and metering<br/>queueing and cost trends"]
+    end
+    ONE --> DX["Operator-level diagnosis"]
+    MANY --> TR["Trend, concurrency and cost context"]
+    DX --> H["Hypothesis"]
+    TR --> H
+```
+
+Use single-query sources to find the mechanism and workload sources to judge how often it matters and what it costs.
+
 ## Query-Level Metrics
 
 | Metric | What it measures | What may be concerning | Next question |
@@ -70,6 +89,20 @@ Some keys can be `NULL` or absent when they do not apply or are zero. Do not equ
 
 ## Five Core Performance Failure Signatures
 
+```mermaid
+flowchart TD
+    M{"Dominant evidence"} -->|"Spill bytes on an operator"| S1["1 Spilling"]
+    M -->|"Selective query scans most partitions"| S2["2 Weak pruning or broad scan"]
+    M -->|"Join rows out far above rows in"| S3["3 Join explosion"]
+    M -->|"Queue time large, execution normal"| S4["4 Queuing"]
+    M -->|"Remote I/O or network time high"| S5["5 Disk I/O and network"]
+    S1 --> R1["Reduce rows first,<br/>then test size"]
+    S2 --> R2["Check predicate and layout,<br/>then clustering or SOS"]
+    S3 --> R3["Validate grain and<br/>key multiplicity"]
+    S4 --> R4["Isolation, scheduling,<br/>multi-cluster, resume policy"]
+    S5 --> R5["Tie time category to operator,<br/>reduce data movement"]
+```
+
 ### 1. Spilling: Local And Remote Storage
 
 Spill occurs when an operator's intermediate state does not fit in the memory/local resources available for that execution. Snowflake can spill to local storage and then remote storage. It is a useful warning signal, but spill volume alone does not identify whether the root cause is row explosion, a wide sort, a large aggregate, skew, or warehouse capacity.
@@ -78,6 +111,15 @@ Spill occurs when an operator's intermediate state does not fit in the memory/lo
 
 **Interpretation:** local spill means an operation used local disk for intermediate data; remote spill means data had to use remote storage and can add substantial I/O/network latency. Neither metric alone proves that the warehouse is undersized.
 
+```mermaid
+flowchart LR
+    A["Operator state<br/>in memory"] -->|"Exceeds memory"| B["Spill to local storage<br/>extra local disk I/O"]
+    B -->|"Exceeds local capacity"| C["Spill to remote storage<br/>remote I/O and network latency"]
+    C --> D["Slower operator<br/>inspect its input rows first"]
+```
+
+Each step down the storage hierarchy is slower, but the fix starts with why the operator holds so much state.
+
 **Response order:** identify the spilling operator; check its row counts, join cardinality, sort keys, window partition size, and skew; reduce rows/columns or pre-aggregate when semantics allow; then test a larger warehouse if the remaining operation is memory/compute constrained. Compare latency and credits, and preserve result correctness. Avoid the blanket response “remote spill means immediately resize to L/XL.”
 
 ### 2. Weak Pruning Or A Broad Scan
@@ -85,6 +127,16 @@ Spill occurs when an operator's intermediate state does not fit in the memory/lo
 **Metrics:** For each TableScan, inspect `PARTITIONS_SCANNED`, `PARTITIONS_TOTAL`, `BYTES_SCANNED`, selected columns, filters/access predicates, and any extracted VARIANT paths.
 
 **Interpretation:** partitions scanned near total can indicate weak pruning when the workload should be selective. It is not automatically a failure: full-table analytics may need most of the data, and external/Iceberg scans have different metadata and file-layout considerations. Evaluate scanned data against expected selectivity and the report's purpose, not a universal “a few percent” threshold.
+
+```mermaid
+xychart-beta
+    title "Illustrative synthetic partitions scanned as percent of total"
+    x-axis ["Selective query weak pruning", "Selective query good pruning", "Full-period aggregate"]
+    y-axis "Percent of partitions scanned" 0 --> 100
+    bar [95, 4, 98]
+```
+
+The first and third bars look similar, but only the first is a likely problem: judge the percentage against the query's required selectivity.
 
 **Response order:** verify that the filter is logically selective; inspect its type and expression; check data distribution, micro-partition overlap, and whether a VARIANT path is extracted; compare native/external/Iceberg scan behavior; only then consider clustering or Search Optimization for a supported query shape. Re-run the same query and compare scan bytes, partitions, output rows, and cost.
 

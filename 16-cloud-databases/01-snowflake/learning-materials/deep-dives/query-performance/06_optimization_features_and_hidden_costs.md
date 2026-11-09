@@ -13,6 +13,23 @@ Before enabling a feature, answer four questions:
 
 A feature that makes one benchmark faster can still worsen total platform cost or operational reliability.
 
+```mermaid
+flowchart TD
+    S{"Where does measured time go?"} -->|"Queue"| Q{"Queue type"}
+    Q -->|"Overload"| MC["Isolation, scheduling,<br/>or eligible multi-cluster"]
+    Q -->|"Provisioning"| AS["Auto-suspend and resume policy"]
+    S -->|"Execution"| E{"Dominant evidence"}
+    E -->|"Avoidable scan, fan-out, spill"| SQ["Fix SQL or data shape first"]
+    E -->|"Weak pruning, recurring stable filter"| CK["Clustering key"]
+    E -->|"Selective lookup scans too much"| SO["Search Optimization"]
+    E -->|"Same supported aggregate repeated"| MV["Materialized view<br/>or aggregate table"]
+    E -->|"Eligible scan-heavy portion"| QA["Query Acceleration"]
+    E -->|"Table-shaped transform with lag target"| DT["Dynamic table"]
+    E -->|"Compute or memory bound after review"| UP["Larger warehouse"]
+```
+
+Every leaf is a candidate to test against a baseline, not a final answer.
+
 ## 1. Clustering Keys And Automatic Clustering
 
 ### What it changes
@@ -55,7 +72,7 @@ A highly selective lookup can be a candidate; broad range scans or unsupported q
 
 ## 3. Materialized Views
 
-A materialized view stores a maintained precomputed result for supported query patterns. It can reduce repeated work for frequently executed queries, but adds storage and refresh/maintenance cost and is subject to eligibility and edition requirements. Snowflake documentation states that materialized views over external tables require Enterprise Edition; verify current edition and feature conditions.
+A materialized view stores a maintained precomputed result for supported query patterns. It can reduce repeated work for frequently executed queries, but adds storage and refresh/maintenance cost and is subject to eligibility and edition requirements. Materialized views, including those over external tables, require Enterprise Edition or higher; verify current edition and feature conditions.
 
 Compare a materialized view with:
 
@@ -123,9 +140,66 @@ Define grain, source-of-truth ownership, refresh semantics, late-data handling, 
 | Multi-cluster | Additional active cluster usage | Scaling policy behavior and cost variability | Lower concurrency queueing for the target workload |
 | Aggregate table | Storage and scheduled/incremental refresh | Duplicate logic, lineage, freshness and correction paths | Reused result materially reduces total workload cost |
 
+```mermaid
+flowchart LR
+    subgraph SL["Serverless credits"]
+        AC["Automatic clustering"]
+        SOM["Search Optimization maintenance"]
+        MVM["Materialized view maintenance"]
+        QAU["Query Acceleration"]
+    end
+    subgraph WC["Warehouse credits"]
+        LW["Larger warehouse"]
+        MCL["Extra clusters"]
+        DTR["Dynamic table refresh"]
+        AGR["Aggregate table refresh"]
+    end
+    subgraph ST["Storage"]
+        SOS["Search access paths"]
+        MVS["Materialized view data"]
+        AGS["Aggregate table data"]
+    end
+```
+
+Serverless usage does not appear on the query's own warehouse, so attribute it separately when judging whether a feature pays for itself.
+
+```mermaid
+quadrantChart
+    title Qualitative positioning only - not measured data
+    x-axis Low ongoing cost --> High ongoing cost
+    y-axis Low query benefit --> High query benefit
+    quadrant-1 Keep if savings exceed cost
+    quadrant-2 Prefer first
+    quadrant-3 Low stakes
+    quadrant-4 Retune or remove
+    SQL fix for fan out: [0.1, 0.85]
+    Clustering matched predicate: [0.62, 0.75]
+    Clustering by size alone: [0.65, 0.15]
+    SOS selective lookup: [0.56, 0.82]
+    SOS on range scan: [0.58, 0.1]
+    MV repeated dashboard: [0.68, 0.65]
+    QAS eligible scan: [0.4, 0.62]
+    Five minute lag monthly rollup: [0.85, 0.12]
+    Bigger warehouse for queue: [0.75, 0.25]
+    Multi cluster for queue: [0.7, 0.72]
+```
+
+The same feature lands in different quadrants depending on workload fit; the casebook shows the mismatched versions.
+
 ## Removal And Re-Evaluation
 
 Every optimization should have an owner, baseline, success measure, cost measure, and re-evaluation trigger. Remove or retune it when the workload, data distribution, service objective, edition, or account capability changes.
+
+```mermaid
+flowchart LR
+    B["Baseline workload<br/>and cost"] --> E["Enable feature<br/>with owner"]
+    E --> M["Measure benefit<br/>and feature usage"]
+    M --> K{"Benefit exceeds cost?"}
+    K -->|"Yes"| T["Keep and watch triggers"]
+    K -->|"No"| R["Retune or remove"]
+    T -->|"Workload, data, SLA or edition change"| M
+    R --> B
+```
 
 ## Official References
 

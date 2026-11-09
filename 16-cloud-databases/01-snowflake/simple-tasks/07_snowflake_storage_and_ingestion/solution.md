@@ -1,4 +1,4 @@
-# 05 Snowflake Storage And Ingestion Solution
+# 07 Snowflake Storage And Ingestion Solution
 
 ## Task 1 — Design A Safe External Stage
 
@@ -66,6 +66,15 @@ Switch when:
 - field naming stabilizes
 - data quality rules are known
 - downstream joins and transformations need predictable native-table behavior
+
+```mermaid
+flowchart LR
+    F["New feed files<br/>unstable schema"] --> EXT["External table<br/>profile layout, nulls, drift"]
+    EXT --> Q{"Names stable, quality rules known,<br/>joins need predictability?"}
+    Q -- "Not yet" --> EXT
+    Q -- Yes --> COPY["COPY INTO raw.orders_raw<br/>with file metadata columns"]
+    COPY --> RAW["Governed native<br/>raw table contract"]
+```
 
 ## Task 5 — Query A Raw External Table By File And Date
 

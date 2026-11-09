@@ -45,6 +45,16 @@ Check key multiplicity on each side and define the expected grain. Verify a samp
 - **Warehouse local data cache** reuses data on active warehouse compute while the query still executes; suspending a warehouse clears the local cache.
 - **Metadata/pruning** uses metadata to skip data and is neither of those caches.
 
+```mermaid
+flowchart TD
+    Q["Query submitted"] --> R{"Eligible persisted result<br/>and USE_CACHED_RESULT on?"}
+    R -- Yes --> RR["Result reuse<br/>no normal execution"]
+    R -- No --> PR["Metadata pruning<br/>skip micro-partitions"]
+    PR --> WC{"Data in the warehouse<br/>local cache?"}
+    WC -- "Yes, warm" --> W["Read from local cache<br/>query still executes"]
+    WC -- "No, cold or after suspend" --> RS["Read from remote storage"]
+```
+
 A small matrix:
 
 1. Run normally and record whether a prior result was reused.

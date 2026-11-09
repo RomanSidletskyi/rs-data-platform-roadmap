@@ -1,4 +1,4 @@
-# 06 Snowflake Open Table And Refresh Solution
+# 08 Snowflake Open Table And Refresh Solution
 
 ## Task 1 — Choose Native Table vs Snowflake-managed Iceberg
 
@@ -41,6 +41,15 @@ Scenario A: dynamic table.
 Scenario B: tasks.
 
 Reasoning: dynamic tables are strongest when the output is another table with a freshness target. Tasks are stronger when the workflow is procedural, branching, or has side effects beyond maintaining a table result.
+
+```mermaid
+flowchart TD
+    N["Scenario"] --> Q1{"Is the output one table<br/>defined by a query?"}
+    Q1 -- No --> T["Tasks or an orchestrator<br/>procedural, branching, side effects"]
+    Q1 -- Yes --> Q2{"Is a freshness target enough,<br/>rather than exact run control?"}
+    Q2 -- Yes --> DT["Dynamic table<br/>with TARGET_LAG"]
+    Q2 -- No --> T
+```
 
 ## Task 4 — Create A Dynamic Table For Daily Revenue
 

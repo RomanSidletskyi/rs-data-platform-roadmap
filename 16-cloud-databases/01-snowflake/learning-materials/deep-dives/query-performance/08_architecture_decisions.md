@@ -13,6 +13,16 @@ For a real design, record:
 - storage/compute/maintenance cost and responsible owner
 - rollback or re-evaluation trigger
 
+```mermaid
+flowchart LR
+    A["Consumer and SLA"] --> B["Workload and data shape"]
+    B --> C["Selected option and<br/>credible alternative"]
+    C --> D["Expected effect and<br/>proving metric"]
+    D --> E["Cost and owner"]
+    E --> F["Rollback or<br/>re-evaluation trigger"]
+    F -.->|"Trigger fires"| A
+```
+
 ## 1. Snowflake Native Table Or External Table?
 
 **Scenario:** A partner drops files into cloud storage; Snowflake analysts need fast access.
@@ -27,6 +37,15 @@ For a real design, record:
 
 **Measure:** external bytes/list time and refresh freshness versus native scan, query latency, ingestion cost, and replay success. Include the data completeness SLA.
 
+```mermaid
+flowchart TD
+    A["Partner files land in cloud storage"] --> B{"Main requirement"}
+    B -->|"Discovery or lightweight access"| X["External table"]
+    B -->|"Repeated joins and BI"| N["Native table"]
+    B -->|"Shared open-table contract"| I["Iceberg"]
+    X -->|"Validated and reused often"| N
+```
+
 ## 2. Native Table Or Snowflake-Managed Iceberg?
 
 **Scenario:** Snowflake is the transformation authority; a Spark/Trino engine wants the same curated dataset.
@@ -38,6 +57,13 @@ For a real design, record:
 **Recommendation:** use native tables until cross-engine table semantics are a concrete requirement. Use Snowflake-managed Iceberg for a stable, versioned publish boundary, not for every staging table.
 
 **Measure:** Snowflake scan/write performance, external-engine behavior, file/metadata layout, egress, storage and maintenance, schema compatibility, and consumer count. Verify the supported external-engine catalog path for the account.
+
+```mermaid
+flowchart TD
+    A{"Do other engines need the<br/>same curated table state?"} -->|"No"| N["Native table"]
+    A -->|"They need snapshots only"| E["Native table plus file exports"]
+    A -->|"Yes, supported route exists"| I["Snowflake-managed Iceberg<br/>at a stable publish boundary"]
+```
 
 ## 3. Snowflake-Managed Or Externally Managed Iceberg?
 
@@ -75,6 +101,17 @@ For a real design, record:
 **Recommendation:** select by predicate shape and evidence, not by high cardinality alone. A month-wide date report and a point lookup by ID are different workloads and may need different designs.
 
 **Measure:** query frequency, selectivity, partitions/bytes scanned, Search Optimization eligibility and usage, service/maintenance cost, and table change rate.
+
+```mermaid
+flowchart TD
+    A{"SLA met today?"} -->|"Yes"| NO["No added structure"]
+    A -->|"No"| B{"Predicate shape"}
+    B -->|"Recurring range or locality filter"| C["Test clustering key"]
+    B -->|"Selective point lookup"| S["Test Search Optimization"]
+    B -->|"Broad scan of most data"| W["No added structure<br/>revisit model or compute"]
+    C --> V["Compare query savings<br/>with maintenance usage"]
+    S --> V
+```
 
 ## 6. Query-Time Aggregation, Materialized View, Or Aggregate Table?
 
@@ -115,6 +152,17 @@ For a real design, record:
 
 **Measure:** `QUEUED_OVERLOAD_TIME`, `QUEUED_PROVISIONING_TIME`, execution time, warehouse load, concurrency distribution, and usage. Compare whole-workload cost and SLA.
 
+```mermaid
+flowchart TD
+    A{"Where is the time?"} -->|"Provisioning queue"| P["Review auto-suspend and resume"]
+    A -->|"Overload queue"| B{"Mixed workload classes?"}
+    B -->|"Yes"| SEP["Separate warehouses"]
+    B -->|"No, one class at peak"| MC["Multi-cluster if eligible"]
+    A -->|"Execution"| C{"Avoidable scan,<br/>fan-out or spill?"}
+    C -->|"Yes"| SQ["SQL or data change first"]
+    C -->|"No"| UP["Resize up and A/B test"]
+```
+
 ## 9. Auto-Suspend And Local Cache Policy
 
 **Scenario:** Interactive queries repeat against the same table, but the warehouse has long idle periods.
@@ -134,6 +182,16 @@ For a real design, record:
 - **Curated model:** choose when the logic is a shared data contract, not just a local query optimization.
 
 **Recommendation:** do not use “CTEs are always recomputed” as a rule. Check the actual operator graph and compare total pipeline plus consumer cost.
+
+```mermaid
+flowchart TD
+    A["Costly subquery referenced several times"] --> B["Start with a CTE"]
+    B --> C{"Profile shows repeated<br/>expensive work?"}
+    C -->|"No"| K["Keep the CTE"]
+    C -->|"Yes"| D{"Shared data contract?"}
+    D -->|"Yes"| M["Curated maintained model"]
+    D -->|"No"| T["Temporary table if reuse covers<br/>write, storage and lifecycle cost"]
+```
 
 ## 11. Window Function, Self-Join, Or Pre-Aggregation?
 

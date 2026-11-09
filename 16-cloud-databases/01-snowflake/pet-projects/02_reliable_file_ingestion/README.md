@@ -20,6 +20,22 @@ A source system exports daily order files to object storage. Files can arrive la
 8. Define the process for source schema changes and late-arriving records.
 9. Document how a failed batch is recovered and reconciled.
 
+Project milestones:
+
+```mermaid
+flowchart LR
+    subgraph CONTRACT["Contract"]
+        S1["Step 1<br/>naming, batch ID, manifest"] --> S3["Step 3<br/>stage, format, trust boundary"]
+    end
+    subgraph LOAD["Load and observe"]
+        S2["Step 2<br/>pattern from freshness target"] --> S4["Step 4<br/>load history, counts"] --> S6["Step 6<br/>quarantine and alerts"]
+    end
+    subgraph CURATE["Curate and recover"]
+        S5["Step 5<br/>duplicate and replay rules"] --> S7["Step 7<br/>typed curated grain"] --> S8["Step 8<br/>schema change, late data"] --> S9["Step 9<br/>recovery and reconciliation"]
+    end
+    CONTRACT --> LOAD --> CURATE
+```
+
 ## Deliverables
 
 - `architecture.md` with the flow and selected pattern

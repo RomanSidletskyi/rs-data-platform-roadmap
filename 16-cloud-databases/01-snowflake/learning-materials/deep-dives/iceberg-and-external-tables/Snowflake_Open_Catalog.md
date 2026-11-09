@@ -86,6 +86,15 @@ Here Open Catalog belongs conceptually near Snowflake-managed Iceberg.
 
 That is why Open Catalog is a bridge concept, not only a subtopic of one side.
 
+```mermaid
+flowchart LR
+    SMI["Snowflake-managed Iceberg<br/>Snowflake is authority"] -->|"Direction 2: sync outward"| OC["Snowflake Open Catalog<br/>managed Apache Polaris REST catalog"]
+    OC -->|"Direction 1: Snowflake reads"| EMI["Externally managed Iceberg<br/>table in Snowflake"]
+    ENG["Spark, Trino, Flink"] <-->|"Iceberg REST API"| OC
+```
+
+Open Catalog sits in the middle: Snowflake can push its own tables into it, or pull tables that other engines own out of it. The direction tells you who the metadata authority is.
+
 ---
 
 ## 4. Core Concepts
@@ -200,7 +209,7 @@ Glue is often the natural choice when:
 
 ## 6. Main Architecture Modes
 
-## 6.1 Mode A: Query Open Catalog tables from Snowflake
+### 6.1 Mode A: Query Open Catalog tables from Snowflake
 
 This is the read path.
 
@@ -250,6 +259,22 @@ ORDER BY order_date;
 Important nuance:
 
 - in this pattern, the Snowflake table is a read-only externally managed representation of the Open Catalog table
+
+```mermaid
+flowchart LR
+    SP["Spark ETL<br/>service principal"] -->|commits| OC["Open Catalog<br/>internal catalog central_catalog"]
+    SP -->|"writes files"| ST["Object storage<br/>metadata and data files"]
+    OC -->|"current metadata pointer"| ST
+    subgraph SF["Snowflake"]
+        T["analytics.orders_oc<br/>read-only, AUTO_REFRESH"]
+        CI["Catalog integration<br/>CATALOG_SOURCE = POLARIS"]
+    end
+    T --> CI
+    CI -->|"OAuth as a service principal"| OC
+    T -->|"external volume"| ST
+```
+
+In Mode A, Snowflake is a reader with its own service principal. Writers and maintenance live with the other engines.
 
 ### 6.2 Mode B: Sync Snowflake-managed Iceberg to Open Catalog
 
@@ -302,6 +327,22 @@ Important nuance:
 - changes made in Snowflake are synchronized to Open Catalog
 - other engines can query through Open Catalog
 - synced Snowflake-managed tables are read-only in Open Catalog
+
+```mermaid
+flowchart LR
+    subgraph SF["Snowflake - producer authority"]
+        DB["analytics_db<br/>CATALOG_SYNC = MY_OPEN_CATALOG_INT"]
+        T["orders_publish<br/>CATALOG = SNOWFLAKE"]
+    end
+    DB --> T
+    T -->|"writes data and metadata"| ST["External volume storage"]
+    T -->|"syncs table registration"| OC["Open Catalog external catalog<br/>read-only for other engines"]
+    OC -->|"points to Snowflake-written metadata"| ST
+    TR["Trino or Spark"] -->|"reads via REST"| OC
+    TR -->|"reads files"| ST
+```
+
+In Mode B, the arrows reverse: Snowflake writes, Open Catalog advertises, and other engines read. It is a publish channel, not a multi-writer table.
 
 ### 6.3 Mode C: Open Catalog as a multi-engine governance plane
 
@@ -370,6 +411,17 @@ Architect takeaway:
 
 - this is a control-plane security system, not only a table registration convenience
 
+```mermaid
+flowchart LR
+    SP["Service principal<br/>example: spark_etl_principal"] -->|"is assigned"| PR["Principal role<br/>example: spark_etl_role"]
+    PR -->|"is granted"| CR1["Catalog role<br/>example: sales_writer"]
+    PR -->|"is granted"| CR2["Catalog role<br/>example: analytics_reader"]
+    CR1 -->|holds| P1["Privileges on catalog, namespace, table"]
+    CR2 -->|holds| P2["Privileges on catalog, namespace, table"]
+```
+
+Privileges never attach directly to a principal. Changing what a workload can do means changing which catalog roles its principal role holds.
+
 ### 8.3 Credential vending
 
 Credential vending can remove the need to separately manage storage credentials for engines.
@@ -379,6 +431,22 @@ That is powerful.
 But only if you respect path isolation.
 
 If table directories overlap, credential vending can widen storage access accidentally.
+
+```mermaid
+sequenceDiagram
+    participant E as Engine
+    participant OC as Open Catalog
+    participant ST as Object storage
+    E->>OC: Authenticate as service principal (OAuth)
+    OC-->>E: Access token for its principal roles
+    E->>OC: Load table orders and request vended credentials
+    OC->>OC: Check catalog role privileges on the table
+    OC-->>E: Metadata location plus temporary credentials for the table location
+    E->>ST: Read files under the table directory
+    Note over E,ST: If directories overlap, the same credentials can reach files of another table
+```
+
+The engine never holds long-lived storage keys. The scope of each temporary credential is only as tight as your directory layout.
 
 ---
 
@@ -421,6 +489,20 @@ Snowflake documents Horizon Catalog as the current external-engine access path f
 Before choosing, identify whether the requirement is external access to Snowflake-owned tables or a shared external metadata authority. Then verify onboarding eligibility, cloud/region support, access-control behavior, and current feature limitations.
 
 This is exactly the kind of architect-level comparison teams often skip.
+
+```mermaid
+flowchart TD
+    Q{"What is the real requirement?"}
+    Q -->|"External engines read Snowflake-managed Iceberg"| H["Evaluate Horizon Catalog first<br/>recommended for new customers"]
+    Q -->|"Shared catalog authority across engines"| N{"Existing Open Catalog deployment?"}
+    N -->|Yes| OC["Open Catalog remains a candidate"]
+    N -->|No| ALT["Compare other available catalogs<br/>new customers cannot create a first Open Catalog account"]
+    H --> V["Verify onboarding, region, access control, limitations"]
+    OC --> V
+    ALT --> V
+```
+
+Split the question first: exposing Snowflake-owned tables is a different problem from choosing a shared catalog authority. Every branch ends with verifying current product guidance.
 
 ---
 

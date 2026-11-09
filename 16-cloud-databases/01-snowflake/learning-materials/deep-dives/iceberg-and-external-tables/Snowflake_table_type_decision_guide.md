@@ -170,6 +170,25 @@ External tables are read-only and track staged-file metadata; they do not provid
 - externally managed Iceberg: pair with the real remote catalog authority such as Open Catalog, Glue, or a Unity-style REST catalog path
 - external tables: usually no catalog layer beyond storage/stage metadata
 
+### 4.7 Visual summary
+
+```mermaid
+quadrantChart
+    title Interoperability vs operational simplicity - qualitative and illustrative
+    x-axis Low operational simplicity --> High operational simplicity
+    y-axis Low interoperability --> High interoperability
+    quadrant-1 Open and simple
+    quadrant-2 Open but more to operate
+    quadrant-3 Closed and complex
+    quadrant-4 Simple but Snowflake centric
+    Native table: [0.88, 0.15]
+    External table: [0.7, 0.35]
+    Snowflake managed Iceberg: [0.55, 0.7]
+    Externally managed Iceberg: [0.25, 0.85]
+```
+
+Positions are illustrative, not measured. The pattern is what matters: each step up in interoperability costs operational simplicity, and no option sits in the open-and-simple corner for free.
+
 ---
 
 ## 5. Best Fit By Data Layer
@@ -221,6 +240,25 @@ Usually best choice:
 Reason:
 
 - low-friction access beats over-engineered table semantics here
+
+```mermaid
+flowchart LR
+    subgraph RAW["Raw landing"]
+        R2["External tables<br/>discovery"] -.->|"promote when stable"| R1["Native raw tables<br/>via COPY INTO"]
+    end
+    subgraph CUR["Curated warehouse"]
+        C1["Native Snowflake tables"]
+        C2["Snowflake-managed Iceberg<br/>only if open contract needed"]
+    end
+    subgraph PUB["Shared multi-engine contract"]
+        P1["Snowflake-managed Iceberg<br/>Snowflake is authority"]
+        P2["Externally managed Iceberg<br/>remote catalog is authority"]
+    end
+    RAW --> CUR
+    CUR --> PUB
+```
+
+Iceberg appears mainly on the right, where data crosses an engine boundary. The left side favors native tables and quick discovery.
 
 ---
 
@@ -290,6 +328,23 @@ Ask these in architecture review:
 6. Would simpler native tables solve the real business need with less risk?
 
 If these questions are unanswered, any table-type choice is weak.
+
+```mermaid
+flowchart TD
+    A{"Only need quick SQL over raw files?"} -->|Yes| ET["External table"]
+    A -->|No| B{"Do other engines need the same table contract?"}
+    B -->|No| NT["Native Snowflake table"]
+    B -->|Yes| C{"Who is the metadata authority?"}
+    C -->|Snowflake| SMI["Snowflake-managed Iceberg"]
+    C -->|"Existing remote catalog"| EMI["Externally managed Iceberg"]
+    C -->|"Nobody clear"| STOP["Not ready - decide ownership first"]
+    SMI --> AL{"How do external engines get access?"}
+    AL --> HZ["Horizon Catalog<br/>recommended for new customers"]
+    AL --> OCS["Open Catalog sync<br/>existing deployments"]
+    EMI --> RC["Pair with the real remote catalog<br/>Open Catalog, Glue, Unity-style"]
+```
+
+The tree asks about consumers before formats and about ownership before catalogs. If you reach the stop node, more design work is cheaper than a migration later.
 
 ---
 
@@ -383,6 +438,21 @@ Weaknesses:
 - if Snowflake should expose its own Iceberg tables outward, compare Horizon Catalog and Open Catalog sync
 - if a shared external catalog should exist across engines, compare Open Catalog, Glue, and Unity-style paths
 - if AWS or Databricks already owns the metadata authority, do not invent a second owner without a strong reason
+
+```mermaid
+flowchart TD
+    Q{"Whose tables are being exposed?"}
+    Q -->|"Snowflake-managed Iceberg going outward"| A["Compare Horizon Catalog and Open Catalog sync"]
+    Q -->|"Shared external catalog across engines"| B{"Where is the center of gravity?"}
+    B -->|"AWS lakehouse"| G["AWS Glue"]
+    B -->|Databricks| U["Unity-style catalog path"]
+    B -->|"Neutral REST catalog"| O["Open Catalog, if eligible"]
+    G --> RULE["Keep one metadata owner"]
+    U --> RULE
+    O --> RULE
+```
+
+The catalog choice usually follows where the platform already lives. Adding a second metadata owner is the expensive mistake to avoid.
 
 ---
 

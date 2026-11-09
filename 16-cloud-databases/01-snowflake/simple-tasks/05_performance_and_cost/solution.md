@@ -4,6 +4,19 @@
 
 Inspect warehouse concurrency, queued workload classes, and scheduling overlap. A workload-specific warehouse, scaling policy, or schedule adjustment may help if it addresses demonstrated contention. Resizing one warehouse will not necessarily fix unrelated queueing.
 
+```mermaid
+flowchart TD
+    SLOW["Latency up at midday"] --> QH{"Query history:<br/>where is the time?"}
+    QH -- "Queued, overload" --> CON["Concurrency contention<br/>workload classes and overlap"]
+    QH -- "Execution" --> EXE["Query Profile<br/>scan, joins, spill"]
+    QH -- "Queued, provisioning" --> RES["Resume or resize wait"]
+    CON --> I1["Isolate workload, multi-cluster,<br/>or move the batch schedule"]
+    EXE --> I2["Fix SQL or pruning first,<br/>then test a size change"]
+    RES --> I3["Review auto-suspend<br/>vs resume latency"]
+```
+
+In this task the time is in the queue, so the left branch applies; a bigger warehouse targets the middle branch.
+
 ## Task 2
 
 Inspect actual filter predicates, partitions scanned, overlap, data distribution, query profile, table size and growth, and workload frequency. First verify semantics and unnecessary scans. Cluster only if repeated workload evidence justifies maintenance cost.

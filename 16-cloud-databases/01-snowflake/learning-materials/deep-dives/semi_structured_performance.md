@@ -32,6 +32,21 @@ If `event_ts` is inside VARIANT:
 - structured column → strong metadata
 - VARIANT → weaker metadata, especially for deep nesting
 
+```mermaid
+flowchart LR
+    subgraph MP["One micro-partition"]
+        C1["event_id column<br/>min/max metadata"]
+        subgraph VAR["payload VARIANT"]
+            E1["payload:user_id<br/>extracted, has metadata"]
+            E2["payload:event_ts<br/>extracted, has metadata"]
+            E3["payload:a.b.c deep or mixed types<br/>not extracted, must be parsed"]
+        end
+    end
+    Q[WHERE filter] -->|can prune| C1
+    Q -->|can prune if extracted and well distributed| E1
+    Q -->|scan and parse| E3
+```
+
 ### Senior insight
 
 > Frequently filtered values can benefit from typed relational columns, especially when they are stored as strings, contain nulls or mixed types, or are not extracted into columnar form. Confirm the actual scan behavior in Query Profile before changing the model.
@@ -117,6 +132,14 @@ Nested:
     items (100) × discounts (10)
 
 → 1000 rows
+
+```mermaid
+xychart-beta
+    title "Rows after flatten for 1 million source events (items x discounts)"
+    x-axis ["source", "items avg 5", "items avg 20", "items 20 x discounts 3"]
+    y-axis "Rows, millions" 0 --> 65
+    bar [1, 5, 20, 60]
+```
 
 ### Consequences
 
@@ -260,6 +283,18 @@ Flatten before join:
 
 > The order of operations matters more than the operations themselves.
 
+```mermaid
+flowchart LR
+    subgraph Bad["Expensive order"]
+        B1["Scan all events<br/>100M rows"] --> B2["Flatten<br/>2B rows"] --> B3["Join users"] --> B4["Filter last day"]
+    end
+    subgraph Good["Reduced order"]
+        G1["Scan last day<br/>pruned to 1M rows"] --> G2["Flatten<br/>20M rows"] --> G3["Join users"]
+    end
+```
+
+SQL clause order does not dictate execution order, and the optimizer may push filters down on its own. Check the Query Profile: compare rows into and out of the Flatten operator in both versions.
+
 ---
 
 ## 8. Query Profile — What to Look For
@@ -326,9 +361,9 @@ When debugging flatten queries:
 
 ### Fix
 
-- extract column
-- cluster by date
-- or partition ingestion
+- extract `event_date` into a typed column in a curated table
+- load in event-date order so natural clustering helps, or test a clustering key if pruning is still poor
+- measure partitions scanned before and after
 
 ---
 
