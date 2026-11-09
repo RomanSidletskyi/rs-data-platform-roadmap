@@ -50,6 +50,7 @@ The capability map is the inventory and navigation layer. Not every capability n
 - [Detailed Snowflake course guide](learning-materials/snowflake_platform_learning_guide.md)
 - [Quick References](learning-materials/reference/README.md)
 - [Deep Dives](learning-materials/deep-dives/README.md)
+- [Query Performance and Optimization track](learning-materials/deep-dives/query-performance/README.md), with a matching [diagnosis and design task set](simple-tasks/10_snowflake_performance/README.md)
 - [Architecture Guides](learning-materials/architecture/README.md)
 
 ## Practice and Projects

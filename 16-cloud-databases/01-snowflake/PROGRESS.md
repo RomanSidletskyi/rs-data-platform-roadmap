@@ -30,7 +30,7 @@
 - spent: 0h
 - last touched: -
 - note: -
-- next step: Compare incremental processing options and inspect query behavior
+- next step: Work through the [query performance and optimization track](learning-materials/deep-dives/query-performance/README.md), then complete [task set 10](simple-tasks/10_snowflake_performance/README.md)
 
 ### Security, governance, and recovery
 - status: [x] not started | [ ] in progress | [ ] done

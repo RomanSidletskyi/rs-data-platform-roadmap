@@ -11,5 +11,6 @@ These short, account-free exercises help turn the references and deep dives into
 7. [Snowflake storage and ingestion](07_snowflake_storage_and_ingestion/README.md)
 8. [Snowflake open tables and refresh](08_snowflake_open_table_and_refresh/README.md)
 9. [Snowflake architecture scenarios](09_snowflake_architecture_scenarios/README.md)
+10. [Snowflake performance diagnosis and design](10_snowflake_performance/README.md)
 
 The solution files are deliberately concise. A defensible alternative is valid when it states the constraints and trade-offs that make it fit.

@@ -15,7 +15,7 @@ Do the scenarios before opening `solution.md`. The solutions describe strong rea
 ## Recommended Reading
 
 - [Semi-structured data and performance](../../learning-materials/deep-dives/semi_structured_performance.md)
-- [Query performance](../../learning-materials/deep-dives/05_query_performance.md)
+- [Query performance and optimization](../../learning-materials/deep-dives/query-performance/README.md)
 - [Iceberg and external tables](../../learning-materials/deep-dives/iceberg-and-external-tables/README.md)
 - [Incremental processing](../../learning-materials/deep-dives/04_incremental_processing.md)
 - [Platform architecture](../../learning-materials/architecture/01_platform_account_cloud_region.md)

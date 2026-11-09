@@ -7,6 +7,7 @@ Start with the [learning paths](01_learning_paths.md), then use the capability m
 - [Detailed Snowflake course guide](snowflake_platform_learning_guide.md): preserved reading tracks and explanations for the migrated Snowflake material
 - [Quick references](reference/README.md): syntax, functions, object types, loading, processing, and recovery
 - [Deep dives](deep-dives/README.md): selected topics that need behavior and use-case explanations
+- [Query performance and optimization](deep-dives/query-performance/README.md): diagnosis, metrics, SQL patterns, caches, costed features, production cases, and architecture decisions
 - [Iceberg and External Tables](deep-dives/iceberg-and-external-tables/README.md): table-pattern comparison, catalog ownership, refresh, and complete guides
 - [Architecture guides](architecture/README.md): system boundaries, alternatives, consequences, and decision checklists
 

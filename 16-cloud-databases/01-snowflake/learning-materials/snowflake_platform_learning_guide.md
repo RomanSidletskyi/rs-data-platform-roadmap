@@ -32,7 +32,7 @@ Recommended order:
 
 1. [Snowflake SQL reference](reference/snowflake_sql.md)
 2. [Snowflake ingestion](deep-dives/Snowflake_ingestion.md)
-3. [Snowflake performance](deep-dives/Snowflake_performance.md)
+3. [Snowflake query performance and optimization](deep-dives/query-performance/README.md)
 4. [Snowflake semi-structured data](deep-dives/Snowflake_semi_structured_data.md)
 5. [Snowflake-managed Iceberg](deep-dives/iceberg-and-external-tables/Snowflake_managed_Iceberg.md)
 6. [Open Catalog](deep-dives/iceberg-and-external-tables/Snowflake_Open_Catalog.md)
@@ -61,7 +61,7 @@ Beginner-to-practical track:
 Platform engineer track:
 
 1. [Snowflake ingestion](deep-dives/Snowflake_ingestion.md)
-2. [Snowflake performance](deep-dives/Snowflake_performance.md)
+2. [Snowflake query performance and optimization](deep-dives/query-performance/README.md)
 3. [Snowflake-managed Iceberg](deep-dives/iceberg-and-external-tables/Snowflake_managed_Iceberg.md)
 4. [Open Catalog](deep-dives/iceberg-and-external-tables/Snowflake_Open_Catalog.md)
 5. [Open Catalog cookbook](deep-dives/iceberg-and-external-tables/Snowflake_Open_Catalog_cookbook.md)
