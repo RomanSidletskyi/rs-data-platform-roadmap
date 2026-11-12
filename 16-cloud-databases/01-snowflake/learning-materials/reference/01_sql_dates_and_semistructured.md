@@ -136,4 +136,4 @@ flowchart LR
 
 The wrong-zone bug rarely fails a load; it shows up later as daily totals that disagree with the source system.
 
-For schema-on-read decisions, typed projections, and data-quality patterns, see [Semi-Structured Data](../deep-dives/01_semi_structured_data.md).
+For the full workflow—ingestion, path handling, `FLATTEN`, typed projections, and choosing `VARIANT` versus relational models—see [Semi-Structured Data in Snowflake](01_semi_structured_data.md). For pruning and query-profile tuning, continue to [Semi-Structured Performance](../deep-dives/semi_structured_performance.md).

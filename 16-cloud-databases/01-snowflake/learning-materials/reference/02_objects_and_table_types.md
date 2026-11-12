@@ -71,7 +71,7 @@ FROM analytics.curated.dim_customer
 WHERE is_active;
 ```
 
-A view stores a query definition rather than an independently maintained result set. A secure view has additional protections for governed sharing and information exposure; it is not automatically a complete security boundary. See [Secure Views](../deep-dives/02_secure_views.md) before using one for sensitive data.
+A view stores a query definition rather than an independently maintained result set. A secure view has additional protections for governed sharing and information exposure; it is not automatically a complete security boundary. See [Views and Data Access Policies](../deep-dives/02_security_views.md) before using one for sensitive data.
 
 ```mermaid
 flowchart TD

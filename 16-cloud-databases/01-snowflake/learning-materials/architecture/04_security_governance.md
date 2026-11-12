@@ -62,6 +62,8 @@ GRANT ROLE analyst_sales TO ROLE sysadmin;
 
 These controls solve different problems and may be combined. Do not assume one policy protects paths through clones, exports, stages, other views, or broader grants.
 
+For a complete implementation walkthrough combining a secure view, masking policy, and row access policy, see [Security Views](../deep-dives/02_security_views.md).
+
 ```mermaid
 flowchart LR
     U[User with role] --> NP{Network policy and authentication}

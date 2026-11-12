@@ -50,7 +50,7 @@ ProjectPro describes this idea as exploratory data analysis of weather data with
 
 ## Prerequisites
 
-- [Semi-structured data deep dive](../../learning-materials/deep-dives/Snowflake_semi_structured_data.md)
+- [Semi-structured data guide](../../learning-materials/reference/01_semi_structured_data.md)
 - Snowflake trial and Snowflake CLI: [setup guide](../../../../shared/environments/setup-guide/README.md)
 - Python 3.10+; optional Deepnote account ([other free services](../../../../shared/environments/setup-guide/accounts/other_free_services.md))
 - [Cost guardrails](../_shared/cost_guardrails.md): loading is seconds; the main cost risk is an open notebook session

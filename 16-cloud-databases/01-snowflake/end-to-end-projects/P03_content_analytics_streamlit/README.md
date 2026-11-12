@@ -52,7 +52,7 @@ ProjectPro lists this idea as "Build a YouTube Analytics Dashboard with Snowflak
 
 ## Prerequisites
 
-- [Semi-structured data deep dive](../../learning-materials/deep-dives/Snowflake_semi_structured_data.md)
+- [Semi-structured data guide](../../learning-materials/reference/01_semi_structured_data.md)
 - Snowflake trial and Snowflake CLI: [setup guide](../../../../shared/environments/setup-guide/README.md)
 - Python 3.10+; basic Streamlit is helpful but not required
 - [Cost guardrails](../_shared/cost_guardrails.md): every open app session keeps the warehouse running

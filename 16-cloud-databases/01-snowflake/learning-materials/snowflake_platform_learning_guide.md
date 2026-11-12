@@ -68,7 +68,7 @@ The estimates below follow the [progress tracker](../PROGRESS.md). They describe
 
 **Estimated study time:** about 10 hours.
 
-**Study:** [SQL, dates, and semi-structured functions](reference/01_sql_dates_and_semistructured.md), [Snowflake SQL](reference/snowflake_sql.md), [Snowflake functions](reference/snowflake_functions.md), [semi-structured data](deep-dives/01_semi_structured_data.md), [Snowflake semi-structured data](deep-dives/Snowflake_semi_structured_data.md), [loading reference](reference/03_loading_and_operations.md), [data loading patterns](deep-dives/03_data_loading_patterns.md), [Snowflake ingestion](deep-dives/Snowflake_ingestion.md), and [ingestion architecture](architecture/03_data_ingestion_processing.md).
+**Study:** [SQL, dates, and semi-structured functions](reference/01_sql_dates_and_semistructured.md), [semi-structured data reference](reference/01_semi_structured_data.md), [Complete Guide (Senior Cheat Sheet)](deep-dives/Snowflake_semi_structured_data.md), [semi-structured performance](deep-dives/semi_structured_performance.md), [Snowflake SQL](reference/snowflake_sql.md), [Snowflake functions](reference/snowflake_functions.md), [loading reference](reference/03_loading_and_operations.md), [data loading patterns](deep-dives/03_data_loading_patterns.md), [Snowflake ingestion](deep-dives/Snowflake_ingestion.md), and [ingestion architecture](architecture/03_data_ingestion_processing.md).
 
 **Build understanding of:** SQL context and type behavior, dates and timestamps, JSON/`VARIANT` and `FLATTEN`, stages and file formats, `COPY INTO`, Snowpipe options, storage integrations, unload, and replay boundaries.
 
@@ -96,7 +96,7 @@ The estimates below follow the [progress tracker](../PROGRESS.md). They describe
 
 **Estimated study time:** about 8 hours.
 
-**Study:** [security and governance](architecture/04_security_governance.md), [secure views](deep-dives/02_secure_views.md), [availability and recovery](architecture/05_availability_and_recovery.md), [sharing and interoperability](architecture/06_sharing_and_interoperability.md), and the relevant quick references.
+**Study:** [security and governance](architecture/04_security_governance.md), [views and data access policies walkthrough](deep-dives/02_security_views.md), [availability and recovery](architecture/05_availability_and_recovery.md), [sharing and interoperability](architecture/06_sharing_and_interoperability.md), and the relevant quick references.
 
 **Build understanding of:** role hierarchy, grants and ownership, managed access, masking and row access, integrations and secrets, classification and audit, Time Travel, cloning, replication, failover, sharing, and their different goals and limitations.
 

@@ -53,7 +53,7 @@ ProjectPro lists this idea as "Build a Snowflake Data Pipeline for ODI Cricket A
 
 ## Prerequisites
 
-- [Semi-structured data deep dive](../../learning-materials/deep-dives/Snowflake_semi_structured_data.md)
+- [Semi-structured data guide](../../learning-materials/reference/01_semi_structured_data.md)
 - Snowflake trial and Snowflake CLI: [setup guide](../../../../shared/environments/setup-guide/README.md)
 - Python 3.10+, about 1 GB free disk space
 - [Cost guardrails](../_shared/cost_guardrails.md): this project is cheap; the full history loads in minutes on XS

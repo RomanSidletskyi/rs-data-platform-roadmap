@@ -29,7 +29,7 @@ Not every capability needs all three. Follow the links that exist and expand a t
 | --- | --- | --- | --- | --- |
 | Snowflake SQL and session context | Query and DDL syntax plus active role, warehouse, database, and schema | Basic SQL | [Quick reference: SQL functions](reference/01_sql_dates_and_semistructured.md); [Learning paths](01_learning_paths.md) | Implicit context is convenient but can make deployments resolve the wrong objects |
 | Date and time types | Date/time values and timezone-aware representation | Basic SQL types | [Quick reference: dates and times](reference/01_sql_dates_and_semistructured.md) | Choosing the wrong timestamp type can shift or misinterpret event times |
-| Semi-structured types | `VARIANT`, `OBJECT`, and `ARRAY` for flexible payloads | JSON basics | [Quick reference](reference/01_sql_dates_and_semistructured.md); [Detailed guide](deep-dives/01_semi_structured_data.md); [Snowflake semi-structured performance](deep-dives/semi_structured_performance.md) | Extraction and pruning depend on data shape and metadata eligibility; profile before changing storage |
+| Semi-structured types | `VARIANT`, `OBJECT`, and `ARRAY` for flexible payloads | JSON basics | [Compact reminder](reference/01_sql_dates_and_semistructured.md); [Semi-structured data reference](reference/01_semi_structured_data.md); [Complete Guide (Senior Cheat Sheet)](deep-dives/Snowflake_semi_structured_data.md); [Performance deep dive](deep-dives/semi_structured_performance.md) | Extraction and pruning depend on data shape and metadata eligibility; profile before changing storage |
 | Scalar, conditional, and conversion functions | Common functions for transformation and safe casting | Basic SQL | [Quick reference: SQL functions](reference/01_sql_dates_and_semistructured.md) | Implicit casts and null behavior can create subtle correctness bugs |
 | Window and analytical functions | Ranking, running totals, and row comparisons | Grouping and joins | [Quick reference: SQL functions](reference/01_sql_dates_and_semistructured.md) | Large partitions and incorrect window frames can increase cost or change results |
 
@@ -39,7 +39,7 @@ Not every capability needs all three. Follow the links that exist and expand a t
 | --- | --- | --- | --- | --- |
 | Databases, schemas, and namespaces | Organize objects, ownership, access, and lifecycle | Account basics | [Quick reference: objects](reference/02_objects_and_table_types.md); [Architecture: platform model](architecture/01_platform_account_cloud_region.md) | Naming is not security; boundaries must align with grants and ownership |
 | Permanent, transient, and temporary tables | Tables with different retention, recovery, and session/lifecycle behavior | Basic SQL and retention concepts | [Quick reference: table types](reference/02_objects_and_table_types.md) | Lower retention or temporary scope can reduce recovery options |
-| Views and secure views | Reusable query interfaces; secure views also support controlled data exposure | Grants and query definitions | [Quick reference](reference/02_objects_and_table_types.md); [Secure Views detailed guide](deep-dives/02_secure_views.md) | Secure views are not a substitute for complete role and policy design |
+| Views and secure views | Reusable query interfaces; secure views also support controlled data exposure | Grants and query definitions | [Quick reference](reference/02_objects_and_table_types.md); [Views and Data Access Policies guide](deep-dives/02_security_views.md) | Secure views are not a substitute for complete role and policy design |
 | Materialized views | Persisted query results maintained for supported workloads | Query patterns and cost | [Quick reference: objects](reference/02_objects_and_table_types.md) | Maintenance cost and eligibility can outweigh query savings |
 | Micro-partitions and metadata | Internal storage units and metadata used for pruning | Query filters and table layout | [Deep dive: performance](deep-dives/query-performance/README.md) | Automatic storage does not guarantee every query prunes efficiently |
 | Clustering | Co-locates data patterns to improve pruning on selected large tables | Query Profile and partition knowledge | [Deep dive: performance](deep-dives/query-performance/README.md); [Architecture: workload and cost](architecture/02_compute_workload_cost.md) | Maintenance compute and storage costs; only justified by workload evidence |
@@ -66,7 +66,7 @@ Not every capability needs all three. Follow the links that exist and expand a t
 | Tasks and task graphs | Schedule and connect SQL or procedure execution | SQL, roles, warehouse/serverless compute | [Quick reference: processing](reference/04_processing_and_recovery.md); [Detailed incremental guide](deep-dives/04_incremental_processing.md) | Native orchestration has boundaries for cross-system workflows and observability |
 | Dynamic tables | Declarative transformation with a target freshness objective | SQL dependencies and freshness needs | [Detailed incremental guide](deep-dives/04_incremental_processing.md) | Less procedural control; supported query patterns and refresh behavior matter |
 | Stored procedures and Snowflake Scripting | Encapsulate procedural logic near data | SQL and execution roles | [Quick reference: processing](reference/04_processing_and_recovery.md) | In-database logic can simplify calls but create platform-specific coupling |
-| UDFs and UDTFs | Reusable scalar or table-returning logic | SQL or supported language runtime | [Quick reference: processing](reference/04_processing_and_recovery.md) | Reuse versus debugging, governance, and runtime constraints |
+| UDFs and UDTFs | Reusable scalar or table-returning logic | SQL or supported language runtime | [Scalar, tabular, and performance examples](reference/snowflake_functions.md); [Quick reference: processing](reference/04_processing_and_recovery.md) | Reuse versus debugging, governance, and runtime constraints |
 | Snowpark | Develop data processing with supported languages and APIs | Language runtime and deployment basics | [Architecture: integration boundaries](architecture/06_sharing_and_interoperability.md) | Co-located execution versus language, packaging, and operational constraints |
 | Notebooks, Streamlit, and container services | Develop data applications and selected workloads in the Snowflake ecosystem | Application and deployment basics | [Capability map: applications and AI](#10-applications-and-ai) | Convenience versus service availability, security, and lifecycle complexity |
 
@@ -88,7 +88,7 @@ Not every capability needs all three. Follow the links that exist and expand a t
 | Users, roles, grants, and ownership | Control authentication and object privileges | Account and object hierarchy | [Quick reference: objects](reference/02_objects_and_table_types.md); [Architecture: security](architecture/04_security_governance.md) | Flexible role hierarchies need clear ownership and periodic review |
 | Managed access schemas and future grants | Centralize grant administration and govern future objects | Grant and ownership model | [Architecture: security](architecture/04_security_governance.md) | Central control reduces grant drift but adds deployment coordination |
 | Authentication and network controls | Protect human and service access | Identity provider and network concepts | [Architecture: security](architecture/04_security_governance.md) | Strong controls can affect developer access and integration operations |
-| Masking and row access policies | Apply column- or row-level data protection | Data classification and roles | [Architecture: security](architecture/04_security_governance.md) | Central policy improves consistency but requires careful testing and observability |
+| Masking and row access policies | Apply column- or row-level data protection | Data classification and roles | [Architecture: security](architecture/04_security_governance.md); [Implementation walkthrough](deep-dives/02_security_views.md) | Central policy improves consistency but requires careful testing and observability |
 | Tags, classification, lineage, and audit | Discover, classify, trace, and review data use | Ownership and metadata standards | [Architecture: security](architecture/04_security_governance.md) | Metadata is only useful when maintained and linked to operating processes |
 | Secrets and external integrations | Connect securely to external services | Identity, IAM, and network basics | [Architecture: security](architecture/04_security_governance.md) | Reduce credential exposure while limiting trust and rotation scope |
 
@@ -145,6 +145,7 @@ The links below are the file-level inventory. Collection READMEs are included as
 
 - [Quick References index](reference/README.md)
 - [SQL, dates, and semi-structured functions](reference/01_sql_dates_and_semistructured.md)
+- [Semi-structured data in Snowflake](reference/01_semi_structured_data.md)
 - [Objects and table types](reference/02_objects_and_table_types.md)
 - [Loading and operations](reference/03_loading_and_operations.md)
 - [Processing and recovery](reference/04_processing_and_recovery.md)
@@ -154,15 +155,14 @@ The links below are the file-level inventory. Collection READMEs are included as
 ### Deep dives
 
 - [Deep Dives index](deep-dives/README.md)
-- [Semi-structured data](deep-dives/01_semi_structured_data.md)
-- [Secure views](deep-dives/02_secure_views.md)
+- [Views and data access policies](deep-dives/02_security_views.md)
 - [Data loading patterns](deep-dives/03_data_loading_patterns.md)
 - [Incremental processing](deep-dives/04_incremental_processing.md)
 - [Query performance overview](deep-dives/05_query_performance.md)
 - [Snowflake dynamic tables](deep-dives/Snowflake_dynamic_tables.md)
 - [Snowflake ingestion](deep-dives/Snowflake_ingestion.md)
 - [Snowflake performance](deep-dives/Snowflake_performance.md)
-- [Snowflake semi-structured data](deep-dives/Snowflake_semi_structured_data.md)
+- [Snowflake Semi-Structured Data — Complete Guide (Senior Cheat Sheet)](deep-dives/Snowflake_semi_structured_data.md)
 - [Semi-structured performance](deep-dives/semi_structured_performance.md)
 
 ### Query performance and optimization

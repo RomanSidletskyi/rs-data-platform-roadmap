@@ -1,5 +1,7 @@
 # Snowflake Semi-Structured Performance — Micro-Partitions, Pruning, Flatten Optimization
 
+For foundational guidance on ingestion, path handling, missing fields, `OUTER => TRUE`, and deciding when to project into typed tables, start with [Semi-Structured Data in Snowflake](../reference/01_semi_structured_data.md).
+
 ## 1. How Semi-Structured Data Affects Micro-Partitions
 
 ### Key idea
