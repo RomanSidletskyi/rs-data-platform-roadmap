@@ -1,0 +1,9 @@
+**/_local_refs/
+**/__pycache__/
+**/.rendered/
+**/secrets/
+*.p8
+*.pem
+**/lake_local/
+**/landing_local/
+**/dist/

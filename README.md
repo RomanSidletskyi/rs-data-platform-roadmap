@@ -188,12 +188,13 @@ Focus:
 ## Top-Level Areas
 
 - `docs/` - repository map, learning sequence, architecture study, trade-offs, case studies, and AI chat context packs
-- `shared/` - reusable datasets, schemas, configs, docker assets, testing fixtures, and reference resources reused across modules
+- `shared/` - reusable datasets, schemas, configs, docker assets, testing fixtures, and reference resources reused across modules; start with the [setup guide](shared/environments/setup-guide/README.md) for tools, local services, and free cloud accounts
 - `ai-learning/` - AI workflows, prompting guides, tool notes, communication practice, and architecture-thinking exercises
 - `real-projects/` - sequential cross-technology projects that combine several modules into realistic portfolio work
 - `16-cloud-databases/` - grouped cloud database specialization; each database has its own nested learning module
 - `scripts/` - repository generation and validation automation
 - `templates/` - reusable templates for modules, progress tracking, and related documentation
+- [HANDOFF.md](HANDOFF.md) - repository-wide session instructions and links to specialized handoffs
 
 ## How The Pieces Fit Together
 

@@ -1,179 +1,150 @@
 # Snowflake Platform Learning Guide
 
-This guide preserves the Snowflake learning routes and topic explanations from the former SQL-module section, now organized in the dedicated `16-cloud-databases/01-snowflake/` module.
+This is the detailed course plan for the Snowflake module: what to study first, what capability each phase builds, how to practice, and what evidence demonstrates progress.
 
-Use the [capability map](00_snowflake_capability_map.md) for the full feature inventory and the [learning paths](01_learning_paths.md) for a beginner, cross-platform, or architecture route. This guide gives a more detailed reading sequence through the migrated Snowflake material.
+## How This Guide Relates to the Other Navigation Documents
 
-The course is designed for a learner who already understands SQL syntax and now needs to understand Snowflake as:
+There is one shared curriculum for every learner. Junior, Middle, Senior, and Architect may study at different depths, but none of the levels has a separate or restricted set of materials.
 
-- a cloud data warehouse
-- an ingestion platform
-- a semi-structured analytics engine
-- a participant in open-table lakehouse architecture
-- a system with explicit cost, freshness, and interoperability trade-offs
+- Use the [Capability Map](00_snowflake_capability_map.md) to find the complete inventory and open any learning-material file directly.
+- Use [Learning Paths](01_learning_paths.md) to see all shared topics with Junior, Middle, Senior, and Architect focus guidance for each one.
+- Use this guide for the course sequence, phase goals, practice, and completion checks.
 
-The section is intentionally theory-heavy and example-heavy at the same time.
+This guide intentionally does not repeat the full file catalog. Its phase links are entry points; follow them into the Capability Map and Learning Paths to discover related references, deep dives, and architecture guides.
 
-The target outcome is not only:
+## Course Outcomes
 
-- writing valid Snowflake SQL
+By the end of the first pass, you should be able to:
 
-The target outcome is also:
+1. Explain Snowflake's organization/account model, cloud and region placement, and storage/compute/cloud-services architecture.
+2. Navigate core objects, roles, warehouses, SQL context, stages, integrations, and data types.
+3. Load and transform data with an explicit correctness, replay, and freshness model.
+4. Diagnose query behavior with evidence and explain performance and cost trade-offs.
+5. Apply basic security, governance, and recovery principles.
+6. Compare native Snowflake capabilities with external tools and open-table patterns.
+7. Present an architecture decision with assumptions, alternatives, consequences, operations, and verification criteria.
 
-- understanding what Snowflake owns and what it does not own
-- recognizing when Snowflake-native tables are the right answer
-- recognizing when external tables or Iceberg are the right answer
-- reasoning about refresh semantics, ingestion boundaries, and consumer contracts
-- speaking about Snowflake at senior and architect level in real project discussions
+The outcome is not memorizing every feature. It is knowing how to locate the relevant material, test a claim, and make a defensible decision.
 
-## Reading Path
+## Before You Begin
 
-Recommended order:
+- **Prerequisites:** basic SQL (`SELECT`, filters, joins, grouping, simple DDL) and data-platform terms such as source, ingestion, transformation, warehouse, and consumer.
+- **Account:** not required for the reading route or simple tasks. Use an account only for optional hands-on work or account-based projects.
+- **Safety:** confirm the target account, role, warehouse, and region before running SQL. Use small workloads, auto-suspend, cost controls where available, and teardown steps. Never commit credentials or real customer data.
+- **Starting point:** if new to Snowflake, follow all phases. If experienced, scan the full [Learning Paths matrix](01_learning_paths.md#shared-curriculum-matrix), mark topics to review or deepen, then still use the same phase sequence for any unfamiliar areas.
 
-1. [Snowflake SQL reference](reference/snowflake_sql.md)
-2. [Snowflake ingestion](deep-dives/Snowflake_ingestion.md)
-3. [Snowflake query performance and optimization](deep-dives/query-performance/README.md)
-4. [Snowflake semi-structured data](deep-dives/Snowflake_semi_structured_data.md)
-5. [Snowflake-managed Iceberg](deep-dives/iceberg-and-external-tables/Snowflake_managed_Iceberg.md)
-6. [Open Catalog](deep-dives/iceberg-and-external-tables/Snowflake_Open_Catalog.md)
-7. [Open Catalog cookbook](deep-dives/iceberg-and-external-tables/Snowflake_Open_Catalog_cookbook.md)
-8. [Externally managed Iceberg](deep-dives/iceberg-and-external-tables/Snowflake_externally_managed_Iceberg.md)
-9. [Externally managed Iceberg cookbook](deep-dives/iceberg-and-external-tables/Snowflake_externally_managed_Iceberg_cookbook.md)
-10. [Table type decision guide](deep-dives/iceberg-and-external-tables/Snowflake_table_type_decision_guide.md)
-11. [External tables](deep-dives/iceberg-and-external-tables/Snowflake_external_tables.md)
-12. [Dynamic tables](deep-dives/Snowflake_dynamic_tables.md)
-13. [Data platform architecture](architecture/Data_platform_architecture.md)
-14. [Non-functional requirements](architecture/Non_functional_requirements_NFR.md)
-15. [Semi-structured performance](deep-dives/semi_structured_performance.md)
-16. [System design answers](architecture/system_design_ready_answers.md)
-17. [Senior architecture questions](architecture/Top_tricky_senior_questions.md)
+## Study Loop for Every Topic
 
-## Suggested Study Tracks
+Use the same loop in each phase, adapting its depth to the level guidance:
 
-Beginner-to-practical track:
+1. **Orient:** read the relevant topic row in [Learning Paths](01_learning_paths.md) and locate all related files in the [Capability Map](00_snowflake_capability_map.md).
+2. **Model:** explain the capability, its components, boundaries, and neighboring concepts in your own words.
+3. **Study:** start with a quick reference if useful; continue to a deep dive or architecture guide when behavior, alternatives, or operational impact matter.
+4. **Apply:** complete a matching account-free task or a scoped hands-on exercise.
+5. **Verify:** compare the observed result with measurable expectations; inspect errors, logs, query behavior, or costs when relevant.
+6. **Reflect:** record assumptions, trade-offs, limitations, and what would make you choose another approach.
 
-1. [Snowflake SQL reference](reference/snowflake_sql.md)
-2. [Snowflake ingestion](deep-dives/Snowflake_ingestion.md)
-3. [Semi-structured data](deep-dives/Snowflake_semi_structured_data.md)
-4. [External tables](deep-dives/iceberg-and-external-tables/Snowflake_external_tables.md)
-5. [Table type decision guide](deep-dives/iceberg-and-external-tables/Snowflake_table_type_decision_guide.md)
+Do not treat “read” as “mastered.” A topic is learned when you can use or assess it and explain the evidence.
 
-Platform engineer track:
+## Course Phases
 
-1. [Snowflake ingestion](deep-dives/Snowflake_ingestion.md)
-2. [Snowflake query performance and optimization](deep-dives/query-performance/README.md)
-3. [Snowflake-managed Iceberg](deep-dives/iceberg-and-external-tables/Snowflake_managed_Iceberg.md)
-4. [Open Catalog](deep-dives/iceberg-and-external-tables/Snowflake_Open_Catalog.md)
-5. [Open Catalog cookbook](deep-dives/iceberg-and-external-tables/Snowflake_Open_Catalog_cookbook.md)
-6. [Externally managed Iceberg](deep-dives/iceberg-and-external-tables/Snowflake_externally_managed_Iceberg.md)
-7. [Externally managed Iceberg cookbook](deep-dives/iceberg-and-external-tables/Snowflake_externally_managed_Iceberg_cookbook.md)
-8. [Dynamic tables](deep-dives/Snowflake_dynamic_tables.md)
-9. [Data platform architecture](architecture/Data_platform_architecture.md)
+The estimates below follow the [progress tracker](../PROGRESS.md). They describe a first pass, not a deadline. The track is shared: each learner visits every phase, but can spend more or less time based on existing knowledge.
 
-Architect track:
+### Phase 1 — Platform foundations and account model
 
-Complete the shared foundation in the [recommended main route](01_learning_paths.md#recommended-main-route) first: platform and accounts, compute and cost, native objects, ingestion, and governance. Then:
+**Estimated study time:** about 6 hours.
 
-1. [Snowflake-managed Iceberg](deep-dives/iceberg-and-external-tables/Snowflake_managed_Iceberg.md)
-2. [Open Catalog](deep-dives/iceberg-and-external-tables/Snowflake_Open_Catalog.md)
-3. [Open Catalog cookbook](deep-dives/iceberg-and-external-tables/Snowflake_Open_Catalog_cookbook.md)
-4. [Externally managed Iceberg](deep-dives/iceberg-and-external-tables/Snowflake_externally_managed_Iceberg.md)
-5. [Externally managed Iceberg cookbook](deep-dives/iceberg-and-external-tables/Snowflake_externally_managed_Iceberg_cookbook.md)
-6. [Table type decision guide](deep-dives/iceberg-and-external-tables/Snowflake_table_type_decision_guide.md)
-7. [External tables](deep-dives/iceberg-and-external-tables/Snowflake_external_tables.md)
-8. [Dynamic tables](deep-dives/Snowflake_dynamic_tables.md)
-9. [Data platform architecture](architecture/Data_platform_architecture.md)
-10. [Non-functional requirements](architecture/Non_functional_requirements_NFR.md)
-11. [System design answers](architecture/system_design_ready_answers.md)
+**Study:** [Platform, accounts, cloud, and region](architecture/01_platform_account_cloud_region.md), [compute, workloads, and cost](architecture/02_compute_workload_cost.md), [objects and table types](reference/02_objects_and_table_types.md), and the foundation rows in the [Learning Paths matrix](01_learning_paths.md#shared-curriculum-matrix).
 
-## What The New Files Add
+**Build understanding of:** organization and accounts, account identifiers, cloud and region selection, databases and schemas, roles and grants, warehouses, storage/compute separation, environment topologies, and basic cost attribution.
 
-### `Snowflake_managed_Iceberg.md`
+**Practice:** complete [task set 01: platform and objects](../simple-tasks/01_platform_and_objects/README.md). If using an account, identify the account/region and active role, create only low-cost lab objects, and confirm cleanup.
 
-Use this file to understand:
+**Checkpoint:** draw a small account/object diagram and explain what is account-level versus database/schema-level, what each boundary isolates, and what it does not.
 
-- why open table formats matter
-- what Snowflake-managed Iceberg really means
-- how external volume, table metadata, and object storage boundaries fit together
-- when Iceberg is a real interoperability strategy and when it is just complexity
+**Level lenses:** Junior learns the vocabulary and navigates; Middle applies object and role boundaries; Senior evaluates isolation and cost; Architect compares account/cloud/region topologies against requirements.
 
-### `Snowflake_Open_Catalog.md`
+### Phase 2 — SQL, data types, and data movement
 
-Use this file to understand:
+**Estimated study time:** about 10 hours.
 
-- what Snowflake Open Catalog actually is and why it is not the same thing as a Snowflake table type
-- how Open Catalog sits between Snowflake-managed and externally managed Iceberg patterns
-- when Open Catalog is a shared REST-catalog control plane versus when it is only a sync target
-- how service principals, catalog roles, credential vending, and sync boundaries change architecture
+**Study:** [SQL, dates, and semi-structured functions](reference/01_sql_dates_and_semistructured.md), [Snowflake SQL](reference/snowflake_sql.md), [Snowflake functions](reference/snowflake_functions.md), [semi-structured data](deep-dives/01_semi_structured_data.md), [Snowflake semi-structured data](deep-dives/Snowflake_semi_structured_data.md), [loading reference](reference/03_loading_and_operations.md), [data loading patterns](deep-dives/03_data_loading_patterns.md), [Snowflake ingestion](deep-dives/Snowflake_ingestion.md), and [ingestion architecture](architecture/03_data_ingestion_processing.md).
 
-### `Snowflake_Open_Catalog_cookbook.md`
+**Build understanding of:** SQL context and type behavior, dates and timestamps, JSON/`VARIANT` and `FLATTEN`, stages and file formats, `COPY INTO`, Snowpipe options, storage integrations, unload, and replay boundaries.
 
-Use this file to understand:
+**Practice:** complete [task set 02: SQL and semi-structured data](../simple-tasks/02_sql_and_semi_structured/README.md) and [task set 03: ingestion and replay](../simple-tasks/03_ingestion_and_replay/README.md). Start [P01: Cricket JSON medallion](../end-to-end-projects/P01_cricket_json_medallion/README.md) if you want a guided implementation.
 
-- how to set up practical Open Catalog flows for query, sync, and engine onboarding
-- how service principals, catalog integrations, and storage layout appear in real workflows
-- how Open Catalog differs operationally from Horizon Catalog for external-engine access
-- how to debug the most common control-plane and storage-boundary mistakes
+**Checkpoint:** describe and verify a path from file to queryable table. Explain how malformed records, duplicate files, and reruns are handled.
 
-### `Snowflake_externally_managed_Iceberg.md`
+**Level lenses:** Junior practices SQL and file loading; Middle designs replayable ingestion; Senior compares ingestion options using freshness, error handling, and cost; Architect sets data movement contracts and trust boundaries.
 
-Use this file to understand:
+### Phase 3 — Processing, performance, and cost
 
-- what changes when Snowflake is not the metadata control plane
-- how external catalogs, catalog integrations, and catalog-linked databases actually work
-- when Snowflake should be one engine in an Iceberg ecosystem instead of the owner of table state
-- how to reason about refresh, write support, catalog sync, and operational failure modes
+**Estimated study time:** about 10 hours.
 
-### `Snowflake_externally_managed_Iceberg_cookbook.md`
+**Study:** [processing and recovery reference](reference/04_processing_and_recovery.md), [incremental processing](deep-dives/04_incremental_processing.md), [dynamic tables](deep-dives/Snowflake_dynamic_tables.md), [query performance track](deep-dives/query-performance/README.md), [Snowflake performance](deep-dives/Snowflake_performance.md), and [compute, workloads, and cost](architecture/02_compute_workload_cost.md).
 
-Use this file to understand:
+**Build understanding of:** `MERGE`, streams, tasks and task graphs, dynamic tables, refresh/freshness objectives, Query Profile, pruning, caching, warehouses, concurrency, and costed optimization features. Read the nine query-performance track materials in the sequence shown in its README.
 
-- how to assemble end-to-end externally managed Iceberg patterns with real SQL
-- how standard databases differ from catalog-linked databases in practice
-- how to operationalize refresh, writes, health checks, and incident recovery
-- how Glue-like and REST-catalog-like workflows differ at the platform boundary
+**Practice:** complete [task set 04: processing patterns](../simple-tasks/04_processing_patterns/README.md), [task set 05: performance and cost](../simple-tasks/05_performance_and_cost/README.md), and [task set 10: performance diagnosis and design](../simple-tasks/10_snowflake_performance/README.md). Use [P05: TPC-H streams, tasks, and CDC](../end-to-end-projects/P05_tpch_streams_tasks_cdc/README.md) or [P07: Retail Snowpark pipeline](../end-to-end-projects/P07_retail_snowpark_pipeline/README.md) for a larger build.
 
-### `Snowflake_table_type_decision_guide.md`
+**Checkpoint:** diagnose a query or pipeline using observable evidence; explain correctness, refresh/replay behavior, and the cost implications of the fix. Compare dynamic tables with at least one alternative for a concrete workload.
 
-Use this file to understand:
+**Level lenses:** Junior explains the basic execution path; Middle builds and validates an incremental pipeline; Senior diagnoses bottlenecks and compares alternatives; Architect sets workload isolation, freshness contracts, and cost ownership.
 
-- how to choose between native Snowflake tables, Snowflake-managed Iceberg, externally managed Iceberg, and external tables
-- which trade-offs are about control-plane ownership versus performance versus interoperability
-- which option fits raw, curated, published, and multi-engine contracts
-- how to defend the decision in architecture reviews and interviews
+### Phase 4 — Security, governance, and recovery
 
-### `Snowflake_external_tables.md`
+**Estimated study time:** about 8 hours.
 
-Use this file to understand:
+**Study:** [security and governance](architecture/04_security_governance.md), [secure views](deep-dives/02_secure_views.md), [availability and recovery](architecture/05_availability_and_recovery.md), [sharing and interoperability](architecture/06_sharing_and_interoperability.md), and the relevant quick references.
 
-- how to query files in place without loading them into native Snowflake tables
-- when external tables are a fast discovery layer versus a bad substitute for modeled ingestion
-- how partition expressions, metadata columns, and file-layout choices shape performance
+**Build understanding of:** role hierarchy, grants and ownership, managed access, masking and row access, integrations and secrets, classification and audit, Time Travel, cloning, replication, failover, sharing, and their different goals and limitations.
 
-### `Snowflake_dynamic_tables.md`
+**Practice:** complete [task set 06: security, recovery, and architecture](../simple-tasks/06_security_recovery_architecture/README.md). For a broader design exercise, use [guided project 03: Production Snowflake platform](../pet-projects/03_production_snowflake_platform/README.md). [P13: Healthcare governed ML](../end-to-end-projects/README.md#catalog) is a planned optional extension, not a prerequisite for completing this phase.
 
-Use this file to understand:
+**Checkpoint:** draw a trust/access boundary and write a recovery outline with RPO, RTO, dependencies, and a test procedure. Explain why replication, failover, sharing, and a masked query result are not interchangeable concepts.
 
-- how declarative refresh works in Snowflake
-- when target-lag-driven pipelines are a good fit
-- where dynamic tables fit relative to tasks, streams, dbt, and materialized views
-- how to think about freshness, cost, and transformation boundaries
+**Level lenses:** Junior understands basic roles and recovery terms; Middle configures least privilege and verifies recovery; Senior reviews policy edge cases and failover behavior; Architect defines governance ownership, continuity design, and regulatory constraints.
 
-## Practical Standard
+### Phase 5 — Interoperability and architecture decisions
 
-This folder should be studied with two questions in mind:
+**Estimated study time:** about 8 hours.
 
-1. What problem is this feature solving in a real platform?
-2. What platform debt appears if the feature is used in the wrong place?
+**Study:** [Iceberg and external tables](deep-dives/iceberg-and-external-tables/README.md), [table type decision guide](deep-dives/iceberg-and-external-tables/Snowflake_table_type_decision_guide.md), [Snowflake data platform architecture](architecture/Data_platform_architecture.md), [non-functional requirements](architecture/Non_functional_requirements_NFR.md), [system-design answer patterns](architecture/system_design_ready_answers.md), and [senior architecture questions](architecture/Top_tricky_senior_questions.md).
 
-The practical examples are intentionally shaped as:
+The table-type collection includes separate guides for Snowflake-managed Iceberg, externally managed Iceberg, Open Catalog, external tables, and operational cookbooks. Use the Capability Map for direct links to each file.
 
-- small cookbook snippets
-- production-shaped SQL patterns
-- design rules for choosing between similar options
+**Build understanding of:** metadata/catalog ownership, native versus external table choices, cross-engine contracts, workload boundaries, requirements and NFRs, architecture trade-offs, and ADRs.
 
-If you use the section correctly, you should leave with:
+**Practice:** complete [task set 08: Snowflake open tables and refresh](../simple-tasks/08_snowflake_open_table_and_refresh/README.md) and [task set 09: architecture scenarios](../simple-tasks/09_snowflake_architecture_scenarios/README.md). Complete at least one guided project, preferably [P03: Production Snowflake platform](../pet-projects/03_production_snowflake_platform/README.md), as a design exercise or [P04: Open-table publish](../pet-projects/04_snowflake_open_table_publish/README.md) for interoperability.
 
-- syntax fluency
-- operational intuition
-- architecture judgment
+**Checkpoint:** write a short decision record that states constraints, at least two viable options, the selected approach, rejected alternatives, consequences, failure modes, and a trigger for revisiting the decision.
+
+**Level lenses:** Junior explains one component's role; Middle evaluates viable implementation patterns; Senior defends measured trade-offs and operational impact; Architect ties platform choices to NFRs, organization boundaries, ownership, and lifecycle.
+
+### Phase 6 — Consolidation and proof of learning
+
+**Estimated study time:** about 6 hours for task review; project time is additional.
+
+Review the [Capability Map](00_snowflake_capability_map.md) and revisit topics marked for review in your personal notes. Do not reread everything automatically; target gaps revealed by tasks, project work, or architecture discussions.
+
+**Practice:** solve the relevant simple tasks without first opening the solutions. Choose a guided project or an end-to-end project that combines multiple capabilities. For end-to-end work, follow the project's quickstart and cost guardrails, and stop resources when finished.
+
+**Checkpoint:** present a design or implementation review with evidence: architecture diagram, requirements, data flow, access model, verification results, failure/recovery story, cost controls, and acknowledged limitations.
+
+**Level lenses:** Junior demonstrates a coherent basic setup; Middle demonstrates a reliable pipeline; Senior diagnoses and improves an existing design; Architect communicates a defensible platform decision and operating model.
+
+## Time Budget and Optional Hands-On Track
+
+The [PROGRESS.md](../PROGRESS.md) estimates **50–70 hours for the first pass**. The phases above total roughly 48 hours including simple-task practice, before guided projects; project scope, prior knowledge, and depth account for the remainder. These estimates are planning aids, not gates.
+
+Reading, design exercises, and simple tasks can be completed without a Snowflake account. Account-based end-to-end projects are an optional, additional track: use the [project catalog](../end-to-end-projects/README.md), [environment setup guide](../../../shared/environments/setup-guide/README.md), and per-project cost controls. They may require Azure or AWS resources and can incur charges.
+
+## Navigation Maintenance Rule
+
+When a learning document is added, moved, or renamed:
+
+1. Link it directly from the [Capability Map](00_snowflake_capability_map.md).
+2. Put it in the appropriate topic row in [Learning Paths](01_learning_paths.md), including Junior, Middle, Senior, and Architect focus.
+3. Update this guide only if it changes the curriculum sequence, outcomes, activities, or checkpoints.
+4. Keep the module README and [Learning Materials overview](README.md) consistent with these roles.

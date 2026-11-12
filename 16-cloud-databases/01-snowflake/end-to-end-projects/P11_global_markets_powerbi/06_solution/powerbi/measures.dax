@@ -1,0 +1,43 @@
+// P11 DAX measures. Create them in a dedicated "Measures" table.
+// The first five mirror metrics in SEM.FOOD_PRICES; tests/data_quality_checks.sql check 9 compares the SQL side,
+// and 06_solution/powerbi/README.md describes the matching check on the Power BI side.
+
+Median USD per kg =
+MEDIAN ( FACT_FOOD_PRICE[PRICE_USD_PER_BASE] )
+
+Median EUR per kg =
+MEDIAN ( FACT_FOOD_PRICE[PRICE_EUR_PER_BASE] )
+
+// Local currency only means something inside one country.
+Median local per kg =
+IF ( HASONEVALUE ( DIM_COUNTRY[COUNTRY_ISO3] ), MEDIAN ( FACT_FOOD_PRICE[PRICE_LOCAL_PER_BASE] ) )
+
+Price observations =
+COUNT ( FACT_FOOD_PRICE[PRICE_USD_PER_BASE] )
+
+Markets reporting =
+DISTINCTCOUNT ( FACT_FOOD_PRICE[MARKET_ID] )
+
+// Year over year on the year dimension, no date-table time intelligence needed for monthly data.
+Median local per kg PY =
+VAR SelectedYear = SELECTEDVALUE ( DIM_YEAR[YEAR] )
+RETURN
+    CALCULATE ( [Median local per kg], REMOVEFILTERS ( DIM_YEAR ), REMOVEFILTERS ( DIM_MONTH ), DIM_YEAR[YEAR] = SelectedYear - 1 )
+
+Food price YoY % =
+DIVIDE ( [Median local per kg] - [Median local per kg PY], [Median local per kg PY] )
+
+CPI inflation % =
+DIVIDE ( AVERAGE ( FACT_COUNTRY_YEAR[CPI_INFLATION_PCT] ), 100 )
+
+// Positive: food got more expensive than the general basket in that country and year.
+Real food price gap (pp) =
+( [Food price YoY %] - [CPI inflation %] ) * 100
+
+// Affordability: share of one day's GDP per capita that one kilogram costs.
+Share of daily income per kg =
+DIVIDE ( [Median USD per kg], AVERAGE ( FACT_COUNTRY_YEAR[GDP_PER_CAPITA_USD] ) / 365 )
+
+// A guard for visuals: hide numbers built from too few observations.
+Median USD per kg (reliable) =
+IF ( [Price observations] >= 12, [Median USD per kg] )

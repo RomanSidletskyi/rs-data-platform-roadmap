@@ -2,6 +2,8 @@
 
 This is the module's capability inventory and navigation page. It is designed both for a first-time learner and for someone who already knows another cloud database and wants to discover Snowflake's concepts and features.
 
+This is the **canonical, complete catalog** for learning materials in this folder. The capability tables provide the topic map; the [complete file index](#complete-learning-material-index) at the end links directly to every Markdown file, including focused guides and cookbooks. No level is restricted to a subset of the catalog.
+
 Use the **Depth** column to choose the smallest useful next step:
 
 - **Quick reference:** concise purpose, syntax, example, and caveat.
@@ -126,3 +128,78 @@ Not every capability needs all three. Follow the links that exist and expand a t
 ## Capability Map Maintenance
 
 When adding a capability, record its purpose, prerequisites, recommended depth, trade-off, and availability caveat. Add a link only when the target material exists. Mark fast-changing features with a last-verified date in their detailed material and re-check official documentation before production recommendations.
+
+When adding, moving, or renaming any learning-material file, update the complete file index below. A new capability must also get a topic entry above, and the [Learning Paths](01_learning_paths.md) must say how all four learner levels can use it. Level recommendations describe focus and depth; they must never imply that the material is unavailable to other learners.
+
+## Complete Learning Material Index
+
+The links below are the file-level inventory. Collection READMEs are included as navigators; topic files are listed individually so learners can jump straight to a specific explanation or cookbook.
+
+### Course navigation
+
+- [Learning Materials overview](README.md)
+- [Learning Paths](01_learning_paths.md)
+- [Snowflake Platform Learning Guide](snowflake_platform_learning_guide.md)
+
+### Quick references
+
+- [Quick References index](reference/README.md)
+- [SQL, dates, and semi-structured functions](reference/01_sql_dates_and_semistructured.md)
+- [Objects and table types](reference/02_objects_and_table_types.md)
+- [Loading and operations](reference/03_loading_and_operations.md)
+- [Processing and recovery](reference/04_processing_and_recovery.md)
+- [Snowflake SQL reference](reference/snowflake_sql.md)
+- [Snowflake function reference](reference/snowflake_functions.md)
+
+### Deep dives
+
+- [Deep Dives index](deep-dives/README.md)
+- [Semi-structured data](deep-dives/01_semi_structured_data.md)
+- [Secure views](deep-dives/02_secure_views.md)
+- [Data loading patterns](deep-dives/03_data_loading_patterns.md)
+- [Incremental processing](deep-dives/04_incremental_processing.md)
+- [Query performance overview](deep-dives/05_query_performance.md)
+- [Snowflake dynamic tables](deep-dives/Snowflake_dynamic_tables.md)
+- [Snowflake ingestion](deep-dives/Snowflake_ingestion.md)
+- [Snowflake performance](deep-dives/Snowflake_performance.md)
+- [Snowflake semi-structured data](deep-dives/Snowflake_semi_structured_data.md)
+- [Semi-structured performance](deep-dives/semi_structured_performance.md)
+
+### Query performance and optimization
+
+- [Query performance track index](deep-dives/query-performance/README.md)
+- [Execution plan analysis](deep-dives/query-performance/01_execution_plan_analysis.md)
+- [Performance metrics reference](deep-dives/query-performance/02_metrics_reference.md)
+- [Table and storage performance](deep-dives/query-performance/03_table_and_storage_performance.md)
+- [SQL patterns and operators](deep-dives/query-performance/04_sql_patterns_and_operators.md)
+- [Caching](deep-dives/query-performance/05_caching.md)
+- [Optimization features and hidden costs](deep-dives/query-performance/06_optimization_features_and_hidden_costs.md)
+- [Production performance casebook](deep-dives/query-performance/07_production_casebook.md)
+- [Performance architecture decisions](deep-dives/query-performance/08_architecture_decisions.md)
+- [Senior performance interview questions](deep-dives/query-performance/09_senior_interview_questions.md)
+
+### Iceberg and external tables
+
+- [Iceberg and External Tables index](deep-dives/iceberg-and-external-tables/README.md)
+- [Snowflake Open Catalog](deep-dives/iceberg-and-external-tables/Snowflake_Open_Catalog.md)
+- [Snowflake Open Catalog cookbook](deep-dives/iceberg-and-external-tables/Snowflake_Open_Catalog_cookbook.md)
+- [Snowflake external tables](deep-dives/iceberg-and-external-tables/Snowflake_external_tables.md)
+- [Externally managed Iceberg](deep-dives/iceberg-and-external-tables/Snowflake_externally_managed_Iceberg.md)
+- [Externally managed Iceberg cookbook](deep-dives/iceberg-and-external-tables/Snowflake_externally_managed_Iceberg_cookbook.md)
+- [Snowflake-managed Iceberg](deep-dives/iceberg-and-external-tables/Snowflake_managed_Iceberg.md)
+- [Snowflake table type decision guide](deep-dives/iceberg-and-external-tables/Snowflake_table_type_decision_guide.md)
+
+### Architecture guides
+
+- [Architecture Guides index](architecture/README.md)
+- [Platform, accounts, cloud, and region](architecture/01_platform_account_cloud_region.md)
+- [Compute, workloads, and cost](architecture/02_compute_workload_cost.md)
+- [Data ingestion and processing architecture](architecture/03_data_ingestion_processing.md)
+- [Security and governance](architecture/04_security_governance.md)
+- [Availability and recovery](architecture/05_availability_and_recovery.md)
+- [Sharing and interoperability](architecture/06_sharing_and_interoperability.md)
+- [Operations and lifecycle](architecture/07_operations_and_lifecycle.md)
+- [Snowflake data platform architecture](architecture/Data_platform_architecture.md)
+- [Non-functional requirements](architecture/Non_functional_requirements_NFR.md)
+- [Senior architecture review questions](architecture/Top_tricky_senior_questions.md)
+- [System-design answer patterns](architecture/system_design_ready_answers.md)

@@ -14,3 +14,5 @@ After completing the guided work, use the matching solved references for compari
 - [Dynamic-table pipeline reference](reference_example_snowflake_dynamic_table_pipeline/README.md)
 
 Before each project, read its architecture brief. Make your own choices before comparing your design with the trade-off prompts. Do not copy real data or credentials into the repository.
+
+For optional hands-on work: [Snowflake trial account](../../../shared/environments/setup-guide/accounts/snowflake.md), [Snowflake CLI](../../../shared/environments/setup-guide/02_cli_tools_and_auth.md#snowflake-cli), and the full [setup guide](../../../shared/environments/setup-guide/README.md) for other tools and clouds. For working pipelines with solved references, continue with the [end-to-end projects](../end-to-end-projects/README.md).

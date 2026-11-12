@@ -151,6 +151,11 @@ Reusable Docker configurations.
     docker/
     ├─ compose/
     └─ local-stacks/
+         ├─ databases/   PostgreSQL, MySQL, MongoDB, Adminer
+         ├─ kafka/       single-node KRaft Kafka, Kafka UI
+         └─ azurite/     Azure Storage emulator
+
+Usage and port map: `environments/setup-guide/03_local_services.md`.
 
 Examples:
 
@@ -165,6 +170,7 @@ Examples:
 Environment configuration for tools.
 
     environments/
+    ├─ setup-guide/
     ├─ git-hygiene.md
     ├─ local-env-files-workflow.md
     ├─ local-shell-env-loading-examples.md
@@ -180,6 +186,7 @@ Environment configuration for tools.
 
 Examples:
 
+- full setup guide: workstation, CLI tools and authentication, local services, free cloud accounts, demo hosting (`setup-guide/README.md`)
 - Python requirements
 - Spark configuration
 - tool setup documentation

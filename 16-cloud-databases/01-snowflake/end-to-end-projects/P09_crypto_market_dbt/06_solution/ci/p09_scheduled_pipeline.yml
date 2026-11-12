@@ -1,0 +1,78 @@
+# Template: copy to .github/workflows/p09_scheduled_pipeline.yml in YOUR project repository and set P09_DIR.
+# Hourly: extract from Coinbase and FRED, PUT to the stage, COPY, dbt build to production schemas, freshness check.
+# Secrets: SNOWFLAKE_ACCOUNT, SNOWFLAKE_PIPELINE_PRIVATE_KEY (private key of user P09_PIPELINE_SVC, PEM, unencrypted)
+name: p09 scheduled pipeline
+
+on:
+  schedule:
+    - cron: "10 * * * *"   # ten minutes past the hour: the previous hourly candle is closed
+  workflow_dispatch:
+
+concurrency:
+  group: p09-prod
+  cancel-in-progress: false   # never run two production builds at once; queue instead
+
+permissions:
+  contents: read
+
+env:
+  P09_DIR: P09_crypto_market_dbt/06_solution
+  P09_DATA_DIR: ${{ github.workspace }}/.p09_data
+  SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+  SNOWFLAKE_USER: P09_PIPELINE_SVC
+  SNOWFLAKE_PRIVATE_KEY_PATH: ${{ github.workspace }}/.pipeline_key.p8
+  DBT_PROFILES_DIR: ${{ github.workspace }}/.dbt
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install tools
+        run: pip install requests "dbt-snowflake~=1.10" snowflake-cli
+
+      - name: Write profile and key
+        env:
+          KEY: ${{ secrets.SNOWFLAKE_PIPELINE_PRIVATE_KEY }}
+        run: |
+          mkdir -p "$DBT_PROFILES_DIR"
+          cp "$P09_DIR/dbt/profiles.yml.example" "$DBT_PROFILES_DIR/profiles.yml"
+          umask 077
+          printf '%s\n' "$KEY" > "$SNOWFLAKE_PRIVATE_KEY_PATH"
+
+      # Coinbase every hour; FRED is daily data, so once a day after the US close is enough.
+      - name: Extract
+        run: |
+          SOURCES=coinbase
+          [[ "$(date -u +%H)" == "22" || "${{ github.event_name }}" == "workflow_dispatch" ]] && SOURCES=all
+          python "$P09_DIR/extract/extract_markets.py" --out "$P09_DATA_DIR" --days 2 --sources "$SOURCES"
+
+      - name: Upload and load
+        run: |
+          CONN=(--temporary-connection --account "$SNOWFLAKE_ACCOUNT" --user "$SNOWFLAKE_USER"
+                --authenticator SNOWFLAKE_JWT --private-key-file "$SNOWFLAKE_PRIVATE_KEY_PATH"
+                --role P09_OWNER --warehouse P09_WH)
+          "$P09_DIR/upload.sh" "${CONN[@]}"
+          snow sql "${CONN[@]}" -f "$P09_DIR/core/20_load.sql"
+
+      - name: dbt build
+        working-directory: ${{ env.P09_DIR }}/dbt/p09_markets
+        run: |
+          dbt deps
+          dbt build --target prod
+
+      # Runs even when the build failed: tells whether the cause is missing input or broken logic.
+      - name: dbt source freshness
+        if: always()
+        working-directory: ${{ env.P09_DIR }}/dbt/p09_markets
+        run: dbt source freshness --target prod
+
+      - name: Remove key
+        if: always()
+        run: rm -f "$SNOWFLAKE_PRIVATE_KEY_PATH"

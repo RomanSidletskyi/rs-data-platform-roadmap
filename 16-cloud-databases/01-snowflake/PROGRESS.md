@@ -67,3 +67,12 @@
 - last touched: -
 - note: Account-based steps may incur charges; design-only alternatives are included
 - next step: Begin with the governed warehouse project
+
+## End-to-End Projects
+
+### Snowflake end-to-end project track
+- status: [x] not started | [ ] in progress | [ ] done
+- spent: 0h
+- last touched: -
+- note: Requires a Snowflake account; per-project tracking in [end-to-end-projects/PROGRESS.md](end-to-end-projects/PROGRESS.md)
+- next step: Start with [P01](end-to-end-projects/P01_cricket_json_medallion/README.md), or [P04](end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/README.md) if basic loading is familiar

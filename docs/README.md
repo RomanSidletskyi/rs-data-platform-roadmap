@@ -9,6 +9,7 @@ It exists to answer questions that individual technology modules should not answ
 - which cross-technology projects to build
 - how to think about architecture, trade-offs, and system design beyond one tool
 - how to start new AI-assisted sessions with the right repository context
+- where to collect research sources and future module ideas before they enter the learning path
 
 This directory should behave like an information architecture, not like a loose pile of notes.
 
@@ -35,6 +36,7 @@ Use these files when the question is "what should I study or build next":
 - `learning-sequence.md`
 - `learning-architecture.md`
 - `data-platform-projects-roadmap.md`
+- `learning-backlog/` for article notes, source links, and candidate module extensions
 - `learning-progress.md`
 - `progress-tracking-design.md`
 
@@ -85,6 +87,8 @@ Use this when you want to start a new AI session with stable repository framing:
   templates and examples for decision analysis
 - `ai-templates_for_new_chat/`:
   context packs and prompting rules for starting productive AI sessions in this repository
+- `learning-backlog/`:
+  source lists separated into theory, practical examples, E2E cases, standalone architecture notes, and a candidate roadmap for module improvements
 - `learning-sequence.md`, `learning-architecture.md`, `data-platform-map.md`, `data-platform-projects-roadmap.md`:
   repository-level planning and orientation documents
 - `progress-tracking-design.md`:

@@ -14,3 +14,12 @@ These short, account-free exercises help turn the references and deep dives into
 10. [Snowflake performance diagnosis and design](10_snowflake_performance/README.md)
 
 The solution files are deliberately concise. A defensible alternative is valid when it states the constraints and trade-offs that make it fit.
+
+## Optional Hands-On
+
+The tasks do not need an account. To try your answers in Snowflake:
+
+1. Open a trial: [Snowflake trial account](../../../shared/environments/setup-guide/accounts/snowflake.md), including its day-one cost guardrails.
+2. Run SQL from files with the [Snowflake CLI](../../../shared/environments/setup-guide/02_cli_tools_and_auth.md#snowflake-cli), or paste into a Snowsight worksheet.
+3. For ingestion tasks (03, 07), practice storage access with [Azure](../../../shared/environments/setup-guide/accounts/azure.md) or locally with the [Azurite emulator](../../../shared/environments/setup-guide/03_local_services.md#stack-c-azurite-azure-storage-emulator).
+4. For semi-structured and file-format tasks (02, 07), [DuckDB](../../../shared/environments/setup-guide/03_local_services.md#duckdb) can read local JSON and Parquet for free.

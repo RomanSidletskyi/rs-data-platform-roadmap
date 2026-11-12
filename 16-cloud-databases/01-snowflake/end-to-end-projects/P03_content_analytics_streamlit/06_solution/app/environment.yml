@@ -1,0 +1,8 @@
+name: p03-content-analytics
+channels:
+  - snowflake
+dependencies:
+  - python=3.11
+  - streamlit=1.45.1
+  - pandas=2.*
+  - snowflake-snowpark-python

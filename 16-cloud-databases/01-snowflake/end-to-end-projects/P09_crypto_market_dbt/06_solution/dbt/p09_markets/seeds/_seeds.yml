@@ -1,0 +1,20 @@
+version: 2
+
+seeds:
+  - name: assets
+    description: One row per tracked asset, with the symbol used by its source and how many observations a year it has.
+    columns:
+      - name: asset_id
+        data_tests: [unique, not_null]
+      - name: asset_class
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["crypto", "equity_index", "fx_index"]
+      - name: source
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["coinbase", "fred"]
+      - name: source_symbol
+        data_tests: [unique, not_null]
