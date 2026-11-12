@@ -1,0 +1,1264 @@
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/06_solution/core/05_set_connector_key.sql
+  s_2f5093e762659e::t_e7c2918801f2a0 1-6
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/03_snowflake_approach.md
+  s_2f5093e762659e::t_3bfd3a17aa7743 1-136
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/core/30_mart.sql
+  s_2f5093e762659e::t_3dd62ae2f5ccf5 1-55
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/aws/01_provision.sh
+  s_2f5093e762659e::t_31eec01fe20c86 1-42
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/p09_markets/dbt_project.yml
+  s_2f5093e762659e::t_ebf4f244c4c02c 5
+  s_2f5093e762659e::t_b0357bc5ec2b52 1-4,6-43
+16-cloud-databases/01-snowflake/end-to-end-projects/PROGRESS.md
+  s_2f5093e762659e::t_3cdfffccaeb1b6 46-72,75,84,93
+  s_2f5093e762659e::t_5c47d3f427152e 10-36
+  s_2f5093e762659e::t_9e8dba6ebc9dd6 1-9,37-45,133-139
+  s_2f5093e762659e::t_be7d494cdd4274 74,77-79,83,87-88,92,96-97,100-132
+  s_2f5093e762659e::t_a88c07cf818cb3 73
+  s_2f5093e762659e::t_43a60892210052 76
+  s_2f5093e762659e::t_741a63b8a71876 80-82
+  s_2f5093e762659e::t_5ad1ca2671e0e3 85-86
+  s_2f5093e762659e::t_1b7015eb377b5b 89-91
+  s_2f5093e762659e::t_70da8b9ff3cb83 94-95
+  s_2f5093e762659e::t_a9663b5e20d4df 98-99
+  s_2f5093e762659e::t_46472ad5b7a2a3 140-142
+  h_3bbc5a0c9d81ec 143-148
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/03_snowflake_approach.md
+  s_2f5093e762659e::t_4e334b00ab4119 1-7,10-144,146-163
+  s_2f5093e762659e::t_c3c54a7f2c4e96 8-9
+  s_2f5093e762659e::t_fb799e5f22f877 145
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/04_alternative_stacks.md
+  s_2f5093e762659e::t_92afbb92757187 1-78
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/aws/10_integration.sql
+  s_c72387dc7d82fa::t_1bce8263405633 1-15
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/aws/02_connect_snowflake.sh
+  s_2f5093e762659e::t_5c87fccd7a9b5d 1-30
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/06_solution/prepare/test_prepare_batches.py
+  s_2f5093e762659e::t_c2627975880756 1-31
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/06_solution/generator/test_food_oltp.py
+  s_2f5093e762659e::t_29ec6ecfaa3b6d 1-76
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/core/20_staging.sql
+  s_2f5093e762659e::t_166dae0b24b4ca 1-87
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/core/00_account_setup.sql
+  s_2f5093e762659e::t_a2aa2c387d2149 1-56
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/producer/.gitignore
+  s_2f5093e762659e::t_d5d3a02b68d975 1-3
+docs/learning-backlog/sources/snowflake/examples.md
+  s_0dd61572f2652c::t_a2a181e072670e 1-21
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/04_alternative_stacks.md
+  s_2f5093e762659e::t_d62cd7fab4e157 1-88
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/06_solution/prepare/prepare_months.py
+  s_2f5093e762659e::t_a163df7238ed47 1-145
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/06_solution/p01.env.example
+  s_2f5093e762659e::t_ebfcc3393b71cb 1-5
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/06_solution/tests/data_quality_checks.sql
+  s_2f5093e762659e::t_a7801d81e91c72 1-52
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/04_alternative_stacks.md
+  s_2f5093e762659e::t_78152224aaa6ec 1-90
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/azure/01_provision.sh
+  s_c72387dc7d82fa::t_f158f129233af5 14
+  s_c72387dc7d82fa::t_4faa11ef8e0212 1-13,15-63
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/06_solution/core/01_source.sql
+  s_2f5093e762659e::t_6cfed32417e8ff 1-48
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/assets/architecture.py
+  s_2f5093e762659e::t_ae7b3751ec36c9 38,43-46,54-56
+  s_2f5093e762659e::t_14e5f36bee88e9 1-37,39-42,47-53,57-59
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/05_snowflake_step_by_step.md
+  s_2f5093e762659e::t_a3d042d3d967d7 1-110
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/06_solution/tests/test_app_smoke.py
+  s_2f5093e762659e::t_504adbbb11fb45 16,73-75
+  s_2f5093e762659e::t_75155e3329e611 1-15,17-72,76-96
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/01_problem.md
+  s_c72387dc7d82fa::t_ba3e8e7030cb00 29
+  s_c72387dc7d82fa::t_d3ad18764b5671 26-28
+  s_c72387dc7d82fa::t_75e6597dc0e147 30-32
+  h_3bbc5a0c9d81ec 1-25,33-69
+HANDOFF.md
+  s_218c3c3c5f4c7d::t_0a7f35004fb71d 139-155
+  s_0dd61572f2652c::t_38e8d650c3f516 5-18,32-41,57-66
+  s_0dd61572f2652c::t_0f805fccb76a1e 27,42-47,55-56
+  s_0dd61572f2652c::t_86fb4ceca2b44c 48-54
+  s_0dd61572f2652c::t_0201f1a8b35332 2-4
+  s_0dd61572f2652c::t_e1291b03abb868 19-21,24-26
+  s_0dd61572f2652c::t_12f13b3fa4263b 28-31
+  s_218c3c3c5f4c7d::t_388c7752b5ca97 156-158
+  s_218c3c3c5f4c7d::t_45eba0959cbd68 1,22-23,67-138,159-201
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/06_solution/core/00_account_setup.sql
+  s_2f5093e762659e::t_f2e29eb096ff8e 1-70
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/06_solution/teardown.sql
+  s_2f5093e762659e::t_573242d9acb07e 1-13
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/README.md
+  s_2f5093e762659e::t_be560e95fe5883 1-87
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/tests/failure_drills.md
+  s_c72387dc7d82fa::t_b51d3aefc36d4f 1-33,35-37,40-91
+  s_c72387dc7d82fa::t_d9ccda1dfa4f97 34,38-39
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/README.md
+  s_2f5093e762659e::t_88b523c8324ae8 1-80
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/06_solution/README.md
+  s_2f5093e762659e::t_14a3d84275f56c 1-46
+16-cloud-databases/01-snowflake/PROGRESS.md
+  s_2f5093e762659e::t_321380a87516e7 69-77
+  s_2f5093e762659e::t_022bc9110d58bf 78
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/06_solution/tests/failure_drills.md
+  s_2f5093e762659e::t_09a306605c7ffc 1-73
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/ci/p09_scheduled_pipeline.yml
+  s_2f5093e762659e::t_fab2054227f438 1-48,50,55-78
+  s_2f5093e762659e::t_60dea7d3ea8069 49,51-54
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/01_problem.md
+  s_2f5093e762659e::t_4c00bc67e9d56e 33
+  s_2f5093e762659e::t_12d35fb1837597 30-32
+  s_2f5093e762659e::t_0e2b2dbbe52c85 34-36
+  s_2f5093e762659e::t_50c71fd088e5a2 1-29,37-68
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/tests/replay_from_lake.sql
+  s_2f5093e762659e::t_e750510a43eed0 2-26
+  s_2f5093e762659e::t_18ba6b6d5db936 1
+  s_2f5093e762659e::t_e959a2bcd5b9ed 27-29
+  s_2f5093e762659e::t_dc72b3aba7d555 30-36
+shared/docker/local-stacks/kafka/docker-compose.yml
+  s_2f5093e762659e::t_0eb8013e4b6454 1-24,27-36
+  s_2f5093e762659e::t_4d7930b0326787 25-26
+docs/README.md
+  s_0dd61572f2652c::t_0f805fccb76a1e 12,39,90
+  s_0dd61572f2652c::t_86fb4ceca2b44c 91
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/airflow/requirements.txt
+  s_c72387dc7d82fa::t_d9e7790e823f7f 1-7
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/core/91_resume.sql
+  s_2f5093e762659e::t_a3acee5b7b7f84 1-10
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/06_solution/tests/data_quality_checks.sql
+  s_2f5093e762659e::t_ad5533bb223688 1-39
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/06_solution/core/30_procedure.sql
+  s_2f5093e762659e::t_d23e930e5d093d 1-21
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/06_solution/core/00_account_setup.sql
+  s_2f5093e762659e::t_4c36b3a02508af 1-39
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/03_snowflake_approach.md
+  s_2f5093e762659e::t_14a3d84275f56c 1-100
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/06_solution/core/30_mart.sql
+  s_2f5093e762659e::t_8a3b352f27c51a 1-52
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/core/50_semantic_view.sql
+  s_c72387dc7d82fa::t_c5e0443c393380 1-66,68
+  s_c72387dc7d82fa::t_1b3a175b3c78c1 67
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/core/01_schemas_and_tables.sql
+  s_c72387dc7d82fa::t_32826bf4f46784 1-144
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/p09_markets/models/intermediate/int_asset_daily_prices.sql
+  s_2f5093e762659e::t_d5736b15e9538f 1-19
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/07_build_it_yourself.md
+  s_2f5093e762659e::t_4b3ae449864f7b 1-112
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/assets/architecture.py
+  s_2f5093e762659e::t_a55e36b60a3d8e 1-68
+docs/learning-backlog/topics/snowflake-iceberg-production-architecture.md
+  s_0dd61572f2652c::t_f31a411a91aa83 53-65,67,72,74-79
+  s_0dd61572f2652c::t_a2a181e072670e 8-12
+  s_0dd61572f2652c::t_1a16bf35ad5dfe 26-45,66,68-71,73
+  s_0dd61572f2652c::t_1f65ff169b5dab 5-7
+  s_0dd61572f2652c::t_8fc402886455a4 13-15,23-25
+  s_0dd61572f2652c::t_a7481637fd9a07 46-48,50-52
+  s_0dd61572f2652c::t_c36eafd527cbf0 80-82
+  s_0dd61572f2652c::t_a73fb777c124f1 1-4,16-22,49
+16-cloud-databases/01-snowflake/end-to-end-projects/_shared/azure_aws_mapping.md
+  s_2f5093e762659e::t_32fafd0a1ec1c6 1-102
+shared/environments/setup-guide/accounts/databricks.md
+  s_2f5093e762659e::t_52a5ec03f0506d 1-69
+shared/environments/setup-guide/accounts/other_free_services.md
+  s_2f5093e762659e::t_89c1ebf439a332 1-51,64-87
+  s_2f5093e762659e::t_0b74f79f479bab 52-63
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/QUICKSTART.md
+  s_2f5093e762659e::t_57449424aa35f7 1-103
+docs/learning-backlog/architectures/snowflake/production-data-platform.md
+  h_3bbc5a0c9d81ec 1-48
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/06_solution/core/01_bronze.sql
+  s_2f5093e762659e::t_f5712d224cc43e 1-56
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/06_solution/prepare/test_prepare_months.py
+  s_2f5093e762659e::t_cc48745cf20079 1-43
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/markets_pipeline/transforms.py
+  s_c72387dc7d82fa::t_5fbfd376fb6436 7
+  s_c72387dc7d82fa::t_ffbdb71d1c7bee 1-6,8-11,18-20,22-23,26,28-32,39-68,70-78,80-116
+  s_c72387dc7d82fa::t_c72420a54362de 16-17,21,24-25,27,33-38
+  s_c72387dc7d82fa::t_217286af42721c 12-15
+  s_c72387dc7d82fa::t_bd52c980882286 69,79
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/producer/requirements.txt
+  s_2f5093e762659e::t_cf9c5465c68c8d 1-5
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/azure/10_integrations.sql
+  s_c72387dc7d82fa::t_c3c9680be3d594 1-26
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/03_snowflake_approach.md
+  s_2f5093e762659e::t_4ecf494c83076a 1-55,58-107
+  s_2f5093e762659e::t_52be242b731c99 56-57
+docs/learning-backlog/sources/snowflake/e2e-projects.md
+  s_0dd61572f2652c::t_a2a181e072670e 1-22
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/aws/11_stages.sql
+  s_c72387dc7d82fa::t_5d26a5921007aa 1-50
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/producer/producer.py
+  s_2f5093e762659e::t_4f3755babc3a18 1-289
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/aws/iam_trust_policy.json
+  s_2f5093e762659e::t_ed9c302df588ea 1-11
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/06_solution/run_sql.sh
+  s_2f5093e762659e::t_61860547437212 1-40
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/06_solution/core/20_load_and_model.sql
+  s_2f5093e762659e::t_2ce8ff790d9139 1-119
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/azure/10_integrations.sql
+  s_2f5093e762659e::t_be560e95fe5883 1-26
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/azure/01_provision.sh
+  s_c72387dc7d82fa::t_58534ba7bc7f74 1-51
+shared/environments/setup-guide/accounts/azure.md
+  s_2f5093e762659e::t_323321059e4f6b 1-127
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/06_solution/core/40_ops.sql
+  s_2f5093e762659e::t_a230842e73eccd 1-67
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/README.md
+  s_2f5093e762659e::t_7ed653c0eac37d 1-71
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/tests/failure_drills.md
+  s_2f5093e762659e::t_ec2a446ded32be 1-95
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/core/00_account_setup.sql
+  s_2f5093e762659e::t_57ddc03da9b700 1-39
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/06_solution/fetch/fetch_pageviews.py
+  s_2f5093e762659e::t_1731d25cd3efa2 1-105
+16-cloud-databases/01-snowflake/end-to-end-projects/_shared/how_to_run_a_project.md
+  s_2f5093e762659e::t_5eb1f53ecc6491 1-106
+16-cloud-databases/01-snowflake/end-to-end-projects/_shared/kafka_lab/README.md
+  s_2f5093e762659e::t_37854bc0c8b2ea 1-93
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/tests/data_quality_checks.sql
+  s_c72387dc7d82fa::t_432891f6873088 15-20,22-23
+  s_c72387dc7d82fa::t_3959ee0b1c0f3b 45
+  s_c72387dc7d82fa::t_1fc6fe6dfacbef 1-14,21,24-44,46-75
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/aws/iam_snowflake_policy.json
+  s_c72387dc7d82fa::t_f1356e79ddcfd1 1-24
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/01_problem.md
+  s_2f5093e762659e::t_14a3d84275f56c 1-67
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/06_solution/p07.env.example
+  s_2f5093e762659e::t_c61edd75d5b094 1-5
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/06_solution/core/20_load_raw.sql
+  s_2f5093e762659e::t_e81b6126563285 1-22
+shared/environments/setup-guide/04_free_cloud_accounts.md
+  s_2f5093e762659e::t_fde1256d9f7e77 7-8,41-42,57-58,67-68,78-79,84-85,93-94,104-105,111-112
+  s_2f5093e762659e::t_68620402511dd2 1-6,9-40,43-56,59-66,69-77,80-83,86-92,95-103,106-110,113-145
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/airflow/make_env.sh
+  s_c72387dc7d82fa::t_f2c2f886b8fb52 40
+  s_c72387dc7d82fa::t_f8bb0d20beb475 1-39,41-95
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/06_solution/teardown.sql
+  s_2f5093e762659e::t_87fc0f2819803d 1-13
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/06_solution/upload.sh
+  s_2f5093e762659e::t_5946a700383917 1-37
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/lake_writer/requirements.txt
+  s_2f5093e762659e::t_6523940482829e 1-6
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/tests/data_quality_checks.sql
+  s_2f5093e762659e::t_790aab2d2a5ac8 1-58
+16-cloud-databases/01-snowflake/end-to-end-projects/_shared/kafka_lab/producer/test_wiki_to_kafka.py
+  s_2f5093e762659e::t_78af8bad0d29c5 1-29
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/06_solution/core/31_app_deploy.sql
+  s_2f5093e762659e::t_e4f03357821f74 1-23
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/05_snowflake_step_by_step.md
+  s_2f5093e762659e::t_4063745a53d1a1 1-110
+docs/learning-backlog/architectures/snowflake/iceberg-multi-engine.md
+  s_0dd61572f2652c::t_a2a181e072670e 1-64
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/p04.env.example
+  s_2f5093e762659e::t_2e652b56fbc200 1-26
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/06_solution/tests/failure_drills.md
+  s_2f5093e762659e::t_0bddc26b8f9a8e 51-53,55,57-60,62
+  s_2f5093e762659e::t_2ea25184ce6ad9 45,48-50,54
+  s_2f5093e762659e::t_e74c37493342eb 1-44,46-47,56,61,63,65-92
+  s_2f5093e762659e::t_e7648b3df45072 64
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/05_snowflake_step_by_step.md
+  s_2f5093e762659e::t_39c3a750cb5ab9 1-268
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/assets/architecture.py
+  s_c72387dc7d82fa::t_8ed7a2cac34451 1-69
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/05_snowflake_step_by_step.md
+  s_2f5093e762659e::t_a6367190bd03a9 1-95,97-118
+  s_2f5093e762659e::t_860b9a3311b8e0 96
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/05_snowflake_step_by_step.md
+  s_2f5093e762659e::t_d1ba914cca15e6 1-190
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/04_alternative_stacks.md
+  s_2f5093e762659e::t_59e9a9f6354604 86
+  s_2f5093e762659e::t_3d8e378b0298ba 83-85
+  s_2f5093e762659e::t_134ff2e8b6a10a 87-89
+  h_3bbc5a0c9d81ec 1-82,90-99
+16-cloud-databases/01-snowflake/learning-materials/01_learning_paths.md
+  s_218c3c3c5f4c7d::t_cbac42f6c80d5e 27,30,32-33
+  s_218c3c3c5f4c7d::t_8272ae58a7fe25 3-9,11-18,20,22-26,28-29,31,34-35,37,39,41,43,45,47,49,51,53,55,57,59,61-63,65,67,69-74,76
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/producer/test_producer.py
+  s_2f5093e762659e::t_ff6ce7cab72251 1-45
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/aws/11_stage_and_pipes.sql
+  s_c72387dc7d82fa::t_767d54a4d4a66b 1-42
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/06_solution/core/90_pause.sql
+  s_2f5093e762659e::t_bf50e566bfee9f 1-7
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/p09_markets/models/staging/_sources.yml
+  s_2f5093e762659e::t_e18e4b09f3880c 1-22
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/06_solution/core/01_schemas_and_raw.sql
+  s_2f5093e762659e::t_ef5d65dc5aed52 1-33
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/06_solution/prepare/prepare_batches.py
+  s_2f5093e762659e::t_e94591817d5f7b 1-65
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/tests/data_quality_checks.sql
+  s_c72387dc7d82fa::t_748b003638bea2 1-75,77-84,86,90-95
+  s_c72387dc7d82fa::t_3c91b9ff227e2f 76,85,87-89
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/core/20_staging.sql
+  s_2f5093e762659e::t_800716dba94782 1-81
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/02_architecture_decisions.md
+  s_2f5093e762659e::t_235d98320b2629 1-130
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/06_solution/core/90_pause.sql
+  s_2f5093e762659e::t_12e3670f7dc653 1-7
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/06_solution/tests/data_quality_checks.sql
+  s_2f5093e762659e::t_b5d58d4ceaa5cc 1-43
+shared/environments/setup-guide/accounts/README.md
+  s_2f5093e762659e::t_f3715d6c19764c 1-62
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/06_solution/fetch/test_fetch_weather.py
+  s_2f5093e762659e::t_dd337735b80e2a 1-27
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/06_solution/core/01_raw.sql
+  s_2f5093e762659e::t_4b8c30f694a8b2 1-62
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/06_solution/core/10_model.sql
+  s_2f5093e762659e::t_2b5aa40975379f 155-199
+  s_2f5093e762659e::t_d32ad213039fb7 152-154
+  s_2f5093e762659e::t_3f79661ea2de52 200-202
+  h_3bbc5a0c9d81ec 1-151,203
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/tests/failure_drills.md
+  s_c72387dc7d82fa::t_3723bdf86f0257 1-66,68-70,72-73,78-105
+  s_c72387dc7d82fa::t_51597fcd4f2169 67,71,74-77
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/QUICKSTART.md
+  s_2f5093e762659e::t_43ad5ee4da20de 1-95
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/06_solution/tests/test_transforms.py
+  s_2f5093e762659e::t_2f6ce3b06dda31 1-66,68-103
+  s_2f5093e762659e::t_7fc7fbbf0759cb 67
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/aws/10_integration.sql
+  s_2f5093e762659e::t_50bdee064f8fcb 1-16
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/README.md
+  s_2f5093e762659e::t_ce14f8318d8dc5 9-24,54-63
+  s_2f5093e762659e::t_f74e924c2429b0 1-8,25-53,64-81,83-88,90-103
+  s_2f5093e762659e::t_4d36cbc7ff954c 82,89
+16-cloud-databases/01-snowflake/README.md
+  s_2f5093e762659e::t_321380a87516e7 57
+  s_218c3c3c5f4c7d::t_304f71bfd4e848 32-48,59-65
+  s_2f5093e762659e::t_395ec49fcb14e7 86-87
+  s_0dd61572f2652c::t_0f805fccb76a1e 76
+  s_218c3c3c5f4c7d::t_7aef5d3901733f 82-83
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/06_solution/teardown.sql
+  s_2f5093e762659e::t_244870ce402075 1-17
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/QUICKSTART.md
+  s_2f5093e762659e::t_14a3d84275f56c 1-100
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/teardown.sql
+  s_2f5093e762659e::t_2c84e733183da1 1-24
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/producer/jetstream_producer.py
+  s_2f5093e762659e::t_43a37315da441c 36,38,41,44,159,176
+  s_2f5093e762659e::t_506090956692f3 1-35,37,39-40,42-43,45-158,160-175,177-213
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/06_solution/retail_pipeline/pipeline.py
+  s_2f5093e762659e::t_24ecf19affc6a3 1-105
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/core/40_ops.sql
+  s_2f5093e762659e::t_be560e95fe5883 1-73
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/core/00_account_setup.sql
+  s_c72387dc7d82fa::t_6883a3343a0e42 1-55
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/p11.env.example
+  s_c72387dc7d82fa::t_d335505c43242a 1-21
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/core/00_account_setup.sql
+  s_2f5093e762659e::t_a1a79836479309 1-13,15-60
+  s_2f5093e762659e::t_28fe3d00f0ad2d 14
+16-cloud-databases/01-snowflake/learning-materials/architecture/01_platform_account_cloud_region.md
+  s_218c3c3c5f4c7d::t_ffdb6fc119f737 152,255-257,259,267-269,275-281,287-290,292-293,295-309
+  s_218c3c3c5f4c7d::t_eb53a761e36bb5 20,22-25,28,32-41,44-70
+  s_218c3c3c5f4c7d::t_2f77ad451e66bd 95-97,102-137,140-151,154-205,208-235
+  s_218c3c3c5f4c7d::t_2ea10401dc6318 237
+  s_218c3c3c5f4c7d::t_a8af20454a74eb 26-27
+  s_218c3c3c5f4c7d::t_81b6dfb93cb723 236
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/06_solution/core/50_ops_and_dashboard.sql
+  s_2f5093e762659e::t_e5a3c374a189a9 1-21,23-84
+  s_2f5093e762659e::t_860b9a3311b8e0 22
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/core/90_pause.sql
+  s_c72387dc7d82fa::t_508504d4df22e2 1-18
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/02_architecture_decisions.md
+  s_2f5093e762659e::t_14a3d84275f56c 1-162
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/core/01_schemas_and_raw.sql
+  s_2f5093e762659e::t_9ee534fa6dd260 1-60
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/airflow/tests/test_gharchive_lib.py
+  s_c72387dc7d82fa::t_2f2f965c3c44a6 1-84
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/aws/iam_s3_read_policy.json
+  s_2f5093e762659e::t_e25cfbd072ad42 1-16
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/04_alternative_stacks.md
+  s_2f5093e762659e::t_feed2859e97d66 1-107
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/06_solution/tests/compare_tasks_vs_dt.sql
+  s_2f5093e762659e::t_afe955368334dd 1-37
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/QUICKSTART.md
+  s_2f5093e762659e::t_b9162b2e2c1c87 1-97
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/06_solution/upload.sh
+  s_2f5093e762659e::t_2b95298569d613 32-34
+  s_2f5093e762659e::t_7dbb7c4982d027 1-31,35-40
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/lake_writer/test_lake_writer.py
+  s_2f5093e762659e::t_4ccf18fec42f41 1-64
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/airflow/tests/test_dag_integrity.py
+  s_c72387dc7d82fa::t_8ed567745c5464 33,44
+  s_c72387dc7d82fa::t_365bcce9a7d466 22,24
+  s_c72387dc7d82fa::t_8bdbd355debb40 1-21,23,25-32,34-43,45-51
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/tests/data_quality_checks.sql
+  s_2f5093e762659e::t_7a56e2cc130048 1-45
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/README.md
+  s_2f5093e762659e::t_443d22a13ffd3a 1-73
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/assets/architecture.py
+  s_2f5093e762659e::t_daf16faf1b7822 1-50
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/QUICKSTART.md
+  s_2f5093e762659e::t_879254a18b8593 111-116
+  s_2f5093e762659e::t_ccdec82c45d875 1-52,54-110,117-226
+  s_2f5093e762659e::t_395ec49fcb14e7 53
+16-cloud-databases/01-snowflake/end-to-end-projects/_shared/conventions.md
+  s_2f5093e762659e::t_b7c90799e23098 95-116
+  s_2f5093e762659e::t_cdb23ca6b4c948 1-94
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/producer/requirements.txt
+  s_2f5093e762659e::t_ff275ace749216 1-6
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/README.md
+  s_2f5093e762659e::t_da06daae8f20b4 1-89
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/06_solution/core/40_task_graph.sql
+  s_2f5093e762659e::t_860b9a3311b8e0 3,10,12,32,35,152,155,217
+  s_2f5093e762659e::t_e824535cbba08f 1-2,4-9,11,13-31,33-34,36-151,153-154,156-216,218
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/azure/10_integrations.sql
+  s_2f5093e762659e::t_b388508ffaf343 1-26
+shared/README.md
+  s_2f5093e762659e::t_4d36cbc7ff954c 173,189
+  s_2f5093e762659e::t_e1b0ac43cebfc7 154-158
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/06_solution/core/40_task.sql
+  s_2f5093e762659e::t_a4dda4f4ac6c18 1-33
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/markets_pipeline/__init__.py
+  s_c72387dc7d82fa::t_ffbdb71d1c7bee 1
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/upload.sh
+  s_c72387dc7d82fa::t_06714bfabc3f3c 1-22
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/01_problem.md
+  s_2f5093e762659e::t_c579d73be3ed6e 1-81
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/06_solution/tests/data_quality_checks.sql
+  s_2f5093e762659e::t_3d910db7545b92 1-6,10-38
+  s_2f5093e762659e::t_43ef0db1b8ccf4 7-9
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/core/91_resume.sql
+  s_2f5093e762659e::t_cbf2489cf9f490 1-18
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/assets/architecture.py
+  s_2f5093e762659e::t_470bf72eb3963e 1-55
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/tests/test_transforms.py
+  s_c72387dc7d82fa::t_ffbdb71d1c7bee 1-56,58-63,65,67-111,113-117
+  s_c72387dc7d82fa::t_217286af42721c 57,64,66
+  s_c72387dc7d82fa::t_c1d848d29c0889 112
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/ingest/tests/test_ingest.py
+  s_c72387dc7d82fa::t_427daa80ab1e10 1-106
+shared/environments/setup-guide/accounts/aws.md
+  s_2f5093e762659e::t_210b5a39c48904 1-103
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/p09_markets/models/marts/mart_volatility_30.sql
+  s_2f5093e762659e::t_b7b0ac5331cc2c 5-9
+  s_2f5093e762659e::t_0e8c96e9317c9a 1-4,10-12
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/03_snowflake_approach.md
+  s_2f5093e762659e::t_59e9a9f6354604 119
+  s_2f5093e762659e::t_b0a1d077a31e4d 1-118,120-136
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/06_solution/app/environment.yml
+  s_2f5093e762659e::t_1c982d0eade677 1-8
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/QUICKSTART.md
+  s_2f5093e762659e::t_1dcd32f5d369b7 1-101
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/aws/iam_trust_policy.json
+  s_c72387dc7d82fa::t_091945189c7688 1-11
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/extract/extract_markets.py
+  s_2f5093e762659e::t_60dea7d3ea8069 98,101-102
+  s_2f5093e762659e::t_be560e95fe5883 1-12,14-51,63-85,88-97,99-100,103-108
+  s_2f5093e762659e::t_637f2789baf9d5 13,52-62,86-87
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/03_snowflake_approach.md
+  s_2f5093e762659e::t_4b3ae449864f7b 1-104
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/06_solution/core/01_raw.sql
+  s_2f5093e762659e::t_1c6fe916399135 1-72
+16-cloud-databases/01-snowflake/end-to-end-projects/README.md
+  s_2f5093e762659e::t_c9c88718efed79 1-21,23-54,58,66-67,70-104,106-110,113-114,117-121,123-126,130-141
+  s_c72387dc7d82fa::t_ccfafb71d5da42 64
+  s_2f5093e762659e::t_395ec49fcb14e7 127
+  s_2f5093e762659e::t_be7d494cdd4274 68-69,129
+  s_2f5093e762659e::t_4d36cbc7ff954c 22,128
+  s_2f5093e762659e::t_5c47d3f427152e 55-57
+  s_c72387dc7d82fa::t_1369d1d0fa0b6c 65,105,115,122
+  s_c72387dc7d82fa::t_4694bfbb74521d 59-63,111-112,116
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/06_solution/p02.env.example
+  s_2f5093e762659e::t_2ea0eec2175555 1-5
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/03_snowflake_approach.md
+  s_c72387dc7d82fa::t_772984c6cf820c 28
+  s_c72387dc7d82fa::t_f1f497125db85b 25-27
+  s_c72387dc7d82fa::t_01144f65aa2d2d 29-31
+  s_c72387dc7d82fa::t_22a21245a35aa5 1-24,32-168
+shared/environments/setup-guide/03_local_services.md
+  s_2f5093e762659e::t_52ba556fc8e534 1-212
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/05_snowflake_step_by_step.md
+  s_2f5093e762659e::t_4fdff09b2a270c 1-98
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/core/30_alerts.sql
+  s_2f5093e762659e::t_30e9789eebfee3 28-33
+  s_2f5093e762659e::t_5c05f6b9c4468c 10-27
+  s_2f5093e762659e::t_efdc2ec2f29c00 7-9
+  s_2f5093e762659e::t_888f28ad653be2 34-36
+  s_2f5093e762659e::t_5d14b2c8360d96 1-6,37-46
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/06_solution/app/streamlit_app.py
+  s_2f5093e762659e::t_e41f1c95004294 1-171
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/p10.env.example
+  s_c72387dc7d82fa::t_9f2c56c35dba15 1-11,15-32
+  s_c72387dc7d82fa::t_fd2b3ca017f0c6 12-14
+docs/learning-backlog/README.md
+  s_0dd61572f2652c::t_86fb4ceca2b44c 8-12,15,25-26,50-55,58-63
+  s_0dd61572f2652c::t_0f805fccb76a1e 1-7,13-14,16-24,27-49,56-57,64-65
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/aws/10_integration.sql
+  s_2f5093e762659e::t_9541b0a474969b 1-19
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/06_solution/teardown.sql
+  s_2f5093e762659e::t_69612da8c416b5 1-12
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/ingest/markets_ingest/__init__.py
+  s_c72387dc7d82fa::t_d12c578829af84 1
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/azure/11_stage_and_pipes.sql
+  s_2f5093e762659e::t_7c9de651fde30d 28,41
+  s_2f5093e762659e::t_688364f6e1b842 1-27,29-40,42-51
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/06_solution/core/10_core_mart.sql
+  s_2f5093e762659e::t_4368bc27c71b61 79-95
+  s_2f5093e762659e::t_a0e0509e9658b8 96-97
+  s_2f5093e762659e::t_beaf397f9ea4a2 1-78,98-106
+16-cloud-databases/01-snowflake/end-to-end-projects/.gitignore
+  s_2f5093e762659e::t_4d36cbc7ff954c 3
+  s_2f5093e762659e::t_1753705179f259 1-2
+  s_2f5093e762659e::t_be7d494cdd4274 7-8
+  s_2f5093e762659e::t_a3ef90c56d6fe0 4-6
+  s_2f5093e762659e::t_b5425fbe567760 9
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/markets_pipeline/units.py
+  s_c72387dc7d82fa::t_ffbdb71d1c7bee 1-33
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/06_solution/teardown.sql
+  s_2f5093e762659e::t_3f0e5b47eea360 1-13
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/airflow/dags/p10_gharchive_daily.py
+  s_c72387dc7d82fa::t_f2c2f886b8fb52 17
+  s_c72387dc7d82fa::t_9ce3ed69a84449 1-16,18-78
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/extract/test_extract_markets.py
+  s_2f5093e762659e::t_be560e95fe5883 1-30
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/README.md
+  s_c72387dc7d82fa::t_fbe7d345e97f8b 1-56
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/06_solution/core/00_account_setup.sql
+  s_2f5093e762659e::t_0c50057c33f4c0 1-43
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/06_solution/core/91_resume.sql
+  s_2f5093e762659e::t_38d0fad4366441 1-8
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/aws/02_connect_snowflake.sh
+  s_c72387dc7d82fa::t_d465e72c5e9776 1-16
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/p09_markets/models/intermediate/_int_models.yml
+  s_2f5093e762659e::t_2ec38f26f426f5 1-29
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/p09_markets/models/marts/fct_crypto_hourly.sql
+  s_2f5093e762659e::t_b7b0ac5331cc2c 24-35
+  s_2f5093e762659e::t_11c112398eb49b 1-23,36-42
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/05_snowflake_step_by_step.md
+  s_2f5093e762659e::t_884429ce357ec1 1-126
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/QUICKSTART.md
+  s_2f5093e762659e::t_cbd8aec1656f31 1-160
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/core/40_ops.sql
+  s_2f5093e762659e::t_9087714b9de493 25-31
+  s_2f5093e762659e::t_eb60c8fda20224 22-24
+  s_2f5093e762659e::t_f0227530895059 32-34
+  s_2f5093e762659e::t_b3f137273c2a41 1-21,35-75
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/producer/chaos.py
+  s_2f5093e762659e::t_c15d5835f0cd5e 1-90
+16-cloud-databases/01-snowflake/end-to-end-projects/_shared/diagrams/style.py
+  s_2f5093e762659e::t_2ed093a9155270 1-44
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/06_solution/core/30_notebook.sql
+  s_2f5093e762659e::t_a990cc3df3efcf 1-8
+  s_2f5093e762659e::t_958295b18f1f5b 9-11
+  h_3bbc5a0c9d81ec 12-19
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/README.md
+  s_2f5093e762659e::t_e1b0ac43cebfc7 5-6
+  s_2f5093e762659e::t_13bc248add3230 105
+  s_2f5093e762659e::t_8501598b778c45 1-4,7-104,106-113
+16-cloud-databases/01-snowflake/end-to-end-projects/_shared/kafka_lab/producer/wiki_to_kafka.py
+  s_2f5093e762659e::t_fe82f98be5fb49 1-101
+16-cloud-databases/01-snowflake/end-to-end-projects/_shared/data_sources.md
+  s_2f5093e762659e::t_815bf63c6b703e 1-24,26-45
+  s_2f5093e762659e::t_cea78e203338a8 25
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/core/30_mart.sql
+  s_2f5093e762659e::t_072a6b037046bd 1-104
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/aws/03_connect_snowflake.sh
+  s_c72387dc7d82fa::t_d63215decbcfb2 1-30
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/teardown.sql
+  s_c72387dc7d82fa::t_101111810f1468 1-18
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/02_architecture_decisions.md
+  s_2f5093e762659e::t_e7f2d169690a03 1-129
+docs/learning-backlog/roadmap.md
+  s_0dd61572f2652c::t_86fb4ceca2b44c 7-11
+  s_0dd61572f2652c::t_0f805fccb76a1e 1-6,12-13
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/README.md
+  s_2f5093e762659e::t_c81adfa5fb31cc 1-10,12-61
+  s_2f5093e762659e::t_4146bff1efdad3 11
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/azure/11_stage_and_pipes.sql
+  s_2f5093e762659e::t_43ce0c8942c757 1-43
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/core/30_procedure_and_task.sql
+  s_c72387dc7d82fa::t_89fc4d39bdeb86 1-36
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/07_build_it_yourself.md
+  s_2f5093e762659e::t_ae39cbbe63be96 1-77
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/06_solution/tests/analysis_drills.md
+  s_2f5093e762659e::t_2772cf1f7f973b 1-37,39,43-67
+  s_2f5093e762659e::t_764a941d2e48f7 38,40
+  s_2f5093e762659e::t_edb9aa46683774 41-42
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/core/50_dashboard_and_ops_queries.sql
+  s_2f5093e762659e::t_392a5d816a8464 1-107
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/producer/test_jetstream_producer.py
+  s_2f5093e762659e::t_e0400262ce21f9 1-77
+docs/learning-backlog/sources/snowflake/theory.md
+  s_0dd61572f2652c::t_a2a181e072670e 1-45
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/assets/architecture.py
+  s_2f5093e762659e::t_1b930230cdc961 69,71-72
+  s_2f5093e762659e::t_5768745637db74 70
+  s_2f5093e762659e::t_986841c8537da7 1-68,73-77
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/06_solution/upload_batch.sh
+  s_2f5093e762659e::t_803cdd80f17f47 1-30
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/assets/architecture.py
+  s_c72387dc7d82fa::t_c4a990cbebe832 1-81
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/06_solution/retail_pipeline/transforms.py
+  s_2f5093e762659e::t_59a994ab4f323e 1-26,30-53,55-80,83-99
+  s_2f5093e762659e::t_7fc7fbbf0759cb 27
+  s_2f5093e762659e::t_37e203a639e4d3 28-29
+  s_2f5093e762659e::t_d090806b4183da 54,81-82
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/06_solution/tests/conftest.py
+  s_2f5093e762659e::t_656a0b48f34f72 1-16
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/07_build_it_yourself.md
+  s_2f5093e762659e::t_d7247cf8c798c7 1-82
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/p09_markets/models/marts/_marts.yml
+  s_2f5093e762659e::t_2ec38f26f426f5 21-32
+  s_2f5093e762659e::t_306a82ea29ebe1 1-20,33-78
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/06_solution/core/00_account_setup.sql
+  s_2f5093e762659e::t_53cfc4d57c50c0 1-38
+shared/environments/setup-guide/accounts/google_cloud.md
+  s_2f5093e762659e::t_54e3d7e4064514 1-73
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/aws/11_stage_and_pipes.sql
+  s_2f5093e762659e::t_80ddff9ef8c7b0 1-35
+16-cloud-databases/01-snowflake/end-to-end-projects/_shared/kafka_lab/docker-compose.yml
+  s_2f5093e762659e::t_d091bdc4433321 1-70
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/06_solution/tests/failure_drills.md
+  s_2f5093e762659e::t_7eb7f490988c3b 47
+  s_2f5093e762659e::t_e9e9d7fd5d43fc 1-46,48-86
+16-cloud-databases/01-snowflake/end-to-end-projects/_shared/cost_guardrails.md
+  s_2f5093e762659e::t_d5824c3b698291 1-125
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/06_solution/core/20_staging.sql
+  s_2f5093e762659e::t_7dc484af54c862 1-83
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/assets/architecture.py
+  s_2f5093e762659e::t_4f70add9901dc5 1-44,47-51
+  s_2f5093e762659e::t_764a941d2e48f7 45-46
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/05_snowflake_step_by_step.md
+  s_2f5093e762659e::t_5cc5373f3b1d37 1-100
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/run_sql.sh
+  s_2f5093e762659e::t_d30eb4272610f8 1-39
+shared/environments/setup-guide/README.md
+  s_2f5093e762659e::t_a9e8492b78fc77 1-24,26-77
+  s_2f5093e762659e::t_fde1256d9f7e77 25
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/06_solution/tests/data_quality_checks.sql
+  s_2f5093e762659e::t_f1c22220404c31 19-20
+  s_2f5093e762659e::t_d34f9ac62f4b81 16-18
+  h_3bbc5a0c9d81ec 1-15
+README.md
+  s_0dd61572f2652c::t_cf7cdd66e519c7 197
+  s_2f5093e762659e::t_395ec49fcb14e7 191
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/06_solution/tests/failure_drills.md
+  s_2f5093e762659e::t_ad504726b6f55c 69
+  s_2f5093e762659e::t_00ca4ddab15ea4 1-68,70-98
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/06_solution/core/00_account_setup.sql
+  s_2f5093e762659e::t_31fb55a78cf7aa 1-37
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/06_solution/fetch/test_fetch_pageviews.py
+  s_2f5093e762659e::t_352b8afbaabade 1-30
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/06_solution/run_sql.sh
+  s_2f5093e762659e::t_9e57f5f48a29a6 1-20
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/06_solution/tests/data_quality_checks.sql
+  s_2f5093e762659e::t_5412cb58bae4b1 55-64
+  s_2f5093e762659e::t_7e4971b633efe8 1-54,65
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/p09_markets/tests/assert_no_long_hourly_gaps.sql
+  s_2f5093e762659e::t_2ec38f26f426f5 1-6
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/azure/lifecycle_policy.json
+  s_2f5093e762659e::t_ef53a43075a3e2 1-21
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/05_snowflake_step_by_step.md
+  s_2f5093e762659e::t_14a3d84275f56c 1-103
+16-cloud-databases/01-snowflake/end-to-end-projects/HANDOFF.md
+  s_c72387dc7d82fa::t_7bd38b135a0d2d 13
+  s_218c3c3c5f4c7d::t_4945baac2b12c7 96
+  s_c72387dc7d82fa::t_524987717f54c3 227
+  s_218c3c3c5f4c7d::t_9da1bf216f4480 107-135
+  s_c72387dc7d82fa::t_eb80ab7695eb1c 10-12
+  s_218c3c3c5f4c7d::t_18f3d0bbb6b541 97-99,104-106
+  s_c72387dc7d82fa::t_04e9c2c7a13e10 228-230
+  s_218c3c3c5f4c7d::t_ffa4c563fe2a1f 1-9,14-95,100-103,136-226,231-279
+16-cloud-databases/01-snowflake/learning-materials/00_snowflake_capability_map.md
+  s_218c3c3c5f4c7d::t_7d82152f84042c 5-6,130-205
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/p09_markets/models/intermediate/int_crypto_daily.sql
+  s_2f5093e762659e::t_0825b862dc9a38 1-13
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/06_solution/core/00_account_setup.sql
+  s_2f5093e762659e::t_39d357a6274b9d 1-45
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/04_alternative_stacks.md
+  s_2f5093e762659e::t_14a3d84275f56c 1-79
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/01_problem.md
+  s_2f5093e762659e::t_5ae02f32464105 1-33,35-37,39-63
+  s_2f5093e762659e::t_eca74c99c101dd 34,38
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/03_snowflake_approach.md
+  s_2f5093e762659e::t_d716075d5ab40d 1-97
+16-cloud-databases/01-snowflake/end-to-end-projects/_shared/kafka_lab/connect/Dockerfile
+  s_2f5093e762659e::t_0f85ab4f5813b1 1-11
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/p09_markets/models/marts/fct_asset_daily.sql
+  s_2f5093e762659e::t_2ec38f26f426f5 1-10
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/07_build_it_yourself.md
+  s_2f5093e762659e::t_e079d5664d9a4d 1-78
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/QUICKSTART.md
+  s_c72387dc7d82fa::t_7d1368c6c75cee 1-80,82-99
+  s_c72387dc7d82fa::t_5db76f1a571bba 81
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/aws/11_stage_and_pipes.sql
+  s_2f5093e762659e::t_28bfa145721632 1-40,44-45
+  s_2f5093e762659e::t_f411ea43f1c301 41-43
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/azure/11_stages.sql
+  s_c72387dc7d82fa::t_1840b8c4708292 1-53
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/teardown.sql
+  s_2f5093e762659e::t_ff6b18a7eeed62 1-18
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/07_build_it_yourself.md
+  s_2f5093e762659e::t_e738528ed94710 1-266
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/06_solution/connect/p14-snowflake-sink.json
+  s_2f5093e762659e::t_46179464a19827 1-30
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/01_problem.md
+  s_2f5093e762659e::t_abae43f7489c6f 1-74
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/p09_markets/tests/assert_daily_close_matches_last_hour.sql
+  s_2f5093e762659e::t_2ec38f26f426f5 1-8
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/airflow/Dockerfile
+  s_c72387dc7d82fa::t_b68e0b0115c565 1-5
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/lake_writer/lake_writer.py
+  s_2f5093e762659e::t_0e3d7736549748 1-192
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/06_solution/core/20_simulator.sql
+  s_2f5093e762659e::t_b1f8d1b9035742 1-97
+shared/environments/setup-guide/01_workstation_macos.md
+  s_2f5093e762659e::t_171ff10faf015a 1-157
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/06_solution/run_local.py
+  s_2f5093e762659e::t_da79a9e1f4bc5f 1-54
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/aws/iam_trust_lambda.json
+  s_c72387dc7d82fa::t_43dc3b47bb854e 1-10
+16-cloud-databases/01-snowflake/learning-materials/README.md
+  s_218c3c3c5f4c7d::t_9a390832f09c23 3,5,7,9-34
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/assets/architecture.py
+  s_2f5093e762659e::t_47edf0891bc5f9 1-59
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/ingest/host.json
+  s_c72387dc7d82fa::t_8d20874efaafa1 8
+  s_c72387dc7d82fa::t_b23908b1af5035 1-7,9-13
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/markets_pipeline/pipeline.py
+  s_c72387dc7d82fa::t_217286af42721c 50
+  s_c72387dc7d82fa::t_ffbdb71d1c7bee 11-22,52
+  s_c72387dc7d82fa::t_4685949d59e9f2 8-10
+  s_c72387dc7d82fa::t_7ec848ea1717b8 23-25,47-49
+  s_c72387dc7d82fa::t_194ccf39d4da09 51
+  s_c72387dc7d82fa::t_b52150673dd3b8 53-55
+  s_c72387dc7d82fa::t_71ccc09211c886 1-7,26-46,56-67
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/aws/02_deploy_lambda.sh
+  s_c72387dc7d82fa::t_9fe9513bb9497b 24,26,32
+  s_c72387dc7d82fa::t_f6e05f6f3adc5c 1-23,25,27-31,33-52
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/core/01_schemas_and_raw.sql
+  s_2f5093e762659e::t_a98c810d911b1b 1-16,18-32
+  s_2f5093e762659e::t_67990ffafd286b 17
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/06_solution/README.md
+  s_2f5093e762659e::t_cb094459cb14f4 1-70
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/tests/data_quality_checks.sql
+  s_2f5093e762659e::t_a43d799ca1b521 1-88
+  s_2f5093e762659e::t_15cd4372943e98 89-91
+  h_3bbc5a0c9d81ec 92
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/06_solution/core/30_task_graph.sql
+  s_2f5093e762659e::t_4a22704cec249c 1-170
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/06_solution/README.md
+  s_2f5093e762659e::t_01754ab7a171f1 1-45
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/core/10_procedures.sql
+  s_c72387dc7d82fa::t_55e8492b13326e 20,32-33,42,46,237,261-263,268,271,273,276-277,282,288,303-304,353,360,364-377,379
+  s_c72387dc7d82fa::t_3c86ce1d7ed840 1-19,21-31,34-41,43-45,47-236,238-260,264-267,269-270,272,274-275,278-281,283-287,289-302,305-352,354-359,361-363,378,380-390
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/airflow/dags/gharchive_lib.py
+  s_c72387dc7d82fa::t_a4f4d50bb3cda0 1-139
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/aws/01_provision.sh
+  s_c72387dc7d82fa::t_14a6b6212e3bf0 1-48
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/powerbi/measures.dax
+  s_c72387dc7d82fa::t_c6c7f9803eb278 1-43
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/aws/iam_trust_snowflake.json
+  s_c72387dc7d82fa::t_3f9102aff9983d 1-11
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/02_architecture_decisions.md
+  s_2f5093e762659e::t_3c1208d5993a89 1-180
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/tests/failure_drills.md
+  s_2f5093e762659e::t_a7385c37c29e06 1-72
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/airflow/dags/p10_gharchive_hourly.py
+  s_c72387dc7d82fa::t_f2c2f886b8fb52 22
+  s_c72387dc7d82fa::t_677fe23a90a942 1-21,23-145
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/06_solution/core/90_pause.sql
+  s_2f5093e762659e::t_7393c98af2e590 1-8
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/06_solution/fetch/fetch_weather.py
+  s_2f5093e762659e::t_e93256259c114f 1-94
+shared/environments/setup-guide/accounts/confluent_cloud.md
+  s_2f5093e762659e::t_44374102bcdc6c 1-77
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/core/40_ops.sql
+  s_2f5093e762659e::t_18b5a6f0f72773 1-20,22-109
+  s_2f5093e762659e::t_d19b08911c3314 21
+16-cloud-databases/01-snowflake/pet-projects/README.md
+  s_2f5093e762659e::t_395ec49fcb14e7 16-18
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/07_build_it_yourself.md
+  s_2f5093e762659e::t_e94bd0f54a822c 1-82
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/02_architecture_decisions.md
+  s_2f5093e762659e::t_36546fe3cc2cb4 1-258
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/README.md
+  s_2f5093e762659e::t_cfb0ec3c96ee60 1-85
+16-cloud-databases/01-snowflake/end-to-end-projects/IMPLEMENTATION_NOTES.md
+  s_2f5093e762659e::t_072ed3a8bcac89 85,147-216
+  s_c72387dc7d82fa::t_790f4ac8046788 282-320
+  s_c72387dc7d82fa::t_809c9f1bb6880e 90,105,122,321-366
+  s_2f5093e762659e::t_335eb87637f94e 217-281
+  s_2f5093e762659e::t_74db3cd88f3147 1-83
+  s_2f5093e762659e::t_5f6e12258b49da 84
+  s_c72387dc7d82fa::t_acb64e3512bcb0 91-93,102-104
+  s_c72387dc7d82fa::t_233cfa405e3a10 106-108,119-121
+  s_c72387dc7d82fa::t_494dd76ee8ee71 86-89,94-101,109-118,123-146
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/03_snowflake_approach.md
+  s_2f5093e762659e::t_e61a04eba48d17 67-68
+  s_2f5093e762659e::t_e550ce32991cf6 1-66,69-102
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/core/01_schemas_and_raw.sql
+  s_2f5093e762659e::t_0e794427829c04 35
+  s_2f5093e762659e::t_171c803919e674 1-34,36-38
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/azure/01_provision.sh
+  s_2f5093e762659e::t_22ed40174003b8 1-67
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/core/40_mart.sql
+  s_c72387dc7d82fa::t_d14c59087d4d87 68-73
+  s_c72387dc7d82fa::t_5d2a8250621903 65-67
+  s_c72387dc7d82fa::t_d6d356f96ffed7 74-76
+  s_c72387dc7d82fa::t_3342658083c130 1-64,77-104
+16-cloud-databases/01-snowflake/end-to-end-projects/_shared/kafka_lab/.env.example
+  s_2f5093e762659e::t_ee5a33d8046a63 1-3
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/airflow/docker-compose.yml
+  s_c72387dc7d82fa::t_96a1b793d308c7 1-104
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/06_solution/run_sql.sh
+  s_2f5093e762659e::t_8b7b16f42c5795 1-20
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/06_solution/core/30_app_stage.sql
+  s_2f5093e762659e::t_07b8594bdd20a0 1-13
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/core/90_pause.sql
+  s_2f5093e762659e::t_0ebcb0c93efd34 1-20
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/core/90_pause.sql
+  s_2f5093e762659e::t_0fdee274d8b9d2 1-16
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/06_solution/core/20_silver.sql
+  s_2f5093e762659e::t_4937399a7e7f08 1-76
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/QUICKSTART.md
+  s_2f5093e762659e::t_fb69f44766d4d6 69,90
+  s_2f5093e762659e::t_109a2f575fa4f7 1-68,70-89,91-104
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/assets/architecture.py
+  s_2f5093e762659e::t_cd6f0d8bb3e7a6 51
+  s_2f5093e762659e::t_f19ace4bb42c4f 1-50,52-57
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/06_solution/core/50_dashboard_and_ops_queries.sql
+  s_2f5093e762659e::t_1e6d3c56b684fc 1-77
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/core/00_account_setup.sql
+  s_2f5093e762659e::t_1cbcde272d9be6 1-54
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/06_solution/run_sql.sh
+  s_2f5093e762659e::t_57854b98cc02cc 1-20
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/07_build_it_yourself.md
+  s_2f5093e762659e::t_8ef254377392cc 1-80
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/run_sql.sh
+  s_2f5093e762659e::t_4da653d71aa0e4 1-38
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/06_solution/tests/failure_drills.md
+  s_2f5093e762659e::t_23fecced417ced 1-17,19-29,31-62,64-82
+  s_2f5093e762659e::t_860b9a3311b8e0 18,30,63
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/README.md
+  s_2f5093e762659e::t_46396c006aa686 1-71
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/run_sql.sh
+  s_c72387dc7d82fa::t_1e500d19982fe3 1-42
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/06_solution/p14.env.example
+  s_2f5093e762659e::t_a994a9a804f932 1-19
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/01_problem.md
+  s_c72387dc7d82fa::t_587b8bd8eccee0 73
+  s_c72387dc7d82fa::t_0b60e471ff024b 70-72
+  h_3bbc5a0c9d81ec 1-69
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/powerbi/README.md
+  s_c72387dc7d82fa::t_1b4affe4515052 1-71
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/07_build_it_yourself.md
+  s_2f5093e762659e::t_43ad5ee4da20de 1-79
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/p09_markets/.gitignore
+  s_2f5093e762659e::t_e18e4b09f3880c 1-4
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/06_solution/tests/data_quality_checks.sql
+  s_2f5093e762659e::t_cb94725b62d8f0 30
+  s_2f5093e762659e::t_57a5f197c149b6 1-29,31-55
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/03_snowflake_approach.md
+  s_2f5093e762659e::t_e90c12a3b021db 1-97
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/04_alternative_stacks.md
+  s_c72387dc7d82fa::t_f58312981cf797 1-70
+16-cloud-databases/01-snowflake/end-to-end-projects/_shared/diagrams/requirements.txt
+  s_2f5093e762659e::t_3ff4d876a48fcc 1
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/tests/data_quality_checks.sql
+  s_2f5093e762659e::t_6f789c86b7fe6f 1-39
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/core/00_account_setup.sql
+  s_c72387dc7d82fa::t_fa8169321c15b7 1-52
+16-cloud-databases/01-snowflake/end-to-end-projects/_shared/project_template.md
+  s_2f5093e762659e::t_b7c90799e23098 9-10
+  s_2f5093e762659e::t_4d36cbc7ff954c 16-23,72
+  s_2f5093e762659e::t_95630fe2309225 1-8,11-15,24-71,73-82
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/azure/02_deploy_function.sh
+  s_c72387dc7d82fa::t_7246377b5c85d7 1-24
+16-cloud-databases/01-snowflake/learning-materials/snowflake_platform_learning_guide.md
+  s_218c3c3c5f4c7d::t_e79f9eb45247c1 103
+  s_218c3c3c5f4c7d::t_a3178961ead1ec 3,5,7,9-11,13,15,17,19-25,27,29,31-34,36,38,40-45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77,79,81,83,85,87,89,91,93,95,97,99,101,105,107,109,111,113,115,117,119,121-150
+16-cloud-databases/01-snowflake/simple-tasks/README.md
+  s_2f5093e762659e::t_395ec49fcb14e7 16-25
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/core/50_dashboard_and_ops_queries.sql
+  s_2f5093e762659e::t_9087714b9de493 17
+  s_2f5093e762659e::t_4a9af901ada0d7 14-16
+  s_2f5093e762659e::t_a017db6b06b5b8 18-20
+  s_2f5093e762659e::t_1631fa2739eea3 1-13,21-50
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/06_solution/simulate.sh
+  s_2f5093e762659e::t_1c1a1d145df7ea 1-20
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/p15.env.example
+  s_2f5093e762659e::t_efca4eda7e65c4 1-24
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/azure/11_stage_and_pipes.sql
+  s_c72387dc7d82fa::t_1756ffba63f660 1-44
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/core/01_raw.sql
+  s_c72387dc7d82fa::t_56141579c11968 1-59,61-66,68-79,81-87
+  s_c72387dc7d82fa::t_54c471194836e1 60
+  s_c72387dc7d82fa::t_f7dfa95e082abf 67
+  s_c72387dc7d82fa::t_4949904ddbcac9 80
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/azure/02_grant_snowflake_access.sh
+  s_2f5093e762659e::t_87b5bdbb7f2d5f 1-42
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/README.md
+  s_2f5093e762659e::t_1d50a26d175522 1-74
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/04_alternative_stacks.md
+  s_2f5093e762659e::t_4b3ae449864f7b 1-99
+shared/docker/local-stacks/azurite/docker-compose.yml
+  s_2f5093e762659e::t_d78d6fe665d164 1-16
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/ci/p09_dbt_pull_request.yml
+  s_2f5093e762659e::t_f1d1a9266fb300 1-60,63-66
+  s_2f5093e762659e::t_f896f65889b769 61-62
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/06_solution/core/90_pause.sql
+  s_2f5093e762659e::t_7e1f8d747ecac1 1-13
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/06_solution/core/60_dynamic_tables.sql
+  s_2f5093e762659e::t_65a5312271495e 1-45
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/06_solution/core/30_gold.sql
+  s_2f5093e762659e::t_a9906795118964 1-70
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/06_solution/p03.env.example
+  s_2f5093e762659e::t_2ce8ff790d9139 1-5
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/02_architecture_decisions.md
+  s_2f5093e762659e::t_5c05f6b9c4468c 141
+  s_2f5093e762659e::t_30e9789eebfee3 75
+  s_2f5093e762659e::t_799291e9102e58 72-74
+  s_2f5093e762659e::t_64568c45a204e6 76-78,138-140
+  s_2f5093e762659e::t_1301e184d3d6a4 1-71,79-137
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/03_snowflake_approach.md
+  s_2f5093e762659e::t_860b9a3311b8e0 42,49-50,54
+  s_2f5093e762659e::t_c4e1f9b20f9f24 1-8,11-41,43-48,51-53,55-133
+  s_2f5093e762659e::t_3d7c0ce148074e 9-10
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/06_solution/core/01_raw.sql
+  s_2f5093e762659e::t_66e42415220432 1-21,26-52
+  s_2f5093e762659e::t_a990cc3df3efcf 22-25
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/azure/01_provision.sh
+  s_2f5093e762659e::t_80e20ca84c013b 1-52,54-55
+  s_2f5093e762659e::t_1858fd5321ebb5 53
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/run_sql.sh
+  s_c72387dc7d82fa::t_750777bb3b2d86 1-42
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/06_solution/notebooks/weather_eda.ipynb
+  s_2f5093e762659e::t_521482a5e87325 243-245
+  s_2f5093e762659e::t_5e57b4618fdeed 240-242
+  s_2f5093e762659e::t_89a9943a231665 246-248
+  h_3bbc5a0c9d81ec 1-239,249-256
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/06_solution/package.sh
+  s_2f5093e762659e::t_463a1b4e178e5d 1-21
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/producer/.gitignore
+  s_2f5093e762659e::t_8d9599ac2b883b 1-2
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/azure/02_grant_snowflake_access.sh
+  s_2f5093e762659e::t_be560e95fe5883 1-30
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/aws/01_provision.sh
+  s_c72387dc7d82fa::t_3a3bb7afa49e0b 1-54
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/p08.env.example
+  s_2f5093e762659e::t_be560e95fe5883 1-22
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/04_alternative_stacks.md
+  s_2f5093e762659e::t_d55d5e35d5b59b 1-88
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/QUICKSTART.md
+  s_2f5093e762659e::t_b3fa3261deae5d 1-101
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/04_alternative_stacks.md
+  s_2f5093e762659e::t_3b61667e7d6d2d 1-133
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/p09_markets/models/marts/mart_correlation_spx_60.sql
+  s_2f5093e762659e::t_b7b0ac5331cc2c 24-27
+  s_2f5093e762659e::t_a47bf02676f93a 1-23,28-29
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/azure/10_integrations.sql
+  s_2f5093e762659e::t_039f252aa1b249 1-24
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/assets/architecture.py
+  s_2f5093e762659e::t_8eae7905563652 1-71
+shared/environments/setup-guide/02_cli_tools_and_auth.md
+  s_2f5093e762659e::t_fa782be1b11566 1-191
+shared/environments/setup-guide/accounts/microsoft_fabric_power_bi.md
+  s_2f5093e762659e::t_84c6c2e6823427 1-61
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/06_solution/core/90_pause.sql
+  s_2f5093e762659e::t_860b9a3311b8e0 6
+  s_2f5093e762659e::t_ac0182a217e934 1-5,7-8
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/aws/iam_airflow_policy.json
+  s_c72387dc7d82fa::t_8e954ac2cee1f6 1-18
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/01_problem.md
+  s_2f5093e762659e::t_c07d9c848a469d 1-98
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/tests/failure_drills.md
+  s_2f5093e762659e::t_e65bbfa12496da 1-105
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/06_solution/README.md
+  s_2f5093e762659e::t_def219ebcf2619 32
+  s_2f5093e762659e::t_293e1e112dae5c 1-31,33-45
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/07_build_it_yourself.md
+  s_2f5093e762659e::t_14a3d84275f56c 1-83
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/QUICKSTART.md
+  s_2f5093e762659e::t_4b3ae449864f7b 1-168
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/core/20_staging.sql
+  s_2f5093e762659e::t_9bcffb5a3a59e3 1-81
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/README.md
+  s_2f5093e762659e::t_269e2553941d5e 1-53
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/README.md
+  s_2f5093e762659e::t_14a3d84275f56c 1-74
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/05_snowflake_step_by_step.md
+  s_2f5093e762659e::t_836acadba20cf8 62
+  s_2f5093e762659e::t_a6bbef2a824c86 1-61,63-93
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/06_solution/core/90_pause.sql
+  s_2f5093e762659e::t_2b52698ac3f187 1-13
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/06_solution/azure/01_provision.sh
+  s_2f5093e762659e::t_c641f3cf70037c 1-53
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/01_problem.md
+  s_2f5093e762659e::t_59e9a9f6354604 63
+  s_2f5093e762659e::t_54c7a382aaa87d 60-62
+  s_2f5093e762659e::t_69237539d269b9 64-65
+  h_3bbc5a0c9d81ec 1-59
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/05_snowflake_step_by_step.md
+  s_2f5093e762659e::t_c0acdc641640e5 36
+  s_2f5093e762659e::t_e40f2f1a9901bb 1-35,37-119
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/p09_markets/models/staging/stg_fred__observations.sql
+  s_2f5093e762659e::t_60dea7d3ea8069 2-10
+  s_2f5093e762659e::t_ca33136bfc3773 1
+shared/environments/setup-guide/accounts/snowflake.md
+  s_2f5093e762659e::t_dac0b77fc5b76e 1-122
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/assets/architecture.py
+  s_2f5093e762659e::t_c8b12e67f08180 1-59
+16-cloud-databases/01-snowflake/end-to-end-projects/P08_social_feed_azure/02_architecture_decisions.md
+  s_2f5093e762659e::t_43a37315da441c 115
+  s_2f5093e762659e::t_13a97b35fa37f6 1-114,116-126
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/07_build_it_yourself.md
+  s_2f5093e762659e::t_07d05f36614546 1-151
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/06_solution/connect/connector.sh
+  s_2f5093e762659e::t_ea66e608f36bd7 32
+  s_2f5093e762659e::t_51bbe67dac457e 1-31,33-60
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/07_build_it_yourself.md
+  s_c72387dc7d82fa::t_be960b9807f0bd 1-83
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/06_solution/generator/food_oltp.py
+  s_2f5093e762659e::t_d542e6b2e6fe9f 283-302
+  s_2f5093e762659e::t_d0906593bd9a57 271-272
+  s_2f5093e762659e::t_39b502abf9700d 268-270
+  s_2f5093e762659e::t_c26041ebf3ba6b 273-275,280-282
+  s_2f5093e762659e::t_afa75bcca6d8cd 303-305
+  h_3bbc5a0c9d81ec 1-267,276-279,306-334
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/06_solution/run_sql.sh
+  s_2f5093e762659e::t_501dfd710abcb2 1-20
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/06_solution/run_sql.sh
+  s_2f5093e762659e::t_e6d1455a7f87c0 1-20
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/06_solution/upload_day.sh
+  s_2f5093e762659e::t_a63aecd69fb12b 1-31
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/06_solution/run_sql.sh
+  s_2f5093e762659e::t_b6057df8cc8cf4 1-20
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/run_pipeline.sh
+  s_2f5093e762659e::t_417a15d4c59b6c 1-19
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/run_sql.sh
+  s_2f5093e762659e::t_1c05b7120e9e08 1-41
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/upload.sh
+  s_2f5093e762659e::t_a729ce6cbcd961 1-23
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/azure/02_grant_snowflake_access.sh
+  s_c72387dc7d82fa::t_a3e2079af23a9e 1-22
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/azure/03_grant_snowflake_access.sh
+  s_c72387dc7d82fa::t_c1c0fa730d4e50 1-30
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/package.sh
+  s_c72387dc7d82fa::t_548a3543c2476d 1-21
+06-spark-pyspark/links.md
+  s_2f5093e762659e::t_8281fff2f675e0 1
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/01_problem.md
+  s_2f5093e762659e::t_b7a32b2518258d 1-52
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/02_architecture_decisions.md
+  s_2f5093e762659e::t_90fefd9ce6aaa3 1-126
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/06_solution/p05.env.example
+  s_2f5093e762659e::t_a056df16143ebe 1-3
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/README.md
+  s_2f5093e762659e::t_fc48f2b4e4b546 1-75
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/06_solution/core/00_account_setup.sql
+  s_2f5093e762659e::t_d88a2af99e734c 1-39
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/06_solution/core/01_objects.sql
+  s_2f5093e762659e::t_ff256c25675599 1-84
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/tests/failure_drills.md
+  s_2f5093e762659e::t_de7ee17e7ff089 1-83
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/05_snowflake_step_by_step.md
+  s_c72387dc7d82fa::t_d7dece501b96ff 1-106
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/azure/10_integration.sql
+  s_c72387dc7d82fa::t_c2b034ab69bf44 1-19
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/azure/lifecycle_policy.json
+  s_c72387dc7d82fa::t_6f443b23387e5d 1-37
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/core/90_pause.sql
+  s_c72387dc7d82fa::t_8535f5cfd10617 1-18
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/teardown.sql
+  s_c72387dc7d82fa::t_0c1cc2e7b5b275 1-17
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/QUICKSTART.md
+  s_c72387dc7d82fa::t_b5d6e47c3c68e9 1-121
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/README.md
+  s_c72387dc7d82fa::t_31cd6cee5674f9 1-90
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/04_alternative_stacks.md
+  s_c72387dc7d82fa::t_cea6c01f992879 1-68
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/05_snowflake_step_by_step.md
+  s_c72387dc7d82fa::t_09b2f664d2206c 1-100
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/README.md
+  s_c72387dc7d82fa::t_c5c7ad2f928f30 1-63
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/aws/10_integration.sql
+  s_c72387dc7d82fa::t_9a67071283c430 1-15
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/aws/iam_lambda_write.json
+  s_c72387dc7d82fa::t_a5b59859c32eb5 1-18
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/aws/iam_snowflake_read.json
+  s_c72387dc7d82fa::t_838cb8e240713d 1-16
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/aws/iam_trust_scheduler.json
+  s_c72387dc7d82fa::t_412391c15a6588 1-10
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/powerbi/queries.pq
+  s_c72387dc7d82fa::t_77a9eb934dfadd 1-58
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/07_build_it_yourself.md
+  s_c72387dc7d82fa::t_402f998a3d9721 1-88
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/01_problem.md
+  s_2f5093e762659e::t_2e6f88600288dd 1-58
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/README.md
+  s_2f5093e762659e::t_08b7f4addd7513 1-81
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/aws/10_integration.sql
+  s_2f5093e762659e::t_a33cdf805f262d 1-15
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/aws/11_stage_and_pipe.sql
+  s_2f5093e762659e::t_ba34ef410e275b 1-37
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/azure/02_grant_snowflake_access.sh
+  s_2f5093e762659e::t_df3ccab2c70297 1-29
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/azure/11_stage_and_pipe.sql
+  s_2f5093e762659e::t_aca7ad6f2aa02c 1-42
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/core/30_mart.sql
+  s_2f5093e762659e::t_a1143568507adf 1-38
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/core/90_pause.sql
+  s_2f5093e762659e::t_d19c6da8ef7719 1-15
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/core/91_resume.sql
+  s_2f5093e762659e::t_850a37e7cff26e 1-9
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/run_sql.sh
+  s_2f5093e762659e::t_09fac133e731f2 1-38
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/06_solution/teardown.sql
+  s_2f5093e762659e::t_ec383fd09144e1 1-18
+16-cloud-databases/01-snowflake/end-to-end-projects/P15_kafka_lake_snowpipe/assets/architecture.py
+  s_2f5093e762659e::t_354c6908b55931 1-83
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/04_alternative_stacks.md
+  h_3bbc5a0c9d81ec 1-81
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/02_architecture_decisions.md
+  h_3bbc5a0c9d81ec 1-129
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/06_solution/README.md
+  h_3bbc5a0c9d81ec 1-45
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/06_solution/core/20_load_and_model.sql
+  h_3bbc5a0c9d81ec 1-102
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/06_solution/teardown.sql
+  h_3bbc5a0c9d81ec 1-12
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/01_problem.md
+  h_3bbc5a0c9d81ec 1-66
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/03_snowflake_approach.md
+  h_3bbc5a0c9d81ec 1-86
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/06_solution/README.md
+  h_3bbc5a0c9d81ec 1-50
+16-cloud-databases/01-snowflake/end-to-end-projects/P04_wikimedia_snowpipe_realtime_dwh/06_solution/aws/s3_notification.json
+  h_3bbc5a0c9d81ec 1-10
+16-cloud-databases/01-snowflake/end-to-end-projects/P05_tpch_streams_tasks_cdc/06_solution/core/40_ops.sql
+  h_3bbc5a0c9d81ec 1-40
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/06_solution/core/20_build_procedure.sql
+  h_3bbc5a0c9d81ec 1-294
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/06_solution/core/30_task_graph.sql
+  h_3bbc5a0c9d81ec 1-66
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/06_solution/core/40_mart.sql
+  h_3bbc5a0c9d81ec 1-68
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/06_solution/core/90_pause.sql
+  h_3bbc5a0c9d81ec 1-9
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/06_solution/p06.env.example
+  h_3bbc5a0c9d81ec 1-5
+16-cloud-databases/01-snowflake/end-to-end-projects/P06_food_delivery_dimensional_model/06_solution/teardown.sql
+  h_3bbc5a0c9d81ec 1-13
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/02_architecture_decisions.md
+  h_3bbc5a0c9d81ec 1-125
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/06_solution/README.md
+  h_3bbc5a0c9d81ec 1-51
+16-cloud-databases/01-snowflake/end-to-end-projects/P07_retail_snowpark_pipeline/06_solution/tests/failure_drills.md
+  h_3bbc5a0c9d81ec 1-80
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/04_alternative_stacks.md
+  h_3bbc5a0c9d81ec 1-65
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/core/01_raw.sql
+  h_3bbc5a0c9d81ec 1-37
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/core/05_service_users.sql
+  h_3bbc5a0c9d81ec 1-25
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/core/20_load.sql
+  h_3bbc5a0c9d81ec 1-18
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/core/90_pause.sql
+  h_3bbc5a0c9d81ec 1-8
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/p09_markets/macros/drop_ci_schemas.sql
+  h_3bbc5a0c9d81ec 1-17
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/p09_markets/macros/generate_schema_name.sql
+  h_3bbc5a0c9d81ec 1-14
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/p09_markets/models/staging/_stg_models.yml
+  h_3bbc5a0c9d81ec 1-49
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/p09_markets/models/staging/stg_coinbase__candles.sql
+  h_3bbc5a0c9d81ec 1-38
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/p09_markets/packages.yml
+  h_3bbc5a0c9d81ec 1-3
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/p09_markets/seeds/_seeds.yml
+  h_3bbc5a0c9d81ec 1-20
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/p09_markets/seeds/assets.csv
+  h_3bbc5a0c9d81ec 1-7
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/dbt/profiles.yml.example
+  h_3bbc5a0c9d81ec 1-39
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/p09.env.example
+  h_3bbc5a0c9d81ec 1-17
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/06_solution/teardown.sql
+  h_3bbc5a0c9d81ec 1-16
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/07_build_it_yourself.md
+  h_3bbc5a0c9d81ec 1-84
+16-cloud-databases/01-snowflake/end-to-end-projects/P09_crypto_market_dbt/QUICKSTART.md
+  h_3bbc5a0c9d81ec 1-104
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/02_architecture_decisions.md
+  h_3bbc5a0c9d81ec 1-143
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/03_snowflake_approach.md
+  h_3bbc5a0c9d81ec 1-129
+16-cloud-databases/01-snowflake/end-to-end-projects/P10_gharchive_airflow/06_solution/aws/lifecycle.json
+  h_3bbc5a0c9d81ec 1-19
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/02_architecture_decisions.md
+  h_3bbc5a0c9d81ec 1-139
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/core/10_core_tables.sql
+  h_3bbc5a0c9d81ec 1-64
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/core/20_load_internal.sql
+  h_3bbc5a0c9d81ec 1-31
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/ingest/.funcignore
+  h_3bbc5a0c9d81ec 1-6
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/ingest/function_app.py
+  h_3bbc5a0c9d81ec 1-23
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/ingest/lambda_handler.py
+  h_3bbc5a0c9d81ec 1-19
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/ingest/markets_ingest/landing.py
+  h_3bbc5a0c9d81ec 1-92
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/ingest/markets_ingest/run.py
+  h_3bbc5a0c9d81ec 1-109
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/ingest/markets_ingest/sources.py
+  h_3bbc5a0c9d81ec 1-124
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/06_solution/ingest/requirements.txt
+  h_3bbc5a0c9d81ec 1-4
+16-cloud-databases/01-snowflake/end-to-end-projects/P11_global_markets_powerbi/README.md
+  h_3bbc5a0c9d81ec 1-91
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/01_problem.md
+  h_3bbc5a0c9d81ec 1-62
+16-cloud-databases/01-snowflake/end-to-end-projects/P14_kafka_connector_streaming/02_architecture_decisions.md
+  h_3bbc5a0c9d81ec 1-213
+16-cloud-databases/01-snowflake/end-to-end-projects/_shared/kafka_lab/producer/requirements.txt
+  h_3bbc5a0c9d81ec 1-3
+shared/docker/local-stacks/databases/docker-compose.yml
+  h_3bbc5a0c9d81ec 1-57
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4fb1c0a6a438b55d405c9cc7026bad76cbf61730",
+  "prompts": {},
+  "humans": {
+    "h_3bbc5a0c9d81ec": {
+      "author": "Roman Sidletskyi <30626559+RomanSidletskyi@users.noreply.github.com>"
+    }
+  },
+  "sessions": {
+    "s_0dd61572f2652c": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "71c71cc3-782f-4580-95f9-cee005b07ca8",
+        "model": "gpt-6-luna"
+      },
+      "human_author": "Roman Sidletskyi <30626559+RomanSidletskyi@users.noreply.github.com>"
+    },
+    "s_218c3c3c5f4c7d": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "f091c1f6-fbdb-439e-841b-d6b24a65f78c",
+        "model": "unknown"
+      },
+      "human_author": "Roman Sidletskyi <30626559+RomanSidletskyi@users.noreply.github.com>"
+    },
+    "s_2f5093e762659e": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "6aab6bba-84ef-4389-84b2-686325576c68",
+        "model": "copilot/claude-opus-5.5"
+      },
+      "human_author": "Roman Sidletskyi <30626559+RomanSidletskyi@users.noreply.github.com>"
+    },
+    "s_c72387dc7d82fa": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "36976ab4-1126-46d8-bf44-d3eec46f3535",
+        "model": "copilot/claude-opus-5.5"
+      },
+      "human_author": "Roman Sidletskyi <30626559+RomanSidletskyi@users.noreply.github.com>"
+    }
+  }
+}
