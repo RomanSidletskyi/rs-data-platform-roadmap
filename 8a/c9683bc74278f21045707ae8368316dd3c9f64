@@ -1,0 +1,84 @@
+16-cloud-databases/01-snowflake/learning-materials/snowflake_platform_learning_guide.md
+  s_218c3c3c5f4c7d::t_049fabea534701 99
+  s_218c3c3c5f4c7d::t_92a88c9e0af74e 71
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/02_security_views.md
+  s_218c3c3c5f4c7d::t_8aaa40386e1409 184-195
+  s_218c3c3c5f4c7d::t_9fadb1ef55ca45 12-13
+  s_218c3c3c5f4c7d::t_e4717e97c39bce 256-257,259-266
+  s_218c3c3c5f4c7d::t_46b6c95f7a40e7 2,4-11,14-33,35-65,70-76,79-91,97-107,197-198,200,203,207-208,215-222,224-227,230-231,235-255,258,268-302,304-390
+  s_218c3c3c5f4c7d::t_de40d33589dbb4 1,3,34,69,202,228,303
+  s_218c3c3c5f4c7d::t_c7bd9e19f5cc68 67,206,214,234,267
+  s_218c3c3c5f4c7d::t_bd2b9275463b96 77,201,204-205,229,232-233
+  s_218c3c3c5f4c7d::t_3936cc545487dc 150,153-168
+  s_218c3c3c5f4c7d::t_a49a09a648b281 66
+  s_218c3c3c5f4c7d::t_a35eb864933660 68
+  s_218c3c3c5f4c7d::t_474e6f270b4b9b 78,92-96,109,140-149,151-152,169-183,199,209-213,223
+  s_218c3c3c5f4c7d::t_c4ad5099844133 108,196
+  s_218c3c3c5f4c7d::t_18a864c1d93c1c 110-139
+16-cloud-databases/01-snowflake/learning-materials/reference/01_semi_structured_data.md
+  s_218c3c3c5f4c7d::t_51e8569f3b9499 123-124,381,558
+  s_218c3c3c5f4c7d::t_c09e8b14ebc9a6 134
+  s_218c3c3c5f4c7d::t_6b65e18bf2fcda 466-542
+  s_218c3c3c5f4c7d::t_b3d7743257db9e 135,241,268-302,304,411-434
+  s_218c3c3c5f4c7d::t_4a047bba32061d 559
+  s_218c3c3c5f4c7d::t_8cb50cdf0dded2 13-25,35-44,46-56,88-100,110
+  s_218c3c3c5f4c7d::t_f1daedebfda7f6 1,84,86,126,131,176,179,221,224,231,437,446,448
+  s_218c3c3c5f4c7d::t_a7d0d417eca463 150-151,160-175,177-178,180-188,237-240,242-267,305-350
+  s_218c3c3c5f4c7d::t_92a88c9e0af74e 557
+  s_218c3c3c5f4c7d::t_50ffaba860ef07 7-12,26-34,45,67,79,83,85,87,112-122,125,127-130,132-133,136,202-220,222-223,225-230,232-236,303,396-406,408,410,435-436,438-445,447,449,453,458-459,461,547,549-556
+16-cloud-databases/01-snowflake/learning-materials/reference/README.md
+  s_218c3c3c5f4c7d::t_db54de6256edc0 3
+  s_218c3c3c5f4c7d::t_2b96dcfd123e79 6
+16-cloud-databases/01-snowflake/learning-materials/reference/02_objects_and_table_types.md
+  s_218c3c3c5f4c7d::t_049fabea534701 74
+16-cloud-databases/01-snowflake/learning-materials/01_learning_paths.md
+  s_218c3c3c5f4c7d::t_92a88c9e0af74e 27
+  s_218c3c3c5f4c7d::t_049fabea534701 31
+16-cloud-databases/01-snowflake/learning-materials/00_snowflake_capability_map.md
+  s_218c3c3c5f4c7d::t_cf3abaeae7a056 69
+  s_218c3c3c5f4c7d::t_92a88c9e0af74e 32,165
+  s_218c3c3c5f4c7d::t_2b96dcfd123e79 148
+  s_218c3c3c5f4c7d::t_049fabea534701 42,91,158
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/semi_structured_performance.md
+  s_218c3c3c5f4c7d::t_51e8569f3b9499 3-4
+16-cloud-databases/01-snowflake/end-to-end-projects/P03_content_analytics_streamlit/README.md
+  s_218c3c3c5f4c7d::t_2b96dcfd123e79 55
+HANDOFF.md
+  s_218c3c3c5f4c7d::t_4a047bba32061d 122-123,141
+  s_218c3c3c5f4c7d::t_2f675f0cc3f6cc 142
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/README.md
+  s_218c3c3c5f4c7d::t_51e8569f3b9499 11
+  s_218c3c3c5f4c7d::t_049fabea534701 5
+  s_218c3c3c5f4c7d::t_92a88c9e0af74e 10
+16-cloud-databases/01-snowflake/end-to-end-projects/P01_cricket_json_medallion/README.md
+  s_218c3c3c5f4c7d::t_2b96dcfd123e79 56
+16-cloud-databases/01-snowflake/end-to-end-projects/P02_weather_eda_notebooks/README.md
+  s_218c3c3c5f4c7d::t_2b96dcfd123e79 53
+16-cloud-databases/01-snowflake/learning-materials/architecture/04_security_governance.md
+  s_218c3c3c5f4c7d::t_de40d33589dbb4 65-66
+16-cloud-databases/01-snowflake/learning-materials/reference/snowflake_functions.md
+  s_218c3c3c5f4c7d::t_cf3abaeae7a056 231-232
+  s_218c3c3c5f4c7d::t_d271ebb9ef1b30 34,42-43,45,48,53-151,250-259
+  s_218c3c3c5f4c7d::t_c834d6219b20b1 35,44,46-47,49-52,152-230,233-249,260
+  s_218c3c3c5f4c7d::t_d5c592fbaf2513 261-263
+16-cloud-databases/01-snowflake/learning-materials/reference/01_sql_dates_and_semistructured.md
+  s_218c3c3c5f4c7d::t_2b96dcfd123e79 139
+16-cloud-databases/01-snowflake/end-to-end-projects/HANDOFF.md
+  s_218c3c3c5f4c7d::t_4a047bba32061d 116-117
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8ac9683bc74278f21045707ae8368316dd3c9f64",
+  "prompts": {},
+  "sessions": {
+    "s_218c3c3c5f4c7d": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "f091c1f6-fbdb-439e-841b-d6b24a65f78c",
+        "model": "unknown"
+      },
+      "human_author": "Roman Sidletskyi <30626559+RomanSidletskyi@users.noreply.github.com>"
+    }
+  }
+}
