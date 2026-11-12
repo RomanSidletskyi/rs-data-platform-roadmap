@@ -1,72 +1,19 @@
+# Scripts Structure
+
+```text
 scripts/
 ├── README.md
-├── create_module.sh
-├── create_section.sh
-├── bootstrap_section.sh
-├── refresh_template_snapshots.sh
 ├── check_repo.sh
-│
-├── lib/
-│   ├── common.sh
-│   ├── fs.sh
-│   └── section.sh
-│
-├── sections/
-│   ├── modules/
-│   │   ├── 00-shell-linux/
-│   │   ├── 00-git/
-│   │   ├── 01-python/
-│   │   │   ├── init.sh
-│   │   │   ├── fill_readme.sh
-│   │   │   ├── fill_learning_materials.sh
-│   │   │   ├── fill_simple_tasks.sh
-│   │   │   ├── fill_pet_projects.sh
-│   │   │   └── bootstrap.sh
-│   │   │
-│   │   └── 02-sql/
-│   │       ├── init.sh
-│   │       ├── fill_readme.sh
-│   │       ├── fill_learning_materials.sh
-│   │       ├── fill_simple_tasks.sh
-│   │       ├── fill_pet_projects.sh
-│   │       └── bootstrap.sh
-│   │   ├── 03-docker/
-│   │   ├── 04-github-actions/
-│   │   ├── 05-confluent-kafka/
-│   │   ├── 06-spark-pyspark/
-│   │   ├── 07-databricks/
-│   │   ├── 08-delta-lake/
-│   │   ├── 09-azure-data-lake-storage/
-│   │   ├── 11-airflow/
-│   │   ├── 12-dbt/
-│   │   └── 15-raspberry-pi-homelab/
-│   │
-│   ├── docs/
-│   │   ├── init.sh
-│   │   ├── fill_readme.sh
-│   │   ├── fill_architecture.sh
-│   │   ├── fill_system_design.sh
-│   │   ├── fill_case_studies.sh
-│   │   ├── fill_tradeoffs.sh
-│   │   └── bootstrap.sh
-│   │
-│   ├── shared/
-│   │   ├── init.sh
-│   │   ├── fill_readmes.sh
-│   │   └── bootstrap.sh
-│   │
-│   ├── ai-learning/
-│   │   ├── init.sh
-│   │   ├── fill_readme.sh
-│   │   ├── fill_comparisons.sh
-│   │   ├── fill_language_learning.sh
-│   │   ├── fill_anti_patterns.sh
-│   │   ├── fill_developer_communication.sh
-│   │   └── bootstrap.sh
-│   │
-│   └── real-projects/
-│       ├── init.sh
-│       ├── fill_readme.sh
-│       └── bootstrap.sh
-│
-└── old/
+├── create_module.sh
+├── export_learner_pack.sh
+└── learner_export_excludes.txt
+```
+
+## Responsibilities
+
+- `create_module.sh` creates a one-time live folder scaffold for a numbered module or a nested database module under `16-cloud-databases/`.
+- `check_repo.sh` validates repository structure or runs foundational starter checks; it does not regenerate content.
+- `export_learner_pack.sh` creates an external learner copy without answers or solved implementations.
+- `learner_export_excludes.txt` lists completed projects whose full directories should be omitted from learner copies.
+
+The live module and section directories are the only content source of truth. No per-module snapshots or content-sync generators are used.

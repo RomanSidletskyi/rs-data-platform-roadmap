@@ -71,14 +71,14 @@
 - note: -
 - next step: Start this learning block
 
-### 08 snowflake
+### Cloud database modules
 
 - status: [x] not started | [ ] in progress | [ ] done
 - estimated: -
 - spent: 0h
 - last touched: -
-- note: -
-- next step: Start this learning block
+- note: Vendor-specific study and progress tracking live in each nested module under `16-cloud-databases/`.
+- next step: Open `learning-materials/cloud_databases.md` and choose a database module
 
 ## Simple Tasks
 

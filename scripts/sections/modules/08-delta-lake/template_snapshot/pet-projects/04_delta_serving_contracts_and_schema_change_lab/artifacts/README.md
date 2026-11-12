@@ -1,1 +1,0 @@
-Store generated local serving outputs here, for example `serving_contract_assessment.json` produced by the local pipeline skeleton.

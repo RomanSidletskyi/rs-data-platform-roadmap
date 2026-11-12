@@ -1,0 +1,13 @@
+-- P05 pause: stop the graph and the dynamic tables. Data and streams stay. Run as P05_OWNER.
+-- Streams keep tracking changes while paused; resume within the stream's staleness window (see 40_ops.sql).
+-- Resume: SELECT SYSTEM$TASK_DEPENDENTS_ENABLE('P05_CDC.PIPE.CDC_ROOT'); and ALTER DYNAMIC TABLE ... RESUME.
+
+USE ROLE P05_OWNER;
+USE DATABASE P05_CDC;
+
+ALTER TASK IF EXISTS PIPE.CDC_ROOT SUSPEND;
+ALTER DYNAMIC TABLE IF EXISTS MART.DT_DAILY_REVENUE SUSPEND;
+ALTER DYNAMIC TABLE IF EXISTS MART.DT_ORDER SUSPEND;
+ALTER WAREHOUSE P05_WH SUSPEND;
+
+SHOW TASKS IN SCHEMA PIPE;

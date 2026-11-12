@@ -1,0 +1,66 @@
+# Template: copy to .github/workflows/p09_dbt_pull_request.yml in YOUR project repository and set P09_DIR.
+# Every pull request builds and tests all models in its own schemas (CI_PR_<number>_*), then drops them.
+# Secrets: SNOWFLAKE_ACCOUNT, SNOWFLAKE_CI_PRIVATE_KEY (private key of user P09_CI_SVC, PEM, unencrypted)
+name: p09 dbt pull request
+
+on:
+  pull_request:
+    paths:
+      - "P09_crypto_market_dbt/06_solution/dbt/**"
+
+concurrency:
+  group: p09-ci-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  P09_DIR: P09_crypto_market_dbt/06_solution/dbt
+  SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+  SNOWFLAKE_USER: P09_CI_SVC
+  SNOWFLAKE_PRIVATE_KEY_PATH: ${{ github.workspace }}/.ci_key.p8
+  DBT_PROFILES_DIR: ${{ github.workspace }}/.dbt
+  DBT_CI_SCHEMA: CI_PR_${{ github.event.pull_request.number }}
+
+jobs:
+  dbt-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dbt
+        run: pip install "dbt-snowflake~=1.10"
+
+      - name: Write profile and key
+        env:
+          KEY: ${{ secrets.SNOWFLAKE_CI_PRIVATE_KEY }}
+        run: |
+          mkdir -p "$DBT_PROFILES_DIR"
+          cp "$P09_DIR/profiles.yml.example" "$DBT_PROFILES_DIR/profiles.yml"
+          umask 077
+          printf '%s\n' "$KEY" > "$SNOWFLAKE_PRIVATE_KEY_PATH"
+
+      - name: dbt deps
+        working-directory: ${{ env.P09_DIR }}/p09_markets
+        run: dbt deps
+
+      # Seeds, models, unit tests, and data tests in dependency order; a failing test stops its children.
+      - name: dbt build
+        working-directory: ${{ env.P09_DIR }}/p09_markets
+        run: dbt build --target ci
+
+      - name: Drop CI schemas
+        if: always()
+        working-directory: ${{ env.P09_DIR }}/p09_markets
+        run: |
+          dbt run-operation drop_ci_schemas --args "{prefix: $DBT_CI_SCHEMA}" --target ci
+
+      - name: Remove key
+        if: always()
+        run: rm -f "$SNOWFLAKE_PRIVATE_KEY_PATH"

@@ -1,0 +1,81 @@
+-- P04 staging: append-only stream on raw, serverless task, deduplicating MERGE. Run as P04_OWNER.
+
+USE ROLE P04_OWNER;
+USE WAREHOUSE P04_TRANSFORM_WH;
+USE DATABASE P04_WIKI_RT;
+
+CREATE TABLE IF NOT EXISTS STG.WIKI_CHANGE (
+  EVENT_ID     STRING NOT NULL,
+  RC_ID        NUMBER,
+  EVENT_TS     TIMESTAMP_TZ,
+  WIKI         STRING,
+  SERVER_NAME  STRING,
+  CHANGE_TYPE  STRING,
+  NAMESPACE    NUMBER,
+  TITLE        STRING,
+  USER_NAME    STRING,
+  IS_BOT       BOOLEAN,
+  IS_MINOR     BOOLEAN,
+  LENGTH_OLD   NUMBER,
+  LENGTH_NEW   NUMBER,
+  LENGTH_DELTA NUMBER,
+  SRC_FILE     STRING,
+  LOADED_AT    TIMESTAMP_LTZ,
+  STAGED_AT    TIMESTAMP_LTZ
+)
+COMMENT = 'One row per EVENT_ID. Not enforced by Snowflake: the MERGE and a data quality check enforce it.';
+
+-- SHOW_INITIAL_ROWS picks up raw rows that were loaded before the stream existed.
+CREATE STREAM IF NOT EXISTS STG.WIKI_RAW_STREAM
+  ON TABLE RAW.WIKI_RECENTCHANGE_RAW
+  APPEND_ONLY = TRUE
+  SHOW_INITIAL_ROWS = TRUE;
+
+CREATE OR REPLACE TASK STG.LOAD_WIKI_CHANGE
+  USER_TASK_MANAGED_INITIAL_WAREHOUSE_SIZE = 'XSMALL'
+  SCHEDULE = '1 MINUTE'
+  ALLOW_OVERLAPPING_EXECUTION = FALSE
+  COMMENT = 'Deduplicate new raw rows into STG.WIKI_CHANGE'
+  WHEN SYSTEM$STREAM_HAS_DATA('P04_WIKI_RT.STG.WIKI_RAW_STREAM')
+AS
+MERGE INTO STG.WIKI_CHANGE AS T
+USING (
+  SELECT
+    PAYLOAD:meta:id::STRING                          AS EVENT_ID,
+    TRY_TO_NUMBER(PAYLOAD:id::STRING)                AS RC_ID,
+    TRY_TO_TIMESTAMP_TZ(PAYLOAD:meta:dt::STRING)     AS EVENT_TS,
+    PAYLOAD:wiki::STRING                             AS WIKI,
+    PAYLOAD:server_name::STRING                      AS SERVER_NAME,
+    PAYLOAD:type::STRING                             AS CHANGE_TYPE,
+    TRY_TO_NUMBER(PAYLOAD:namespace::STRING)         AS NAMESPACE,
+    PAYLOAD:title::STRING                            AS TITLE,
+    PAYLOAD:user::STRING                             AS USER_NAME,
+    TRY_TO_BOOLEAN(PAYLOAD:bot::STRING)              AS IS_BOT,
+    TRY_TO_BOOLEAN(PAYLOAD:minor::STRING)            AS IS_MINOR,
+    TRY_TO_NUMBER(PAYLOAD:length:old::STRING)        AS LENGTH_OLD,
+    TRY_TO_NUMBER(PAYLOAD:length:new::STRING)        AS LENGTH_NEW,
+    SRC_FILE,
+    LOADED_AT
+  FROM STG.WIKI_RAW_STREAM
+  WHERE PAYLOAD:meta:id::STRING IS NOT NULL
+  -- The same event can arrive twice in one batch: duplicate files or source replay after reconnect.
+  QUALIFY ROW_NUMBER() OVER (
+    PARTITION BY PAYLOAD:meta:id::STRING
+    ORDER BY LOADED_AT, SRC_FILE, SRC_FILE_ROW
+  ) = 1
+) AS S
+-- At high volume, bound T by EVENT_TS to enable pruning; that trades an unlimited dedup window for cost.
+ON T.EVENT_ID = S.EVENT_ID
+WHEN NOT MATCHED THEN INSERT (
+  EVENT_ID, RC_ID, EVENT_TS, WIKI, SERVER_NAME, CHANGE_TYPE, NAMESPACE, TITLE, USER_NAME,
+  IS_BOT, IS_MINOR, LENGTH_OLD, LENGTH_NEW, LENGTH_DELTA, SRC_FILE, LOADED_AT, STAGED_AT
+) VALUES (
+  S.EVENT_ID, S.RC_ID, S.EVENT_TS, S.WIKI, S.SERVER_NAME, S.CHANGE_TYPE, S.NAMESPACE, S.TITLE, S.USER_NAME,
+  S.IS_BOT, S.IS_MINOR, S.LENGTH_OLD, S.LENGTH_NEW, S.LENGTH_NEW - COALESCE(S.LENGTH_OLD, 0),
+  S.SRC_FILE, S.LOADED_AT, CURRENT_TIMESTAMP()
+);
+
+ALTER TASK STG.LOAD_WIKI_CHANGE RESUME;
+
+-- Run once by hand to verify, instead of waiting for the schedule.
+EXECUTE TASK STG.LOAD_WIKI_CHANGE;

@@ -1,0 +1,37 @@
+{
+  "rules": [
+    {
+      "enabled": true,
+      "name": "p10-landing-delete-after-14-days",
+      "type": "Lifecycle",
+      "definition": {
+        "filters": {
+          "blobTypes": ["blockBlob"],
+          "prefixMatch": ["landing/gharchive/"]
+        },
+        "actions": {
+          "baseBlob": {
+            "delete": { "daysAfterModificationGreaterThan": 14 }
+          }
+        }
+      }
+    },
+    {
+      "enabled": true,
+      "name": "p10-archive-cool-then-cold",
+      "type": "Lifecycle",
+      "definition": {
+        "filters": {
+          "blobTypes": ["blockBlob"],
+          "prefixMatch": ["archive/events/"]
+        },
+        "actions": {
+          "baseBlob": {
+            "tierToCool": { "daysAfterModificationGreaterThan": 30 },
+            "tierToCold": { "daysAfterModificationGreaterThan": 90 }
+          }
+        }
+      }
+    }
+  ]
+}

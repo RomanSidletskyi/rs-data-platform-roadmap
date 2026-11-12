@@ -1,0 +1,43 @@
+name: p09_markets
+version: "1.0.0"
+config-version: 2
+profile: p09_markets
+require-dbt-version: [">=1.10.0", "<2.0.0"]
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+vars:
+  # Hours re-read on every incremental run: late or corrected candles inside this window are merged again.
+  incremental_lookback_hours: 6
+
+models:
+  p09_markets:
+    staging:
+      +schema: staging
+      +materialized: view
+    intermediate:
+      +schema: intermediate
+      +materialized: view
+    marts:
+      +schema: marts
+      +materialized: table
+      +grants:
+        select: ["P09_READER"]
+
+seeds:
+  p09_markets:
+    +schema: reference
+
+data_tests:
+  p09_markets:
+    # Failing rows are kept in a table, so an alert or a person can see what broke.
+    +store_failures: true
+    +schema: test_failures
+
+on-run-end:
+  - "{% if target.name == 'prod' %}grant usage on schema {{ target.database }}.MARTS to role P09_READER{% endif %}"

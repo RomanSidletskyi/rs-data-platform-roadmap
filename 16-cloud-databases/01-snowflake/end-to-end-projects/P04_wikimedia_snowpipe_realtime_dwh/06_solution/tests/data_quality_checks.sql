@@ -1,0 +1,58 @@
+-- P04 data quality checks. Run as P04_OWNER after stopping the producer and waiting
+-- for one task run plus the dynamic table lag; some checks are transiently non-zero while data flows.
+
+USE ROLE P04_OWNER;
+USE WAREHOUSE P04_TRANSFORM_WH;
+USE DATABASE P04_WIKI_RT;
+
+WITH checks AS (
+  SELECT 'stg_duplicate_event_id' AS CHECK_NAME, COUNT(*) AS FAILURES
+  FROM (SELECT EVENT_ID FROM STG.WIKI_CHANGE GROUP BY EVENT_ID HAVING COUNT(*) > 1)
+
+  UNION ALL
+  SELECT 'stg_null_event_ts', COUNT(*)
+  FROM STG.WIKI_CHANGE WHERE EVENT_TS IS NULL
+
+  UNION ALL
+  SELECT 'stg_null_is_bot', COUNT(*)
+  FROM STG.WIKI_CHANGE WHERE IS_BOT IS NULL
+
+  UNION ALL
+  SELECT 'stg_null_namespace', COUNT(*)
+  FROM STG.WIKI_CHANGE WHERE NAMESPACE IS NULL
+
+  UNION ALL
+  SELECT 'raw_rows_without_event_id', COUNT(*)
+  FROM RAW.WIKI_RECENTCHANGE_RAW WHERE PAYLOAD:meta:id::STRING IS NULL
+
+  UNION ALL
+  SELECT 'raw_events_missing_in_stg', COUNT(*)
+  FROM (
+    SELECT DISTINCT PAYLOAD:meta:id::STRING AS EVENT_ID
+    FROM RAW.WIKI_RECENTCHANGE_RAW
+    WHERE PAYLOAD:meta:id::STRING IS NOT NULL
+      AND LOADED_AT < DATEADD('minute', -3, CURRENT_TIMESTAMP())
+  ) r
+  WHERE NOT EXISTS (SELECT 1 FROM STG.WIKI_CHANGE s WHERE s.EVENT_ID = r.EVENT_ID)
+
+  UNION ALL
+  SELECT 'files_missing_or_mismatched', COUNT(*)
+  FROM OPS.V_FILE_RECONCILIATION
+  WHERE RECON_STATUS IN ('MISSING', 'ROW_COUNT_MISMATCH', 'UNEXPECTED_FILE')
+
+  UNION ALL
+  SELECT 'mart_vs_stg_row_total', ABS(
+    (SELECT COALESCE(SUM(CHANGE_COUNT), 0) FROM MART.EDITS_PER_MINUTE)
+    - (SELECT COUNT(*) FROM STG.WIKI_CHANGE WHERE EVENT_TS IS NOT NULL)
+  )
+)
+SELECT CHECK_NAME, FAILURES, IFF(FAILURES = 0, 'PASS', 'FAIL') AS RESULT
+FROM checks
+ORDER BY RESULT, CHECK_NAME;
+
+-- Raw duplicates are expected after the duplicate-content drill; this shows how many staging absorbed.
+SELECT
+  COUNT(*)                                     AS RAW_ROWS,
+  COUNT(DISTINCT PAYLOAD:meta:id::STRING)      AS RAW_DISTINCT_EVENTS,
+  (SELECT COUNT(*) FROM STG.WIKI_CHANGE)       AS STG_ROWS
+FROM RAW.WIKI_RECENTCHANGE_RAW;

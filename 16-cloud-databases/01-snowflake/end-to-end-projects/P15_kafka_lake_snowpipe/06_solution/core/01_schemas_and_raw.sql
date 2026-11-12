@@ -1,0 +1,32 @@
+-- P15 schemas and raw table. Run as P15_OWNER.
+
+USE ROLE P15_OWNER;
+USE WAREHOUSE P15_TRANSFORM_WH;
+USE DATABASE P15_WIKI_LAKE;
+
+CREATE SCHEMA IF NOT EXISTS RAW  COMMENT = 'Lake files as loaded, with Kafka coordinates';
+CREATE SCHEMA IF NOT EXISTS STG  COMMENT = 'Typed, one row per event_id';
+CREATE SCHEMA IF NOT EXISTS MART COMMENT = 'Consumer-shaped models';
+CREATE SCHEMA IF NOT EXISTS OPS  COMMENT = 'Offset integrity, file stats, freshness, alerts';
+
+CREATE FILE FORMAT IF NOT EXISTS RAW.FF_KAFKA_NDJSON
+  TYPE = JSON
+  COMPRESSION = AUTO
+  STRIP_OUTER_ARRAY = FALSE;
+
+-- Kafka coordinates are typed columns, not buried in VARIANT, so integrity checks stay simple and cheap.
+CREATE TABLE IF NOT EXISTS RAW.WIKI_RECENTCHANGE_RAW (
+  PAYLOAD          VARIANT,
+  VALUE_RAW        STRING,
+  KAFKA_TOPIC      STRING,
+  KAFKA_PARTITION  NUMBER,
+  KAFKA_OFFSET     NUMBER,
+  KAFKA_TS         TIMESTAMP_LTZ,
+  SRC_FILE         STRING,
+  LOADED_AT        TIMESTAMP_LTZ
+)
+COMMENT = 'One row per Kafka record per loaded file; value in PAYLOAD, unparseable values in VALUE_RAW.';
+
+GRANT USAGE ON DATABASE P15_WIKI_LAKE TO ROLE P15_READER;
+GRANT USAGE ON SCHEMA MART TO ROLE P15_READER;
+GRANT USAGE ON SCHEMA OPS  TO ROLE P15_READER;

@@ -23,7 +23,7 @@ By the end of this module, the learner should be able to:
 - model documents for MongoDB and CosmosDB
 - design access-pattern-driven schemas for DynamoDB
 - understand Azure SQL, CosmosDB, and Synapse in Databricks-oriented architecture
-- understand Snowflake as both a warehouse and a lakehouse-facing platform component
+- find Snowflake and future cloud database platform deep dives through the grouped database-module index
 - compare query patterns across systems
 - choose the right storage model for the right workload
 
@@ -48,24 +48,16 @@ Suggested path through the module:
 5. `05_mongodb`
 6. `06_dynamodb`
 7. `07_azure_databases_for_databricks`
-8. `08_snowflake`
+8. [Cloud database modules](cloud_databases.md)
 
-## Why `08_snowflake` Matters
+## Cloud Database Modules
 
-The Snowflake section is where classic SQL knowledge starts to meet warehouse operations, storage layout, lakehouse interoperability, and production refresh design.
+Vendor-specific platform capabilities are maintained in nested modules under `16-cloud-databases/`. The [module catalog](cloud_databases.md) links to the available databases and provides the location to add future entries.
 
-It is intentionally built to answer questions such as:
+The Snowflake module continues the SQL learning path with topics such as:
 
-- when should data stay in native Snowflake tables?
-- when should data remain in object storage and be queried externally?
-- when is Snowflake-managed Iceberg better than plain external tables?
-- when are dynamic tables a better fit than tasks, dbt jobs, or materialized views?
+- native Snowflake tables versus external tables and Iceberg
+- ingestion, refresh, and dynamic-table choices
+- platform ownership, performance, cost, and governance trade-offs
 
-The goal is not only to know Snowflake syntax.
-
-The goal is to understand how Snowflake fits into a modern data platform where:
-
-- storage and compute are separated
-- multiple engines may need the same data
-- freshness and cost need explicit trade-offs
-- architectural decisions matter more than isolated SQL commands
+Open [Cloud Database Modules](cloud_databases.md) to continue with Snowflake or another database module as it is added.

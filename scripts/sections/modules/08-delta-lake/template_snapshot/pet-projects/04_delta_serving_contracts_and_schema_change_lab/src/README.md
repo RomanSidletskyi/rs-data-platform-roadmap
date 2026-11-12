@@ -1,1 +1,0 @@
-Implement official serving objects, schema-change review helpers, and consumer-facing contract logic here.

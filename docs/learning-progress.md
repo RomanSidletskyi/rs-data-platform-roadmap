@@ -189,3 +189,13 @@ Use module `PROGRESS.md` files for session-level detail.
 - spent: 0h
 - last updated: -
 - note: Initial tracker scaffold
+
+## 16-cloud-databases/01-snowflake
+
+- overall: [x] not started | [ ] in progress | [ ] done
+- learning-materials: [x] not started | [ ] in progress | [ ] done
+- simple-tasks: [x] not started | [ ] in progress | [ ] done
+- pet-projects: [x] not started | [ ] in progress | [ ] done
+- spent: 0h
+- last updated: -
+- note: Nested cloud-database module; detailed progress is tracked in `16-cloud-databases/01-snowflake/PROGRESS.md`.

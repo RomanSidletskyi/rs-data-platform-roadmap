@@ -1,0 +1,39 @@
+# Copy to ~/.dbt/profiles.yml (or set DBT_PROFILES_DIR). Values come from environment variables, never from Git.
+# dev:  your own user, schemas DEV_<you>_*        prod: the scheduled run, schemas STAGING, MARTS, ...
+# ci:   the service user from GitHub Actions, schemas CI_PR_<number>_*
+p09_markets:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      authenticator: snowflake_jwt
+      private_key_path: "{{ env_var('SNOWFLAKE_PRIVATE_KEY_PATH') }}"
+      role: P09_TRANSFORMER
+      warehouse: P09_WH
+      database: P09_MARKETS
+      schema: "DEV_{{ env_var('USER', 'me') | upper }}"
+      threads: 4
+    prod:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      authenticator: snowflake_jwt
+      private_key_path: "{{ env_var('SNOWFLAKE_PRIVATE_KEY_PATH') }}"
+      role: P09_TRANSFORMER
+      warehouse: P09_WH
+      database: P09_MARKETS
+      schema: ANALYTICS
+      threads: 4
+    ci:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      authenticator: snowflake_jwt
+      private_key_path: "{{ env_var('SNOWFLAKE_PRIVATE_KEY_PATH') }}"
+      role: P09_TRANSFORMER
+      warehouse: P09_WH
+      database: P09_MARKETS
+      schema: "{{ env_var('DBT_CI_SCHEMA', 'CI_LOCAL') }}"
+      threads: 4

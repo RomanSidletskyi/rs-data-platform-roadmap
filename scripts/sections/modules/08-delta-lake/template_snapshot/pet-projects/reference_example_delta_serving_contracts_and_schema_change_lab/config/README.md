@@ -1,1 +1,0 @@
-Add example contract definitions, freshness targets, and schema-approval rules here.

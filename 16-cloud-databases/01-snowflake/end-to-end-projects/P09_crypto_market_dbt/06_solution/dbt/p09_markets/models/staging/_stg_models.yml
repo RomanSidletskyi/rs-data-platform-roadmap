@@ -1,0 +1,49 @@
+version: 2
+
+models:
+  - name: stg_coinbase__candles
+    description: Hourly Coinbase candles, one row per product and candle start, latest fetch wins.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [product_id, granularity_s, candle_start]
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "high_price >= greatest(open_price, close_price) and low_price <= least(open_price, close_price)"
+    columns:
+      - name: product_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('assets')
+                field: source_symbol
+      - name: granularity_s
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [3600]
+                quote: false
+      - name: close_price
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: false
+
+  - name: stg_fred__observations
+    description: Daily FRED values without holiday gaps, latest load wins.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [series_id, observation_date]
+    columns:
+      - name: series_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('assets')
+                field: source_symbol
+      - name: observation_date
+        data_tests: [not_null]

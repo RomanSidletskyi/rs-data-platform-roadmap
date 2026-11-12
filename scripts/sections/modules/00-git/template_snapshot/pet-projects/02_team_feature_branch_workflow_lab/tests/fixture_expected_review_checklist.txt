@@ -1,4 +1,0 @@
-branch naming is consistent
-PR scope is narrow
-CI passed before merge
-conflict resolution is documented

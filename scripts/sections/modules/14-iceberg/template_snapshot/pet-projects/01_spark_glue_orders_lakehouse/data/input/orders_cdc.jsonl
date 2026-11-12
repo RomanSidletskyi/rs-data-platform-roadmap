@@ -1,4 +1,0 @@
-{"event_id":"evt-2001","order_id":"ord-100","customer_id":"cust-10","event_type":"INSERT","order_status":"created","order_ts":"2026-03-27T09:00:00Z","amount":15.00,"updated_at":"2026-03-27T09:00:00Z"}
-{"event_id":"evt-2002","order_id":"ord-100","customer_id":"cust-10","event_type":"UPDATE","order_status":"paid","order_ts":"2026-03-27T09:00:00Z","amount":15.00,"updated_at":"2026-03-27T09:03:00Z"}
-{"event_id":"evt-2003","order_id":"ord-101","customer_id":"cust-11","event_type":"INSERT","order_status":"created","order_ts":"2026-03-27T09:10:00Z","amount":42.50,"updated_at":"2026-03-27T09:10:00Z"}
-{"event_id":"evt-2004","order_id":"ord-101","customer_id":"cust-11","event_type":"DELETE","order_status":"deleted","order_ts":"2026-03-27T09:10:00Z","amount":42.50,"updated_at":"2026-03-27T09:40:00Z"}

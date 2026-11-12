@@ -1,1 +1,0 @@
-Implement CDC staging, duplicate handling, merge logic, and optional history-preserving output here.

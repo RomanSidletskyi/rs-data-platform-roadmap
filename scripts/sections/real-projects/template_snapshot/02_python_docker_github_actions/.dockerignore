@@ -1,9 +1,0 @@
-__pycache__/
-*.pyc
-*.pyo
-.pytest_cache/
-.venv/
-logs/
-data/raw/
-data/quality/
-data/warehouse/
