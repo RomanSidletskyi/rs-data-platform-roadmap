@@ -105,6 +105,18 @@ Typical layout:
 `silver/`
 `gold/`
 
+## Cloud Data Warehouse
+
+Module:
+
+- `16-cloud-databases/01-snowflake`
+
+Purpose:
+
+Provide a managed cloud data platform for SQL analytics, ingestion, transformation, governed sharing, and data applications. Snowflake's storage, compute, and cloud-services layers have distinct responsibilities; the module covers where Snowflake fits and where surrounding tools remain responsible.
+
+Architecture topics include account and region boundaries, workload isolation, cost, security, data movement, recovery, and interoperability. The cloud-database directory is a container for future sibling database modules, not a single flat technology module.
+
 ---
 
 ## Analytics Layer
@@ -252,7 +264,7 @@ They are listed here so the architecture map stays complete, but they are not cu
 
 Module:
 
-`16-data-quality` planned
+`17-data-quality` planned
 
 Purpose:
 
@@ -264,7 +276,7 @@ Validate datasets before consumption.
 
 Module:
 
-`17-observability` planned
+`18-observability` planned
 
 Purpose:
 
@@ -276,7 +288,7 @@ Monitor pipelines and infrastructure.
 
 Module:
 
-`18-cloud-architecture` planned
+`19-cloud-architecture` planned
 
 Purpose:
 
@@ -288,7 +300,7 @@ Understand cloud-native data platform design.
 
 Module:
 
-`19-terraform` planned
+`20-terraform` planned
 
 Purpose:
 

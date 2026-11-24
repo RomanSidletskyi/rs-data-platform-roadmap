@@ -1,1 +1,0 @@
-Store merge keys, source precedence rules, and current-state versus history table names here.

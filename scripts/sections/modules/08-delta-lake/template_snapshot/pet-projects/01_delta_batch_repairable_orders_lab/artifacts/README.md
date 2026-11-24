@@ -1,1 +1,0 @@
-Store generated local batch outputs here, for example `daily_sales_preview.json` created by the local pipeline skeleton.

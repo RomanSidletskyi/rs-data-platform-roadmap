@@ -1,0 +1,60 @@
+-- P08 schemas, raw tables per collection, streams, unified event table. Run as P08_OWNER.
+
+USE ROLE P08_OWNER;
+USE WAREHOUSE P08_WH;
+USE DATABASE P08_SOCIAL;
+
+CREATE SCHEMA IF NOT EXISTS RAW  COMMENT = 'One transient table per collection, filled by one pipe each';
+CREATE SCHEMA IF NOT EXISTS STG  COMMENT = 'Unified, typed, deduplicated events';
+CREATE SCHEMA IF NOT EXISTS MART COMMENT = 'Dynamic tables and dashboard views';
+CREATE SCHEMA IF NOT EXISTS PIPE COMMENT = 'Task graph';
+CREATE SCHEMA IF NOT EXISTS OPS  COMMENT = 'Ingestion evidence: files, latency, cost, run log';
+
+CREATE FILE FORMAT IF NOT EXISTS RAW.FF_NDJSON
+  TYPE = JSON
+  COMPRESSION = AUTO
+  STRIP_OUTER_ARRAY = FALSE;
+
+-- Transient with 1 day of time travel: at this volume, fail-safe and long time travel on raw copies cost
+-- storage for nothing. The files in the lake are the durable copy; RAW is a buffer that is purged after 3 days.
+CREATE TRANSIENT TABLE IF NOT EXISTS RAW.POST_RAW   (PAYLOAD VARIANT, SRC_FILE STRING, SRC_FILE_ROW NUMBER, LOADED_AT TIMESTAMP_LTZ) DATA_RETENTION_TIME_IN_DAYS = 1;
+CREATE TRANSIENT TABLE IF NOT EXISTS RAW.LIKE_RAW   (PAYLOAD VARIANT, SRC_FILE STRING, SRC_FILE_ROW NUMBER, LOADED_AT TIMESTAMP_LTZ) DATA_RETENTION_TIME_IN_DAYS = 1;
+CREATE TRANSIENT TABLE IF NOT EXISTS RAW.REPOST_RAW (PAYLOAD VARIANT, SRC_FILE STRING, SRC_FILE_ROW NUMBER, LOADED_AT TIMESTAMP_LTZ) DATA_RETENTION_TIME_IN_DAYS = 1;
+CREATE TRANSIENT TABLE IF NOT EXISTS RAW.FOLLOW_RAW (PAYLOAD VARIANT, SRC_FILE STRING, SRC_FILE_ROW NUMBER, LOADED_AT TIMESTAMP_LTZ) DATA_RETENTION_TIME_IN_DAYS = 1;
+
+-- Append-only: RAW only gets inserts from pipes and deletes from the purge, which these streams ignore.
+CREATE STREAM IF NOT EXISTS RAW.POST_STREAM   ON TABLE RAW.POST_RAW   APPEND_ONLY = TRUE;
+CREATE STREAM IF NOT EXISTS RAW.LIKE_STREAM   ON TABLE RAW.LIKE_RAW   APPEND_ONLY = TRUE;
+CREATE STREAM IF NOT EXISTS RAW.REPOST_STREAM ON TABLE RAW.REPOST_RAW APPEND_ONLY = TRUE;
+CREATE STREAM IF NOT EXISTS RAW.FOLLOW_STREAM ON TABLE RAW.FOLLOW_RAW APPEND_ONLY = TRUE;
+
+CREATE TABLE IF NOT EXISTS STG.EVENT (
+  EVENT_KEY        STRING        COMMENT 'did/collection/rkey/operation/rev: identity of one commit operation',
+  EVENT_TIME       TIMESTAMP_NTZ COMMENT 'Jetstream time_us, UTC',
+  DID              STRING,
+  COLLECTION       STRING        COMMENT 'post, like, repost, follow',
+  OPERATION        STRING        COMMENT 'create, update, delete',
+  RKEY             STRING,
+  URI              STRING        COMMENT 'at://did/app.bsky.../rkey of the record itself',
+  SUBJECT_URI      STRING        COMMENT 'liked or reposted post',
+  SUBJECT_DID      STRING        COMMENT 'followed account',
+  TEXT             STRING,
+  LANG             STRING,
+  REPLY_PARENT_URI STRING,
+  CREATED_AT       TIMESTAMP_NTZ COMMENT 'createdAt claimed by the client; can be wrong',
+  SRC_FILE         STRING,
+  LOADED_AT        TIMESTAMP_LTZ COMMENT 'when the pipe loaded the file',
+  STG_LOADED_AT    TIMESTAMP_LTZ COMMENT 'when the task inserted the row'
+);
+
+CREATE TABLE IF NOT EXISTS OPS.RUN_LOG (
+  RUN_AT        TIMESTAMP_LTZ,
+  GRAPH_RUN_ID  STRING,
+  STEP          STRING,
+  ROWS_AFFECTED NUMBER,
+  NOTE          STRING
+);
+
+GRANT USAGE ON DATABASE P08_SOCIAL TO ROLE P08_READER;
+GRANT USAGE ON SCHEMA MART TO ROLE P08_READER;
+GRANT USAGE ON SCHEMA OPS  TO ROLE P08_READER;

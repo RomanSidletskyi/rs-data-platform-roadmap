@@ -361,44 +361,18 @@ If datasets are large, the README should include a download link instead of stor
 
 --------------------------------------------------
 
-# Scripts Automation Rules
+# Module Scaffold Rules
 
-Module structure is created automatically using scripts.
+Module folders are created once with `scripts/create_module.sh`. The scaffold command creates the standard live directories and starter README/PROGRESS files; it does not create per-module scripts or duplicate learning content.
 
-Each module must contain the following scripts:
+Examples:
 
-    init.sh
-    fill_readme.sh
-    fill_learning_materials.sh
-    fill_simple_tasks.sh
-    fill_pet_projects.sh
-    bootstrap.sh
+    ./scripts/create_module.sh 16-some-new-module
+    ./scripts/create_module.sh 16-cloud-databases/02-bigquery
 
-Responsibilities:
+After creation, edit the live module files directly. The live tree is the source of truth. Do not add duplicate content sources or destructive regeneration workflows.
 
-init.sh
-
-    builds the folder structure of the module
-
-fill_readme.sh
-
-    generates the module README
-
-fill_learning_materials.sh
-
-    creates learning material files
-
-fill_simple_tasks.sh
-
-    generates task folders and task README files
-
-fill_pet_projects.sh
-
-    creates the initial project structure
-
-bootstrap.sh
-
-    runs the full module setup
+Use `scripts/check_repo.sh structure` for a read-only structure check. Use `scripts/export_learner_pack.sh` when creating a learner-facing copy without solutions.
 
 --------------------------------------------------
 

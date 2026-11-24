@@ -1,1 +1,0 @@
-Implement bronze ingest, silver normalization, gold publish, and bounded repair helpers here. Prefer explicit rewrite boundaries over broad full-table overwrite patterns.

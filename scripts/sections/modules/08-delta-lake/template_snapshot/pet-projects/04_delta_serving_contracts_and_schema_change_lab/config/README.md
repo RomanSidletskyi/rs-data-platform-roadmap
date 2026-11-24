@@ -1,1 +1,0 @@
-Capture consumer contract fields, freshness expectations, and schema-review rules here.

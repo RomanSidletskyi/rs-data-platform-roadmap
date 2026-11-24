@@ -1,0 +1,19 @@
+{
+  "Rules": [
+    {
+      "ID": "p10-landing-expire-14-days",
+      "Filter": { "Prefix": "landing/gharchive/" },
+      "Status": "Enabled",
+      "Expiration": { "Days": 14 }
+    },
+    {
+      "ID": "p10-archive-infrequent-then-instant-retrieval",
+      "Filter": { "Prefix": "archive/events/" },
+      "Status": "Enabled",
+      "Transitions": [
+        { "Days": 30, "StorageClass": "STANDARD_IA" },
+        { "Days": 90, "StorageClass": "GLACIER_IR" }
+      ]
+    }
+  ]
+}

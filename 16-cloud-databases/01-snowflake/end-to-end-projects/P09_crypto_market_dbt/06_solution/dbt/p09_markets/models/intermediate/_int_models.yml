@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: int_crypto_daily
+    description: Hourly candles rolled up to UTC days; incomplete days are flagged, not dropped.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [product_id, price_date]
+
+  - name: int_asset_daily_prices
+    description: Every asset at daily grain with a close price; crypto only on complete days.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [asset_id, price_date]
+
+unit_tests:
+  - name: daily_rollup_uses_first_open_and_last_close
+    description: Open is the first hour's open, close the last hour's close, regardless of row order.
+    model: int_crypto_daily
+    given:
+      - input: ref('stg_coinbase__candles')
+        rows:
+          - {product_id: BTC-USD, candle_start: "2026-11-01 01:00:00", open_price: 102, high_price: 110, low_price: 101, close_price: 108, base_volume: 2}
+          - {product_id: BTC-USD, candle_start: "2026-11-01 00:00:00", open_price: 100, high_price: 105, low_price: 99, close_price: 102, base_volume: 1}
+    expect:
+      rows:
+        - {product_id: BTC-USD, price_date: "2026-11-01", open_price: 100, high_price: 110, low_price: 99, close_price: 108, base_volume: 3, hours: 2, is_complete_day: false}

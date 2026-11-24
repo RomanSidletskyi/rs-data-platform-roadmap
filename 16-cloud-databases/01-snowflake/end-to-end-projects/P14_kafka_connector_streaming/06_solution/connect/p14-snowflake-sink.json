@@ -1,0 +1,30 @@
+{
+  "connector.class": "com.snowflake.kafka.connector.SnowflakeSinkConnector",
+  "tasks.max": "3",
+  "topics": "wiki.recentchange",
+  "snowflake.topic2table.map": "wiki.recentchange:WIKI_RECENTCHANGE_RAW",
+
+  "snowflake.ingestion.method": "SNOWPIPE_STREAMING",
+  "snowflake.enable.schematization": "false",
+
+  "snowflake.url.name": "${file:/secrets/p14-snowflake.properties:url}",
+  "snowflake.user.name": "${file:/secrets/p14-snowflake.properties:user}",
+  "snowflake.private.key": "${file:/secrets/p14-snowflake.properties:private_key}",
+  "snowflake.role.name": "P14_CONNECTOR",
+  "snowflake.database.name": "P14_WIKI_STREAM",
+  "snowflake.schema.name": "RAW",
+
+  "buffer.count.records": "10000",
+  "buffer.flush.time": "10",
+  "buffer.size.bytes": "20000000",
+
+  "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+  "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "value.converter.schemas.enable": "false",
+
+  "errors.tolerance": "all",
+  "errors.log.enable": "true",
+  "errors.deadletterqueue.topic.name": "wiki.recentchange.dlq",
+  "errors.deadletterqueue.topic.replication.factor": "1",
+  "errors.deadletterqueue.context.headers.enable": "true"
+}

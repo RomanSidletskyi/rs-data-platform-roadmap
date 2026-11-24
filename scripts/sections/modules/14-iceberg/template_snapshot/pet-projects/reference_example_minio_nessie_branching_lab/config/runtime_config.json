@@ -1,7 +1,0 @@
-{
-  "catalog_name": "lab",
-  "default_ref": "main",
-  "warehouse": "s3://iceberg-warehouse/warehouse",
-  "branch_prefix": "dev_",
-  "promotion_rule": "Only merge reviewed branch state into main"
-}

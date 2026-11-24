@@ -1,0 +1,52 @@
+-- P01 data quality checks. Run as P01_OWNER after a graph run completed.
+
+USE ROLE P01_OWNER;
+USE WAREHOUSE P01_WH;
+USE DATABASE P01_CRICKET;
+
+WITH checks AS (
+  SELECT 'raw_files_vs_stg_matches' AS CHECK_NAME,
+         ABS((SELECT COUNT(DISTINCT SPLIT_PART(SPLIT_PART(SRC_FILE, '/', -1), '.', 1)) FROM RAW.MATCH_RAW)
+             - (SELECT COUNT(*) FROM STG.MATCH)) AS FAILURES
+
+  UNION ALL
+  SELECT 'stg_duplicate_match', COUNT(*)
+  FROM (SELECT MATCH_ID FROM STG.MATCH GROUP BY 1 HAVING COUNT(*) > 1)
+
+  UNION ALL
+  SELECT 'stg_duplicate_delivery_key', COUNT(*)
+  FROM (SELECT MATCH_ID, INNINGS_NO, OVER_NO, BALL_SEQ FROM STG.DELIVERY GROUP BY 1, 2, 3, 4 HAVING COUNT(*) > 1)
+
+  UNION ALL
+  -- Retirements are recorded as wickets in the source but do not count towards the ten-wicket limit.
+  SELECT 'innings_with_more_than_10_dismissals', COUNT(*)
+  FROM (
+    SELECT MATCH_ID, INNINGS_NO
+    FROM STG.DELIVERY
+    WHERE NOT IS_SUPER_OVER AND WICKET_KIND IS NOT NULL AND WICKET_KIND NOT LIKE 'retired%'
+    GROUP BY 1, 2
+    HAVING COUNT(*) > 10
+  )
+
+  UNION ALL
+  SELECT 'winner_not_a_team', COUNT(*)
+  FROM STG.MATCH WHERE WINNER IS NOT NULL AND WINNER NOT IN (TEAM_1, TEAM_2)
+
+  UNION ALL
+  SELECT 'decided_match_without_deliveries', COUNT(*)
+  FROM STG.MATCH m
+  WHERE m.WINNER IS NOT NULL
+    AND NOT EXISTS (SELECT 1 FROM STG.DELIVERY d WHERE d.MATCH_ID = m.MATCH_ID)
+
+  UNION ALL
+  SELECT 'batters_without_player_id', COUNT(*)
+  FROM MART.FACT_BATTING_INNINGS WHERE PLAYER_ID IS NULL
+
+  UNION ALL
+  SELECT 'runs_mismatch_batting_vs_deliveries', ABS(
+    (SELECT SUM(RUNS) FROM MART.FACT_BATTING_INNINGS)
+    - (SELECT SUM(RUNS_BATTER) FROM STG.DELIVERY WHERE NOT IS_SUPER_OVER))
+)
+SELECT CHECK_NAME, FAILURES, IFF(FAILURES = 0, 'PASS', 'FAIL') AS RESULT
+FROM checks
+ORDER BY RESULT, CHECK_NAME;

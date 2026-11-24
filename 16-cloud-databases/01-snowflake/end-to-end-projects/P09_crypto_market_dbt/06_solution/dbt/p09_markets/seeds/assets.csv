@@ -1,0 +1,7 @@
+asset_id,asset_name,asset_class,source,source_symbol,quote_currency,observations_per_year
+BTC,Bitcoin,crypto,coinbase,BTC-USD,USD,365
+ETH,Ethereum,crypto,coinbase,ETH-USD,USD,365
+SOL,Solana,crypto,coinbase,SOL-USD,USD,365
+SPX,S&P 500 index,equity_index,fred,SP500,USD,252
+NDQ,Nasdaq Composite index,equity_index,fred,NASDAQCOM,USD,252
+USD_BROAD,Broad US dollar index,fx_index,fred,DTWEXBGS,USD,252

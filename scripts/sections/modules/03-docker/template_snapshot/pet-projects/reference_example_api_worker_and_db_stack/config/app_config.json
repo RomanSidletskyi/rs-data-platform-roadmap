@@ -1,5 +1,0 @@
-{
-  "job_table": "jobs",
-  "result_table": "job_results",
-  "valid_job_types": ["aggregate_sales", "normalize_events"]
-}

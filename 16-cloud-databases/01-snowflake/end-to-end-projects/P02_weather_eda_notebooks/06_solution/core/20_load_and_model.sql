@@ -1,0 +1,102 @@
+-- P02 load and model: COPY new files, unzip parallel arrays into hourly rows, build analysis views. Run as P02_OWNER.
+-- Safe to rerun after uploading more years or cities.
+
+USE ROLE P02_OWNER;
+USE WAREHOUSE P02_WH;
+USE DATABASE P02_WEATHER;
+
+COPY INTO RAW.WEATHER_RAW (PAYLOAD, SRC_FILE, LOADED_AT)
+FROM (SELECT $1, METADATA$FILENAME, METADATA$START_SCAN_TIME FROM @RAW.WEATHER_STAGE)
+FILE_FORMAT = (FORMAT_NAME = 'RAW.FF_API_JSON')
+ON_ERROR = SKIP_FILE;
+
+-- hourly.time drives the FLATTEN; every other array is read at the same index.
+CREATE OR REPLACE TABLE STG.WEATHER_HOURLY AS
+SELECT
+  r.PAYLOAD:_source:city_slug::STRING                                   AS CITY_SLUG,
+  TO_TIMESTAMP_NTZ(t.value::STRING)                                     AS TS_UTC,
+  r.PAYLOAD:hourly:temperature_2m[t.index]::FLOAT                       AS TEMPERATURE_C,
+  r.PAYLOAD:hourly:relative_humidity_2m[t.index]::FLOAT                 AS HUMIDITY_PCT,
+  r.PAYLOAD:hourly:precipitation[t.index]::FLOAT                        AS PRECIPITATION_MM,
+  r.PAYLOAD:hourly:wind_speed_10m[t.index]::FLOAT                       AS WIND_KMH,
+  r.PAYLOAD:hourly:cloud_cover[t.index]::FLOAT                          AS CLOUD_COVER_PCT,
+  r.PAYLOAD:hourly:weather_code[t.index]::NUMBER                        AS WEATHER_CODE,
+  r.SRC_FILE,
+  r.LOADED_AT
+FROM RAW.WEATHER_RAW r,
+  LATERAL FLATTEN(input => r.PAYLOAD:hourly:time) t
+-- A re-downloaded year loads as a new raw row; the latest load wins per city and hour.
+QUALIFY ROW_NUMBER() OVER (PARTITION BY CITY_SLUG, TS_UTC ORDER BY r.LOADED_AT DESC) = 1;
+
+CREATE OR REPLACE VIEW MART.V_HOURLY_LOCAL AS
+SELECT
+  h.CITY_SLUG,
+  c.CITY_NAME,
+  c.HEMISPHERE,
+  h.TS_UTC,
+  CONVERT_TIMEZONE('UTC', c.TIME_ZONE, h.TS_UTC)  AS TS_LOCAL,
+  h.TEMPERATURE_C, h.HUMIDITY_PCT, h.PRECIPITATION_MM, h.WIND_KMH, h.CLOUD_COVER_PCT, h.WEATHER_CODE
+FROM STG.WEATHER_HOURLY h
+JOIN STG.CITY c ON c.CITY_SLUG = h.CITY_SLUG;
+
+-- Daily grain in local time: a "day" in Sydney is not a UTC day.
+CREATE OR REPLACE VIEW MART.V_DAILY AS
+SELECT
+  CITY_SLUG,
+  CITY_NAME,
+  HEMISPHERE,
+  TO_DATE(TS_LOCAL)              AS DAY_LOCAL,
+  COUNT(*)                       AS HOURS,
+  AVG(TEMPERATURE_C)             AS TEMP_MEAN_C,
+  MIN(TEMPERATURE_C)             AS TEMP_MIN_C,
+  MAX(TEMPERATURE_C)             AS TEMP_MAX_C,
+  SUM(PRECIPITATION_MM)          AS PRECIP_MM,
+  MAX(WIND_KMH)                  AS WIND_MAX_KMH,
+  AVG(HUMIDITY_PCT)              AS HUMIDITY_MEAN_PCT
+FROM MART.V_HOURLY_LOCAL
+GROUP BY 1, 2, 3, 4;
+
+-- Climatology per city and day of year: the baseline that anomalies are measured against.
+CREATE OR REPLACE VIEW MART.V_CLIMATOLOGY AS
+SELECT
+  CITY_SLUG,
+  DAYOFYEAR(DAY_LOCAL)         AS DOY,
+  AVG(TEMP_MEAN_C)             AS CLIM_TEMP_MEAN_C,
+  STDDEV(TEMP_MEAN_C)          AS CLIM_TEMP_STD_C,
+  COUNT(*)                     AS YEARS_OBSERVED
+FROM MART.V_DAILY
+WHERE HOURS = 24
+GROUP BY 1, 2;
+
+CREATE OR REPLACE VIEW MART.V_DAILY_ANOMALY AS
+SELECT
+  d.CITY_SLUG,
+  d.CITY_NAME,
+  d.DAY_LOCAL,
+  d.TEMP_MEAN_C,
+  c.CLIM_TEMP_MEAN_C,
+  d.TEMP_MEAN_C - c.CLIM_TEMP_MEAN_C                          AS ANOMALY_C,
+  DIV0(d.TEMP_MEAN_C - c.CLIM_TEMP_MEAN_C, c.CLIM_TEMP_STD_C) AS Z_SCORE
+FROM MART.V_DAILY d
+JOIN MART.V_CLIMATOLOGY c ON c.CITY_SLUG = d.CITY_SLUG AND c.DOY = DAYOFYEAR(d.DAY_LOCAL)
+WHERE d.HOURS = 24 AND c.YEARS_OBSERVED >= 5;
+
+CREATE OR REPLACE VIEW MART.V_MONTHLY AS
+SELECT
+  CITY_SLUG,
+  CITY_NAME,
+  DATE_TRUNC('month', DAY_LOCAL) AS MONTH_LOCAL,
+  AVG(TEMP_MEAN_C)               AS TEMP_MEAN_C,
+  SUM(PRECIP_MM)                 AS PRECIP_MM,
+  COUNT_IF(PRECIP_MM >= 20)      AS HEAVY_RAIN_DAYS
+FROM MART.V_DAILY
+GROUP BY 1, 2, 3;
+
+GRANT SELECT ON TABLE STG.WEATHER_HOURLY       TO ROLE P02_READER;
+GRANT SELECT ON VIEW MART.V_HOURLY_LOCAL       TO ROLE P02_READER;
+GRANT SELECT ON VIEW MART.V_DAILY              TO ROLE P02_READER;
+GRANT SELECT ON VIEW MART.V_CLIMATOLOGY        TO ROLE P02_READER;
+GRANT SELECT ON VIEW MART.V_DAILY_ANOMALY      TO ROLE P02_READER;
+GRANT SELECT ON VIEW MART.V_MONTHLY            TO ROLE P02_READER;
+
+SELECT CITY_SLUG, MIN(TS_UTC), MAX(TS_UTC), COUNT(*) AS HOURS FROM STG.WEATHER_HOURLY GROUP BY 1 ORDER BY 1;

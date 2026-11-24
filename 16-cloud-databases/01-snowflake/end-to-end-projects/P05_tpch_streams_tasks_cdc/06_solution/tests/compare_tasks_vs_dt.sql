@@ -1,0 +1,37 @@
+-- P05 tasks versus dynamic tables: same numbers, different freshness and cost. Run as P05_OWNER.
+-- Let both run for at least an hour with OPS.SIMULATE_DAY called every few minutes before reading the cost part.
+
+USE ROLE P05_OWNER;
+USE WAREHOUSE P05_WH;
+USE DATABASE P05_CDC;
+
+-- 1. Same result? Expected: no rows once both have caught up with the latest simulated day.
+SELECT COALESCE(t.ORDER_DATE, d.ORDER_DATE) AS ORDER_DATE,
+       t.ORDERS AS TASK_ORDERS, d.ORDERS AS DT_ORDERS,
+       t.NET_REVENUE AS TASK_NET, d.NET_REVENUE AS DT_NET
+FROM MART.DAILY_REVENUE t
+FULL OUTER JOIN MART.DT_DAILY_REVENUE d ON d.ORDER_DATE = t.ORDER_DATE
+WHERE t.ORDERS IS DISTINCT FROM d.ORDERS OR t.NET_REVENUE IS DISTINCT FROM d.NET_REVENUE
+ORDER BY 1;
+
+-- 2. Freshness: when did each side last change?
+SELECT 'tasks' AS SIDE, MAX(UPDATED_AT) AS LAST_CHANGE FROM MART.DAILY_REVENUE
+UNION ALL
+SELECT 'dynamic table', MAX(REFRESH_END_TIME)
+FROM TABLE(INFORMATION_SCHEMA.DYNAMIC_TABLE_REFRESH_HISTORY(NAME => 'P05_CDC.MART.DT_DAILY_REVENUE'));
+
+-- 3. Refresh behaviour of the dynamic tables: incremental or full, and how long.
+SELECT NAME, REFRESH_ACTION, STATE, REFRESH_START_TIME,
+       DATEDIFF('second', REFRESH_START_TIME, REFRESH_END_TIME) AS SECONDS
+FROM TABLE(INFORMATION_SCHEMA.DYNAMIC_TABLE_REFRESH_HISTORY())
+WHERE NAME IN ('DT_ORDER', 'DT_DAILY_REVENUE')
+ORDER BY REFRESH_START_TIME DESC
+LIMIT 20;
+
+-- 4. Cost. Tasks: serverless credits. Dynamic tables: time on P05_WH (shared with ad hoc work, so read it as an upper bound).
+SELECT 'tasks (serverless)' AS SIDE, SUM(CREDITS_USED) AS CREDITS_24H
+FROM TABLE(INFORMATION_SCHEMA.SERVERLESS_TASK_HISTORY(DATE_RANGE_START => DATEADD('hour', -24, CURRENT_TIMESTAMP())))
+UNION ALL
+SELECT 'P05_WH (dynamic tables and ad hoc)', SUM(CREDITS_USED)
+FROM TABLE(INFORMATION_SCHEMA.WAREHOUSE_METERING_HISTORY(
+  DATE_RANGE_START => DATEADD('hour', -24, CURRENT_TIMESTAMP()), WAREHOUSE_NAME => 'P05_WH'));

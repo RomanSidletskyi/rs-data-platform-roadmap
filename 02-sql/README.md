@@ -222,27 +222,9 @@ This section helps place databases into real cloud platform architecture.
 
 ---
 
-## 08_snowflake
+## Cloud Database Modules
 
-This section turns Snowflake from a generic cloud warehouse topic into a real platform-design topic.
-
-Topics include:
-
-- Snowflake architecture and performance foundations
-- ingestion design with stages, Snowpipe, and `COPY INTO`
-- semi-structured data and `VARIANT`
-- Snowflake-managed Iceberg
-- external tables
-- dynamic tables
-- real platform trade-offs between warehouse-native and open-table patterns
-- senior interview and system-design reasoning
-
-This section is designed to work from zero to architect level:
-
-- first build the core Snowflake mental model
-- then learn the physical and operational behavior
-- then study interoperable lakehouse patterns
-- then practice design choices with cookbook-style SQL and architecture examples
+Vendor-specific cloud database materials live in the grouped [cloud database module index](learning-materials/cloud_databases.md). Snowflake is the first nested module; future cloud databases will be linked from the same index instead of creating new numbered sections under `02-sql/learning-materials/`.
 
 ---
 
@@ -314,25 +296,9 @@ Focus:
 - CosmosDB design
 - modeling trade-offs
 
-## 05_snowflake_storage_and_ingestion
+## Cloud Database Practice
 
-Focus:
-
-- stage and file format design
-- `COPY INTO` decisions
-- raw ingestion contracts
-- metadata columns
-- external tables as boundary access
-
-## 06_snowflake_open_table_and_refresh
-
-Focus:
-
-- Snowflake-managed Iceberg decisions
-- external tables vs native tables
-- dynamic table freshness design
-- target lag trade-offs
-- publish-contract thinking
+Snowflake-specific ingestion, Iceberg, external-table, and architecture exercises now live in the [Snowflake module](../16-cloud-databases/01-snowflake/simple-tasks/README.md). Keep this task area focused on SQL and cross-database practice.
 
 All simple tasks are designed to be:
 
@@ -394,33 +360,9 @@ Main topics:
 - SQL vs Mongo query comparison
 - modeling trade-offs
 
-## 04_snowflake_open_table_publish
+## Cloud Database Projects
 
-Goal:
-
-Design a Snowflake publishing layer that uses native tables, external tables, and Snowflake-managed Iceberg deliberately instead of interchangeably.
-
-Main topics:
-
-- raw zone exposure
-- curated publish contracts
-- Iceberg boundary design
-- multi-engine sharing
-- governance and change control
-
-## 05_snowflake_dynamic_table_pipeline
-
-Goal:
-
-Design a freshness-aware Snowflake transformation pipeline using dynamic tables without turning the warehouse into an uncontrolled always-on refresh engine.
-
-Main topics:
-
-- target lag design
-- staging and mart layering
-- dynamic tables vs tasks vs dbt
-- warehouse and cost isolation
-- operational refresh thinking
+Snowflake-specific guided projects and solved references are maintained with the [Snowflake module](../16-cloud-databases/01-snowflake/pet-projects/README.md). Add projects for future cloud databases to their own nested modules rather than to this SQL module.
 
 These projects are intended to move the learner from isolated examples into production-style thinking.
 

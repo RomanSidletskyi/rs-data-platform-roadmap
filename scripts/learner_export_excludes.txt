@@ -1,0 +1,5 @@
+# Directory names of completed projects to omit from learner exports.
+# Matching applies at any depth, including generator snapshots.
+01_python_batch_job_in_docker
+01_python_sql_etl
+02_python_docker_github_actions

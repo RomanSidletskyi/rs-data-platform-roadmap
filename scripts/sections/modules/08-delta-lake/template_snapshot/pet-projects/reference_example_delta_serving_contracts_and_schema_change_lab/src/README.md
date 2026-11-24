@@ -1,1 +1,0 @@
-Store the solved serving-layer logic, official access-path definitions, and schema-review helpers here.

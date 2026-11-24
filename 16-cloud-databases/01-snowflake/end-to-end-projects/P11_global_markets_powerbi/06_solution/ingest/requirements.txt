@@ -1,0 +1,4 @@
+# Azure Functions runtime dependencies; the Lambda package needs none (boto3 is in the runtime).
+azure-functions
+azure-identity>=1.19
+azure-storage-blob>=12.24

@@ -1,0 +1,8 @@
+-- P14 resume: Snowflake side. Then ./connect/connector.sh resume and start the producer with a duration.
+
+USE ROLE P14_OWNER;
+USE DATABASE P14_WIKI_STREAM;
+
+ALTER TASK STG.LOAD_WIKI_CHANGE RESUME;
+ALTER DYNAMIC TABLE MART.EDITS_PER_MINUTE RESUME;
+ALTER ALERT OPS.ALERT_RAW_STALE RESUME;

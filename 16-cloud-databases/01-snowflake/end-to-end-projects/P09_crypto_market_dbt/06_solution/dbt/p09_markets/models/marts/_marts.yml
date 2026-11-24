@@ -1,0 +1,78 @@
+version: 2
+
+models:
+  - name: fct_crypto_hourly
+    description: Hourly crypto prices and returns. Incremental with a lookback window.
+    config:
+      contract:
+        enforced: true
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [product_id, candle_start]
+    columns:
+      - {name: product_id, data_type: varchar, data_tests: [not_null]}
+      - {name: candle_start, data_type: timestamp_ntz, data_tests: [not_null]}
+      - {name: open_price, data_type: "number(38,8)"}
+      - {name: high_price, data_type: "number(38,8)"}
+      - {name: low_price, data_type: "number(38,8)"}
+      - {name: close_price, data_type: "number(38,8)"}
+      - {name: base_volume, data_type: "number(38,8)"}
+      - {name: quote_volume, data_type: "number(38,8)"}
+      - name: hourly_return
+        data_type: float
+        description: Close over previous close minus one. Null for the first hour of a product.
+        data_tests:
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: -0.5
+                max_value: 0.5
+              config:
+                severity: warn
+      - {name: hours_since_previous, data_type: "number(38,0)"}
+
+  - name: fct_asset_daily
+    description: Daily close and returns for every asset.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [asset_id, price_date]
+    columns:
+      - name: asset_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('assets')
+                field: asset_id
+
+  - name: mart_volatility_30
+    description: Rolling 30-observation volatility, annualized per asset class.
+    columns:
+      - name: annualized_volatility_30
+        data_tests:
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                max_value: 5
+
+  - name: mart_correlation_spx_60
+    description: Rolling 60-pair correlation of crypto daily returns with the S&P 500.
+    columns:
+      - name: correlation_with_spx_60
+        data_tests:
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: -1
+                max_value: 1
+
+exposures:
+  - name: markets_dashboard
+    type: dashboard
+    maturity: medium
+    owner:
+      name: Data team
+    description: Snowsight dashboard with prices, volatility, and correlation; alerts read fct_crypto_hourly.
+    depends_on:
+      - ref('fct_crypto_hourly')
+      - ref('mart_volatility_30')
+      - ref('mart_correlation_spx_60')

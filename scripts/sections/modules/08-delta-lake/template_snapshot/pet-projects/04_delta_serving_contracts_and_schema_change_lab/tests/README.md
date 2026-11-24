@@ -1,1 +1,0 @@
-Add tests here for contract enforcement, schema compatibility review, and supported access-path behavior.

@@ -7,9 +7,7 @@ on:
       - '.github/workflows/foundational-starter-assets.yml'
       - '00-shell-linux/**'
       - '00-git/**'
-      - 'scripts/sections/modules/00-shell-linux/**'
-      - 'scripts/sections/modules/00-git/**'
-      - 'scripts/bootstrap_section.sh'
+      - 'scripts/check_repo.sh'
       - 'scripts/README.md'
   push:
     branches: [main]
@@ -17,9 +15,7 @@ on:
       - '.github/workflows/foundational-starter-assets.yml'
       - '00-shell-linux/**'
       - '00-git/**'
-      - 'scripts/sections/modules/00-shell-linux/**'
-      - 'scripts/sections/modules/00-git/**'
-      - 'scripts/bootstrap_section.sh'
+      - 'scripts/check_repo.sh'
       - 'scripts/README.md'
   workflow_dispatch:
 
@@ -29,12 +25,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Configure Git identity for practice repos
-        run: |
-          git config --global user.name "Starter Assets CI"
-          git config --global user.email "starter-assets-ci@example.com"
-
       - name: Validate foundational starter assets
         run: |
-          chmod +x scripts/check_repo.sh
-          ./scripts/check_repo.sh foundational
+          bash scripts/check_repo.sh foundational

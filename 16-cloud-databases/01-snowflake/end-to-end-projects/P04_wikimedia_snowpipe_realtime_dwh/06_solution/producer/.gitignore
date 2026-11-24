@@ -1,0 +1,3 @@
+landing_local/
+__pycache__/
+.pytest_cache/
