@@ -84,7 +84,7 @@ The estimates below follow the [progress tracker](../PROGRESS.md). They describe
 
 **Study:** [processing and recovery reference](reference/04_processing_and_recovery.md), [incremental processing](deep-dives/04_incremental_processing.md), [dynamic tables](deep-dives/Snowflake_dynamic_tables.md), [query performance track](deep-dives/query-performance/README.md), [Snowflake performance](deep-dives/Snowflake_performance.md), and [compute, workloads, and cost](architecture/02_compute_workload_cost.md).
 
-**Build understanding of:** `MERGE`, streams, tasks and task graphs, dynamic tables, refresh/freshness objectives, Query Profile, pruning, caching, warehouses, concurrency, and costed optimization features. Read the nine query-performance track materials in the sequence shown in its README.
+**Build understanding of:** `MERGE`, streams, tasks and task graphs, dynamic tables, refresh/freshness objectives, Query Profile, pruning, caching, warehouses, concurrency, and costed optimization features. Follow the query-performance track sequence and its clustering and Search Optimization guides in the README.
 
 **Practice:** complete [task set 04: processing patterns](../simple-tasks/04_processing_patterns/README.md), [task set 05: performance and cost](../simple-tasks/05_performance_and_cost/README.md), and [task set 10: performance diagnosis and design](../simple-tasks/10_snowflake_performance/README.md). Use [P05: TPC-H streams, tasks, and CDC](../end-to-end-projects/P05_tpch_streams_tasks_cdc/README.md) or [P07: Retail Snowpark pipeline](../end-to-end-projects/P07_retail_snowpark_pipeline/README.md) for a larger build.
 

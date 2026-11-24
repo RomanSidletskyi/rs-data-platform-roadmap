@@ -12,6 +12,8 @@ The course does not teach a universal “make Snowflake faster” recipe. It tea
 4. [SQL patterns and operators](04_sql_patterns_and_operators.md): study query shapes with short bad/better examples and semantic caveats.
 5. [Caching](05_caching.md): distinguish persisted result reuse, local warehouse cache, and metadata/pruning.
 6. [Optimization features and hidden costs](06_optimization_features_and_hidden_costs.md): choose clustering, Search Optimization, materialized views, QAS, dynamic tables, and warehouse controls by workload evidence.
+   - [Clustering and pruning](10_clustering_and_pruning.md): understand micro-partitions, key selection, experiments, monitoring, and costs.
+   - [Search Optimization](11_search_optimization.md): study search access paths, supported patterns, configuration, monitoring, and costs.
 7. [Production-shaped casebook](07_production_casebook.md): diagnose 16 synthetic cases with metrics, candidate fixes, and trade-offs.
 8. [Architecture decisions](08_architecture_decisions.md): compare 12 designs and capture a decision record.
 9. [Senior interview questions and answers](09_senior_interview_questions.md): practice defending performance choices and explaining when alternatives are better.
@@ -48,6 +50,8 @@ The route moves from method, to mechanisms, to costed decisions, then to defendi
 | Large joins, windows, `FLATTEN`, CTEs, or sorts | [SQL patterns and operators](04_sql_patterns_and_operators.md) |
 | Fast second run, slow first run, or suspend/resume questions | [Caching](05_caching.md) |
 | Considering clustering, SOS, QAS, a materialized view, or more compute | [Optimization features and hidden costs](06_optimization_features_and_hidden_costs.md) |
+| Clustering keys, locality, and reclustering | [Clustering and pruning](10_clustering_and_pruning.md) |
+| Selective lookups, search access paths, and SOS maintenance | [Search Optimization](11_search_optimization.md) |
 | Choosing an architecture under SLA and cost constraints | [Architecture decisions](08_architecture_decisions.md) |
 | Preparing for senior performance interviews | [Senior interview questions and answers](09_senior_interview_questions.md) |
 

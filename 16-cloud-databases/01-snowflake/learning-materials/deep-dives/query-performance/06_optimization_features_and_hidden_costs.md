@@ -54,6 +54,8 @@ Measure workload query history, partitions scanned, clustering depth/overlap, ta
 
 **Example:** A daily report filters a multi-year event table to one tenant and one week, but repeatedly scans most partitions. Compare the current natural layout with a candidate key such as `(tenant_id, event_date)`. For a monthly report that already reads most rows, leave the layout alone unless other queries benefit.
 
+For the detailed mechanism, key selection, SQL, measurement, and lifecycle, see [Clustering and Pruning](10_clustering_and_pruning.md).
+
 ## 2. Search Optimization Service
 
 Search Optimization can improve supported selective lookup patterns by maintaining search access paths. It is often considered for selective point lookups where ordinary pruning leaves too much scan work. It is not a universal index and does not replace good table design.
@@ -69,6 +71,8 @@ Evaluate:
 A highly selective lookup can be a candidate; broad range scans or unsupported query shapes may not benefit. Confirm eligibility in current Snowflake documentation and test the actual workload.
 
 **Example:** A support tool retrieves a few records by `customer_id`; test Search Optimization if normal pruning scans many partitions. A report that reads every order in a month is a different shape and is not a reason to enable it.
+
+For access paths, eligibility, configuration, joins, `VARIANT` paths, monitoring, and cleanup, see [Search Optimization](11_search_optimization.md).
 
 ## 3. Materialized Views
 

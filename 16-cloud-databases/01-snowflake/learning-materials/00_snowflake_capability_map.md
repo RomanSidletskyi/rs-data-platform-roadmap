@@ -177,6 +177,8 @@ The links below are the file-level inventory. Collection READMEs are included as
 - [Production performance casebook](deep-dives/query-performance/07_production_casebook.md)
 - [Performance architecture decisions](deep-dives/query-performance/08_architecture_decisions.md)
 - [Senior performance interview questions](deep-dives/query-performance/09_senior_interview_questions.md)
+- [Clustering and pruning](deep-dives/query-performance/10_clustering_and_pruning.md)
+- [Search Optimization](deep-dives/query-performance/11_search_optimization.md)
 
 ### Iceberg and external tables
 
