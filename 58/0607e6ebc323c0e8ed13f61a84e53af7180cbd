@@ -1,0 +1,35 @@
+16-cloud-databases/01-snowflake/learning-materials/01_learning_paths.md
+  s_218c3c3c5f4c7d::t_50a3acdb8aaad7 30
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/query-performance/06_optimization_features_and_hidden_costs.md
+  s_218c3c3c5f4c7d::t_50a3acdb8aaad7 57-58,75
+  s_218c3c3c5f4c7d::t_404fe4eb509f46 76
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/query-performance/10_clustering_and_pruning.md
+  s_218c3c3c5f4c7d::t_126db82a0bfcf4 1-144
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/Snowflake_performance.md
+  s_218c3c3c5f4c7d::t_50a3acdb8aaad7 6-11
+16-cloud-databases/01-snowflake/learning-materials/00_snowflake_capability_map.md
+  s_218c3c3c5f4c7d::t_50a3acdb8aaad7 180-181
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/query-performance/11_search_optimization.md
+  s_218c3c3c5f4c7d::t_126db82a0bfcf4 1-102,104-165
+  s_218c3c3c5f4c7d::t_50a3acdb8aaad7 103
+16-cloud-databases/01-snowflake/learning-materials/snowflake_platform_learning_guide.md
+  s_218c3c3c5f4c7d::t_50a3acdb8aaad7 87
+16-cloud-databases/01-snowflake/learning-materials/deep-dives/query-performance/README.md
+  s_218c3c3c5f4c7d::t_50a3acdb8aaad7 15-16,53-54
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "580607e6ebc323c0e8ed13f61a84e53af7180cbd",
+  "prompts": {},
+  "sessions": {
+    "s_218c3c3c5f4c7d": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "f091c1f6-fbdb-439e-841b-d6b24a65f78c",
+        "model": "unknown"
+      },
+      "human_author": "Roman Sidletskyi <30626559+RomanSidletskyi@users.noreply.github.com>"
+    }
+  }
+}
